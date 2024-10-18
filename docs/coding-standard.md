@@ -25,10 +25,12 @@
 
 #### Naming
 -   Classes: _PascalCase_.
+-   Methods: _PascalCase_.
 -   Functions: _camelCase_.
 -   Variables: _camelCase_.
+-   File names: _PascalCase_.
 
--   Functions that are triggered by elements should be named with the element name followed by the action. For example _ButtonTop\_Click_.
+-   Methods that are triggered by elements should be named with the element name followed by the action. For example _ButtonTop\_Click_.
 
 #### Syntax
 -   Prefer explicit type declarations instead of _var_.
