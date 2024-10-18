@@ -22,15 +22,21 @@ namespace Tests
 
             // Find the list of names
             FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId("ListBoxNames")).AsListBox();
-
             // Check if the list of names exists
             Assert.IsNotNull(listBox, "List of names does not exist");
 
             // Find the randomize button
             FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomize")).AsButton();
-
             // Check if the randomize button exists
             Assert.IsNotNull(randomizeButton, "Randomize button does not exist");
+
+            // Find the whiteboard
+            FlaUIElement.Label whiteboard = window.FindFirstDescendant(cf.ByAutomationId("LabelWhiteboard")).AsLabel();
+            // Check if the whiteboard exists
+            Assert.IsNotNull(whiteboard, "Whiteboard does not exist");
+
+            // Find table tables TODO, datatypes aren't final
+            FlaUIElement.GridCell tables = window.FindFirstDescendant(cf.ByAutomationId("TableTables")).AsGridCell();
         }
     }
 }
