@@ -10,4 +10,4 @@ Follow these steps to run the tests:
 
 ---
 
-[Back to README.](/README.md)
+[Back to README.](../README.md)
