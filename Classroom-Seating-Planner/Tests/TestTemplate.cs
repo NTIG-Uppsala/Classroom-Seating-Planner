@@ -17,8 +17,8 @@ namespace Tests
             using FlaUI.UIA3.UIA3Automation automation = new();
             
             // Find the main window for the purpose of finding elements
-            Window window = app.GetMainWindow(automation);
-            ConditionFactory cf = new ConditionFactory(new UIA3PropertyLibrary());
+            FlaUIElement.Window window = app.GetMainWindow(automation);
+            ConditionFactory cf = new(new UIA3PropertyLibrary());
 
             // Write your test after this comment!
         }
