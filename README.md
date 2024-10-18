@@ -3,4 +3,9 @@
 ###### This is a TE4 project by the group Teachers' Pets. Group members: Viggo Ström, Axel Thornberg, Jesper Cejie.
 
 ## Docs
+-   [Definition of Done](/docs/definition-of-done.md)
+-   [Coding Standards](/docs/coding-standard.md)
+-   [Development Environment](/docs/development-environment.md)
+-   [Programming Languages](/docs/programming-languages.md)
+-   
 -   [Automatic Testing System](/docs/testing.md)
