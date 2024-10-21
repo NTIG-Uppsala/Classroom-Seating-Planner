@@ -21,6 +21,9 @@ namespace Tests
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
             // Write your test after this comment!
+
+            // Write your test before this comment!
+            app.Close();
         }
     }
 }
