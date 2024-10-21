@@ -44,6 +44,8 @@ namespace Tests
             Assert.IsNotNull(table1, "Table 1 does not exist");
             Assert.IsNotNull(table3, "Table 3 does not exist");
             Assert.IsNotNull(table6, "Table 6 does not exist");
+
+            app.Close();
         }
     }
 }
