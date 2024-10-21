@@ -11,7 +11,7 @@
             <ColumnDefinition Width="73*"/>
             <ColumnDefinition Width="327*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="ListBoxClassList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,0,40"
+        <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,0,40"
                  />
         <Button x:Name="ButtonRandomizeSeating" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="ButtonRandomizeSeating_Click"/>
         <Label x:Name="LabelStudents" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -64,7 +65,7 @@ namespace Classroom_Seating_Planner
 
             foreach (string name in listOfNames)
             {
-                ListBoxClassList.Items.Add(name);
+                ListBoxStudentList.Items.Add(name);
             }
         }
 
