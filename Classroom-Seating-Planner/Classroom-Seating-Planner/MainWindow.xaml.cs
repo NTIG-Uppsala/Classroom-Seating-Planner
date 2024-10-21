@@ -67,5 +67,10 @@ namespace Classroom_Seating_Planner
                 ListBoxClassList.Items.Add(name);
             }
         }
+
+        private void ButtonRandomizeSeating_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
