@@ -12,4 +12,4 @@
 -   [Programming Languages](docs/programming-languages.md)
 <!-- Below are the links to the guides/instructions -->
 -   [Automatic Testing System](docs/testing.md)
--   [Publishing](docs/publish.md)
+-   [Publishing a New Release](docs/publish.md)
