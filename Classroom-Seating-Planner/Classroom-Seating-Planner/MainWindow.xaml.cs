@@ -71,7 +71,58 @@ namespace Classroom_Seating_Planner
 
         private void ButtonRandomizeSeating_Click(object sender, RoutedEventArgs e)
         {
-            
+            static List<string> shuffle(List<string> list, Random rng)
+            {
+                //int listLength = list.Count;
+
+                //List<string> newList = [];
+
+                //while (listLength > 1)
+                //{
+                //    int randomIndex = rng.Next(listLength);
+
+                //    //Trace.WriteLine(list[randomIndex]);
+
+                //    string randomName = list[randomIndex];
+                //    newList.Add(randomName);
+
+                //    list.RemoveAt(randomIndex);
+
+                //    Trace.WriteLine($"{randomName}, {listLength}, {list.Count}, {newList.Count}");
+                //    Trace.WriteLine(newList);
+
+                //    listLength = list.Count;
+                //}
+
+                //Trace.WriteLine("\n");
+                //foreach (string item in newList)
+                //{
+                //    Trace.WriteLine(item);
+                //}
+                //newList.Add(list[0]);
+                List<string> newList = list.OrderBy(x => rng.Next()).ToList();
+                return newList;
+            }
+            Random rng = new();
+
+            // THIS IS A DEBUG CODE BLOCK THAT SHOULD BE REMOVED
+            Trace.Write("\nList before shuffle: ");
+            foreach (string name in listOfNames)
+            {
+                Trace.Write($"{name}, ");
+            }
+
+            listOfNames = shuffle(listOfNames, rng);
+
+            ListBoxStudentList.Items.Clear();
+            // THIS IS PARTIALLY A DEBUG CODE BLOCK THAT SHOULD BE REMOVED
+            Trace.Write("\nList after shuffle: ");
+            foreach (string name in listOfNames)
+            {
+                Trace.Write($"{name}, ");
+                ListBoxStudentList.Items.Add(name);
+            }
+            Trace.Write("\n");
         }
     }
 }
