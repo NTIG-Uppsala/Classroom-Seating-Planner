@@ -35,8 +35,15 @@ namespace Tests
             // Check if the whiteboard exists
             Assert.IsNotNull(whiteboard, "Whiteboard does not exist");
 
-            // Find table tables TODO, datatypes aren't final
-            FlaUIElement.GridCell tables = window.FindFirstDescendant(cf.ByAutomationId("TableTables")).AsGridCell();
+            // Find some table tables 
+            FlaUIElement.GridCell table1 = window.FindFirstDescendant(cf.ByAutomationId("GridCellTable")).AsGridCell();
+            FlaUIElement.GridCell table3 = window.FindChildAt(2, cf.ByAutomationId("GridCellTable")).AsGridCell();
+            FlaUIElement.GridCell table6 = window.FindChildAt(5, cf.ByAutomationId("GridCellTable")).AsGridCell();
+
+            // Check if the tables exist
+            Assert.IsNotNull(table1, "Table 1 does not exist");
+            Assert.IsNotNull(table3, "Table 3 does not exist");
+            Assert.IsNotNull(table6, "Table 6 does not exist");
         }
     }
 }
