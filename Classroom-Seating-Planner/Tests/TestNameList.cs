@@ -11,11 +11,11 @@ namespace Tests
         [TestMethod]
         public void TestRandomizer()
         {
-            bool hasStudentListOrderChanged(FlaUIElement.Window window, ConditionFactory cf, List<string> namesOld, List<string> namesNew)
+            bool hasStudentListOrderChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
             {
                 return namesOld != namesNew;
             }
-            bool hasListContentChanged(FlaUIElement.Window window, ConditionFactory cf, List<string> namesOld, List<string> namesNew)
+            bool hasListContentChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
             {
                 // Check that every name in the old list exists in the new list
                 bool hasContentChanged = false;
