@@ -31,6 +31,15 @@ namespace Tests
                 return hasContentChanged;
             }
 
+            string[] getArrayOfNames(FlaUIElement.Window window, ConditionFactory cf)
+            {
+                FlaUIElement.ListBox listBoxStudentList = window.FindFirstDescendant(cf.ByAutomationId("ListBoxStudentList")).AsListBox();
+                ListBoxItem[] studentNamesList = listBoxStudentList.Items;
+                string[] namesArray = studentNamesList.Select(listItem => listItem.Text).ToArray();
+
+                return namesArray;
+            }
+
             // Find and run the application
             FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\Classroom-Seating-Planner.exe");
             using FlaUI.UIA3.UIA3Automation automation = new();
@@ -39,19 +48,15 @@ namespace Tests
             Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
-            // Find the ListBox where the class list is displayed and place the class list into a string-array
-            FlaUIElement.ListBox listBoxStudentList = window.FindFirstDescendant(cf.ByAutomationId("ListBoxStudentList")).AsListBox();
-            ListBoxItem[] studentListOld = listBoxStudentList.Items;
-            string[] namesOld = studentListOld.Select(listItem => listItem.Text).ToArray();
+            // Extract an array of student names from the ListBox element in the UI
+            string[] namesOld = getArrayOfNames(window, cf);
 
             // Find and press the randomizer button
             FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
             randomizeButton.Click();
 
-            // Update the variable where the ListBox is stored and store the randomized class list in a new variable
-            listBoxStudentList = window.FindFirstDescendant(cf.ByAutomationId("ListBoxStudentList")).AsListBox();
-            ListBoxItem[] studentListNew = listBoxStudentList.Items;
-            string[] namesNew = studentListNew.Select(listItem => listItem.Text).ToArray();
+            // Extract an array of student names from the ListBox element in the UI
+            string[] namesNew = getArrayOfNames(window, cf);
 
             // Custom error messages for asserts
             string errorMessageStudentListOrderUnchanged = "Test failed because the order of the student list has not changed.";
