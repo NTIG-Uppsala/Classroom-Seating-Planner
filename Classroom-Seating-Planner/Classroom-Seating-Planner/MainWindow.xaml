@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Classroom_Seating_Planner"
         mc:Ignorable="d"
-        Title="Bortskartgeneratorn" Height="450" Width="800" MinWidth="8cm" MinHeight="10cm">
+        Title="Bordsplaceringsgeneratorn" Height="450" Width="800" MinWidth="8cm" MinHeight="10cm">
     <Grid x:Name="GridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70*" MinWidth="5cm"/>
             <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- The list to the left, showing you the list of all students in a class -->
         <Border x:Name="BorderRight" BorderBrush="#FF8F8F8F" BorderThickness="1" Width="1" HorizontalAlignment="Right"/>
         <Label x:Name="LabelStudents" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
@@ -19,7 +20,7 @@
 
         <Grid x:Name="GridTables" Grid.Column="1" Margin="15,15,15,15">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1cm"/>
+                <RowDefinition Height="0.5cm"/>
                 <RowDefinition Height="2cm"/>
                 <RowDefinition Height="2cm"/>
                 <RowDefinition Height="2cm"/>
@@ -34,11 +35,176 @@
                 <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
 
-            <Label x:Name="LabelWhiteboard" Grid.ColumnSpan="5" Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Border x:Name="BorderWhiteboard" BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="2" Grid.ColumnSpan="1"/>
 
-            <!-- Tables you sit at -->
-            <Grid Grid.Row="1" Grid.Column="0" Margin="2,2,2,2">
-                <Border BorderBrush="Black" BorderThickness="1"/>
+            <Label x:Name="LabelWhiteboard" Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Padding="0,0,0,0"/>
+
+            <Grid x:Name="GridTable1" Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="GridTable2" Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="GridTable3" Grid.Row="1" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="GridTable4" Grid.Row="1" Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="GridTable5" Grid.Row="1" Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="GridTable6" Grid.Row="2" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="GridTable7" Grid.Row="2" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Grid Grid.Row="2" Margin="2,0,2,2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+                        <Label Content="Label"/>
+                    </Border>
+                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+                        <Label Content="Label"/>
+                    </Border>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
