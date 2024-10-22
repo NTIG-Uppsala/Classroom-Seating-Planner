@@ -16,5 +16,30 @@
         <Label x:Name="LabelStudents" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
         <Button x:Name="ButtonRandomizeSeating" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="ButtonRandomizeSeating_Click"/>
+
+        <Grid x:Name="GridTables" Grid.Column="1" Margin="15,15,15,15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1cm"/>
+                <RowDefinition Height="2cm"/>
+                <RowDefinition Height="2cm"/>
+                <RowDefinition Height="2cm"/>
+                <RowDefinition Height="2cm"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="LabelWhiteboard" Grid.ColumnSpan="5" Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+            <!-- Tables you sit at -->
+            <Grid Grid.Row="1" Grid.Column="0" Margin="2,2,2,2">
+                <Border BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
