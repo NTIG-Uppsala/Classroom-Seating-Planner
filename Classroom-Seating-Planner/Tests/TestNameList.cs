@@ -3,6 +3,8 @@ using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
 using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
+using ListActions = Classroom_Seating_Planner.ListActions;
+
 namespace Tests
 {
     [TestClass]
@@ -31,15 +33,6 @@ namespace Tests
                 return hasContentChanged;
             }
 
-            string[] getArrayOfNames(FlaUIElement.Window window, ConditionFactory cf)
-            {
-                FlaUIElement.ListBox listBoxStudentList = window.FindFirstDescendant(cf.ByAutomationId("ListBoxStudentList")).AsListBox();
-                ListBoxItem[] studentNamesList = listBoxStudentList.Items;
-                string[] namesArray = studentNamesList.Select(listItem => listItem.Text).ToArray();
-
-                return namesArray;
-            }
-
             // Find and run the application
             FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\Classroom-Seating-Planner.exe");
             using FlaUI.UIA3.UIA3Automation automation = new();
@@ -49,14 +42,14 @@ namespace Tests
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
             // Extract an array of student names from the ListBox element in the UI
-            string[] namesOld = getArrayOfNames(window, cf);
+            string[] namesOld = ListActions.GetListBoxItemsAsArray(window, cf, "ListBoxStudentList");
 
             // Find and press the randomizer button
             FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
             randomizeButton.Click();
 
             // Extract an array of student names from the ListBox element in the UI
-            string[] namesNew = getArrayOfNames(window, cf);
+            string[] namesNew = ListActions.GetListBoxItemsAsArray(window, cf, "ListBoxStudentList");
 
             // Custom error messages for asserts
             string errorMessageStudentListOrderUnchanged = "Test failed because the order of the student list has not changed.";
