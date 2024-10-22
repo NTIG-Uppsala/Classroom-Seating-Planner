@@ -16,4 +16,4 @@ The program can be found [here](https://drive.google.com/file/d/1aUAqZQAtZDGWeXi
 -   [Programming Languages](docs/programming-languages.md)
 <!-- Below are the links to the guides/instructions -->
 -   [Automatic Testing System](docs/testing.md)
--   [Publishing a New Release](docs/publish.md)
+-   [Publishing a New Release](docs/publishing-a-new-release.md)
