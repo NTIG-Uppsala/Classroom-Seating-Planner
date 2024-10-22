@@ -13,7 +13,7 @@ To create a release follow these steps in Visual Studio:
 7. Right click `Classroom-Seating-Planner` in the solution explorer and choose `Publish...`.
 8. If it is the first time you are publishing, follow the steps under [Configuring the Profile](#configuring-the-profile).
 9. Click the `Publish` button that has an icon.
-10. Navigate to `Classroom-Seating-Planner\Classroom-Seating-Planner\bin\Release\net8.0-windows\win-x64\publish\win-x64` in the file explorer.
+10. Navigate to `Classroom-Seating-Planner\Classroom-Seating-Planner\bin\Release\net8.0-windows\win-x64\publish\win-x64` in file explorer.
 
 ## Configuring the Profile
 
@@ -23,7 +23,7 @@ The following steps only needs to be done the first time:
 2. You are prompted to choose a `Specific target`. Choose `Folder`.
 3. You are prompted to choose a `Location`. Just press `Finish`.
 4. Press `Close`.
-5. You are now on the publish page. Under `Settings` click `Show all settings`.
+5. You are now on the publish page. There is a `Settings` section. In that section, click `Show all settings`.
 6. Set `Deployment mode` to `Self-contained`.
 7. Click `Save`.
 
