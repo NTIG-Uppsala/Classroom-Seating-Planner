@@ -56,12 +56,7 @@ namespace Tests
             string errorMessageStudentListOrderUnchanged = "Test failed because the order of the student list has not changed.";
             string errorMessageNamesAreDifferent = "Test failed because the content of the generated student list is not the same as the list before generating";
 
-            // ------------ Experimenting with splitting functions
-
-            // ------------ Experimenting ends here
-
             // Trigger the randomizing function and assert that a new, randomized, class list is generated and make sure all the names are the same
-            
             Assert.IsTrue(hasStudentListOrderChanged(window, cf, namesOld, namesNew), errorMessageStudentListOrderUnchanged);
             Assert.IsTrue(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
 

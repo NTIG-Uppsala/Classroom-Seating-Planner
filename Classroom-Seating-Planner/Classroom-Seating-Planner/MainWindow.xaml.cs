@@ -73,34 +73,7 @@ namespace Classroom_Seating_Planner
         {
             static List<string> shuffle(List<string> list, Random rng)
             {
-                //int listLength = list.Count;
-
-                //List<string> newList = [];
-
-                //while (listLength > 1)
-                //{
-                //    int randomIndex = rng.Next(listLength);
-
-                //    //Trace.WriteLine(list[randomIndex]);
-
-                //    string randomName = list[randomIndex];
-                //    newList.Add(randomName);
-
-                //    list.RemoveAt(randomIndex);
-
-                //    Trace.WriteLine($"{randomName}, {listLength}, {list.Count}, {newList.Count}");
-                //    Trace.WriteLine(newList);
-
-                //    listLength = list.Count;
-                //}
-
-                //Trace.WriteLine("\n");
-                //foreach (string item in newList)
-                //{
-                //    Trace.WriteLine(item);
-                //}
-                //newList.Add(list[0]);
-                List<string> newList = list.OrderBy(x => rng.Next()).ToList();
+                List<string> newList = [.. list.OrderBy(item => rng.Next())];
                 return newList;
             }
             Random rng = new();
