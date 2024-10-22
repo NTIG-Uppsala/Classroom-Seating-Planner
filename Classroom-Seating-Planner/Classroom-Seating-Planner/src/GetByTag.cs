@@ -9,7 +9,7 @@ namespace Classroom_Seating_Planner.src
         {
             List<Label> matches = [];
 
-            if (parent is null)
+            if (parent is null || tag is null)
             {
                 return matches;
             }
