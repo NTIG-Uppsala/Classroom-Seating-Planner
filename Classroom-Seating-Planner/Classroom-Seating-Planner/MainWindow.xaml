@@ -1,11 +1,14 @@
-﻿<Window x:Class="Classroom_Seating_Planner.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Classroom_Seating_Planner"
-        mc:Ignorable="d"
-        Title="Bordsplaceringsgeneratorn" Height="450" Width="800" MinWidth="8cm" MinHeight="10cm">
+﻿<Window 
+    x:Class="Classroom_Seating_Planner.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Classroom_Seating_Planner"
+    mc:Ignorable="d"
+    Title="Bordsplaceringsgeneratorn" Height="450" Width="800" MinWidth="8cm" MinHeight="10cm"
+    >
+
     <Grid x:Name="GridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70*" MinWidth="5cm"/>
@@ -18,6 +21,7 @@
         <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
         <Button x:Name="ButtonRandomizeSeating" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="ButtonRandomizeSeating_Click"/>
 
+        <!-- Grid with whiteboard and tables -->
         <Grid x:Name="GridTables" Grid.Column="1" Margin="15,15,15,15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5cm"/>
@@ -26,7 +30,6 @@
                 <RowDefinition Height="2cm"/>
                 <RowDefinition Height="2cm"/>
             </Grid.RowDefinitions>
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="10*"/>
@@ -35,11 +38,12 @@
                 <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- Whiteboard -->
             <Border x:Name="BorderWhiteboard" BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="2" Grid.ColumnSpan="1"/>
-
             <Label x:Name="LabelWhiteboard" Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Padding="0,0,0,0"/>
 
-            <Grid x:Name="GridTable1" Grid.Row="1" Grid.Column="0">
+            <!-- Tables -->
+            <Grid Grid.Row="1" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="4*"/>
@@ -54,158 +58,16 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
+
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
+                        <Label Content="Label" Tag="Seat"/>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
+                        <Label Content="Label" Tag="Seat"/>
                     </Border>
                 </Grid>
             </Grid>
 
-            <Grid x:Name="GridTable2" Grid.Row="1" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
-
-                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <Grid Grid.Row="2" Margin="2,0,2,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
-                    </Border>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
-                    </Border>
-                </Grid>
-            </Grid>
-
-            <Grid x:Name="GridTable3" Grid.Row="1" Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
-
-                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <Grid Grid.Row="2" Margin="2,0,2,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
-                    </Border>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
-                    </Border>
-                </Grid>
-            </Grid>
-
-            <Grid x:Name="GridTable4" Grid.Row="1" Grid.Column="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
-
-                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <Grid Grid.Row="2" Margin="2,0,2,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
-                    </Border>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
-                    </Border>
-                </Grid>
-            </Grid>
-
-            <Grid x:Name="GridTable5" Grid.Row="1" Grid.Column="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
-
-                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <Grid Grid.Row="2" Margin="2,0,2,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
-                    </Border>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
-                    </Border>
-                </Grid>
-            </Grid>
-
-            <Grid x:Name="GridTable6" Grid.Row="2" Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
-
-                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <Grid Grid.Row="2" Margin="2,0,2,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
-                    </Border>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
-                    </Border>
-                </Grid>
-            </Grid>
-
-            <Grid x:Name="GridTable7" Grid.Row="2" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-
-                <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
-
-                <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <Grid Grid.Row="2" Margin="2,0,2,2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label Content="Label"/>
-                    </Border>
-                    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label Content="Label"/>
-                    </Border>
-                </Grid>
-            </Grid>
         </Grid>
     </Grid>
 </Window>
