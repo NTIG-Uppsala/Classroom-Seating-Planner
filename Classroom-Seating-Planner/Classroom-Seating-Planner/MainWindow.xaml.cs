@@ -1,15 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+using Classroom_Seating_Planner.src;
 
 namespace Classroom_Seating_Planner
 {
@@ -20,7 +12,7 @@ namespace Classroom_Seating_Planner
     {
         // Define the global list of names here
         private List<string> listOfNames;
-        
+
         public MainWindow()
         {
             InitializeComponent();
