@@ -15,6 +15,7 @@ namespace Tests
             {
                 return namesOld != namesNew;
             }
+
             bool hasListContentChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
             {
                 // Check that every name in the old list exists in the new list
@@ -41,7 +42,7 @@ namespace Tests
             // Find the ListBox where the class list is displayed and place the class list into a string-array
             FlaUIElement.ListBox listBoxStudentList = window.FindFirstDescendant(cf.ByAutomationId("ListBoxStudentList")).AsListBox();
             ListBoxItem[] studentListOld = listBoxStudentList.Items;
-            string[] namesOld = studentListOld.Select(item => item.Text).ToArray();
+            string[] namesOld = studentListOld.Select(listItem => listItem.Text).ToArray();
 
             // Find and press the randomizer button
             FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
@@ -50,7 +51,7 @@ namespace Tests
             // Update the variable where the ListBox is stored and store the randomized class list in a new variable
             listBoxStudentList = window.FindFirstDescendant(cf.ByAutomationId("ListBoxStudentList")).AsListBox();
             ListBoxItem[] studentListNew = listBoxStudentList.Items;
-            string[] namesNew = studentListNew.Select(item => item.Text).ToArray();
+            string[] namesNew = studentListNew.Select(listItem => listItem.Text).ToArray();
 
             // Custom error messages for asserts
             string errorMessageStudentListOrderUnchanged = "Test failed because the order of the student list has not changed.";

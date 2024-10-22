@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Classroom_Seating_Planner
 {
     /// <summary>
@@ -63,6 +64,7 @@ namespace Classroom_Seating_Planner
             ];
             listOfNames = list;
 
+            // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
             {
                 ListBoxStudentList.Items.Add(name);
@@ -71,31 +73,18 @@ namespace Classroom_Seating_Planner
 
         private void ButtonRandomizeSeating_Click(object sender, RoutedEventArgs e)
         {
-            static List<string> shuffle(List<string> list, Random rng)
-            {
-                List<string> newList = [.. list.OrderBy(item => rng.Next())];
-                return newList;
-            }
+            // Shuffle the list of student names using a custom class method
             Random rng = new();
+            listOfNames = ListActions.Shuffle(listOfNames, rng);
 
-            // THIS IS A DEBUG CODE BLOCK THAT SHOULD BE REMOVED
-            Trace.Write("\nList before shuffle: ");
-            foreach (string name in listOfNames)
-            {
-                Trace.Write($"{name}, ");
-            }
-
-            listOfNames = shuffle(listOfNames, rng);
-
+            // Clear the ListBox before populating
             ListBoxStudentList.Items.Clear();
-            // THIS IS PARTIALLY A DEBUG CODE BLOCK THAT SHOULD BE REMOVED
-            Trace.Write("\nList after shuffle: ");
+
+            // Populate the ListBox with the new order
             foreach (string name in listOfNames)
             {
-                Trace.Write($"{name}, ");
                 ListBoxStudentList.Items.Add(name);
             }
-            Trace.Write("\n");
         }
     }
 }
