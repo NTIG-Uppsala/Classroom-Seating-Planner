@@ -61,6 +61,10 @@ namespace Classroom_Seating_Planner
             {
                 ListBoxStudentList.Items.Add(name);
             }
+
+
+            // Init tables
+            Tables.Make(GridTableTemplate, GridTables, 20);
         }
 
         private void ButtonRandomizeSeating_Click(object sender, RoutedEventArgs e)

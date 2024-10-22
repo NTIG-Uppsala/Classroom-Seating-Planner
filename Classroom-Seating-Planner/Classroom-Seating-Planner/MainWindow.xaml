@@ -43,7 +43,7 @@
             <Label x:Name="LabelWhiteboard" Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Padding="0,0,0,0"/>
 
             <!-- Tables -->
-            <Grid Grid.Row="1" Grid.Column="0">
+            <Grid x:Name="GridTableTemplate" Grid.Row="1" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="4*"/>
