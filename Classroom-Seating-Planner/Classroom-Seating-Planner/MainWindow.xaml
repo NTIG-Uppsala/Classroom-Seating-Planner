@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Classroom_Seating_Planner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800" MinWidth="8cm" MinHeight="10cm">
+    <Grid x:Name="GridMain">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="73*"/>
-            <ColumnDefinition Width="327*"/>
+            <ColumnDefinition Width="70*" MinWidth="5cm"/>
+            <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,0,40"
-                 />
-        <Button x:Name="ButtonRandomizeSeating" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="ButtonRandomizeSeating_Click"/>
-        <Label x:Name="LabelStudents" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
+        <Border x:Name="BorderRight" BorderBrush="#FF8F8F8F" BorderThickness="1" Width="1" HorizontalAlignment="Right"/>
+        <Label x:Name="LabelStudents" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
+        <Button x:Name="ButtonRandomizeSeating" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="ButtonRandomizeSeating_Click"/>
     </Grid>
 </Window>
