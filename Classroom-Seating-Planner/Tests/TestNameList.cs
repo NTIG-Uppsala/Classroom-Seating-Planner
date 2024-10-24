@@ -69,15 +69,15 @@ namespace Tests
             string errorMessageNamesAreDifferent = "Test failed because the content of the generated student list is not the same as the list before generating";
 
             // Trigger the randomizing function and assert that a new, randomized, class list is generated and make sure all the names are the same
-            Assert.IsTrue(hasStudentListOrderChanged(window, cf, namesOld, namesNew), errorMessageStudentListOrderUnchanged);
-            Assert.IsFalse(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
+            Assert.IsTrue(hasStudentListOrderChanged(namesOld, namesNew), errorMessageStudentListOrderUnchanged);
+            Assert.IsFalse(hasListContentChanged(namesOld, namesNew), errorMessageNamesAreDifferent);
 
             namesOld = getArrayOfStudentListBeforeShuffle(window, cf, listBoxAutomationId);
             namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
 
             // Test one more time to make sure that the list can be scrambled again
-            Assert.IsTrue(hasStudentListOrderChanged(window, cf, namesOld, namesNew), errorMessageStudentListOrderUnchanged);
-            Assert.IsFalse(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
+            Assert.IsTrue(hasStudentListOrderChanged(namesOld, namesNew), errorMessageStudentListOrderUnchanged);
+            Assert.IsFalse(hasListContentChanged(namesOld, namesNew), errorMessageNamesAreDifferent);
 
             app.Close();
         }
