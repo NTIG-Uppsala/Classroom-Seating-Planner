@@ -61,7 +61,6 @@ namespace Tests
             string listBoxAutomationId = "ListBoxStudentList";
 
             string[] namesOld = getArrayOfStudentListBeforeShuffle(window, cf, listBoxAutomationId);
-
             string[] namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
 
             // Custom error messages for asserts
