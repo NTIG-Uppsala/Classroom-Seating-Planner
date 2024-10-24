@@ -1,4 +1,5 @@
-﻿using FlaUI.Core.Conditions;
+﻿using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
 using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
@@ -19,24 +20,19 @@ namespace Tests
             FlaUIElement.Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
+            // Find all element
             var allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
+            // Find all seats
+            List<FlaUIElement.AutomationElement> allSeats = allElements.Where(element =>
+                !string.IsNullOrEmpty(element.AutomationId)
+                &&
+                element.AutomationId.Contains("Seat")
+                &&
+                element.ControlType.Equals(FlaUI.Core.Definitions.ControlType.Text)
+            ).ToList();
 
-            var allSeats = allElements.Where(element =>
-            {
-                return (
-                    !string.IsNullOrEmpty(element.AutomationId)
-                    &&
-                    element.AutomationId.Contains("Seat")
-                    &&
-                    element.ControlType.Equals(FlaUI.Core.Definitions.ControlType.Text)
-                );
-            }).ToList();
-
-            foreach (var seat in allSeats)
-            {
-                Trace.WriteLine(seat);
-            }
-            Trace.WriteLine(allSeats.Count);
+            // Find Randomize Seating Button
+            FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
 
             app.Close();
         }
