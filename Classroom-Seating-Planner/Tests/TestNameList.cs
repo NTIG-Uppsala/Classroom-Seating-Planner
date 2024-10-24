@@ -40,9 +40,7 @@ namespace Tests
 
             string[] clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
             {
-                // Find and press the randomizer button
-                FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
-                randomizeButton.Click();
+                Utils.ClickRandomizeSeatingButton(window, cf);
 
                 // Extract an array of student names from the ListBox element in the UI
                 string[] namesNew = ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
