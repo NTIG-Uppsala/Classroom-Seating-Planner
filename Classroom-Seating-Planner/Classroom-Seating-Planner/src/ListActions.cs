@@ -16,9 +16,14 @@ namespace Classroom_Seating_Planner
         // Public method for shuffling lists
         public static List<string> Shuffle(List<string> list)
         {
+            // Return passed list if list only contains 1 or 0 items
+            if (list.Count <= 1) return list;
+
+            // If passed list contains 2 or more items, shuffle and return shuffled list
             Random rng = new();
 
             List<string> newList = list;
+            // Make sure the returned list is not identical in order to the passed list
             while (newList.SequenceEqual(list))
             {
                 newList = [.. list.OrderBy(item => rng.Next())];

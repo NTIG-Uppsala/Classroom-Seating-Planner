@@ -65,19 +65,24 @@ namespace Tests
 
             app.Close();
         }
-        
+
         [TestMethod, Timeout(3000)]
         public void TestShuffleShortList()
         {
             // Test that ListActions.Shuffle can handle a list with 0 items
-            List<string> testListLengthZero = [ ];
+            List<string> testListLengthZero = [];
             List<string> testListLengthZeroShuffled = ListActions.Shuffle(testListLengthZero);
             Assert.IsNotNull(testListLengthZeroShuffled);
 
             // Test that ListActions.Shuffle can handle a list with 1 item
-            List<string> testListLengthOne = [ "Name1" ];
+            List<string> testListLengthOne = ["Name1"];
             List<string> testListLengthOneShuffled = ListActions.Shuffle(testListLengthOne);
             Assert.IsNotNull(testListLengthOneShuffled);
+
+            // Test that ListActions.Shuffle can handle a list with 2 items and make sure the order of the lists are different
+            List<string> testListLengthTwo = ["Name1", "Name2"];
+            List<string> testListLengthTwoShuffled = ListActions.Shuffle(testListLengthTwo);
+            Assert.IsFalse(testListLengthTwo.SequenceEqual(testListLengthTwoShuffled));
         }
     }
 }
