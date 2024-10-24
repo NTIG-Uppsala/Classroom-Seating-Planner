@@ -13,12 +13,12 @@ namespace Tests
         [TestMethod]
         public void TestRandomizer()
         {
-            bool hasStudentListOrderChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
+            bool hasStudentListOrderChanged(string[] namesOld, string[] namesNew)
             {
                 return !namesOld.SequenceEqual(namesNew);
             }
 
-            bool hasListContentChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
+            bool hasListContentChanged(string[] namesOld, string[] namesNew)
             {
                 // Check that every name in the old list exists in the new list
                 foreach (string name in namesOld)
@@ -30,6 +30,12 @@ namespace Tests
                 }
 
                 return false;
+            }
+
+            string[] getArrayOfStudentListBeforeShuffle(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            {
+                // Extract an array of student names from the ListBox element in the UI
+                return ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
             }
 
             string[] clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
@@ -54,8 +60,7 @@ namespace Tests
 
             string listBoxAutomationId = "ListBoxStudentList";
 
-            // Extract an array of student names from the ListBox element in the UI
-            string[] namesOld = ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+            string[] namesOld = getArrayOfStudentListBeforeShuffle(window, cf, listBoxAutomationId);
 
             string[] namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
 
@@ -67,6 +72,7 @@ namespace Tests
             Assert.IsTrue(hasStudentListOrderChanged(window, cf, namesOld, namesNew), errorMessageStudentListOrderUnchanged);
             Assert.IsFalse(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
 
+            namesOld = getArrayOfStudentListBeforeShuffle(window, cf, listBoxAutomationId);
             namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
 
             // Test one more time to make sure that the list can be scrambled again
