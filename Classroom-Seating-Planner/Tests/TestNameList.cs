@@ -26,30 +26,39 @@ namespace Tests
                 {
                     if (!namesNew.Contains(name))
                     {
-                        hasContentChanged = true;
+                        return hasContentChanged = true;
                     }
                 }
 
                 return hasContentChanged;
             }
 
+            string[] clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            {
+                // Find and press the randomizer button
+                FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
+                randomizeButton.Click();
+
+                // Extract an array of student names from the ListBox element in the UI
+                string[] namesNew = ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+
+                return namesNew;
+            }
+
             // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\Classroom-Seating-Planner.exe");
+            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
             using FlaUI.UIA3.UIA3Automation automation = new();
 
             // Find the main window for the purpose of finding elements
             Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
-            // Extract an array of student names from the ListBox element in the UI
-            string[] namesOld = ListActions.GetListBoxItemsAsArray(window, cf, "ListBoxStudentList");
-
-            // Find and press the randomizer button
-            FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
-            randomizeButton.Click();
+            string listBoxAutomationId = "ListBoxStudentList";
 
             // Extract an array of student names from the ListBox element in the UI
-            string[] namesNew = ListActions.GetListBoxItemsAsArray(window, cf, "ListBoxStudentList");
+            string[] namesOld = ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+
+            string[] namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
 
             // Custom error messages for asserts
             string errorMessageStudentListOrderUnchanged = "Test failed because the order of the student list has not changed.";
@@ -57,11 +66,13 @@ namespace Tests
 
             // Trigger the randomizing function and assert that a new, randomized, class list is generated and make sure all the names are the same
             Assert.IsTrue(hasStudentListOrderChanged(window, cf, namesOld, namesNew), errorMessageStudentListOrderUnchanged);
-            Assert.IsTrue(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
+            Assert.IsFalse(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
+
+            namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
 
             // Test one more time to make sure that the list can be scrambled again
             Assert.IsTrue(hasStudentListOrderChanged(window, cf, namesOld, namesNew), errorMessageStudentListOrderUnchanged);
-            Assert.IsTrue(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
+            Assert.IsFalse(hasListContentChanged(window, cf, namesOld, namesNew), errorMessageNamesAreDifferent);
 
             app.Close();
         }
