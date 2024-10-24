@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using Classroom_Seating_Planner.src;
 
 namespace Classroom_Seating_Planner
 {
@@ -61,10 +60,6 @@ namespace Classroom_Seating_Planner
             {
                 ListBoxStudentList.Items.Add(name);
             }
-
-
-            // Init tables
-            Tables.Make(GridTableTemplate, GridTables, 20);
         }
 
         private void ButtonRandomizeSeating_Click(object sender, RoutedEventArgs e)
