@@ -25,10 +25,10 @@ const template =
         </Grid.ColumnDefinitions>
 
         <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-            <Label x:Name="{{SEATNAME1}}"/>
-            </Border>
-            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-            <Label x:Name="{{SEATNAME2}}"/>
+            <TextBlock x:Name="{{SEATNAME1}}" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
+        </Border>
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <TextBlock x:Name="{{SEATNAME2}}" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
         </Border>
     </Grid>
 </Grid>

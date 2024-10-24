@@ -46,8 +46,6 @@
             </Border>
 
             <!-- Tables -->
-
-
             <Grid x:Name="Table1" Grid.Row="1" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
@@ -65,10 +63,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat1"/>
+                        <TextBlock x:Name="Seat1" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat2"/>
+                        <TextBlock x:Name="Seat2" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -91,10 +89,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat3"/>
+                        <TextBlock x:Name="Seat3" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat4"/>
+                        <TextBlock x:Name="Seat4" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -117,10 +115,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat5"/>
+                        <TextBlock x:Name="Seat5" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat6"/>
+                        <TextBlock x:Name="Seat6" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -143,10 +141,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat7"/>
+                        <TextBlock x:Name="Seat7" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat8"/>
+                        <TextBlock x:Name="Seat8" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -169,10 +167,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat9"/>
+                        <TextBlock x:Name="Seat9" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat10"/>
+                        <TextBlock x:Name="Seat10" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -195,10 +193,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat11"/>
+                        <TextBlock x:Name="Seat11" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat12"/>
+                        <TextBlock x:Name="Seat12" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -221,10 +219,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat13"/>
+                        <TextBlock x:Name="Seat13" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat14"/>
+                        <TextBlock x:Name="Seat14" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -247,10 +245,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat15"/>
+                        <TextBlock x:Name="Seat15" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat16"/>
+                        <TextBlock x:Name="Seat16" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -273,10 +271,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat17"/>
+                        <TextBlock x:Name="Seat17" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat18"/>
+                        <TextBlock x:Name="Seat18" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -299,10 +297,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat19"/>
+                        <TextBlock x:Name="Seat19" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat20"/>
+                        <TextBlock x:Name="Seat20" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -325,10 +323,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat21"/>
+                        <TextBlock x:Name="Seat21" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat22"/>
+                        <TextBlock x:Name="Seat22" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -351,10 +349,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat23"/>
+                        <TextBlock x:Name="Seat23" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat24"/>
+                        <TextBlock x:Name="Seat24" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -377,10 +375,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat25"/>
+                        <TextBlock x:Name="Seat25" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat26"/>
+                        <TextBlock x:Name="Seat26" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -403,10 +401,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat27"/>
+                        <TextBlock x:Name="Seat27" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat28"/>
+                        <TextBlock x:Name="Seat28" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -429,10 +427,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat29"/>
+                        <TextBlock x:Name="Seat29" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat30"/>
+                        <TextBlock x:Name="Seat30" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -455,10 +453,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat31"/>
+                        <TextBlock x:Name="Seat31" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat32"/>
+                        <TextBlock x:Name="Seat32" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -481,10 +479,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat33"/>
+                        <TextBlock x:Name="Seat33" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat34"/>
+                        <TextBlock x:Name="Seat34" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
@@ -507,10 +505,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
-                        <Label x:Name="Seat35"/>
+                        <TextBlock x:Name="Seat35" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                     <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
-                        <Label x:Name="Seat36"/>
+                        <TextBlock x:Name="Seat36" Padding="1,1,1,1" TextWrapping="WrapWithOverflow"></TextBlock>
                     </Border>
                 </Grid>
             </Grid>
