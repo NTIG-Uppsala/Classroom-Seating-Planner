@@ -80,7 +80,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void TestShuffleShortList()
+        public void TestShuffleShortList() // This is not a test of the name list, rather it's a test of the shuffle function
         {
             // Test that ListActions.Shuffle can handle a list with 0 items
             List<string> testListLengthZero = [];
