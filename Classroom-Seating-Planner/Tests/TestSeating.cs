@@ -1,7 +1,6 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
-using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
@@ -20,6 +19,34 @@ namespace Tests
             FlaUIElement.Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
+            // Find all the seats
+            List<FlaUIElement.AutomationElement> allSeats = GetAllSeats(window, cf);
+
+            // Read that some of them are empty
+            string errorMessage = "Some of the seats are not empty before hitting the randomize button";
+            Assert.IsTrue(allSeats[0].Name.Equals(string.Empty), errorMessage);
+            Assert.IsTrue(allSeats[16].Name.Equals(string.Empty), errorMessage);
+            Assert.IsTrue(allSeats[33].Name.Equals(string.Empty), errorMessage);
+
+            // Find Randomize Seating Button
+            FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
+
+            randomizeButton.Click();
+
+            // Get the seats again
+            allSeats = GetAllSeats(window, cf);
+
+            // Read that some of the seats are not empty
+            errorMessage = "Some of the seats are empty after hitting the randomize button";
+            Assert.IsFalse(allSeats[0].Name.Equals(string.Empty), errorMessage);
+            Assert.IsFalse(allSeats[16].Name.Equals(string.Empty), errorMessage);
+            Assert.IsFalse(allSeats[33].Name.Equals(string.Empty), errorMessage);
+
+            app.Close();
+        }
+
+        private static List<FlaUIElement.AutomationElement> GetAllSeats(Window window, ConditionFactory cf)
+        {
             // Find all element
             var allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
             // Find all seats
@@ -31,10 +58,7 @@ namespace Tests
                 element.ControlType.Equals(FlaUI.Core.Definitions.ControlType.Text)
             ).ToList();
 
-            // Find Randomize Seating Button
-            FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
-
-            app.Close();
+            return allSeats;
         }
     }
 }
