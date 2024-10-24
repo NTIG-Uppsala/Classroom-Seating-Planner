@@ -1,6 +1,7 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
+using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 using ListActions = Classroom_Seating_Planner.src.ListActions;
 
@@ -21,7 +22,7 @@ namespace Tests
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
             // Find all the seats
-            List<FlaUIElement.AutomationElement> allSeats = GetAllSeats(window, cf);
+            List<FlaUIElement.AutomationElement> allSeats = Utils.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
 
             // Read that some of them are empty
             string errorMessage = "Some of the seats are not empty before hitting the randomize button";
@@ -32,7 +33,7 @@ namespace Tests
             Utils.ClickRandomizeSeatingButton(window, cf);
 
             // Get the seats again
-            allSeats = GetAllSeats(window, cf);
+            allSeats = Utils.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
 
             // Read that some of the seats are not empty
             errorMessage = "Some of the seats are empty after hitting the randomize button";
@@ -41,23 +42,6 @@ namespace Tests
             Assert.IsFalse(allSeats[32].Name.Equals(string.Empty), errorMessage); // Get index by length of student list? assuming the empty seates will always be the last ones
 
             app.Close();
-        }
-
-        private static List<FlaUIElement.AutomationElement> GetAllSeats(Window window, ConditionFactory cf)
-        {
-            // Find all element
-            var allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
-
-            // Find all seats
-            List<FlaUIElement.AutomationElement> allSeats = allElements.Where(element =>
-                !string.IsNullOrEmpty(element.AutomationId)
-                &&
-                element.AutomationId.Contains("Seat")
-                &&
-                element.ControlType.Equals(FlaUI.Core.Definitions.ControlType.Text)
-            ).ToList();
-
-            return allSeats;
         }
     }
 }
