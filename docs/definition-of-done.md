@@ -1,4 +1,4 @@
-# Definition of Done 4.2
+# Definition of Done 4.3
 
 #### Before moving a post-it to done, make sure you have:
 
@@ -10,7 +10,7 @@
 
 -   Reviewed work:
     -   Make sure any and all code follows our [coding standard](/docs/coding-standard.md).
-    -   Make sure all present group members understand the code. Absent members will read through the code when they are back.
+    -   Make sure all present group members understand and have accepted the changes made. Absent members will read through the code when they are back.
 
 -   Yellow post-it:
 
