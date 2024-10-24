@@ -3,7 +3,7 @@ using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
 using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
-using ListActions = Classroom_Seating_Planner.src.ListActions;
+using Classroom_Seating_Planner.src;
 
 namespace Tests
 {

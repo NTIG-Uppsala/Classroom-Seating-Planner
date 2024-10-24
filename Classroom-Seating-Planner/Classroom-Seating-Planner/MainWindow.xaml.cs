@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using ListActions = Classroom_Seating_Planner.src.ListActions;
+using Classroom_Seating_Planner.src;
 
 namespace Classroom_Seating_Planner
 {
