@@ -30,8 +30,6 @@
 -   Variables: _camelCase_.
 -   File names: _PascalCase_.
 
--   Methods that are triggered by elements should be named with the element name followed by the action. For example _ButtonTop\_Click_.
-
 #### Syntax
 -   Prefer explicit type declarations instead of _var_.
 
@@ -40,7 +38,7 @@
 #### Naming
 -   Element names: _PascalCase_.
 
--   Element names should begin with their type followed by an identifier. For example _ButtonTop_.
+-   Element names should be descriptive of their purpose and not their type. For example, a `ListBox` that displays a list of students' names should be named `StudentList` rather than `ListBoxStudentList`. 
 
 ---
 
