@@ -18,7 +18,7 @@ namespace Classroom_Seating_Planner.src
         public static List<string> Shuffle(List<string> list)
         {
             // Return passed list if list only contains 1 or 0 items
-            if (list.Count <= 1) return list;
+            if (list.Count < 2) return list;
 
             // If passed list contains 2 or more items, shuffle and return shuffled list
             Random rng = new();
