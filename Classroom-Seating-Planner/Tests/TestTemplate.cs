@@ -13,7 +13,7 @@ namespace Tests
         {
             return; // Remove this line in the real tests
             // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\Classroom-Seating-Planner.exe");
+            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
             using FlaUI.UIA3.UIA3Automation automation = new();
             
             // Find the main window for the purpose of finding elements
