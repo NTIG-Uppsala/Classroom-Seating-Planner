@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 
-namespace Classroom_Seating_Planner
+namespace Classroom_Seating_Planner.src
 {
     public class ListActions
     {
