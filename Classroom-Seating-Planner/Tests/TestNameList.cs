@@ -21,16 +21,15 @@ namespace Tests
             bool hasListContentChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
             {
                 // Check that every name in the old list exists in the new list
-                bool hasContentChanged = false;
                 foreach (string name in namesOld)
                 {
                     if (!namesNew.Contains(name))
                     {
-                        return hasContentChanged = true;
+                        return true;
                     }
                 }
 
-                return hasContentChanged;
+                return false;
             }
 
             string[] clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
