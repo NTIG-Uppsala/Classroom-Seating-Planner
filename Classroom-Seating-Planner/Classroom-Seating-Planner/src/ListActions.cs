@@ -13,8 +13,9 @@ namespace Classroom_Seating_Planner
     public class ListActions
     {
         // Public method for shuffling lists
-        public static List<string> Shuffle(List<string> list, Random rng)
+        public static List<string> Shuffle(List<string> list)
         {
+            Random rng = new();
             List<string> newList = [.. list.OrderBy(item => rng.Next())];
             return newList;
         }
