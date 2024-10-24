@@ -29,7 +29,7 @@ namespace Tests
             Assert.IsTrue(allSeats[33].Name.Equals(string.Empty), errorMessage);
 
             // Find Randomize Seating Button
-            FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("ButtonRandomizeSeating")).AsButton();
+            FlaUIElement.Button randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
 
             randomizeButton.Click();
 
