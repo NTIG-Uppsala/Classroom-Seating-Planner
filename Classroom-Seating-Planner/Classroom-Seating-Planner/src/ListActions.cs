@@ -2,6 +2,7 @@
 using FlaUI.Core.Conditions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Classroom_Seating_Planner
             Random rng = new();
 
             List<string> newList = list;
-            while (newList == list)
+            while (newList.SequenceEqual(list))
             {
                 newList = [.. list.OrderBy(item => rng.Next())];
             }

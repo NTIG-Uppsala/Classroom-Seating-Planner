@@ -15,7 +15,7 @@ namespace Tests
         {
             bool hasStudentListOrderChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
             {
-                return namesOld != namesNew;
+                return !namesOld.SequenceEqual(namesNew);
             }
 
             bool hasListContentChanged(FlaUIElement.Window window, ConditionFactory cf, string[] namesOld, string[] namesNew)
