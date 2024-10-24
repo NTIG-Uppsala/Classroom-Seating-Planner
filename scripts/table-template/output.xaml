@@ -1,0 +1,468 @@
+
+
+<Grid x:Name="Table1" Grid.Row="1" Grid.Column="0">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat1"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat2"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table2" Grid.Row="1" Grid.Column="1">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat3"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat4"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table3" Grid.Row="1" Grid.Column="2">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat5"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat6"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table4" Grid.Row="1" Grid.Column="3">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat7"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat8"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table5" Grid.Row="1" Grid.Column="4">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat9"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat10"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table6" Grid.Row="1" Grid.Column="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat11"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat12"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table7" Grid.Row="2" Grid.Column="0">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 7" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat13"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat14"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table8" Grid.Row="2" Grid.Column="1">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat15"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat16"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table9" Grid.Row="2" Grid.Column="2">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat17"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat18"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table10" Grid.Row="2" Grid.Column="3">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat19"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat20"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table11" Grid.Row="2" Grid.Column="4">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat21"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat22"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table12" Grid.Row="2" Grid.Column="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat23"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat24"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table13" Grid.Row="3" Grid.Column="0">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat25"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat26"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table14" Grid.Row="3" Grid.Column="1">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat27"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat28"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table15" Grid.Row="3" Grid.Column="2">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat29"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat30"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table16" Grid.Row="3" Grid.Column="3">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat31"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat32"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table17" Grid.Row="3" Grid.Column="4">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat33"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat34"/>
+        </Border>
+    </Grid>
+</Grid>
+
+
+<Grid x:Name="Table18" Grid.Row="3" Grid.Column="5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="4*"/>
+    </Grid.RowDefinitions>
+
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Margin="2,2,2,2" Grid.RowSpan="2"/>
+
+    <Label Content="Bord 18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Grid.Row="2" Margin="2,0,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderBrush="#FF8F8F8F" BorderThickness="1">
+            <Label x:Name="Seat35"/>
+            </Border>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="1">
+            <Label x:Name="Seat36"/>
+        </Border>
+    </Grid>
+</Grid>
