@@ -62,10 +62,9 @@ namespace Classroom_Seating_Planner
             }
         }
 
-        private void ButtonRandomizeSeating_Click(object sender, RoutedEventArgs e)
+        private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
         {
             // Shuffle the list of student names using a custom class method
-            
             listOfNames = ListActions.Shuffle(listOfNames);
 
             // Clear the ListBox before populating
