@@ -58,7 +58,7 @@ namespace Classroom_Seating_Planner
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
             {
-                ListBoxStudentList.Items.Add(name);
+                StudentList.Items.Add(name);
             }
         }
 
@@ -69,12 +69,12 @@ namespace Classroom_Seating_Planner
             listOfNames = ListActions.Shuffle(listOfNames);
 
             // Clear the ListBox before populating
-            ListBoxStudentList.Items.Clear();
+            StudentList.Items.Clear();
 
             // Populate the ListBox with the new order
             foreach (string name in listOfNames)
             {
-                ListBoxStudentList.Items.Add(name);
+                StudentList.Items.Add(name);
             }
         }
     }

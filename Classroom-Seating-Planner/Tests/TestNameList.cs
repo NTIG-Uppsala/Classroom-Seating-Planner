@@ -58,10 +58,10 @@ namespace Tests
             Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
-            string listBoxAutomationId = "ListBoxStudentList";
+            string studentListAutomationId = "StudentList";
 
-            string[] namesOld = getArrayOfStudentListBeforeShuffle(window, cf, listBoxAutomationId);
-            string[] namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
+            string[] namesOld = getArrayOfStudentListBeforeShuffle(window, cf, studentListAutomationId);
+            string[] namesNew = clickRandomizeButtonAndGetNewArray(window, cf, studentListAutomationId);
 
             // Custom error messages for asserts
             string errorMessageStudentListOrderUnchanged = "Test failed because the order of the student list has not changed.";
@@ -71,8 +71,8 @@ namespace Tests
             Assert.IsTrue(hasStudentListOrderChanged(namesOld, namesNew), errorMessageStudentListOrderUnchanged);
             Assert.IsFalse(hasListContentChanged(namesOld, namesNew), errorMessageNamesAreDifferent);
 
-            namesOld = getArrayOfStudentListBeforeShuffle(window, cf, listBoxAutomationId);
-            namesNew = clickRandomizeButtonAndGetNewArray(window, cf, listBoxAutomationId);
+            namesOld = getArrayOfStudentListBeforeShuffle(window, cf, studentListAutomationId);
+            namesNew = clickRandomizeButtonAndGetNewArray(window, cf, studentListAutomationId);
 
             // Test one more time to make sure that the list can be scrambled again
             Assert.IsTrue(hasStudentListOrderChanged(namesOld, namesNew), errorMessageStudentListOrderUnchanged);

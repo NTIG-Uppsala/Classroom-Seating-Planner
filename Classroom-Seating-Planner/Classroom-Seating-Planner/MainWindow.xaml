@@ -19,8 +19,8 @@
 
         <!-- The list to the left, showing you the list of all students in a class -->
         <Border x:Name="BorderRight" BorderBrush="#FF8F8F8F" BorderThickness="1" Width="1" HorizontalAlignment="Right"/>
-        <Label x:Name="LabelStudents" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <ListBox x:Name="ListBoxStudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
+        <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
         <Button x:Name="ButtonRandomizeSeating" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="ButtonRandomizeSeating_Click"/>
 
         <!-- Grid with whiteboard and tables -->
