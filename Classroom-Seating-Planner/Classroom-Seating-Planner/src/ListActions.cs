@@ -16,7 +16,12 @@ namespace Classroom_Seating_Planner
         public static List<string> Shuffle(List<string> list)
         {
             Random rng = new();
-            List<string> newList = [.. list.OrderBy(item => rng.Next())];
+
+            List<string> newList = list;
+            while (newList == list)
+            {
+                newList = [.. list.OrderBy(item => rng.Next())];
+            }
             return newList;
         }
 
