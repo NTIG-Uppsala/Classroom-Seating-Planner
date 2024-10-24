@@ -76,6 +76,12 @@ namespace Classroom_Seating_Planner
             {
                 StudentList.Items.Add(name);
             }
+
+            // Update the tables with the new order
+            for (int index = 0; index < listOfNames.Count; index++)
+            {
+
+            }
         }
     }
 }
