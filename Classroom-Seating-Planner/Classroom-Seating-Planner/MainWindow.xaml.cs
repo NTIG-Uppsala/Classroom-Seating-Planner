@@ -140,44 +140,19 @@ namespace Classroom_Seating_Planner
             }
         }
 
-        //private void Window_Loaded(object sender, RoutedEventArgs e)
-        //{
-
-        //    double controlSize = ((SystemParameters.PrimaryScreenWidth / 12) / 3 * 2) / 5 * 0.7;
-        //    System.Windows.Application.Current.Resources.Remove("ControlFontSize");
-        //    System.Windows.Application.Current.Resources.Add("ControlFontSize", controlSize);
-        //}
-
         protected void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
         {
             double newWindowHeight = e.NewSize.Height;
-            double newWindowWidth = e.NewSize.Width;
-            double prevWindowHeight = e.PreviousSize.Height;
-            double prevWindowWidth = e.PreviousSize.Width;
+            //double newWindowWidth = e.NewSize.Width;
+            //double prevWindowHeight = e.PreviousSize.Height;
+            //double prevWindowWidth = e.PreviousSize.Width;
 
-            Trace.WriteLine(newWindowHeight);
+            // Use smallest between window height/width
             double directionalCoefficient = 0.0135699;
             double yIntercept = 8.89353;
             double newFontSize = Math.Round(newWindowHeight * directionalCoefficient + yIntercept);
-            Trace.WriteLine(newFontSize);
             RandomizeSeatingButton.FontSize = newFontSize;
             StudentListTitle.FontSize = newFontSize;
         }
-
-        //private void RandomizeSeatingButton_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    Button btn = (Button)sender;
-        //    if (btn != null)
-        //    {
-        //        btn.FontSize = btn.Height / 2;
-        //    }
-        //}
-        //private void RandomizeSeatingButton_LayoutUpdated(object sender, EventArgs e)
-        //{
-        //    if (sender is Button btn)
-        //    {
-        //        btn.FontSize = btn.Height / 2;
-        //    }
-        //}
     }
 }
