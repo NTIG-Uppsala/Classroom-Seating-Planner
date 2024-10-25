@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Title="Bordsplaceringsgeneratorn" 
     Height="450" MinHeight="10cm"
-    Width="800" MinWidth="8cm" 
+    Width="800" MinWidth="8cm"
     >
 
     <Grid x:Name="MainGrid">
@@ -18,10 +18,19 @@
         </Grid.ColumnDefinitions>
 
         <!-- The list to the left, showing you the list of all students in a class -->
-        <Border x:Name="RightBorder" BorderBrush="#FF8F8F8F" BorderThickness="1" Width="1" HorizontalAlignment="Right"/>
-        <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="0,27,0,40"/>
-        <Button x:Name="RandomizeSeatingButton" Content="Slumpa bordsplacering" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="20" Width="126" Margin="0,0,0,10" Click="RandomizeSeatingButton_Click"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" MinHeight="50"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="10*" MinHeight="50"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" Margin="10, 10, 10, 0" VerticalAlignment="Center"/>
+            <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="10, 10, 10, 0" Grid.Row="1"/>
+            <Button x:Name="RandomizeSeatingButton" Content="Slumpa bordsplacering" Margin="10" Click="RandomizeSeatingButton_Click" Grid.Row="2"/>
+
+        </Grid>
+
 
         <!-- Grid with whiteboard and tables -->
         <Grid x:Name="TablesGrid" Grid.Column="1" Margin="15,15,15,15">
