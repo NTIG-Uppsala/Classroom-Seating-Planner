@@ -12,13 +12,14 @@ namespace Classroom_Seating_Planner
     {
         // Define the global list of names here
         private List<string> listOfNames;
+        private List<TextBlock> listOfSeats;
 
         public MainWindow()
         {
             InitializeComponent();
 
             // Initialize the list with the placeholder names
-            List<string> list =
+            List<string> namesList =
             [
                 "Ziggy Stardust",
                 "Frodo Baggins",
@@ -54,13 +55,53 @@ namespace Classroom_Seating_Planner
                 "Främling Skådespelare",
                 "Émil Låås",
             ];
-            listOfNames = list;
+            listOfNames = namesList;
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
             {
                 StudentList.Items.Add(name);
             }
+
+            List<TextBlock> seatsList = [
+                Seat1,
+                Seat2,
+                Seat3,
+                Seat4,
+                Seat5,
+                Seat6,
+                Seat7,
+                Seat8,
+                Seat9,
+                Seat10,
+                Seat11,
+                Seat12,
+                Seat13,
+                Seat14,
+                Seat15,
+                Seat16,
+                Seat17,
+                Seat18,
+                Seat19,
+                Seat20,
+                Seat21,
+                Seat22,
+                Seat23,
+                Seat24,
+                Seat25,
+                Seat26,
+                Seat27,
+                Seat28,
+                Seat29,
+                Seat30,
+                Seat31,
+                Seat32,
+                Seat33,
+                Seat34,
+                Seat35,
+                Seat36
+            ];
+            listOfSeats = seatsList;
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
@@ -76,9 +117,8 @@ namespace Classroom_Seating_Planner
             {
                 StudentList.Items.Add(name);
             }
-
-            // List of available seat labels, starting from Seat1, Seat2, etc.
-            var seats = new List<TextBlock> { Seat1, Seat2 /* Add more seats like Seat3, Seat4, etc. based on your grid */ };
+            
+            List<TextBlock> seats = listOfSeats; 
 
             // Ensure we don't exceed the number of available seats
             int seatCount = Math.Min(listOfNames.Count, seats.Count);
@@ -93,8 +133,8 @@ namespace Classroom_Seating_Planner
             // If there are more seats than students, clear the remaining seats
             for (int index = seatCount; index < seats.Count; index++)
             {
-                //var seat = FindName($"Seat{index}");
-                seats[index].Text = string.Empty;  // Clear the seat if it's not occupied
+                // Clear the seat if it's not occupied
+                seats[index].Text = string.Empty;
             }
         }
     }
