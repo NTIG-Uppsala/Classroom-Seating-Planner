@@ -21,7 +21,7 @@ namespace Tests
         public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(Window window, ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
         {
             // Find all element
-            var allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
+            List<AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
 
             // Find all seats
             List<FlaUIElement.AutomationElement> allSeats = allElements.Where(element =>
