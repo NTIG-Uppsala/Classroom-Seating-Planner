@@ -1,5 +1,6 @@
 # Group-specific files
 docs/*.pdf
+todo
 
 
 ## Ignore Visual Studio temporary files, build results, and
