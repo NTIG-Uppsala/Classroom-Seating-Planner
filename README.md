@@ -11,7 +11,7 @@
 - After the download has finished, run the exe file.
   - You may receive a warning from Windows defender. Click on `More info` and then `Run anyway` to ignore the warning and run it anyway.
 
-It's worth noting that the program does not install itself on your computer. It is a standalone file that you run from anywhere, probably your downloads folder. To run it again, you will need to find the file and run it.
+The program does not install itself on your computer. It is a standalone file that you run from anywhere, probably your downloads folder. To run it again, you will need to find the file and run it.
 
 
 ## Docs
