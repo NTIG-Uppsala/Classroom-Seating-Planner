@@ -1,4 +1,4 @@
-# Definition of Done 4.3
+# Definition of Done 4.4
 
 #### Before moving a post-it to done, make sure you have:
 
@@ -26,8 +26,8 @@
     -   Deleted the feature branch.
     -   Cleaned up the documentation from the yellow post-its to present at the sprint review. Make it concise.
     -   Created a tag.
-    -   Built the app, drafted a release in GitHub and added the build to to the draft.
-    -   Make sure the Definition of Done on the whiteboard is most recent version.
+    -   Built the app, drafted a release in GitHub and added the build to the draft.
+    -   Made sure the Definition of Done on the whiteboard is most recent version.
 
 ---
 
