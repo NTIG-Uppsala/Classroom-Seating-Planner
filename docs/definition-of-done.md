@@ -9,23 +9,25 @@
 -   Passed all tests.
 
 -   Reviewed work:
+
     -   Make sure any and all code follows our [coding standard](/docs/coding-standard.md).
     -   Make sure all present group members understand and have accepted the changes made. Absent members will read through the code when they are back.
 
 -   Yellow post-it:
+
     -   Pushed changes to its feature branch.
     -   Documented the changes for the sprint review.
 
 -   Blue post-it:
+
     -   Gone through all the yellow post-its to make sure nothing has been missed.
     -   Read through all the documentation.
     -   Rebased onto main branch.
     -   Deleted the feature branch.
     -   Cleaned up the documentation from the yellow post-its to present at the sprint review. Make it concise.
-    -   Created a tag in git.
-    -   Created a release from the tag in GitHub.
+    -   Created a tag.
+    -   Built the app and drafted a release in GitHub.
     -   Make sure the Definition of Done on the whiteboard is most recent version.
-    -   DO NOT PUSH TO PROD UNLESS APPROVED!
 
 ---
 
