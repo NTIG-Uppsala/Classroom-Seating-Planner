@@ -26,7 +26,7 @@
     -   Deleted the feature branch.
     -   Cleaned up the documentation from the yellow post-its to present at the sprint review. Make it concise.
     -   Created a tag.
-    -   Built the app and drafted a release in GitHub.
+    -   Built the app, drafted a release in GitHub and added the build to to the draft.
     -   Make sure the Definition of Done on the whiteboard is most recent version.
 
 ---
