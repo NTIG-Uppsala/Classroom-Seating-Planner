@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Classroom_Seating_Planner.src;
@@ -58,7 +59,7 @@ namespace Classroom_Seating_Planner
                 "Främling Skådespelare",
                 "Émil Låås",
             ];
-            listOfNames = namesList;
+            listOfNames = GetStudentNamesFromFile();
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
@@ -105,6 +106,19 @@ namespace Classroom_Seating_Planner
                 Seat36
             ];
             listOfSeats = seatsList;
+        }
+
+        private List<string> GetStudentNamesFromFile()
+        {
+            string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string programDataFolder = documentsFolder + "\\Bordsplaceringsgeneratorn";
+            string namesFile = programDataFolder + "\\klasslista.txt";
+            // If null create file
+            using (StreamReader reader = new(namesFile))
+            {
+                List<string> names = [.. reader.ReadToEnd().Split('\n')];
+                return names;
+            }
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
