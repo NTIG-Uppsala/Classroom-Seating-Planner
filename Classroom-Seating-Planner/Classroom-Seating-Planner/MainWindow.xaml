@@ -27,8 +27,9 @@
 
             <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" Margin="10, 10, 10, 0" VerticalAlignment="Center"/>
             <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="10, 10, 10, 0" Grid.Row="1"/>
-            <Button x:Name="RandomizeSeatingButton" Content="Slumpa bordsplacering" Margin="10" Click="RandomizeSeatingButton_Click" Grid.Row="2"/>
-
+            <Button x:Name="RandomizeSeatingButton" Margin="10" Click="RandomizeSeatingButton_Click" Grid.Row="2">
+                <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center">Slumpa bordsplacering</TextBlock>
+            </Button>
         </Grid>
 
 
