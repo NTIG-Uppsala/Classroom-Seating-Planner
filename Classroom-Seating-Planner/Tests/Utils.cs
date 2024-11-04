@@ -34,5 +34,54 @@ namespace Tests
 
             return allSeats;
         }
+
+        public static void SetUpTest(List<string>? testNamesList = null)
+        {
+            // Use standard test string if no custom string is passed
+            testNamesList ??=
+                [
+                    "Ziggy Stardust",
+                    "Frodo Baggins",
+                    "Darth Vader",
+                    "Galadriel Silverleaf",
+                    "Sparky McFluff",
+                    "Waldo B. Lost",
+                    "กาญจนา McSix",
+                    "Gandalf the Grey",
+                    "Ulysses 'Snakehands' McDougall",
+                    "Venkatanarasimharajuvaripeta Wumpus",
+                    "Shivankumaraswamy Krishnamurthy Raghunath",
+                    "الحسيني",
+                    "Muhammad Abdelrahman ibn Al-Mahmoud al-Farouq",
+                    "Papadopoulos-Alexandropoulos Firestorm",
+                    "明张",
+                    "Pipkin Puddleduck",
+                    "Aleksandrovich Dimitrov Petrovskaya Ivanov",
+                    "Per-Göran Karlsson von Heidenstam af Skånesläkten",
+                    "Wiggles Snickerbottom",
+                    "Zephyr Nightwind",
+                    "Doodlebug Sparklestep",
+                    "Sir Adrian Carton de Wiart",
+                    "Tinkerbell Twinkletoes",
+                    "Bo Li",
+                    "Dinglehopper Wobblesworth",
+                    "Kǎi McQuirk",
+                    "Fizzlewhit Wobblebottom",
+                    "鈴木 健太",
+                    "Jo Wu",
+                    "Le To",
+                    "Örjan Johansson Florist",
+                    "Främling Skådespelare",
+                    "Émil Låås",
+                ];
+
+            // var namesListFileBackup = read all names from file (mayhaps through loop)
+            // change file content to match testNamesList
+        }
+
+        public static void TearDownTest()
+        {
+            // Restore the file to match the content of the backup
+        }
     }
 }
