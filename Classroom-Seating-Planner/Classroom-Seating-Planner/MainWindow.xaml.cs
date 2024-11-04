@@ -143,17 +143,18 @@ namespace Classroom_Seating_Planner
 
         protected void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double newWindowHeight = e.NewSize.Height;
-            //double newWindowWidth = e.NewSize.Width;
-            //double prevWindowHeight = e.PreviousSize.Height;
-            //double prevWindowWidth = e.PreviousSize.Width;
+            // Use the value of the smallest dimension (width or height) of the
+            // window to account for vertical and horizontal aspect ratios
+            double smallestDimension = Math.Min(e.NewSize.Height, e.NewSize.Width);
 
-            // Use smallest between window height/width
-            double directionalCoefficient = 0.0135699;
-            double yIntercept = 8.89353;
-            double newFontSize = Math.Round(newWindowHeight * directionalCoefficient + yIntercept);
-            RandomizeSeatingButton.FontSize = newFontSize;
-            StudentListTitle.FontSize = newFontSize;
+            // Using the y=mx+b function to find a font size
+            double m = 0.0135699;
+            double x = smallestDimension;
+            double b = 8.89353;
+            double fontSize = Math.Round(m * x + b);
+
+            RandomizeSeatingButton.FontSize = fontSize;
+            StudentListTitle.FontSize = fontSize;
         }
     }
 }

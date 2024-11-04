@@ -22,7 +22,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*" MinHeight="50"/>
                 <RowDefinition Height="80*"/>
-                <RowDefinition Height="10*" MinHeight="50"/>
+                <RowDefinition Height="10*" MinHeight="75"/>
             </Grid.RowDefinitions>
 
             <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" Margin="10, 10, 10, 0" VerticalAlignment="Center"/>
