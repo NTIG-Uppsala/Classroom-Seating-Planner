@@ -18,7 +18,8 @@ namespace Classroom_Seating_Planner
         {
             InitializeComponent();
 
-            this.SizeChanged += WindowSize_Changed;
+            // Adds event listener to window
+            SizeChanged += Window_SizeChanged;
 
             // Initialize the list with the placeholder names
             List<string> namesList =
@@ -140,7 +141,7 @@ namespace Classroom_Seating_Planner
             }
         }
 
-        protected void WindowSize_Changed(object sender, SizeChangedEventArgs e)
+        protected void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double newWindowHeight = e.NewSize.Height;
             //double newWindowWidth = e.NewSize.Width;
