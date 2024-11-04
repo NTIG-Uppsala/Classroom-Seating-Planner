@@ -12,29 +12,39 @@
     >
 
     <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1cm"/>
+            <RowDefinition Height="200*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70*" MinWidth="5cm"/>
             <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
 
+
+        <!-- "Elever" text -->
+        <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- Help button -->
+        <Button x:Name="FileHelpButton" Content="Hjälp"/>
+
         <!-- The list to the left, showing you the list of all students in a class -->
-        <Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*" MinHeight="50"/>
                 <RowDefinition Height="80*"/>
-                <RowDefinition Height="10*" MinHeight="75"/>
+                <RowDefinition Height="10*" MinHeight="1cm"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" Margin="10, 10, 10, 0" VerticalAlignment="Center"/>
-            <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="10, 10, 10, 0" Grid.Row="1"/>
-            <Button x:Name="RandomizeSeatingButton" Margin="10" Click="RandomizeSeatingButton_Click" Grid.Row="2">
+            <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,5,0" Grid.Row="0"/>
+
+            <Button x:Name="RandomizeSeatingButton" Margin="7" Click="RandomizeSeatingButton_Click" Grid.Row="1">
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center">Slumpa bordsplacering</TextBlock>
             </Button>
         </Grid>
 
 
         <!-- Grid with whiteboard and tables -->
-        <Grid x:Name="TablesGrid" Grid.Column="1" Margin="15,15,15,15">
+        <Grid x:Name="TablesGrid" Grid.Column="01" Grid.Row="1" Margin="15,15,15,15" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5cm"/>
                 <RowDefinition Height="2cm"/>

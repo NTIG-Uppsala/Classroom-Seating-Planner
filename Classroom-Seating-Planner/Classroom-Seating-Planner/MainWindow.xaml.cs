@@ -168,7 +168,6 @@ namespace Classroom_Seating_Planner
             double fontSize = Math.Round(m * x + b);
 
             RandomizeSeatingButton.FontSize = fontSize;
-            StudentListTitle.FontSize = fontSize;
         }
     }
 }
