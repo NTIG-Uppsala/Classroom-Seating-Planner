@@ -13,7 +13,6 @@
     -   Make sure all present group members understand and have accepted the changes made. Absent members will read through the code when they are back.
 
 -   Yellow post-it:
-
     -   Pushed changes to its feature branch.
     -   Documented the changes for the sprint review.
 
