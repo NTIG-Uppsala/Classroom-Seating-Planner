@@ -34,7 +34,7 @@
 -   Git branches: _kebab-case_.
 -   File names: _kebab-case_.
 -   Default case if not specified: _camelCase_.
--   No one-letter variable names.
+-   No one-letter variable names unless the full name is reserved in the language. For example: `event` might be reserved, so use `e`.
 -   Prefer longer, clearer variable names over short, unclear ones.
 
 #### Syntax
