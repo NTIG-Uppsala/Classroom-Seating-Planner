@@ -14,7 +14,7 @@ namespace Tests
         private Window GetPopupWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-            return windows.Where(window => window.Name == "Hj�lp").FirstOrDefault();
+            return windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
         }
 
         [TestMethod]
@@ -110,7 +110,9 @@ namespace Tests
             // Save the file content to restore it after the test
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string applicationFolder = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn");
+            string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
             string filePath = Path.Combine(applicationFolder, "klasslista.txt");
+            string backupFilePath = Path.Combine(backupFolder, "klasslista.txt");
 
             if (!Directory.Exists(applicationFolder) || !File.Exists(filePath))
             {
@@ -118,7 +120,8 @@ namespace Tests
             }
 
             string fileContent = File.ReadAllText(filePath);
-            
+            Directory.CreateDirectory(backupFolder);
+            File.WriteAllText(backupFilePath, fileContent);
             // Remove the file
             Directory.Delete(applicationFolder, true);
 
@@ -140,12 +143,12 @@ namespace Tests
 
             // Test that the application can handle the absence of the file
             Assert.IsTrue(PopupExists());
-            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("InformationText")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den p� seperata rader och starta sedan om programmet.");
+            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("TextBody")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den på seperata rader och starta sedan om programmet.");
 
             // Clean up the test environment and restore the file
             Directory.CreateDirectory(applicationFolder);
             File.WriteAllText(filePath, fileContent);
-            Trace.WriteLine(Directory.Exists(applicationFolder));
+            Directory.Delete(backupFolder, true);
             Utils.TearDownTest(app);
         }
     }
