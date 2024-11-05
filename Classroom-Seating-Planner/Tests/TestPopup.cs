@@ -146,7 +146,7 @@ namespace Tests
             Window GetPopup()
             {
                 var windows = app.GetAllTopLevelWindows(automation);
-                return windows.Where(window => window.Name == "Information").FirstOrDefault()!;
+                return windows.Where(window => window.Name == "Information").First()!;
             }
 
             // Check if the popup exists
@@ -163,5 +163,6 @@ namespace Tests
             Directory.CreateDirectory(applicationFolder);
             File.WriteAllText(filePath, fileContent);
             Utils.TearDownTest(app);
+        }
     }
 }
