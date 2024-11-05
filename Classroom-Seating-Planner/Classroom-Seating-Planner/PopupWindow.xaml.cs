@@ -13,7 +13,12 @@ namespace Classroom_Seating_Planner
         {
             InitializeComponent();
 
+            popupWindowName.Title = windowTitle;
+
             TextBody.Text = popupText;
+
+            Owner = parent;
+
             this.Show();
 
             // Close if main window is closed
