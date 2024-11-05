@@ -80,10 +80,12 @@ namespace Classroom_Seating_Planner
 
             // Read the names from the file and return them as a list
             using StreamReader reader = new(filePath);
-            List<string> names = reader.ReadToEnd()
-                                       .Split("\n")
-                                       .Select(name => name.Trim())
-                                       .ToList();
+            List<string> names = reader
+                .ReadToEnd()
+                .Split("\n")
+                .Select(name => name.Trim())
+                .Where(name => !string.IsNullOrEmpty(name))
+                .ToList();
             return names;
         }
 
