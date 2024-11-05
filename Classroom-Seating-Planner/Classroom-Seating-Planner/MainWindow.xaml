@@ -12,6 +12,16 @@
     FontSize="0.45cm"
     FontWeight="Light"
     >
+    
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
@@ -22,6 +32,7 @@
             <ColumnDefinition Width="70*" MinWidth="5cm"/>
             <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
+       
 
         <!-- Help button -->
         <Button x:Name="FileHelpButton" 
@@ -40,7 +51,7 @@
         <!-- The list to the left, showing you the list of all students in a class -->
         <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="1cm"/>
                 <RowDefinition Height="80*"/>
                 <RowDefinition Height="10*" MinHeight="1cm"/>
             </Grid.RowDefinitions>
@@ -55,8 +66,14 @@
             <ListBox x:Name="StudentList" FontWeight="Thin" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,-1,0" Grid.Row="1" BorderBrush="{x:Null}"/>
 
             <!-- Randomize button -->
-            <Button x:Name="RandomizeSeatingButton" Margin="7" Click="RandomizeSeatingButton_Click" Grid.Row="2">
-                <TextBlock FontWeight="Light" TextWrapping="WrapWithOverflow" TextAlignment="Center">Slumpa bordsplacering</TextBlock>
+            <Button x:Name="RandomizeSeatingButton" Click="RandomizeSeatingButton_Click" 
+                    Margin="7" 
+                    Grid.Row="2"
+                    BorderThickness="0.01cm"
+                    BorderBrush="Black"
+                    Background="#FFE8E8E8" 
+                    >
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Light" TextWrapping="WrapWithOverflow" TextAlignment="Center">Slumpa bordsplacering</TextBlock>
             </Button>
         </Grid>
 
