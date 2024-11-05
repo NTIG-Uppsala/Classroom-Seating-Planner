@@ -49,7 +49,7 @@ namespace Tests
             }
 
             // Set up/start the test
-            (FlaUI.Core.Application app, Window window, ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
             string studentListAutomationId = "StudentList";
 

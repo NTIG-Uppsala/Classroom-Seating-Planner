@@ -32,7 +32,7 @@ namespace Tests
         }
 
         private static List<string> fileBackupList = [];
-        public static (FlaUI.Core.Application, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
             // Backup the data from the names list file so it can be restored after testing
             System.IO.File.Copy(UtilsHelpers.studentNamesListFilePath, $"{UtilsHelpers.studentNamesListFilePath}.bak");
@@ -160,7 +160,7 @@ namespace Tests
             return studentNamesList;
         }
 
-        public static (FlaUI.Core.Application, Window, ConditionFactory) InitializeApplication()
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) InitializeApplication()
         {
             // Find and run the application
             FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
@@ -170,7 +170,7 @@ namespace Tests
             Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
-            return (app, window, cf);
+            return (app, automation, window, cf);
         }
     }
 }
