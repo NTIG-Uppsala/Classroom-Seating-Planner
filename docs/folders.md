@@ -3,7 +3,7 @@
 This project requires external files and folders to use.
 
 ### Changing where the list of students is read from
--   Change the file path in the `GetStudentNamesFromFile` method in `MainWindow.xaml.cs`.
+-   Change the file path in the `GetStudentNamesFromFile` method in `listActions.cs`.
 -   Change the folder and file names mentioned in `README.md`.
 
 ---
