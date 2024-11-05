@@ -98,7 +98,7 @@ namespace Tests
         public static void TearDownTest(FlaUI.Core.Application app)
         {
             // Restore the names list file by filling it with backed up information from before the test
-            
+
             UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
 
             // Terminate the app
@@ -156,7 +156,8 @@ namespace Tests
             return dataList;
         }
 
-        public static void RestoreBackupData(string originalFilePath){
+        public static void RestoreBackupData(string originalFilePath)
+        {
             System.IO.File.Delete(originalFilePath);
             System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
         }

@@ -17,8 +17,6 @@ namespace Classroom_Seating_Planner
 
             TextBody.Text = popupText;
 
-            Owner = parent;
-
             this.Show();
 
             // Close if main window is closed

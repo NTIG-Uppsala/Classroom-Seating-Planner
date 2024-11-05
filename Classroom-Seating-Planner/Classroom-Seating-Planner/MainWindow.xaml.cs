@@ -13,8 +13,8 @@ namespace Classroom_Seating_Planner
         // Define the global list of names here
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
-        public string fileTutorial = "Fyll i namnen i den på seperata rader och starta sedan om programmet.";
-        public string informatonPopup = "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/.";
+        public string fileTutorial = $"Klasslistan ligger i Documents/Bordsplaceringsgeneratorn/. Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+        public string informatonPopup = "Klasslista hittades inte. En textfil har skapats. ";
         public MainWindow()
         {
             InitializeComponent();

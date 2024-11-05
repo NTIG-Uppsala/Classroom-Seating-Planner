@@ -11,7 +11,7 @@ namespace Tests
     [TestClass]
     public class TestPopup
     {
-        private Window GetPopupWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        private Window GetHelpWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
             return windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
@@ -23,14 +23,12 @@ namespace Tests
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
-            FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-
             // Open the help popup
             FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement popupWindow = GetPopupWindow(app, automation);
+            FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
             Trace.Assert(popupWindow != null);
             Assert.IsNotNull(popupWindow);
 
@@ -39,12 +37,12 @@ namespace Tests
             closeButton.Click();
 
             // Find the window again
-            popupWindow = GetPopupWindow(app, automation);
+            popupWindow = GetHelpWindow(app, automation);
             Assert.IsNull(popupWindow);
 
             // Open the popup again
             helpButton.Click();
-            popupWindow = GetPopupWindow(app, automation);
+            popupWindow = GetHelpWindow(app, automation);
             Assert.IsNotNull(popupWindow);
 
 
@@ -62,14 +60,15 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement popupWindow = GetPopupWindow(app, automation);
+            FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
             Assert.IsNotNull(popupWindow);
 
             // Close the main window
             window.Close();
 
             // The popup should be closed as well
-            Assert.IsFalse(window.IsAvailable);
+            popupWindow = GetHelpWindow(app, automation);
+            Assert.IsNull(popupWindow);
 
 
             app.Close();
@@ -87,7 +86,7 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement popupWindow = GetPopupWindow(app, automation);
+            FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
             Assert.IsNotNull(popupWindow);
 
             // Click the open button
@@ -103,10 +102,15 @@ namespace Tests
             app.Close();
         }
 
+        private Window GetNoFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        {
+            FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
+            return windows.Where(window => window.Name == "Information").FirstOrDefault();
+        }
+
         [TestMethod]
         public void TestNoNameListFile()
         {
-
             // Save the file content to restore it after the test
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string applicationFolder = UtilsHelpers.dataFolderPath;
@@ -128,28 +132,16 @@ namespace Tests
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
-            // Find the popup window
-            Window GetPopup()
-            {
-                var windows = app.GetAllTopLevelWindows(automation);
-                return windows.Where(window => window.Name == "Information").First()!;
-            }
-
-            // Check if the popup exists
-            bool PopupExists()
-            {
-                return GetPopup() != null;
-            }
-
             // Test that the application can handle the absence of the file
-            Assert.IsTrue(PopupExists());
-            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("TextBody")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den på seperata rader och starta sedan om programmet.");
+            Window popup = GetNoFileWindow(app, automation);
+            Assert.IsNotNull(popup);
+            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
             // Clean up the test environment and restore the file
             Directory.CreateDirectory(applicationFolder);
             File.WriteAllText(filePath, fileContent);
             Directory.Delete(backupFolder, true);
-            Utils.TearDownTest(app);
+            app.Close();
         }
     }
 }

@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:Classroom_Seating_Planner"
         x:Name="popupWindowName"
         mc:Ignorable="d"
-        Title="Hjälp" 
         Height="300" Width="400"
         ResizeMode="CanMinimize"
         FontSize="0.45cm"
