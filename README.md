@@ -20,9 +20,9 @@ The program does not install itself on your computer. It is a standalone file th
 ## Docs
 
 <!-- Below are the links to the guides/instructions -->
--   [Automatic Testing System](docs/testing.md)
+-   [Automatic Testing System](docs/automatic-testing-system.md)
 -   [Publishing a New Release](docs/publishing-a-new-release.md)
--   [Folders](docs/folders.md)
+-   [File System Interactions](docs/file-system-interactions.md)
 <!-- Below are the links to the regulation docs -->
 -   [Definition of Done](docs/definition-of-done.md)
 -   [Coding Standards](docs/coding-standard.md)
