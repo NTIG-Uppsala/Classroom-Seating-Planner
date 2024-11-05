@@ -157,7 +157,7 @@ namespace Tests
 
             // Test that the application can handle the absence of the file
             Assert.IsTrue(PopupExists());
-            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("InformationText")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den och starta sedan om programmet.");
+            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("InformationText")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den på seperata rader och starta sedan om programmet.");
 
             // Clean up the test environment and restore the file
             Directory.CreateDirectory(applicationFolder);
