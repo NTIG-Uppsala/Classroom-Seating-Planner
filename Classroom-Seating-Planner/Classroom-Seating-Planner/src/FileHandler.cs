@@ -4,34 +4,34 @@ namespace Classroom_Seating_Planner.src
 {
     public class FileHandler
     {
-        // TODO - This needs to be in the docs
+        // Global variables for file paths
         private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
         private static readonly string studentNamesListFileName = "klasslista.txt";
 
         public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
         public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
 
-        // Public method for fetching data from an external file and returning it as a list
-        public static List<string> GetDataFromFile(string filePath)
+        // Returns a list of data from an external file
+        public static List<string> GetDataFromFileAsList(string filePath)
         {
             // Read the data from the file and return it as a list
             using StreamReader reader = new(filePath);
-            List<string> data = reader
+            List<string> dataList = reader
                 .ReadToEnd()
                 .Split("\n")
                 .Select(item => item.Trim())
                 .Where(item => !string.IsNullOrEmpty(item))
                 .ToList();
-            return data;
+            return dataList;
         }
 
-        // Public method for fetching student names from an external file and returning them as a list
+        // Returns the list of student names read from an external file as a list
         public static List<string> GetStudentNamesFromFile()
         {
             string filePath = studentNamesListFilePath;
 
             // Read the names from the file and return them as a list
-            List<string> studentNamesList = GetDataFromFile(filePath);
+            List<string> studentNamesList = GetDataFromFileAsList(filePath);
             return studentNamesList;
         }
     }

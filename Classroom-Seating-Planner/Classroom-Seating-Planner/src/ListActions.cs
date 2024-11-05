@@ -7,7 +7,7 @@ namespace Classroom_Seating_Planner.src
 {
     public class ListActions
     {
-        // Public method for shuffling lists
+        // Returns a shuffled list from the list that is passed
         public static List<string> Shuffle(List<string> list)
         {
             // Can't shuffle 0 or 1 elements

@@ -4,7 +4,7 @@ This project requires external files and folders to use.
 
 ## Changing Where the List of Students Is Read From
 
--   Change the file path in the `GetStudentNamesFilePath` method in `FileHandler.cs`.
+-   Change the values of `dataFolderName` and `studentNamesListFileName` in `FileHandler.cs` and `Utils.cs`.
 -   Change the folder and file names mentioned in `README.md`.
 
 ---

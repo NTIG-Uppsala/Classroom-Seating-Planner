@@ -106,7 +106,7 @@ namespace Tests
             app.Close();
         }
 
-        // Public method for shuffling lists
+        // Returns a shuffled list from the list that is passed
         public static List<string> ShuffleList(List<string> list)
         {
             // Can't shuffle 0 or 1 elements
@@ -123,7 +123,7 @@ namespace Tests
             return newList;
         }
 
-        // Public method for fetching ListBox items as array
+        // Returns array of ListBox Items
         public static string[] GetListBoxItemsAsArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomaitonId)
         {
             FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
@@ -136,28 +136,28 @@ namespace Tests
 
     internal class UtilsHelpers
     {
-        // TODO - This needs to be in the docs
-        public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
-        public static readonly string studentNamesListFileName = "klasslista.txt";
+        // Global variables for file paths
+        private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
+        private static readonly string studentNamesListFileName = "klasslista.txt";
 
         public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
         public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
 
-        // Public method for fetching data from an external file and returning it as a list
+        // Returns a list of data from an external file
         public static List<string> GetDataFromFile(string filePath)
         {
             // Read the data from the file and return it as a list
             using StreamReader reader = new(filePath);
-            List<string> data = reader
+            List<string> dataList = reader
                 .ReadToEnd()
                 .Split("\n")
                 .Select(item => item.Trim())
                 .Where(item => !string.IsNullOrEmpty(item))
                 .ToList();
-            return data;
+            return dataList;
         }
 
-        // Public method for fetching student names from an external file and returning them as a list
+        // Returns the list of student names read from an external file as a list
         public static List<string> GetStudentNamesFromFile()
         {
             string filePath = studentNamesListFilePath;
