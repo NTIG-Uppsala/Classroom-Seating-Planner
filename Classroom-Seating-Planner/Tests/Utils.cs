@@ -34,6 +34,12 @@ namespace Tests
         private static List<string> fileBackupList = [];
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
+            // Restore backup data if backup file already exists
+            if (System.IO.File.Exists($"{UtilsHelpers.studentNamesListFilePath}.bak"))
+            {
+                UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
+            }
+
             // Backup the data from the names list file so it can be restored after testing
             System.IO.File.Copy(UtilsHelpers.studentNamesListFilePath, $"{UtilsHelpers.studentNamesListFilePath}.bak");
 
@@ -92,8 +98,8 @@ namespace Tests
         public static void TearDownTest(FlaUI.Core.Application app)
         {
             // Restore the names list file by filling it with backed up information from before the test
-            System.IO.File.Delete(UtilsHelpers.studentNamesListFilePath);
-            System.IO.File.Move($"{UtilsHelpers.studentNamesListFilePath}.bak", UtilsHelpers.studentNamesListFilePath);
+            
+            UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
 
             // Terminate the app
             app.Close();
@@ -148,6 +154,11 @@ namespace Tests
                 .Where(item => !string.IsNullOrEmpty(item))
                 .ToList();
             return dataList;
+        }
+
+        public static void RestoreBackupData(string originalFilePath){
+            System.IO.File.Delete(originalFilePath);
+            System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
         }
 
         // Returns the list of student names read from an external file as a list
