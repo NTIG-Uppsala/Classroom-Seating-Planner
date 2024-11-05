@@ -9,7 +9,7 @@
     Title="Bordsplaceringsgeneratorn" 
     Height="512" MinHeight="10cm"
     Width="900" MinWidth="17cm"
-    FontSize="0.4cm"
+    FontSize="0.45cm"
     FontWeight="Light"
     >
 
@@ -24,7 +24,15 @@
         </Grid.ColumnDefinitions>
 
         <!-- Help button -->
-        <Button x:Name="FileHelpButton" Content="Hjälp" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Padding="13,5"/>
+        <Button x:Name="FileHelpButton" 
+                Content="Hjälp" 
+                Grid.Column="1" 
+                VerticalAlignment="Center" HorizontalAlignment="Right" 
+                Background="{x:Null}" BorderBrush="{x:Null}"
+                Foreground="#01aef0"
+                FontSize="0.48cm"
+                Margin="12,0"
+                />
 
         <!-- Hairline at the bottom of the header -->
         <Border Grid.Column="1" Grid.ColumnSpan="1000" Height="0.015cm" Width="1000cm" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="Black"/>
@@ -78,7 +86,7 @@
             <!-- Tables -->
             <Grid x:Name="Table1" Grid.Row="1" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -104,7 +112,7 @@
 
             <Grid x:Name="Table2" Grid.Row="1" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -130,7 +138,7 @@
 
             <Grid x:Name="Table3" Grid.Row="1" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -156,7 +164,7 @@
 
             <Grid x:Name="Table4" Grid.Row="1" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -182,7 +190,7 @@
 
             <Grid x:Name="Table5" Grid.Row="1" Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -208,7 +216,7 @@
 
             <Grid x:Name="Table6" Grid.Row="1" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -234,7 +242,7 @@
 
             <Grid x:Name="Table7" Grid.Row="2" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -260,7 +268,7 @@
 
             <Grid x:Name="Table8" Grid.Row="2" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -286,7 +294,7 @@
 
             <Grid x:Name="Table9" Grid.Row="2" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -312,7 +320,7 @@
 
             <Grid x:Name="Table10" Grid.Row="2" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -338,7 +346,7 @@
 
             <Grid x:Name="Table11" Grid.Row="2" Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -364,7 +372,7 @@
 
             <Grid x:Name="Table12" Grid.Row="2" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -390,7 +398,7 @@
 
             <Grid x:Name="Table13" Grid.Row="3" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -416,7 +424,7 @@
 
             <Grid x:Name="Table14" Grid.Row="3" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -442,7 +450,7 @@
 
             <Grid x:Name="Table15" Grid.Row="3" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -468,7 +476,7 @@
 
             <Grid x:Name="Table16" Grid.Row="3" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -494,7 +502,7 @@
 
             <Grid x:Name="Table17" Grid.Row="3" Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -520,7 +528,7 @@
 
             <Grid x:Name="Table18" Grid.Row="3" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
+                    <RowDefinition Height="2*" MinHeight="0.8cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 

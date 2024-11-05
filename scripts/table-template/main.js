@@ -10,7 +10,7 @@ const template =
 
 <Grid x:Name="{{TABLENAME}}" Grid.Row="{{ROW}}" Grid.Column="{{COLUMN}}">
     <Grid.RowDefinitions>
-        <RowDefinition Height="2*"/>
+        <RowDefinition Height="2*" MinHeight="0.8cm"/>
         <RowDefinition Height="4*"/>
     </Grid.RowDefinitions>
 
