@@ -9,6 +9,8 @@
     Title="Bordsplaceringsgeneratorn" 
     Height="512" MinHeight="10cm"
     Width="900" MinWidth="17cm"
+    FontSize="0.4cm"
+    FontWeight="Light"
     >
 
     <Grid x:Name="MainGrid">
@@ -21,28 +23,32 @@
             <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- "Elever" text -->
-        <Label x:Name="StudentListTitle" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
         <!-- Help button -->
         <Button x:Name="FileHelpButton" Content="Hjälp" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Padding="13,5"/>
 
         <!-- Hairline at the bottom of the header -->
-        <Border Grid.Column="0" Grid.ColumnSpan="2" Height="0.01cm" Width="1000cm" VerticalAlignment="Bottom" HorizontalAlignment="Center" Background="Black"/>
+        <Border Grid.Column="1" Grid.ColumnSpan="1000" Height="0.015cm" Width="1000cm" VerticalAlignment="Bottom" HorizontalAlignment="Left" Background="Black"/>
 
         <!-- The list to the left, showing you the list of all students in a class -->
-        <Grid Grid.Column="0" Grid.Row="1">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
                 <RowDefinition Height="80*"/>
                 <RowDefinition Height="10*" MinHeight="1cm"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Height="1000cm" Width="0.01cm" VerticalAlignment="Top" HorizontalAlignment="Right"  Background="Black" Panel.ZIndex="2"/>
+            <!-- Hairline at the right of the list -->
+            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="1000" Height="1000cm" Width="0.01cm" VerticalAlignment="Top" HorizontalAlignment="Right"  Background="Black" Panel.ZIndex="2"/>
 
-            <ListBox x:Name="StudentList" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,-1,0" Grid.Row="0" BorderBrush="{x:Null}"/>
+            <!-- "Elever" text -->
+            <Label x:Name="StudentListTitle" FontSize="0.5cm" FontWeight="Light" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <Button x:Name="RandomizeSeatingButton" Margin="7" Click="RandomizeSeatingButton_Click" Grid.Row="1">
-                <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center">Slumpa bordsplacering</TextBlock>
+            <!-- List of names -->
+            <ListBox x:Name="StudentList" FontWeight="Thin" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,-1,0" Grid.Row="1" BorderBrush="{x:Null}"/>
+
+            <!-- Randomize button -->
+            <Button x:Name="RandomizeSeatingButton" Margin="7" Click="RandomizeSeatingButton_Click" Grid.Row="2">
+                <TextBlock FontWeight="Light" TextWrapping="WrapWithOverflow" TextAlignment="Center">Slumpa bordsplacering</TextBlock>
             </Button>
         </Grid>
 
@@ -50,7 +56,7 @@
         <!-- Grid with whiteboard and tables -->
         <Grid x:Name="TablesGrid" Grid.Column="01" Grid.Row="1" Margin="15,15,15,15" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5cm"/>
+                <RowDefinition Height="0.7cm"/>
                 <RowDefinition Height="2cm"/>
                 <RowDefinition Height="2cm"/>
                 <RowDefinition Height="2cm"/>
@@ -72,7 +78,7 @@
             <!-- Tables -->
             <Grid x:Name="Table1" Grid.Row="1" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -98,7 +104,7 @@
 
             <Grid x:Name="Table2" Grid.Row="1" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -124,7 +130,7 @@
 
             <Grid x:Name="Table3" Grid.Row="1" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -150,7 +156,7 @@
 
             <Grid x:Name="Table4" Grid.Row="1" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -176,7 +182,7 @@
 
             <Grid x:Name="Table5" Grid.Row="1" Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -202,7 +208,7 @@
 
             <Grid x:Name="Table6" Grid.Row="1" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -228,7 +234,7 @@
 
             <Grid x:Name="Table7" Grid.Row="2" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -254,7 +260,7 @@
 
             <Grid x:Name="Table8" Grid.Row="2" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -280,7 +286,7 @@
 
             <Grid x:Name="Table9" Grid.Row="2" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -306,7 +312,7 @@
 
             <Grid x:Name="Table10" Grid.Row="2" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -332,7 +338,7 @@
 
             <Grid x:Name="Table11" Grid.Row="2" Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -358,7 +364,7 @@
 
             <Grid x:Name="Table12" Grid.Row="2" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -384,7 +390,7 @@
 
             <Grid x:Name="Table13" Grid.Row="3" Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -410,7 +416,7 @@
 
             <Grid x:Name="Table14" Grid.Row="3" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -436,7 +442,7 @@
 
             <Grid x:Name="Table15" Grid.Row="3" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -462,7 +468,7 @@
 
             <Grid x:Name="Table16" Grid.Row="3" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -488,7 +494,7 @@
 
             <Grid x:Name="Table17" Grid.Row="3" Grid.Column="4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -514,7 +520,7 @@
 
             <Grid x:Name="Table18" Grid.Row="3" Grid.Column="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*" MinHeight="0.7cm"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
