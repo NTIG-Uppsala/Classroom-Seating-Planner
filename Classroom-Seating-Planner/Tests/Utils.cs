@@ -35,8 +35,7 @@ namespace Tests
         public static (FlaUI.Core.Application, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
             // Backup the data from the names list file so it can be restored after testing
-            List<string> namesListFileBackupList = UtilsHelpers.GetStudentNamesFromFile();
-            fileBackupList = namesListFileBackupList;
+            System.IO.File.Copy(UtilsHelpers.studentNamesListFilePath, $"{UtilsHelpers.studentNamesListFilePath}.bak");
 
             // Default list of names used for tests
             testNamesList ??=
@@ -93,14 +92,8 @@ namespace Tests
         public static void TearDownTest(FlaUI.Core.Application app)
         {
             // Restore the names list file by filling it with backed up information from before the test
-            string namesListFile = UtilsHelpers.studentNamesListFilePath;
-            using (StreamWriter writer = new(namesListFile, false))
-            {
-                foreach (string @string in fileBackupList)
-                {
-                    writer.WriteLine(@string);
-                }
-            }
+            System.IO.File.Delete(UtilsHelpers.studentNamesListFilePath);
+            System.IO.File.Move($"{UtilsHelpers.studentNamesListFilePath}.bak", UtilsHelpers.studentNamesListFilePath);
 
             // Terminate the app
             app.Close();
