@@ -1,13 +1,6 @@
-﻿using Classroom_Seating_Planner.src;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
