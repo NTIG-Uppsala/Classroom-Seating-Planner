@@ -109,9 +109,9 @@ namespace Tests
 
             // Save the file content to restore it after the test
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string applicationFolder = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn");
+            string applicationFolder = UtilsHelpers.dataFolderPath;
             string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
-            string filePath = Path.Combine(applicationFolder, "klasslista.txt");
+            string filePath = UtilsHelpers.studentNamesListFilePath;
             string backupFilePath = Path.Combine(backupFolder, "klasslista.txt");
 
             if (!Directory.Exists(applicationFolder) || !File.Exists(filePath))
