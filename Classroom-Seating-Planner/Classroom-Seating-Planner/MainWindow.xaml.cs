@@ -22,43 +22,7 @@ namespace Classroom_Seating_Planner
             // Adds event listener to window
             SizeChanged += Window_SizeChanged;
 
-            // Initialize the list with the placeholder names
-            List<string> namesList =
-            [
-                "Ziggy Stardust",
-                "Frodo Baggins",
-                "Darth Vader",
-                "Galadriel Silverleaf",
-                "Sparky McFluff",
-                "Waldo B. Lost",
-                "กาญจนา McSix",
-                "Gandalf the Grey",
-                "Ulysses 'Snakehands' McDougall",
-                "Venkatanarasimharajuvaripeta Wumpus",
-                "Shivankumaraswamy Krishnamurthy Raghunath",
-                "الحسيني",
-                "Muhammad Abdelrahman ibn Al-Mahmoud al-Farouq",
-                "Papadopoulos-Alexandropoulos Firestorm",
-                "明张",
-                "Pipkin Puddleduck",
-                "Aleksandrovich Dimitrov Petrovskaya Ivanov",
-                "Per-Göran Karlsson von Heidenstam af Skånesläkten",
-                "Wiggles Snickerbottom",
-                "Zephyr Nightwind",
-                "Doodlebug Sparklestep",
-                "Sir Adrian Carton de Wiart",
-                "Tinkerbell Twinkletoes",
-                "Bo Li",
-                "Dinglehopper Wobblesworth",
-                "Kǎi McQuirk",
-                "Fizzlewhit Wobblebottom",
-                "鈴木 健太",
-                "Jo Wu",
-                "Le To",
-                "Örjan Johansson Florist",
-                "Främling Skådespelare",
-                "Émil Låås",
-            ];
+            // Initialize the list of names from the file
             listOfNames = GetStudentNamesFromFile();
 
             // Populate the ListBox with the contents of listOfNames
@@ -108,15 +72,18 @@ namespace Classroom_Seating_Planner
             listOfSeats = seatsList;
         }
 
-        private List<string> GetStudentNamesFromFile()
+        private static List<string> GetStudentNamesFromFile()
         {
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string programDataFolder = documentsFolder + "\\Bordsplaceringsgeneratorn";
-            string namesFile = programDataFolder + "\\klasslista.txt";
-            // If null create file
-            using (StreamReader reader = new(namesFile))
+            string directoryPath = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn");
+            string filePath = Path.Combine(directoryPath, "klasslista.txt");
+
+            using (StreamReader reader = new(filePath))
             {
-                List<string> names = [.. reader.ReadToEnd().Split('\n')];
+                List<string> names = reader.ReadToEnd()
+                                           .Split('\n')
+                                           .Select(name => name.Trim())
+                                           .ToList();
                 return names;
             }
         }
