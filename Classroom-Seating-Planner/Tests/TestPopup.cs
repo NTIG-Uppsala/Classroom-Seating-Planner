@@ -14,7 +14,7 @@ namespace Tests
         private Window GetPopupWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-            return windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
+            return windows.Where(window => window.Name == "Hjï¿½lp").FirstOrDefault();
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace Tests
             Directory.Delete(applicationFolder, true);
 
             // Set up/start the test
-            (FlaUI.Core.Application app, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
             using FlaUI.UIA3.UIA3Automation automation = new();
 
             // Find the popup window
@@ -141,7 +141,7 @@ namespace Tests
 
             // Test that the application can handle the absence of the file
             Assert.IsTrue(PopupExists());
-            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("InformationText")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den på seperata rader och starta sedan om programmet.");
+            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("InformationText")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den pï¿½ seperata rader och starta sedan om programmet.");
 
             // Clean up the test environment and restore the file
             Directory.CreateDirectory(applicationFolder);
