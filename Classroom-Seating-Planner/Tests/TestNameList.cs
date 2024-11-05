@@ -48,13 +48,8 @@ namespace Tests
                 return namesNew;
             }
 
-            // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            using FlaUI.UIA3.UIA3Automation automation = new();
-
-            // Find the main window for the purpose of finding elements
-            Window window = app.GetMainWindow(automation);
-            ConditionFactory cf = new(new UIA3PropertyLibrary());
+            // Set up/start the test
+            (FlaUI.Core.Application app, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
             string studentListAutomationId = "StudentList";
 
@@ -76,7 +71,7 @@ namespace Tests
             Assert.IsTrue(hasStudentListOrderChanged(namesOld, namesNew), errorMessageStudentListOrderUnchanged);
             Assert.IsFalse(hasListContentChanged(namesOld, namesNew), errorMessageNamesAreDifferent);
 
-            app.Close();
+            Utils.TearDownTest(app);
         }
 
         [TestMethod, Timeout(3000)]

@@ -13,13 +13,8 @@ namespace Tests
         [TestMethod]
         public void TestSeatingIsCorrect()
         {
-            // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            using FlaUI.UIA3.UIA3Automation automation = new();
-
-            // Find the main window for the purpose of finding elements
-            FlaUIElement.Window window = app.GetMainWindow(automation);
-            ConditionFactory cf = new(new UIA3PropertyLibrary());
+            // Set up/start the test
+            (FlaUI.Core.Application app, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
             int[] testIndex = [0, 10, 16, 27, 32];
 
@@ -48,7 +43,7 @@ namespace Tests
                 Assert.IsTrue(allSeats[index].Name.Equals(allNames[index]), errorMessage);
             }
 
-            app.Close();
+            Utils.TearDownTest(app);
         }
     }
 }

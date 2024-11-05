@@ -1,5 +1,6 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
+using FlaUI.UIA3;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -36,22 +37,22 @@ namespace Tests
             return allSeats;
         }
 
-        public static (string, int, double) TestReturnMultiple()
+        public static (FlaUI.Core.Application, Window, ConditionFactory) InitializeApplication()
         {
-            int i = 1;
-            string str = "heyy";
-            double dbl = 12.43;
-            return (str, i, dbl);
+            // Find and run the application
+            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
+            using FlaUI.UIA3.UIA3Automation automation = new();
+
+            // Find the main window for the purpose of finding elements
+            Window window = app.GetMainWindow(automation);
+            ConditionFactory cf = new(new UIA3PropertyLibrary());
+
+            return (app, window, cf);
         }
 
         private static List<string> fileBackupList = new List<string>();
-        public static void SetUpTest(List<string>? testNamesList = null)
+        public static (FlaUI.Core.Application, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
-            //(string @string, int @int, double @double) = TestReturnMultiple();
-            //Trace.WriteLine(@string);
-            //Trace.WriteLine(@int);
-            //Trace.WriteLine(@double);
-            // Use standard test string if no custom string is passed
             testNamesList ??=
                 [
                     "Ziggy Stardust",
@@ -128,9 +129,11 @@ namespace Tests
                 i++;
                 Trace.WriteLine($"{i}: {testName}");
             }
+
+            return InitializeApplication();
         }
 
-        public static void TearDownTest()
+        public static void TearDownTest(FlaUI.Core.Application app)
         {
             // DEBUG
             Trace.WriteLine("\n------------------\nBackup list before restoration\n------------------\n");
@@ -154,6 +157,8 @@ namespace Tests
                     .Where(name => !string.IsNullOrEmpty(name))
                     .ToList();
             }
+
+            List<string> namesFile
 
             // DEBUG
             Trace.WriteLine("\n------------------\nFile content before restoration\n------------------\n");
@@ -191,6 +196,8 @@ namespace Tests
                 i++;
                 Trace.WriteLine($"{i}: {name}");
             }
+
+            app.Close();
         }
     }
 }
