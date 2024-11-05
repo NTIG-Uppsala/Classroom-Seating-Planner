@@ -13,11 +13,7 @@ namespace Classroom_Seating_Planner
         // Define the global list of names here
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
-        public String fileTutorial = "" +
-            "Info om hur man redigerar klasslistan\n" +
-            "Blah blah blah\n" +
-            "Mer blah blah blah";
-
+        public String fileTutorial = "Fyll i namnen i den på seperata rader och starta sedan om programmet.";
         public MainWindow()
         {
             InitializeComponent();
