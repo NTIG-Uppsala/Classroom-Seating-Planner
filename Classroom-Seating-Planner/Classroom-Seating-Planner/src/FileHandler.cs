@@ -26,9 +26,24 @@ namespace Classroom_Seating_Planner.src
         }
 
         // Returns the list of student names read from an external file as a list
-        public static List<string> GetStudentNamesFromFile()
+        public static List<string>? GetStudentNamesFromFile()
         {
             string filePath = studentNamesListFilePath;
+
+            if (!File.Exists(filePath))
+            {
+                // Create the file if it does not exist and fill it with placeholder data to guide the user to the correct structure
+                Directory.CreateDirectory(dataFolderPath);
+                List<string> studentListPlaceholder =
+                [
+                    "Förnamn Efternamn 1",
+                    "Förnamn Efternamn 2",
+                    "Förnamn Efternamn 3",
+                ];
+
+                File.WriteAllText(filePath, string.Join("\n", studentListPlaceholder));
+                return null;
+            }
 
             // Read the names from the file and return them as a list
             List<string> studentNamesList = GetDataFromFileAsList(filePath);

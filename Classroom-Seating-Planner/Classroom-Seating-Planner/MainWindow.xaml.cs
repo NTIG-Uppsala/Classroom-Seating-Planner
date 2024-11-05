@@ -13,16 +13,29 @@ namespace Classroom_Seating_Planner
         // Define the global list of names here
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
-        public String fileTutorial = "Fyll i namnen i den på seperata rader och starta sedan om programmet.";
+        public string fileTutorial = "Fyll i namnen i den på seperata rader och starta sedan om programmet.";
+        public string informatonPopup = "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/.";
         public MainWindow()
         {
             InitializeComponent();
 
-            // Adds event listener to window
+            // Adds event listeners to window
             SizeChanged += Window_SizeChanged;
+            Loaded += MainWindow_Loaded;
 
             // Initialize the list of names from the file
-            listOfNames = FileHandler.GetStudentNamesFromFile();
+
+            List<string> stundentNameList = FileHandler.GetStudentNamesFromFile();
+
+            if (stundentNameList == null)
+            {
+                listOfNames = [];
+            }
+
+            if (stundentNameList != null)
+            {
+                listOfNames = stundentNameList;
+            }
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
@@ -67,8 +80,16 @@ namespace Classroom_Seating_Planner
                 Seat34,
                 Seat35,
                 Seat36
-            ];
+];
             listOfSeats = seatsList;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (listOfNames.Count == 0)
+            {
+                Window popup = new PopupWindow(informatonPopup + fileTutorial, "Information", this);
+            }
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
@@ -123,7 +144,7 @@ namespace Classroom_Seating_Planner
         private void FileHelpButton_Click(object sender, RoutedEventArgs e)
         {
             // Create an instance of the popup window
-            _ = new PopupWindow(fileTutorial);
+            _ = new PopupWindow(fileTutorial, "Hjälp", this);
         }
     }
 }

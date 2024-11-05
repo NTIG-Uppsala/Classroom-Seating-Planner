@@ -118,13 +118,12 @@ namespace Tests
             }
 
             string fileContent = File.ReadAllText(filePath);
-
+            
             // Remove the file
             Directory.Delete(applicationFolder, true);
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
-            using FlaUI.UIA3.UIA3Automation automation = new();
 
             // Find the popup window
             Window GetPopup()
@@ -146,6 +145,7 @@ namespace Tests
             // Clean up the test environment and restore the file
             Directory.CreateDirectory(applicationFolder);
             File.WriteAllText(filePath, fileContent);
+            Trace.WriteLine(Directory.Exists(applicationFolder));
             Utils.TearDownTest(app);
         }
     }
