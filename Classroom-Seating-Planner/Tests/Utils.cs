@@ -92,11 +92,9 @@ namespace Tests
                 ];
 
             List<string> namesListFileBackupList = FileHandler.GetStudentNamesFromFile();
-
             fileBackupList = namesListFileBackupList;
 
-            string namesListFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\Bordsplaceringsgeneratorn\\klasslista.txt";
-
+            string namesListFile = FileHandler.GetStudentNamesFilePath();
             using (StreamWriter writer = new(namesListFile, false))
             {
                 foreach (string testName in testNamesList)
@@ -110,9 +108,7 @@ namespace Tests
 
         public static void TearDownTest(FlaUI.Core.Application app)
         {
-            List<string> namesFileNamesList = FileHandler.GetStudentNamesFromFile();
-
-            string namesListFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\Bordsplaceringsgeneratorn\\klasslista.txt";
+            string namesListFile = FileHandler.GetStudentNamesFilePath();
 
             using (StreamWriter writer = new(namesListFile, false))
             {
