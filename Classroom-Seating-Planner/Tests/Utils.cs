@@ -2,6 +2,7 @@
 using FlaUI.Core.Conditions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,21 @@ namespace Tests
             return allSeats;
         }
 
+        public static (string, int, double) TestReturnMultiple()
+        {
+            int i = 1;
+            string str = "heyy";
+            double dbl = 12.43;
+            return (str, i, dbl);
+        }
+
+        private static List<string> fileBackupList = new List<string>();
         public static void SetUpTest(List<string>? testNamesList = null)
         {
+            //(string @string, int @int, double @double) = TestReturnMultiple();
+            //Trace.WriteLine(@string);
+            //Trace.WriteLine(@int);
+            //Trace.WriteLine(@double);
             // Use standard test string if no custom string is passed
             testNamesList ??=
                 [
@@ -75,13 +89,108 @@ namespace Tests
                     "Émil Låås",
                 ];
 
-            // var namesListFileBackup = read all names from file (mayhaps through loop)
-            // change file content to match testNamesList
+            string namesListFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\Bordsplaceringsgeneratorn\\klasslista.txt";
+
+            List<string> namesListFileBackupList;
+            using (StreamReader reader = new(namesListFile))
+            {
+                namesListFileBackupList = reader
+                    .ReadToEnd()
+                    .Split("\n")
+                    .Select(name => name.Trim())
+                    .Where(name => !string.IsNullOrEmpty(name))
+                    .ToList();
+            }
+
+            fileBackupList = namesListFileBackupList;
+
+            using (StreamWriter writer = new(namesListFile, false))
+            {
+                foreach (string testName in testNamesList)
+                {
+                    writer.WriteLine(testName);
+                }
+            }
+
+            // DEBUG
+            Trace.WriteLine("\n------------------\nBackup list content\n------------------\n");
+            int i = 0;
+            foreach (string name in namesListFileBackupList)
+            {
+                i++;
+                Trace.WriteLine($"{i}: {name}");
+            }
+
+            Trace.WriteLine("\n------------------\nTest list content\n------------------\n");
+            i = 0;
+            foreach (string testName in testNamesList)
+            {
+                i++;
+                Trace.WriteLine($"{i}: {testName}");
+            }
         }
 
         public static void TearDownTest()
         {
-            // Restore the file to match the content of the backup
+            // DEBUG
+            Trace.WriteLine("\n------------------\nBackup list before restoration\n------------------\n");
+            int i = 0;
+            // TODO - Restore the file to match the content of the backup
+            foreach (string @string in fileBackupList)
+            {
+                i++;
+                Trace.WriteLine($"{i}: {@string}");
+            }
+
+            string namesListFile = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\Bordsplaceringsgeneratorn\\klasslista.txt";
+
+            List<string> namesFileNamesList;
+            using (StreamReader reader = new(namesListFile))
+            {
+                namesFileNamesList = reader
+                    .ReadToEnd()
+                    .Split("\n")
+                    .Select(name => name.Trim())
+                    .Where(name => !string.IsNullOrEmpty(name))
+                    .ToList();
+            }
+
+            // DEBUG
+            Trace.WriteLine("\n------------------\nFile content before restoration\n------------------\n");
+            i = 0;
+            foreach (string name in namesFileNamesList)
+            {
+                i++;
+                Trace.WriteLine($"{i}: {name}");
+            }
+
+            using (StreamWriter writer = new(namesListFile, false))
+            {
+                foreach (string @string in fileBackupList)
+                {
+                    writer.WriteLine(@string);
+                }
+            }
+
+            // DEBUG
+            using (StreamReader reader = new(namesListFile))
+            {
+                namesFileNamesList = reader
+                    .ReadToEnd()
+                    .Split("\n")
+                    .Select(name => name.Trim())
+                    .Where(name => !string.IsNullOrEmpty(name))
+                    .ToList();
+            }
+
+            // DEBUG
+            Trace.WriteLine("\n------------------\nRestored file content\n------------------\n");
+            i = 0;
+            foreach (string name in namesFileNamesList)
+            {
+                i++;
+                Trace.WriteLine($"{i}: {name}");
+            }
         }
     }
 }
