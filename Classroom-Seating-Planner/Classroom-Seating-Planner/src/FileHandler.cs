@@ -8,8 +8,8 @@ namespace Classroom_Seating_Planner.src
         private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
         private static readonly string studentNamesListFileName = "klasslista.txt";
 
-        public static readonly string dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-        public static readonly string studentNamesListFilePath = Path.Combine(dataFolder, studentNamesListFileName);
+        public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+        public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
 
         // Public method for fetching data from an external file and returning it as a list
         public static List<string> GetDataFromFile(string filePath)
