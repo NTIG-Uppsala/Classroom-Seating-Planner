@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Classroom_Seating_Planner.src;
@@ -23,7 +22,7 @@ namespace Classroom_Seating_Planner
             SizeChanged += Window_SizeChanged;
 
             // Initialize the list of names from the file
-            listOfNames = GetStudentNamesFromFile();
+            listOfNames = ListActions.GetStudentNamesFromFile();
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
@@ -70,23 +69,6 @@ namespace Classroom_Seating_Planner
                 Seat36
             ];
             listOfSeats = seatsList;
-        }
-
-        private static List<string> GetStudentNamesFromFile()
-        {
-            // Get the paths to the app's directory and the names file
-            string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn", "klasslista.txt");
-
-            // Read the names from the file and return them as a list
-            using StreamReader reader = new(filePath);
-            List<string> names = reader
-                .ReadToEnd()
-                .Split("\n")
-                .Select(name => name.Trim())
-                .Where(name => !string.IsNullOrEmpty(name))
-                .ToList();
-            return names;
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
