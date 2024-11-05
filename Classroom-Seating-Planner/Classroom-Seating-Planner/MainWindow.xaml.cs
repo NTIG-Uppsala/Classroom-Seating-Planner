@@ -22,7 +22,7 @@ namespace Classroom_Seating_Planner
             SizeChanged += Window_SizeChanged;
 
             // Initialize the list of names from the file
-            listOfNames = ListActions.GetStudentNamesFromFile();
+            listOfNames = FileHandler.GetStudentNamesFromFile();
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
