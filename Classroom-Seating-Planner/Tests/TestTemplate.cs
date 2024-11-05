@@ -13,18 +13,13 @@ namespace Tests
         public void TemplateMethod()
         {
             return; // Remove this line in the real tests
-            // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            using FlaUI.UIA3.UIA3Automation automation = new();
-            
-            // Find the main window for the purpose of finding elements
-            FlaUIElement.Window window = app.GetMainWindow(automation);
-            ConditionFactory cf = new(new UIA3PropertyLibrary());
+            // Set up/start the test
+            (FlaUI.Core.Application app, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
             // Write your test after this comment!
 
             // Write your test before this comment!
-            app.Close();
+            Utils.TearDownTest(app);
         }
     }
 }
