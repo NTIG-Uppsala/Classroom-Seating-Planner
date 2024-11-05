@@ -54,6 +54,11 @@ namespace Tests
         private static List<string> fileBackupList = new();
         public static (FlaUI.Core.Application, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
+            // Backup the data from the names list file so it can be restored after testing
+            List<string> namesListFileBackupList = FileHandler.GetStudentNamesFromFile();
+            fileBackupList = namesListFileBackupList;
+
+            // Default list of names used for tests
             testNamesList ??=
                 [
                     "Ziggy Stardust",
@@ -91,9 +96,7 @@ namespace Tests
                     "Émil Låås",
                 ];
 
-            List<string> namesListFileBackupList = FileHandler.GetStudentNamesFromFile();
-            fileBackupList = namesListFileBackupList;
-
+            // Insert the test data into the file
             string namesListFile = FileHandler.GetStudentNamesFilePath();
             using (StreamWriter writer = new(namesListFile, false))
             {
@@ -103,13 +106,14 @@ namespace Tests
                 }
             }
 
+            // Return values necessary for running the test
             return InitializeApplication();
         }
 
         public static void TearDownTest(FlaUI.Core.Application app)
         {
+            // Restore the names list file by filling it with backed up information from before the test
             string namesListFile = FileHandler.GetStudentNamesFilePath();
-
             using (StreamWriter writer = new(namesListFile, false))
             {
                 foreach (string @string in fileBackupList)
@@ -118,6 +122,7 @@ namespace Tests
                 }
             }
 
+            // Terminate the app
             app.Close();
         }
     }
