@@ -74,18 +74,17 @@ namespace Classroom_Seating_Planner
 
         private static List<string> GetStudentNamesFromFile()
         {
+            // Get the paths to the app's directory and the names file
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string directoryPath = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn");
-            string filePath = Path.Combine(directoryPath, "klasslista.txt");
+            string filePath = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn", "klasslista.txt");
 
-            using (StreamReader reader = new(filePath))
-            {
-                List<string> names = reader.ReadToEnd()
-                                           .Split('\n')
-                                           .Select(name => name.Trim())
-                                           .ToList();
-                return names;
-            }
+            // Read the names from the file and return them as a list
+            using StreamReader reader = new(filePath);
+            List<string> names = reader.ReadToEnd()
+                                       .Split("\n")
+                                       .Select(name => name.Trim())
+                                       .ToList();
+            return names;
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
