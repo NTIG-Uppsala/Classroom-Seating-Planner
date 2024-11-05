@@ -9,7 +9,7 @@ namespace Classroom_Seating_Planner
     /// </summary>
     public partial class PopupWindow : Window
     {
-        public PopupWindow(string popupText)
+        public PopupWindow(string popupText, string windowTitle, Window parent)
         {
             InitializeComponent();
 
@@ -17,7 +17,7 @@ namespace Classroom_Seating_Planner
             this.Show();
 
             // Close if main window is closed
-            Closed += (sender, e) => this.Close();
+            parent.Closed += (sender, e) => this.Close();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
