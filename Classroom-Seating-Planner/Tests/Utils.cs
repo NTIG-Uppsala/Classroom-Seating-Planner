@@ -38,24 +38,11 @@ namespace Tests
             return allSeats;
         }
 
-        public static (FlaUI.Core.Application, Window, ConditionFactory) InitializeApplication()
-        {
-            // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            using FlaUI.UIA3.UIA3Automation automation = new();
-
-            // Find the main window for the purpose of finding elements
-            Window window = app.GetMainWindow(automation);
-            ConditionFactory cf = new(new UIA3PropertyLibrary());
-
-            return (app, window, cf);
-        }
-
-        private static List<string> fileBackupList = new();
+        private static List<string> fileBackupList = [];
         public static (FlaUI.Core.Application, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
             // Backup the data from the names list file so it can be restored after testing
-            List<string> namesListFileBackupList = FileHandler.GetStudentNamesFromFile();
+            List<string> namesListFileBackupList = UtilsHelpers.GetStudentNamesFromFile();
             fileBackupList = namesListFileBackupList;
 
             // Default list of names used for tests
@@ -97,7 +84,7 @@ namespace Tests
                 ];
 
             // Insert the test data into the file
-            string namesListFile = FileHandler.GetStudentNamesFilePath();
+            string namesListFile = UtilsHelpers.studentNamesListFilePath;
             using (StreamWriter writer = new(namesListFile, false))
             {
                 foreach (string testName in testNamesList)
@@ -107,13 +94,13 @@ namespace Tests
             }
 
             // Return values necessary for running the test
-            return InitializeApplication();
+            return UtilsHelpers.InitializeApplication();
         }
 
         public static void TearDownTest(FlaUI.Core.Application app)
         {
             // Restore the names list file by filling it with backed up information from before the test
-            string namesListFile = FileHandler.GetStudentNamesFilePath();
+            string namesListFile = UtilsHelpers.studentNamesListFilePath;
             using (StreamWriter writer = new(namesListFile, false))
             {
                 foreach (string @string in fileBackupList)
@@ -124,6 +111,80 @@ namespace Tests
 
             // Terminate the app
             app.Close();
+        }
+
+        // Public method for shuffling lists
+        public static List<string> ShuffleList(List<string> list)
+        {
+            // Can't shuffle 0 or 1 elements
+            if (list.Count < 2) return list;
+
+            Random rng = new();
+            List<string> newList = list;
+
+            // Shuffle until the list has a new order
+            while (newList.SequenceEqual(list))
+            {
+                newList = [.. list.OrderBy(item => rng.Next())];
+            }
+            return newList;
+        }
+
+        // Public method for fetching ListBox items as array
+        public static string[] GetListBoxItemsAsArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomaitonId)
+        {
+            FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
+            ListBoxItem[] listBoxItemsList = listBox.Items;
+            string[] listItemsArray = listBoxItemsList.Select(listItem => listItem.Text).ToArray();
+
+            return listItemsArray;
+        }
+    }
+
+    internal class UtilsHelpers
+    {
+        // TODO - This needs to be in the docs
+        private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
+        private static readonly string studentNamesListFileName = "klasslista.txt";
+
+        public static readonly string dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+        public static readonly string studentNamesListFilePath = Path.Combine(dataFolder, studentNamesListFileName);
+
+        // Public method for fetching data from an external file and returning it as a list
+        public static List<string> GetDataFromFile(string filePath)
+        {
+            // Read the data from the file and return it as a list
+            using StreamReader reader = new(filePath);
+            List<string> data = reader
+                .ReadToEnd()
+                .Split("\n")
+                .Select(item => item.Trim())
+                .Where(item => !string.IsNullOrEmpty(item))
+                .ToList();
+            return data;
+        }
+
+        // Public method for fetching student names from an external file and returning them as a list
+        public static List<string> GetStudentNamesFromFile()
+        {
+            string filePath = studentNamesListFilePath;
+
+            // Read the names from the file and return them as a list
+            List<string> studentNamesList = GetDataFromFile(filePath);
+            return studentNamesList;
+        }
+
+        public static (FlaUI.Core.Application, Window, ConditionFactory) InitializeApplication()
+        {
+            // Find and run the application
+            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
+            using FlaUI.UIA3.UIA3Automation automation = new();
+
+            // Find the main window for the purpose of finding elements
+            Window window = app.GetMainWindow(automation);
+            ConditionFactory cf = new(new UIA3PropertyLibrary());
+
+            return (app, window, cf);
         }
     }
 }

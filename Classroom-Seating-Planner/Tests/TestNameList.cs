@@ -35,7 +35,7 @@ namespace Tests
             string[] getArrayOfStudentListBeforeShuffle(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
             {
                 // Extract an array of student names from the ListBox element in the UI
-                return ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+                return Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
             }
 
             string[] clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
@@ -43,7 +43,7 @@ namespace Tests
                 Utils.ClickRandomizeSeatingButton(window, cf);
 
                 // Extract an array of student names from the ListBox element in the UI
-                string[] namesNew = ListActions.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+                string[] namesNew = Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
 
                 return namesNew;
             }
@@ -77,19 +77,19 @@ namespace Tests
         [TestMethod, Timeout(3000)]
         public void TestShuffleShortList() // This is not a test of the name list, rather it's a test of the shuffle function
         {
-            // Test that ListActions.Shuffle can handle a list with 0 items
+            // Test that Utils.ShuffleListcan handle a list with 0 items
             List<string> testListLengthZero = [];
-            List<string> testListLengthZeroShuffled = ListActions.Shuffle(testListLengthZero);
+            List<string> testListLengthZeroShuffled = Utils.ShuffleList(testListLengthZero);
             Assert.IsNotNull(testListLengthZeroShuffled);
 
-            // Test that ListActions.Shuffle can handle a list with 1 item
+            // Test that Utils.ShuffleListcan handle a list with 1 item
             List<string> testListLengthOne = ["Name1"];
-            List<string> testListLengthOneShuffled = ListActions.Shuffle(testListLengthOne);
+            List<string> testListLengthOneShuffled = Utils.ShuffleList(testListLengthOne);
             Assert.IsNotNull(testListLengthOneShuffled);
 
-            // Test that ListActions.Shuffle can handle a list with 2 items and make sure the order of the lists are different
+            // Test that Utils.ShuffleListcan handle a list with 2 items and make sure the order of the lists are different
             List<string> testListLengthTwo = ["Name1", "Name2"];
-            List<string> testListLengthTwoShuffled = ListActions.Shuffle(testListLengthTwo);
+            List<string> testListLengthTwoShuffled = Utils.ShuffleList(testListLengthTwo);
             Assert.IsFalse(testListLengthTwo.SequenceEqual(testListLengthTwoShuffled));
         }
     }
