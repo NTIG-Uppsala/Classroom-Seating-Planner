@@ -118,5 +118,50 @@ namespace Tests
 
             app.Close();
         }
+
+        [TestMethod]
+        public void TestNoNameListFile()
+        {
+
+            // Save the file content to restore it after the test
+            string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string applicationFolder = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn");
+            string filePath = Path.Combine(applicationFolder, "klasslista.txt");
+
+            if (!Directory.Exists(applicationFolder) || !File.Exists(filePath))
+            {
+                Assert.Fail("Test failed because the file with the student names does not exist.");
+            }
+
+            string fileContent = File.ReadAllText(filePath);
+
+            // Remove the file
+            Directory.Delete(applicationFolder, true);
+
+            // Set up/start the test
+            (FlaUI.Core.Application app, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+            using FlaUI.UIA3.UIA3Automation automation = new();
+
+            // Find the popup window
+            Window GetPopup()
+            {
+                var windows = app.GetAllTopLevelWindows(automation);
+                return windows.Where(window => window.Name == "Information").FirstOrDefault()!;
+            }
+
+            // Check if the popup exists
+            bool PopupExists()
+            {
+                return GetPopup() != null;
+            }
+
+            // Test that the application can handle the absence of the file
+            Assert.IsTrue(PopupExists());
+            Assert.Equals(GetPopup().FindFirstDescendant(cf.ByAutomationId("InformationText")).Name, "Klasslista hittades inte. En textfil har skapats i Documents/Bordsplaceringsgeneratorn/. Fyll i namnen i den och starta sedan om programmet.");
+
+            // Clean up the test environment and restore the file
+            Directory.CreateDirectory(applicationFolder);
+            File.WriteAllText(filePath, fileContent);
+            Utils.TearDownTest(app);
     }
 }
