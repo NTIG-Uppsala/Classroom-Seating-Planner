@@ -18,16 +18,24 @@ namespace Classroom_Seating_Planner.src
             return data;
         }
 
-
-        // Public method for fetching student names from an external file and returning them as a list
-        public static List<string> GetStudentNamesFromFile()
+        public static string GetStudentNamesFilePath()
         {
             // Get the paths to the app's directory and the names file
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string filePath = Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn", "klasslista.txt");
 
+            return filePath;
+        }
+
+
+        // Public method for fetching student names from an external file and returning them as a list
+        public static List<string> GetStudentNamesFromFile()
+        {
+            string filePath = GetStudentNamesFilePath();
+
             // Read the names from the file and return them as a list
-            return GetDataFromFile(filePath);
+            List<string> studentNamesList = GetDataFromFile(filePath);
+            return studentNamesList;
         }
     }
 }
