@@ -137,8 +137,8 @@ namespace Tests
     internal class UtilsHelpers
     {
         // Global variables for file paths
-        private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
-        private static readonly string studentNamesListFileName = "klasslista.txt";
+        public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
+        public static readonly string studentNamesListFileName = "klasslista.txt";
 
         public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
         public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
