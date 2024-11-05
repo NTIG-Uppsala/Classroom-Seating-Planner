@@ -1,0 +1,38 @@
+﻿<Window x:Class="Classroom_Seating_Planner.PopupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Classroom_Seating_Planner"
+        mc:Ignorable="d"
+        Title="Hjälp" 
+        Height="300" Width="400"
+        ResizeMode="CanMinimize"
+        FontSize="0.45cm"
+        FontWeight="Light"
+        >
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.2cm"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TextBody" Margin="0.3cm,0.2cm" TextWrapping="WrapWithOverflow"></TextBlock>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Height="0.8cm" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0.2cm">
+            <Button Margin="5,0" x:Name="OpenButton" Content="Öppna" Width="2cm" Click="OpenButton_Click"></Button>
+            <Button Margin="5,0" x:Name="CloseButton" Content="Stäng" Width="2cm" Click="CloseButton_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -13,6 +13,10 @@ namespace Classroom_Seating_Planner
         // Define the global list of names here
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
+        public String fileTutorial = "" +
+            "Info om hur man redigerar klasslistan\n" +
+            "Blah blah blah\n" +
+            "Mer blah blah blah";
 
         public MainWindow()
         {
@@ -118,6 +122,12 @@ namespace Classroom_Seating_Planner
             double fontSize = Math.Round(m * x + b);
 
             RandomizeSeatingButton.FontSize = fontSize;
+        }
+
+        private void FileHelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create an instance of the popup window
+            _ = new PopupWindow(fileTutorial);
         }
     }
 }
