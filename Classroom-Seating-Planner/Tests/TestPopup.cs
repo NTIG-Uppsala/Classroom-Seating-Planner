@@ -20,9 +20,11 @@ namespace Tests
             FlaUIElement.Window window = app.GetMainWindow(automation);
             ConditionFactory cf = new(new UIA3PropertyLibrary());
 
-            bool PopupExists()
+            FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
+
+            Window GetPopupWindow()
             {
-                var windows = app.GetAllTopLevelWindows(automation);
+                FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
                 return windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
             }
 
@@ -31,21 +33,21 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            var windows = app.GetAllTopLevelWindows(automation);
-            Assert.IsNotNull(windows);
-            var popupWindow = windows.Where(w => w.Name == "Hjälp").First();
+            var popupWindow = GetPopupWindow();
+            Trace.Assert(popupWindow != null);
             Assert.IsNotNull(popupWindow);
 
             // Close it immediately
             var closeButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("CloseButton"));
             closeButton.Click();
-            // Find the window again
-            popupWindow = windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
 
+            // Find the window again
+            popupWindow = GetPopupWindow();
+            Assert.IsNull(popupWindow);
 
             // Open the popup again
             helpButton.Click();
-            popupWindow = windows.Where(window => window.Name == "Hjälp").First();
+            popupWindow = GetPopupWindow();
             Assert.IsNotNull(popupWindow);
 
 
