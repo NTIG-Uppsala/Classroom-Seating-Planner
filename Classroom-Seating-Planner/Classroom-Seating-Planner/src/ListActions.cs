@@ -1,5 +1,6 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
+using System.IO;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Classroom_Seating_Planner.src
