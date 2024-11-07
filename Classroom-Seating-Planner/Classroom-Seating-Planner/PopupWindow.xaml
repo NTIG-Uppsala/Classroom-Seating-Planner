@@ -10,6 +10,7 @@
         ResizeMode="CanMinimize"
         FontSize="0.45cm"
         FontWeight="Light"
+        WindowStartupLocation="CenterScreen"
         >
 
     <Window.Resources>
@@ -30,9 +31,7 @@
 
         <TextBlock x:Name="TextBody" Margin="0.3cm,0.2cm" TextWrapping="WrapWithOverflow"></TextBlock>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Height="0.8cm" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0.2cm">
-            <Button Margin="5,0" x:Name="OpenButton" Content="Öppna" Width="2cm" Click="OpenButton_Click"></Button>
-            <Button Margin="5,0" x:Name="CloseButton" Content="Stäng" Width="2cm" Click="CloseButton_Click"></Button>
-        </StackPanel>
+        <Button x:Name="OpenButton" Content="Öppna mapp" Click="OpenButton_Click" Grid.Row="1" HorizontalAlignment="Left" Margin="7" Padding="7,0,7,0"></Button>
+        <Button x:Name="CloseButton" Content="Okej" Click="CloseButton_Click" Grid.Row="1" HorizontalAlignment="Right" Margin="7" Padding="7,0,7,0"></Button>
     </Grid>
 </Window>

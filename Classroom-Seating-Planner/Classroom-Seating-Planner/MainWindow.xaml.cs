@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Classroom_Seating_Planner.src;
@@ -13,8 +14,13 @@ namespace Classroom_Seating_Planner
         // Define the global list of names here
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
-        public string fileTutorial = $"Klasslistan ligger i Documents/Bordsplaceringsgeneratorn/. Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+
         public string informatonPopup = "Klasslista hittades inte. En textfil har skapats. ";
+        // This is the instructional text that will be displayed in the popup windows
+        public string fileTutorial = $"Klasslistan ligger i\n" +
+            $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
+            $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+
         public MainWindow()
         {
             InitializeComponent();
