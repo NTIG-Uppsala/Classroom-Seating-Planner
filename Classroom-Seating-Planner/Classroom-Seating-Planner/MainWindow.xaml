@@ -64,7 +64,7 @@
             <!-- "Elever" text -->
             <Label FontSize="0.5cm" FontWeight="Light" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <!-- List of names -->
+            <!-- List of students -->
             <ListBox x:Name="ClassListElement" FontWeight="Thin" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,-1,0" Grid.Row="1" BorderBrush="{x:Null}"/>
 
             <!-- Randomize button -->

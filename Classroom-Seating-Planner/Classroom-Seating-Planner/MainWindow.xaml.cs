@@ -33,11 +33,11 @@ namespace Classroom_Seating_Planner
             SizeChanged += Window_SizeChanged;
             Loaded += MainWindow_Loaded;
 
-            // Check if there are any issues with the names list file
+            // Check if there are any issues with the class list file
             classListFileIssue = FileHandler.CheckClassListFileForIssues();
 
-            // Get the list of student names from the names list file
-            listOfNames = FileHandler.GetStudentNamesFromFile();
+            // Get the list of student names from the class list file
+            listOfNames = FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)

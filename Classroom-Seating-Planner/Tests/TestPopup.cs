@@ -132,7 +132,7 @@ namespace Tests
 
             if (!Directory.Exists(UtilsHelpers.dataFolderPath ) || !File.Exists(UtilsHelpers.classListFilePath))
             {
-                Assert.Fail("Test failed because the file with the student names does not exist.");
+                Assert.Fail("Test failed because the file with the class list does not exist.");
             }
 
             string fileContent = File.ReadAllText(UtilsHelpers.classListFilePath); // TODO : Avoid string for file content

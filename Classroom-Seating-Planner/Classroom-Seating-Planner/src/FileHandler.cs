@@ -41,14 +41,14 @@ namespace Classroom_Seating_Planner.src
                 Directory.CreateDirectory(dataFolderPath);
             }
 
-            // Write the default list to the student names list file
+            // Write the default list to the class list file
             File.WriteAllText(classListFilePath, string.Join("\n", defaultClassList));
         }
 
-        // Handles the data in the student names list file
+        // Handles the data in the class list file
         public static string? CheckClassListFileForIssues()
         {
-            // Create the student names list file if it does not exist, write the default list to it, and return the "not found" message code
+            // Create the class list file if it does not exist, write the default list to it, and return the "not found" message code
             if (!File.Exists(classListFilePath))
             {
                 WriteDefaultClassListFile();
@@ -56,33 +56,33 @@ namespace Classroom_Seating_Planner.src
             }
 
             // If the file exists, get its content as a list
-            List<string> studentListFileContent = GetDataFromFileAsList(classListFilePath);
+            List<string> classListFileContent = GetDataFromFileAsList(classListFilePath);
 
             // If the file is empty, write the default list to it and return the "empty" message code
-            if (studentListFileContent.SequenceEqual([]))
+            if (classListFileContent.SequenceEqual([]))
             {
                 WriteDefaultClassListFile();
                 return "empty";
             }
 
             // If the file content is the same as the default list, return the "default" message code
-            if (studentListFileContent.SequenceEqual(defaultClassList))
+            if (classListFileContent.SequenceEqual(defaultClassList))
             {
                 return "default";
             }
 
-            // Returns that there are no issues with the student names list file
+            // Returns that there are no issues with the class list file
             return null;
         }
 
         // Returns the list of student names read from an external file as a list
-        public static List<string> GetStudentNamesFromFile()
+        public static List<string> GetClassListFromFile()
         {
-            // Get the list of student names from the student names list file
-            List<string> studentListFileContent = GetDataFromFileAsList(classListFilePath);
+            // Get the list of student names from the class list file
+            List<string> classListFileContent = GetDataFromFileAsList(classListFilePath);
 
             // Return the list of student names
-            return studentListFileContent;
+            return classListFileContent;
         }
     }
 }

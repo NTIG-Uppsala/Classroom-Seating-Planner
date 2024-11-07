@@ -31,7 +31,7 @@ namespace Tests
             return allSeats;
         }
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testClassList = null)
         {
             // Restore backup data if backup file already exists
             if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
@@ -39,11 +39,11 @@ namespace Tests
                 UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
             }
 
-            // Backup the data from the names list file so it can be restored after testing
+            // Backup the data from the class list file so it can be restored after testing
             System.IO.File.Copy(UtilsHelpers.classListFilePath, $"{UtilsHelpers.classListFilePath}.bak");
 
-            // Default list of names used for tests
-            testNamesList ??=
+            // Default list of students used for tests
+            testClassList ??=
                 [
                     "Ziggy Stardust",
                     "Frodo Baggins",
@@ -81,12 +81,12 @@ namespace Tests
                 ];
 
             // Insert the test data into the file
-            string namesListFile = UtilsHelpers.classListFilePath;
-            using (StreamWriter writer = new(namesListFile, false))
+            string classListFilePath = UtilsHelpers.classListFilePath;
+            using (StreamWriter writer = new(classListFilePath, false))
             {
-                foreach (string testName in testNamesList)
+                foreach (string testStudent in testClassList)
                 {
-                    writer.WriteLine(testName);
+                    writer.WriteLine(testStudent);
                 }
             }
 
@@ -96,7 +96,7 @@ namespace Tests
 
         public static void TearDownTest(FlaUI.Core.Application app)
         {
-            // Restore the names list file by filling it with backed up information from before the test
+            // Restore the class list file by filling it with backed up information from before the test
 
             UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
 
@@ -165,8 +165,8 @@ namespace Tests
             }
         }
 
-        // Returns the list of student names read from an external file as a list
-        public static List<string> GetStudentNamesFromFile()
+        // Returns the list of students read from an external file as a list
+        public static List<string> GetClassListFromFile()
         {
             string filePath = classListFilePath;
 

@@ -33,14 +33,14 @@ namespace Tests
             // Get the seats again
             allSeats = Utils.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
 
-            // Get array of names to compare against list of seats
-            string[] allNames = Utils.GetListBoxItemsAsArray(window, cf, "ClassListElement");
+            // Get array of students to compare against list of seats
+            string[] allStudents = Utils.GetListBoxItemsAsArray(window, cf, "ClassListElement");
 
-            // Check that the seating matches the order of the list of student names
-            errorMessage = "The order of the seating is not the same as the order of the student list";
+            // Check that the seating matches the order of the list of students
+            errorMessage = "The order of the seating is not the same as the order of the class list";
             foreach (int index in testIndex)
             {
-                Assert.IsTrue(allSeats[index].Name.Equals(allNames[index]), errorMessage);
+                Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), errorMessage);
             }
 
             Utils.TearDownTest(app);
