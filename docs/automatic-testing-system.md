@@ -1,6 +1,6 @@
 # Automatic Testing System
 
-_**Do not move your cursor while the tests are running!**_
+_**Do not move your cursor or touch your keyboard while the tests are running!**_
 
 ## Running the Tests
 
@@ -8,8 +8,8 @@ _**Do not move your cursor while the tests are running!**_
 -   In Visual Studio, navigate to `Build`>`Configuration Manager...`.
 -   Make sure `Active solution configuration:` is set to `Debug`.
 -   Close the `Configuration Manager`.
--   Open the Test Explorer.
--   Click "Run All Tests In View" or press `Ctrl+R, A` to build and run all the tests.
+-   Navigate to `Test`>`Test Explorer`.
+-   Click `Run All Tests` or press `Ctrl+R, A` to build and run all the tests.
 
 If you recieve errors when trying to run the tests, try the following:
 
