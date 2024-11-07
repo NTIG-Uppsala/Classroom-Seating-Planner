@@ -94,11 +94,21 @@ namespace Tests
             openButton.Click();
 
             // Find the file explorer window and make sure it's open
-            FlaUIElement.AutomationElement explorer = automation.GetDesktop().FindFirstDescendant(cf.ByClassName("CabinetWClass"));
+            FlaUIElement.AutomationElement? explorer = null;
+            Stopwatch wait = new();
+            wait.Start();
+            while (explorer == null && wait.ElapsedMilliseconds < 2000)
+            {
+                explorer = automation.GetDesktop().FindFirstDescendant(cf.ByClassName("CabinetWClass"));
+            }
+            wait.Stop();
+
             Assert.IsNotNull(explorer);
             Assert.IsTrue(explorer.Name.Contains(UtilsHelpers.dataFolderName));
 
-
+            // Close the file explorer window
+            FlaUIElement.AutomationElement closeButton = explorer.FindFirstDescendant(cf.ByAutomationId("Close"));
+            closeButton.Click();
             app.Close();
         }
 
