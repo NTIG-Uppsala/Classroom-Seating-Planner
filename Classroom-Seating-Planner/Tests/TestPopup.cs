@@ -97,7 +97,7 @@ namespace Tests
             FlaUIElement.AutomationElement? explorer = null;
             Stopwatch wait = new();
             wait.Start();
-            while (explorer == null && wait.ElapsedMilliseconds < 2000)
+            while (explorer == null && wait.ElapsedMilliseconds < 5000)
             {
                 explorer = automation.GetDesktop().FindFirstDescendant(cf.ByClassName("CabinetWClass"));
             }
@@ -119,16 +119,16 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestNoNameListFile()
+        public void TestNoDirectory()
         {
             // Save the file content to restore it after the test
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string applicationFolder = UtilsHelpers.dataFolderPath;
+            string dataFolder = UtilsHelpers.dataFolderPath;
             string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
             string filePath = UtilsHelpers.studentNamesListFilePath;
-            string backupFilePath = Path.Combine(backupFolder, "klasslista.txt");
+            string backupFilePath = Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
 
-            if (!Directory.Exists(applicationFolder) || !File.Exists(filePath))
+            if (!Directory.Exists(dataFolder) || !File.Exists(filePath))
             {
                 Assert.Fail("Test failed because the file with the student names does not exist.");
             }
@@ -137,21 +137,53 @@ namespace Tests
             Directory.CreateDirectory(backupFolder);
             File.WriteAllText(backupFilePath, fileContent);
             // Remove the file
-            Directory.Delete(applicationFolder, true);
+            Directory.Delete(dataFolder, true);
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
-            // Test that the application can handle the absence of the file
+            // Assert that the correct popup is shown when the directory is missing
             Window popup = GetNoFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
             // Clean up the test environment and restore the file
-            Directory.CreateDirectory(applicationFolder);
+            Directory.CreateDirectory(dataFolder);
             File.WriteAllText(filePath, fileContent);
             Directory.Delete(backupFolder, true);
             app.Close();
         }
+
+        [TestMethod]
+        public void TestNoNameFile()
+        {
+            string dataFolder = UtilsHelpers.dataFolderPath;
+            string filePath = UtilsHelpers.studentNamesListFilePath;
+            string backupFilePath = Path.Combine(UtilsHelpers.dataFolderPath, "klasslista.no-file.txt.bak");
+
+            if (!Directory.Exists(dataFolder) || !File.Exists(filePath))
+            {
+                Assert.Fail("Test failed because the file with the student names does not exist.");
+            }
+
+            string fileContent = File.ReadAllText(filePath);
+            File.WriteAllText(backupFilePath, fileContent);
+            File.Delete(filePath);
+
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+
+            // Assert that the correct popup is shown when the file is missing
+            Window popup = GetNoFileWindow(app, automation);
+            Assert.IsNotNull(popup);
+            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
+
+            // Clean up the test environment and restore the file
+            File.WriteAllText(filePath, fileContent);
+            File.Delete(backupFilePath);
+            app.Close();
+
+        }
+
     }
 }
