@@ -185,5 +185,41 @@ namespace Tests
 
         }
 
+        private Window GetBadFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        {
+            FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
+            return windows.Where(window => window.Name == "Varning").FirstOrDefault();
+        }
+
+
+        // Test that the application gives a popup warning when loading an empty list
+        [TestMethod]
+        public void TestEmptyListFile()
+        {
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest([]);
+            Window popup = GetBadFileWindow(app, automation);
+            Assert.IsNotNull(popup);
+            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
+            Utils.TearDownTest(app);
+
+        }
+
+        // Test that the application gives a popup warning when loading a default list
+        [TestMethod]
+        public void TestDefaultList()
+        {
+            List<string> defaultNameList =
+            [
+                "Förnamn Efternamn",
+                "Förnamn Efternamn",
+                "Förnamn Efternamn",
+            ];
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest(defaultNameList);
+            Window popup = GetBadFileWindow(app, automation);
+            Trace.WriteLine(popup);
+            Assert.IsNotNull(popup);
+            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("klasslistan inte har uppdaterats"));
+            Utils.TearDownTest(app);
+        }
     }
 }
