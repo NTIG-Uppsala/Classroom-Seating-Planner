@@ -21,6 +21,7 @@ namespace Classroom_Seating_Planner
             $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
             $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
+        private string? errorMessage;
         public MainWindow()
         {
             InitializeComponent();
