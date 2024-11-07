@@ -34,13 +34,13 @@ namespace Tests
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
             // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{UtilsHelpers.studentNamesListFilePath}.bak"))
+            if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
             {
-                UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
+                UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
             }
 
             // Backup the data from the names list file so it can be restored after testing
-            System.IO.File.Copy(UtilsHelpers.studentNamesListFilePath, $"{UtilsHelpers.studentNamesListFilePath}.bak");
+            System.IO.File.Copy(UtilsHelpers.classListFilePath, $"{UtilsHelpers.classListFilePath}.bak");
 
             // Default list of names used for tests
             testNamesList ??=
@@ -81,7 +81,7 @@ namespace Tests
                 ];
 
             // Insert the test data into the file
-            string namesListFile = UtilsHelpers.studentNamesListFilePath;
+            string namesListFile = UtilsHelpers.classListFilePath;
             using (StreamWriter writer = new(namesListFile, false))
             {
                 foreach (string testName in testNamesList)
@@ -98,7 +98,7 @@ namespace Tests
         {
             // Restore the names list file by filling it with backed up information from before the test
 
-            UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
+            UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
 
             // Terminate the app
             app.Close();
@@ -136,11 +136,11 @@ namespace Tests
     {
         // Global variables for file paths
         public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
-        public static readonly string studentNamesListFileName = "klasslista.txt";
+        public static readonly string classListFileName = "klasslista.txt";
 
         public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-        public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
-        public static readonly string studentNamesListBackupFilePath = $"{Path.Combine(dataFolderPath, studentNamesListFileName)}.bak";
+        public static readonly string classListFilePath = Path.Combine(dataFolderPath, classListFileName);
+        public static readonly string classListBackupFilePath = $"{Path.Combine(dataFolderPath, classListFileName)}.bak";
 
         // Returns a list of data from an external file
         public static List<string> GetDataFromFile(string filePath)
@@ -165,11 +165,11 @@ namespace Tests
         // Returns the list of student names read from an external file as a list
         public static List<string> GetStudentNamesFromFile()
         {
-            string filePath = studentNamesListFilePath;
+            string filePath = classListFilePath;
 
             // Read the names from the file and return them as a list
-            List<string> studentNamesList = GetDataFromFile(filePath);
-            return studentNamesList;
+            List<string> classList = GetDataFromFile(filePath);
+            return classList;
         }
 
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) InitializeApplication()
