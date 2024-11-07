@@ -6,11 +6,18 @@ namespace Classroom_Seating_Planner.src
     public class FileHandler
     {
         // Global variables for file paths
-        public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
-        public static readonly string studentNamesListFileName = "klasslista.txt";
-
+        private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
+        private static readonly string studentNamesListFileName = "klasslista.txt";
+        
         public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
         public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
+
+        public static readonly List<string> defaultStudentNamesList =
+        [
+            "Förnamn Efternamn",
+            "Förnamn Efternamn",
+            "Förnamn Efternamn",
+        ];
 
         // Returns a list of data from an external file
         public static List<string> GetDataFromFileAsList(string filePath)
@@ -26,47 +33,56 @@ namespace Classroom_Seating_Planner.src
             return dataList;
         }
 
-        // Returns the list of student names read from an external file as a list
-        public static (List<string>, string? error) GetStudentNamesFromFile()
+        public static void WriteDefaultStudentNamesListFile()
         {
-            string filePath = studentNamesListFilePath;
-
-            // Default list of student names
-            List<string> studentListDefault =
-                [
-                    "Förnamn Efternamn",
-                    "Förnamn Efternamn",
-                    "Förnamn Efternamn",
-                ];
-
-            string studentListDefaultString = string.Join("\n", studentListDefault);
-
-            // Create the file if it does not exist
-            if (!File.Exists(filePath))
+            // Make sure the data folder exists
+            if (!Directory.Exists(dataFolderPath))
             {
                 Directory.CreateDirectory(dataFolderPath);
-                File.WriteAllText(filePath, studentListDefaultString);
-                return ([], "not found");
             }
 
-            // Read the names from the file and return them as a list
-            List<string> studentNamesList = GetDataFromFileAsList(filePath);
+            // Write the default list to the student names list file
+            File.WriteAllText(studentNamesListFilePath, string.Join("\n", defaultStudentNamesList));
+        }
 
-            // Check if the list is empty and create a default list if it is
-            if (studentNamesList.SequenceEqual([]))
+        // Handles the data in the student names list file
+        public static string? CheckStudentNamesListFileForIssues()
+        {
+            // Create the student names list file if it does not exist, write the default list to it, and return the "not found" message code
+            if (!File.Exists(studentNamesListFilePath))
             {
-                File.WriteAllText(filePath, studentListDefaultString);
-                return ([], "empty");
+                WriteDefaultStudentNamesListFile();
+                return "not found";
             }
 
-            // Check if the list is the default list
-            if (studentNamesList.SequenceEqual(studentListDefault))
+            // If the file exists, get its content as a list
+            List<string> studentListFileContent = GetDataFromFileAsList(studentNamesListFilePath);
+
+            // If the file is empty, write the default list to it and return the "empty" message code
+            if (studentListFileContent.SequenceEqual([]))
             {
-                return ([], "default");
+                WriteDefaultStudentNamesListFile();
+                return "empty";
             }
+
+            // If the file content is the same as the default list, return the "default" message code
+            if (studentListFileContent.SequenceEqual(defaultStudentNamesList))
+            {
+                return "default";
+            }
+
+            // Returns that there are no issues with the student names list file
+            return null;
+        }
+
+        // Returns the list of student names read from an external file as a list
+        public static List<string> GetStudentNamesFromFile()
+        {
+            // Get the list of student names from the student names list file
+            List<string> studentListFileContent = GetDataFromFileAsList(studentNamesListFilePath);
 
             // Return the list of student names
-            return (studentNamesList, null);
+            return studentListFileContent;
         }
     }
 }

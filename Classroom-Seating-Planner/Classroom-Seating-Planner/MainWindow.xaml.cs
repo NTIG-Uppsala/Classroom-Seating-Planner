@@ -24,7 +24,7 @@ namespace Classroom_Seating_Planner
         public string emptyFilePopup = "Klasslistan är tom. En standardklasslista har skapats. ";
         public string defaultFilePopup = "Det verkar som att klasslistan inte har uppdaterats. ";
 
-        private string? errorMessage;
+        private string? studentNamesListFileIssue;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,12 +33,11 @@ namespace Classroom_Seating_Planner
             SizeChanged += Window_SizeChanged;
             Loaded += MainWindow_Loaded;
 
-            // Initialize the list of names from the file
-            (List<string> stundentNameList, string? error) = FileHandler.GetStudentNamesFromFile();
+            // Check if there are any issues with the names list file
+            studentNamesListFileIssue = FileHandler.CheckStudentNamesListFileForIssues();
 
-            errorMessage = error;
-
-            listOfNames = stundentNameList;
+            // Get the list of student names from the names list file
+            listOfNames = FileHandler.GetStudentNamesFromFile();
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
@@ -102,17 +101,17 @@ namespace Classroom_Seating_Planner
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (errorMessage == "not found")
+            if (studentNamesListFileIssue == "not found")
             {
                 _ = new PopupWindow(notFoundFilePopup + fileTutorial, "Information", this);
                 return;
             }
-            if (errorMessage == "empty")
+            if (studentNamesListFileIssue == "empty")
             {
                 _ = new PopupWindow(emptyFilePopup + fileTutorial, "Varning", this);
                 return;
             }
-            if (errorMessage == "default")
+            if (studentNamesListFileIssue == "default")
             {
                 _ = new PopupWindow(defaultFilePopup + fileTutorial, "Varning", this);
                 return;
