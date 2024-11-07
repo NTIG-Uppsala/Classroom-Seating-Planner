@@ -40,8 +40,21 @@ namespace Classroom_Seating_Planner
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
             {
-                StudentList.Items.Add(name);
+                ListBoxItem student = new()
+                {
+                    Content = name,
+                    // These properties prevent the ListBoxItem from being selected
+                    IsHitTestVisible = false,
+                    Focusable = false,
+                    IsSelected = false,
+                    IsTabStop = false
+                };
+                StudentList.Items.Add(student);
             }
+
+            // Make items in the StudentList unselectable
+            StudentList.PreviewMouseDown += (sender, e) => { e.Handled = true; };
+            StudentList.SelectionChanged += (sender, e) => { e.Handled = true; };
 
             List<TextBlock> seatsList = [
                 Seat1,
@@ -103,7 +116,16 @@ namespace Classroom_Seating_Planner
             // Populate the ListBox with the new order
             foreach (string name in listOfNames)
             {
-                StudentList.Items.Add(name);
+                ListBoxItem student = new()
+                {
+                    Content = name,
+                    // These properties prevent the ListBoxItem from being selected
+                    IsHitTestVisible = false,
+                    Focusable = false,
+                    IsSelected = false,
+                    IsTabStop = false
+                };
+                StudentList.Items.Add(student);
             }
 
             List<TextBlock> seats = listOfSeats;
