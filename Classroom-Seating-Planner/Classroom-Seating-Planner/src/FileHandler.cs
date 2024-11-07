@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 
 namespace Classroom_Seating_Planner.src
 {
@@ -26,28 +27,46 @@ namespace Classroom_Seating_Planner.src
         }
 
         // Returns the list of student names read from an external file as a list
-        public static List<string>? GetStudentNamesFromFile()
+        public static (List<string>, string? error) GetStudentNamesFromFile()
         {
             string filePath = studentNamesListFilePath;
 
-            if (!File.Exists(filePath))
-            {
-                // Create the file if it does not exist and fill it with placeholder data to guide the user to the correct structure
-                Directory.CreateDirectory(dataFolderPath);
-                List<string> studentListPlaceholder =
+            // Default list of student names
+            List<string> studentListDefault =
                 [
                     "Förnamn Efternamn",
                     "Förnamn Efternamn",
                     "Förnamn Efternamn",
                 ];
 
-                File.WriteAllText(filePath, string.Join("\n", studentListPlaceholder));
-                return null;
+            string studentListDefaultString = string.Join("\n", studentListDefault);
+
+            // Create the file if it does not exist
+            if (!File.Exists(filePath))
+            {
+                Directory.CreateDirectory(dataFolderPath);
+                File.WriteAllText(filePath, studentListDefaultString);
+                return ([], "not found");
             }
 
             // Read the names from the file and return them as a list
             List<string> studentNamesList = GetDataFromFileAsList(filePath);
-            return studentNamesList;
+
+            // Check if the list is empty and create a default list if it is
+            if (studentNamesList.SequenceEqual([]))
+            {
+                File.WriteAllText(filePath, studentListDefaultString);
+                return ([], "empty");
+            }
+
+            // Check if the list is the default list
+            if (studentNamesList.SequenceEqual(studentListDefault))
+            {
+                return ([], "default");
+            }
+
+            // Return the list of student names
+            return (studentNamesList, null);
         }
     }
 }

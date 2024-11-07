@@ -15,11 +15,14 @@ namespace Classroom_Seating_Planner
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
 
-        public string informatonPopup = "Klasslista hittades inte. En textfil har skapats. ";
         // This is the instructional text that will be displayed in the popup windows
         public string fileTutorial = $"Klasslistan ligger i\n" +
             $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
             $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+
+        public string notFoundFilePopup = "Klasslista hittades inte. En textfil har skapats. ";
+        public string emptyFilePopup = "Klasslistan är tom. En standardklasslista har skapats. ";
+        public string defaultFilePopup = "Det verkar som att klasslistan inte har uppdaterats. ";
 
         private string? errorMessage;
         public MainWindow()
@@ -31,18 +34,11 @@ namespace Classroom_Seating_Planner
             Loaded += MainWindow_Loaded;
 
             // Initialize the list of names from the file
+            (List<string> stundentNameList, string? error) = FileHandler.GetStudentNamesFromFile();
 
-            List<string> stundentNameList = FileHandler.GetStudentNamesFromFile();
+            errorMessage = error;
 
-            if (stundentNameList == null)
-            {
-                listOfNames = [];
-            }
-
-            if (stundentNameList != null)
-            {
-                listOfNames = stundentNameList;
-            }
+            listOfNames = stundentNameList;
 
             // Populate the ListBox with the contents of listOfNames
             foreach (string name in listOfNames)
@@ -100,15 +96,26 @@ namespace Classroom_Seating_Planner
                 Seat34,
                 Seat35,
                 Seat36
-];
+    ];
             listOfSeats = seatsList;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (listOfNames.Count == 0)
+            if (errorMessage == "not found")
             {
-                Window popup = new PopupWindow(informatonPopup + fileTutorial, "Information", this);
+                _ = new PopupWindow(notFoundFilePopup + fileTutorial, "Information", this);
+                return;
+            }
+            if (errorMessage == "empty")
+            {
+                _ = new PopupWindow(emptyFilePopup + fileTutorial, "Varning", this);
+                return;
+            }
+            if (errorMessage == "default")
+            {
+                _ = new PopupWindow(defaultFilePopup + fileTutorial, "Varning", this);
+                return;
             }
         }
 
