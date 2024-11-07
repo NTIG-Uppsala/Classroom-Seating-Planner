@@ -158,7 +158,7 @@ namespace Tests
 
         public static void RestoreBackupData(string originalFilePath)
         {
-            if (System.IO.File.Exists($"{UtilsHelpers.studentNamesListFilePath}.bak"))
+            if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
             {
                 System.IO.File.Delete(originalFilePath);
                 System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
