@@ -24,7 +24,7 @@ namespace Classroom_Seating_Planner
         public string emptyFilePopup = "Klasslistan är tom. En standardklasslista har skapats. ";
         public string defaultFilePopup = "Det verkar som att klasslistan inte har uppdaterats. ";
 
-        private string? studentNamesListFileIssue;
+        private string? classListFileIssue;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,7 +34,7 @@ namespace Classroom_Seating_Planner
             Loaded += MainWindow_Loaded;
 
             // Check if there are any issues with the names list file
-            studentNamesListFileIssue = FileHandler.CheckStudentNamesListFileForIssues();
+            classListFileIssue = FileHandler.CheckClassListFileForIssues();
 
             // Get the list of student names from the names list file
             listOfNames = FileHandler.GetStudentNamesFromFile();
@@ -101,17 +101,17 @@ namespace Classroom_Seating_Planner
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (studentNamesListFileIssue == "not found")
+            if (classListFileIssue == "not found")
             {
                 _ = new PopupWindow(notFoundFilePopup + fileTutorial, "Information", this);
                 return;
             }
-            if (studentNamesListFileIssue == "empty")
+            if (classListFileIssue == "empty")
             {
                 _ = new PopupWindow(emptyFilePopup + fileTutorial, "Varning", this);
                 return;
             }
-            if (studentNamesListFileIssue == "default")
+            if (classListFileIssue == "default")
             {
                 _ = new PopupWindow(defaultFilePopup + fileTutorial, "Varning", this);
                 return;

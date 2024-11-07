@@ -126,12 +126,12 @@ namespace Tests
             string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
             string backupFilePath = Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
 
-            if (!Directory.Exists(UtilsHelpers.dataFolderPath ) || !File.Exists(UtilsHelpers.studentNamesListFilePath))
+            if (!Directory.Exists(UtilsHelpers.dataFolderPath ) || !File.Exists(UtilsHelpers.classListFilePath))
             {
                 Assert.Fail("Test failed because the file with the student names does not exist.");
             }
 
-            string fileContent = File.ReadAllText(UtilsHelpers.studentNamesListFilePath); // TODO : Avoid string for file content
+            string fileContent = File.ReadAllText(UtilsHelpers.classListFilePath); // TODO : Avoid string for file content
             Directory.CreateDirectory(backupFolder);
             File.WriteAllText(backupFilePath, fileContent);
             // Remove the file
@@ -147,7 +147,7 @@ namespace Tests
 
             // Clean up the test environment and restore the file
             Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
-            File.WriteAllText(UtilsHelpers.studentNamesListFilePath, fileContent);
+            File.WriteAllText(UtilsHelpers.classListFilePath, fileContent);
             Directory.Delete(backupFolder, true);
             app.Close();
         }
@@ -156,14 +156,14 @@ namespace Tests
         public void TestNoNameFile()
         {
             // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{UtilsHelpers.studentNamesListFilePath}.bak"))
+            if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
             {
-                UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
+                UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
             }
 
             // Backup data and delete original file
-            File.Copy(UtilsHelpers.studentNamesListFilePath, UtilsHelpers.studentNamesListBackupFilePath);
-            File.Delete(UtilsHelpers.studentNamesListFilePath);
+            File.Copy(UtilsHelpers.classListFilePath, UtilsHelpers.classListBackupFilePath);
+            File.Delete(UtilsHelpers.classListFilePath);
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
