@@ -7,10 +7,11 @@
     xmlns:local="clr-namespace:Classroom_Seating_Planner"
     mc:Ignorable="d"
     Title="Bordsplaceringsgeneratorn" 
-    Height="512" MinHeight="10cm"
-    Width="900" MinWidth="17cm"
+    Height="720" MinHeight="10cm"
+    Width="1280" MinWidth="17cm"
     FontSize="0.45cm"
     FontWeight="Light"
+    WindowStartupLocation="CenterScreen"
     >
     
     <Window.Resources>
@@ -83,9 +84,9 @@
         <Grid x:Name="TablesGrid" Grid.Column="01" Grid.Row="1" Margin="15,15,15,15" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.7cm"/>
-                <RowDefinition Height="2cm"/>
-                <RowDefinition Height="2cm"/>
-                <RowDefinition Height="2cm"/>
+                <RowDefinition Height="10*" MinHeight="2cm" MaxHeight="3cm"/>
+                <RowDefinition Height="10*" MinHeight="2cm" MaxHeight="3cm"/>
+                <RowDefinition Height="10*" MinHeight="2cm" MaxHeight="3cm"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10*"/>
@@ -569,7 +570,7 @@
                 </Grid>
             </Grid>
 
-
+            
         </Grid>
     </Grid>
 </Window>
