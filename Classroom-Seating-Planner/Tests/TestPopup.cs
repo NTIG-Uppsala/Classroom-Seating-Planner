@@ -159,7 +159,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestNoNameFile()
+        public void TestNoClassListFile()
         {
             // Restore backup data if backup file already exists
             if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
