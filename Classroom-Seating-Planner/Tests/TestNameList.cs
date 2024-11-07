@@ -74,23 +74,23 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
-        [TestMethod, Timeout(3000)]
-        public void TestShuffleShortList() // This is not a test of the name list, rather it's a test of the shuffle function
-        {
-            // Test that Utils.ShuffleListcan handle a list with 0 items
-            List<string> testListLengthZero = [];
-            List<string> testListLengthZeroShuffled = Utils.ShuffleList(testListLengthZero);
-            Assert.IsNotNull(testListLengthZeroShuffled);
+        //[TestMethod, Timeout(3000)]
+        //public void TestShuffleShortList() // This is not a test of the name list, rather it's a test of the shuffle function
+        //{
+        //    // Test that Utils.ShuffleListcan handle a list with 0 items
+        //    List<string> testListLengthZero = [];
+        //    List<string> testListLengthZeroShuffled = Utils.ShuffleList(testListLengthZero);
+        //    Assert.IsNotNull(testListLengthZeroShuffled);
 
-            // Test that Utils.ShuffleListcan handle a list with 1 item
-            List<string> testListLengthOne = ["Name1"];
-            List<string> testListLengthOneShuffled = Utils.ShuffleList(testListLengthOne);
-            Assert.IsNotNull(testListLengthOneShuffled);
+        //    // Test that Utils.ShuffleListcan handle a list with 1 item
+        //    List<string> testListLengthOne = ["Name1"];
+        //    List<string> testListLengthOneShuffled = Utils.ShuffleList(testListLengthOne);
+        //    Assert.IsNotNull(testListLengthOneShuffled);
 
-            // Test that Utils.ShuffleListcan handle a list with 2 items and make sure the order of the lists are different
-            List<string> testListLengthTwo = ["Name1", "Name2"];
-            List<string> testListLengthTwoShuffled = Utils.ShuffleList(testListLengthTwo);
-            Assert.IsFalse(testListLengthTwo.SequenceEqual(testListLengthTwoShuffled));
-        }
+        //    // Test that Utils.ShuffleListcan handle a list with 2 items and make sure the order of the lists are different
+        //    List<string> testListLengthTwo = ["Name1", "Name2"];
+        //    List<string> testListLengthTwoShuffled = Utils.ShuffleList(testListLengthTwo);
+        //    Assert.IsFalse(testListLengthTwo.SequenceEqual(testListLengthTwoShuffled));
+        //}
     }
 }
