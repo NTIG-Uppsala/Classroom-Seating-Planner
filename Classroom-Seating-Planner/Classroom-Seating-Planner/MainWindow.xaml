@@ -62,10 +62,10 @@
             <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="1000" Height="1000cm" Width="0.01cm" VerticalAlignment="Top" HorizontalAlignment="Right"  Background="Black" Panel.ZIndex="2"/>
 
             <!-- "Elever" text -->
-            <Label x:Name="StudentListTitle" FontSize="0.5cm" FontWeight="Light" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label FontSize="0.5cm" FontWeight="Light" Content="Elever" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
             <!-- List of names -->
-            <ListBox x:Name="StudentList" FontWeight="Thin" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,-1,0" Grid.Row="1" BorderBrush="{x:Null}"/>
+            <ListBox x:Name="ClassListElement" FontWeight="Thin" d:ItemsSource="{d:SampleData ItemCount=32}" Margin="5,0,-1,0" Grid.Row="1" BorderBrush="{x:Null}"/>
 
             <!-- Randomize button -->
             <Button x:Name="RandomizeSeatingButton" Click="RandomizeSeatingButton_Click" 

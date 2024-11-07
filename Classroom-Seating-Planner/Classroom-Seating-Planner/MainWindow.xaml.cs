@@ -51,12 +51,12 @@ namespace Classroom_Seating_Planner
                     IsSelected = false,
                     IsTabStop = false
                 };
-                StudentList.Items.Add(student);
+                ClassListElement.Items.Add(student);
             }
 
-            // Make items in the StudentList unselectable
-            StudentList.PreviewMouseDown += (sender, e) => { e.Handled = true; };
-            StudentList.SelectionChanged += (sender, e) => { e.Handled = true; };
+            // Make items in the ClassListElement unselectable
+            ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
+            ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
             List<TextBlock> seatsList = [
                 Seat1,
@@ -124,7 +124,7 @@ namespace Classroom_Seating_Planner
             listOfNames = ListActions.Shuffle(listOfNames);
 
             // Clear the ListBox before populating
-            StudentList.Items.Clear();
+            ClassListElement.Items.Clear();
 
             // Populate the ListBox with the new order
             foreach (string name in listOfNames)
@@ -138,7 +138,7 @@ namespace Classroom_Seating_Planner
                     IsSelected = false,
                     IsTabStop = false
                 };
-                StudentList.Items.Add(student);
+                ClassListElement.Items.Add(student);
             }
 
             List<TextBlock> seats = listOfSeats;

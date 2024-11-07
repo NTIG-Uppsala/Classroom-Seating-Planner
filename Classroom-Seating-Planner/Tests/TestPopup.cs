@@ -131,7 +131,7 @@ namespace Tests
                 Assert.Fail("Test failed because the file with the student names does not exist.");
             }
 
-            string fileContent = File.ReadAllText(UtilsHelpers.studentNamesListFilePath);
+            string fileContent = File.ReadAllText(UtilsHelpers.studentNamesListFilePath); // TODO : Avoid string for file content
             Directory.CreateDirectory(backupFolder);
             File.WriteAllText(backupFilePath, fileContent);
             // Remove the file
