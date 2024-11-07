@@ -14,7 +14,7 @@ namespace Classroom_Seating_Planner.src
             if (list.Count < 2) return list;
 
             Random rng = new();
-            List<string> newList = [.. list.OrderBy(item => rng.Next())];
+            List<string> newList = list.OrderBy(item => rng.Next()).ToList();
 
             // If the list is the same as the original, swap the first two elements to ensure a new order
             if (newList.SequenceEqual(list))

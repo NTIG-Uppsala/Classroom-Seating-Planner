@@ -13,12 +13,12 @@ namespace Tests
         [TestMethod]
         public void TestRandomizer()
         {
-            bool hasClassListOrderChanged(string[] classListOld, string[] classListNew)
+            bool hasClassListOrderChanged(List<string> classListOld, List<string> classListNew)
             {
                 return !classListOld.SequenceEqual(classListNew);
             }
 
-            bool hasClassListContentChanged(string[] classListOld, string[] classListNew)
+            bool hasClassListContentChanged(List<string> classListOld, List<string> classListNew)
             {
                 // Check that every student in the old list exists in the new list
                 foreach (string student in classListOld)
@@ -32,18 +32,18 @@ namespace Tests
                 return false;
             }
 
-            string[] getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
             {
                 // Extract an array of students from the ListBox element in the UI
-                return Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+                return Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId).ToList();
             }
 
-            string[] clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            List<string> clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
             {
                 Utils.ClickRandomizeSeatingButton(window, cf);
 
                 // Extract an array of students from the ListBox element in the UI
-                string[] classListNew = Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId);
+                List<string> classListNew = Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId).ToList();
 
                 return classListNew;
             }
@@ -53,8 +53,8 @@ namespace Tests
 
             string classListElementAutomationId = "ClassListElement";
 
-            string[] classListOld = getClassListFromClassListElementBeforeShuffle(window, cf, classListElementAutomationId);
-            string[] classListNew = clickRandomizeButtonAndGetNewArray(window, cf, classListElementAutomationId);
+            List<string> classListOld = getClassListFromClassListElementBeforeShuffle(window, cf, classListElementAutomationId);
+            List<string> classListNew = clickRandomizeButtonAndGetNewArray(window, cf, classListElementAutomationId);
 
             // Custom error messages for asserts
             string errorMessageClassListOrderUnchanged = "Test failed because the order of the class list has not changed.";
