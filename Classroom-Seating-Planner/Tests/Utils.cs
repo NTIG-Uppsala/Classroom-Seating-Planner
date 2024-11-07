@@ -158,8 +158,11 @@ namespace Tests
 
         public static void RestoreBackupData(string originalFilePath)
         {
-            System.IO.File.Delete(originalFilePath);
-            System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
+            if (System.IO.File.Exists($"{UtilsHelpers.studentNamesListFilePath}.bak"))
+            {
+                System.IO.File.Delete(originalFilePath);
+                System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
+            }
         }
 
         // Returns the list of student names read from an external file as a list

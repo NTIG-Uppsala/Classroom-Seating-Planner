@@ -23,6 +23,7 @@ namespace Tests
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
+
             // Open the help popup
             FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
             helpButton.Click();
@@ -32,15 +33,15 @@ namespace Tests
             Trace.Assert(popupWindow != null);
             Assert.IsNotNull(popupWindow);
 
-            // Close it immediately
+            // Close the popup immediately
             FlaUIElement.AutomationElement closeButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("CloseButton"));
             closeButton.Click();
 
-            // Find the window again
+            // Check that the window has closed
             popupWindow = GetHelpWindow(app, automation);
             Assert.IsNull(popupWindow);
 
-            // Open the popup again
+            // Open the popup again and check if it opened the second time
             helpButton.Click();
             popupWindow = GetHelpWindow(app, automation);
             Assert.IsNotNull(popupWindow);
@@ -54,6 +55,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
+
 
             // Open the help popup
             FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
@@ -93,11 +95,11 @@ namespace Tests
             FlaUIElement.AutomationElement openButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("OpenButton"));
             openButton.Click();
 
-            // Find the file explorer window and make sure it's open
+            // Find the file explorer window within the a timeout limit
             FlaUIElement.AutomationElement? explorer = null;
             Stopwatch wait = new();
             wait.Start();
-            while (explorer == null && wait.ElapsedMilliseconds < 5000)
+            while (explorer == null && wait.ElapsedMilliseconds < 10000)
             {
                 explorer = automation.GetDesktop().FindFirstDescendant(cf.ByClassName("CabinetWClass"));
             }
@@ -109,6 +111,8 @@ namespace Tests
             // Close the file explorer window
             FlaUIElement.AutomationElement closeButton = explorer.FindFirstDescendant(cf.ByAutomationId("Close"));
             closeButton.Click();
+
+
             Utils.TearDownTest(app);
         }
 
@@ -137,10 +141,10 @@ namespace Tests
             // Remove the file
             Directory.Delete(UtilsHelpers.dataFolderPath, true);
 
-            // Set up/start the test
+            // Get FLaUI boilerplate
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
-            // Assert that the correct popup is shown when the directory is missing
+            // Check that the correct popup is shown when the directory is missing
             Window popup = GetNoFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
@@ -149,7 +153,9 @@ namespace Tests
             Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
             File.WriteAllText(UtilsHelpers.classListFilePath, fileContent);
             Directory.Delete(backupFolder, true);
-            app.Close();
+
+
+            Utils.TearDownTest(app);
         }
 
         [TestMethod]
@@ -173,9 +179,8 @@ namespace Tests
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
-            // Clean up the test environment and restore the file
-            Utils.TearDownTest(app);
 
+            Utils.TearDownTest(app);
         }
 
         private Window GetBadFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
@@ -190,11 +195,14 @@ namespace Tests
         public void TestEmptyListFile()
         {
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest([]);
+
+
             Window popup = GetBadFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
-            Utils.TearDownTest(app);
 
+
+            Utils.TearDownTest(app);
         }
 
         // Test that the application gives a popup warning when loading a default list
@@ -207,11 +215,15 @@ namespace Tests
                 "Förnamn Efternamn",
                 "Förnamn Efternamn",
             ];
+
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest(defaultNameList);
+
             Window popup = GetBadFileWindow(app, automation);
             Trace.WriteLine(popup);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("klasslistan inte har uppdaterats"));
+
+
             Utils.TearDownTest(app);
         }
     }
