@@ -2,20 +2,20 @@
 
 ###### This is a TE4 project by the group Teachers' Pets. Group members: Viggo Ström, Axel Thornberg, Jesper Cejie.
 
-## Downloading and Running the Program
+## Ladda ner och köra programmet
 
-1.  Go to the [releases](https://github.com/NTIG-Uppsala/Classroom-Seating-Planner/releases) page here on GitHub.
-2.  Click on the latest release available. It should be the one at the top.
-3.  Under the `▾ Assets` tab, click on the exe file to download it.
-    -   You may receive a warning from your browser or antivirus software. This is because the file is not commonly downloaded. You can ignore this warning and download the file.
-4.  After the download has finished, navigate to your `Documents` folder.
-5.  In the `Documents` folder, create a folder called `Bordsplaceringsgeneratorn` and open it.
-6.  Create a text file called `klasslista` and open it.
-7.  Enter each name you want to use on separate lines.
-8.  Run the exe file.
-    -   You may receive a warning from Windows defender. Click on `More info` and then `Run anyway` to ignore the warning and run it anyway.
+1.  Gå till [releases](https://github.com/NTIG-Uppsala/Classroom-Seating-Planner/releases)-sidan här på GitHub.
+2.  Klicka på den senaste tillgängliga versionen. Den bör vara längst upp.
+3.  Under fliken `▾ Assets`, klicka på exe-filen för att ladda ner den.
+    -   Du kan få en varning från din webbläsare eller antivirusprogram. Detta beror på att filen inte är vanligt nedladdad. Du kan ignorera denna varning och ladda ner filen.
+4.  När nedladdningen är klar, navigera till din `Documents`-mapp.
+5.  I `Documents`-mappen, skapa en mapp som heter `Bordsplaceringsgeneratorn` och öppna den.
+6.  Skapa en textfil som heter `klasslista` och öppna den.
+7.  Skriv in varje namn du vill använda på separata rader.
+8.  Kör exe-filen.
+    -   Du kan få en varning från Windows Defender. Klicka på `Mer information` och sedan `Kör ändå` för att ignorera varningen och köra den ändå.
 
-The program does not install itself on your computer. It is a standalone file that you run from anywhere, probably your downloads folder. To run it again, you will need to find the file and run it.
+Programmet installerar sig inte på din dator. Det är en fristående fil som du kan köra var som helst, antagligen från din nedladdningsmapp. För att köra det igen, behöver du hitta filen och köra den.
 
 ## Development Documents
 
