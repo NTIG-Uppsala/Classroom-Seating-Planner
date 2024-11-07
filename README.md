@@ -17,7 +17,7 @@
 
 The program does not install itself on your computer. It is a standalone file that you run from anywhere, probably your downloads folder. To run it again, you will need to find the file and run it.
 
-## Docs
+## Development Documents
 
 <!-- Below are the links to the guides/instructions -->
 -   [Automatic Testing System](docs/automatic-testing-system.md)
