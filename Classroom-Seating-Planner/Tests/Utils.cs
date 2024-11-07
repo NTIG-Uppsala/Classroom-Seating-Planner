@@ -112,12 +112,12 @@ namespace Tests
             if (list.Count < 2) return list;
 
             Random rng = new();
-            List<string> newList = list;
+            List<string> newList = [.. list.OrderBy(item => rng.Next())];
 
-            // Shuffle until the list has a new order
-            while (newList.SequenceEqual(list))
+            // If the list is the same as the original, swap the first two elements to ensure a new order
+            if (newList.SequenceEqual(list))
             {
-                newList = [.. list.OrderBy(item => rng.Next())];
+                (newList[0], newList[1]) = (newList[1], newList[0]);
             }
             return newList;
         }
