@@ -36,9 +36,9 @@ namespace Classroom_Seating_Planner.src
                 Directory.CreateDirectory(dataFolderPath);
                 List<string> studentListPlaceholder =
                 [
-                    "Förnamn Efternamn 1",
-                    "Förnamn Efternamn 2",
-                    "Förnamn Efternamn 3",
+                    "Förnamn Efternamn",
+                    "Förnamn Efternamn",
+                    "Förnamn Efternamn",
                 ];
 
                 File.WriteAllText(filePath, string.Join("\n", studentListPlaceholder));
