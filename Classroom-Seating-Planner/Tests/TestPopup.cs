@@ -2,6 +2,7 @@ using Classroom_Seating_Planner;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 using FlaUI.UIA3;
+using System.Collections;
 using System.Diagnostics;
 using System.Windows.Automation;
 using FlaUIElement = FlaUI.Core.AutomationElements;
@@ -76,6 +77,11 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
+        private static List<Window> GetAllExplorerInstances() // Add app and automation
+        {
+              // TODO: implement
+        }
+
         [TestMethod]
         public void TestOpenFileExplorer()
         {
@@ -91,21 +97,27 @@ namespace Tests
             FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
             Assert.IsNotNull(popupWindow);
 
+            // Save the currently open file explorer windows
+            List<string> explorerInstances = GetAllExplorerInstances();
+
             // Click the open button
             FlaUIElement.AutomationElement openButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("OpenButton"));
             openButton.Click();
 
-            // Find the file explorer window within the a timeout limit
-            FlaUIElement.AutomationElement? explorer = null;
-            Stopwatch wait = new();
-            wait.Start();
-            while (explorer == null && wait.ElapsedMilliseconds < 10000)
+            // Until the file explorer window opens or the timeout is reached, check for the new explorer window
+            Window? explorer = null;
+            Stopwatch timeout = new();
+            timeout.Start();
+            while (explorer == null && timeout.ElapsedMilliseconds < 10000)
             {
-                explorer = automation.GetDesktop().FindFirstDescendant(cf.ByClassName("CabinetWClass"));
+                explorer = GetAllExplorerInstances().Except(explorerInstances).FirstOrDefault();
             }
-            wait.Stop();
+            if (explorer == null)
+            {
+                Assert.Fail("The file explorer window did not open within the timeout.");
+            }
 
-            Assert.IsNotNull(explorer);
+            // Check that the file explorer window has the expected name
             Assert.IsTrue(explorer.Name.Contains(UtilsHelpers.dataFolderName));
 
             // Close the file explorer window
@@ -130,7 +142,7 @@ namespace Tests
             string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
             string backupFilePath = Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
 
-            if (!Directory.Exists(UtilsHelpers.dataFolderPath ) || !File.Exists(UtilsHelpers.classListFilePath))
+            if (!Directory.Exists(UtilsHelpers.dataFolderPath) || !File.Exists(UtilsHelpers.classListFilePath))
             {
                 Assert.Fail("Test failed because the file with the class list does not exist.");
             }
