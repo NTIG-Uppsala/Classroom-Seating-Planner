@@ -31,7 +31,6 @@ namespace Tests
             return allSeats;
         }
 
-        private static List<string> fileBackupList = [];
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testNamesList = null)
         {
             // Restore backup data if backup file already exists
@@ -141,6 +140,7 @@ namespace Tests
 
         public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
         public static readonly string studentNamesListFilePath = Path.Combine(dataFolderPath, studentNamesListFileName);
+        public static readonly string studentNamesListBackupFilePath = $"{Path.Combine(dataFolderPath, studentNamesListFileName)}.bak";
 
         // Returns a list of data from an external file
         public static List<string> GetDataFromFile(string filePath)

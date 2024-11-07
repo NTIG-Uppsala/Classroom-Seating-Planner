@@ -46,7 +46,7 @@ namespace Tests
             Assert.IsNotNull(popupWindow);
 
 
-            app.Close();
+            Utils.TearDownTest(app);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace Tests
             Assert.IsNull(popupWindow);
 
 
-            app.Close();
+            Utils.TearDownTest(app);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Tests
             // Close the file explorer window
             FlaUIElement.AutomationElement closeButton = explorer.FindFirstDescendant(cf.ByAutomationId("Close"));
             closeButton.Click();
-            app.Close();
+            Utils.TearDownTest(app);
         }
 
         private Window GetNoFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
@@ -123,21 +123,19 @@ namespace Tests
         {
             // Save the file content to restore it after the test
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string dataFolder = UtilsHelpers.dataFolderPath;
             string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
-            string filePath = UtilsHelpers.studentNamesListFilePath;
             string backupFilePath = Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
 
-            if (!Directory.Exists(dataFolder) || !File.Exists(filePath))
+            if (!Directory.Exists(UtilsHelpers.dataFolderPath ) || !File.Exists(UtilsHelpers.studentNamesListFilePath))
             {
                 Assert.Fail("Test failed because the file with the student names does not exist.");
             }
 
-            string fileContent = File.ReadAllText(filePath);
+            string fileContent = File.ReadAllText(UtilsHelpers.studentNamesListFilePath);
             Directory.CreateDirectory(backupFolder);
             File.WriteAllText(backupFilePath, fileContent);
             // Remove the file
-            Directory.Delete(dataFolder, true);
+            Directory.Delete(UtilsHelpers.dataFolderPath, true);
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
@@ -148,8 +146,8 @@ namespace Tests
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
             // Clean up the test environment and restore the file
-            Directory.CreateDirectory(dataFolder);
-            File.WriteAllText(filePath, fileContent);
+            Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
+            File.WriteAllText(UtilsHelpers.studentNamesListFilePath, fileContent);
             Directory.Delete(backupFolder, true);
             app.Close();
         }
@@ -157,18 +155,15 @@ namespace Tests
         [TestMethod]
         public void TestNoNameFile()
         {
-            string dataFolder = UtilsHelpers.dataFolderPath;
-            string filePath = UtilsHelpers.studentNamesListFilePath;
-            string backupFilePath = Path.Combine(UtilsHelpers.dataFolderPath, "klasslista.no-file.txt.bak");
-
-            if (!Directory.Exists(dataFolder) || !File.Exists(filePath))
+            // Restore backup data if backup file already exists
+            if (System.IO.File.Exists($"{UtilsHelpers.studentNamesListFilePath}.bak"))
             {
-                Assert.Fail("Test failed because the file with the student names does not exist.");
+                UtilsHelpers.RestoreBackupData(UtilsHelpers.studentNamesListFilePath);
             }
 
-            string fileContent = File.ReadAllText(filePath);
-            File.WriteAllText(backupFilePath, fileContent);
-            File.Delete(filePath);
+            // Backup data and delete original file
+            File.Copy(UtilsHelpers.studentNamesListFilePath, UtilsHelpers.studentNamesListBackupFilePath);
+            File.Delete(UtilsHelpers.studentNamesListFilePath);
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
@@ -179,9 +174,7 @@ namespace Tests
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
             // Clean up the test environment and restore the file
-            File.WriteAllText(filePath, fileContent);
-            File.Delete(backupFilePath);
-            app.Close();
+            Utils.TearDownTest(app);
 
         }
 
