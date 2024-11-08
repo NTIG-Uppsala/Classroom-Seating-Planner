@@ -31,7 +31,7 @@ namespace Tests
 
 
             // Open the help popup
-            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
+            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("HelpButton"));
             helpButton.Click();
 
             // Find the popup window
@@ -64,7 +64,7 @@ namespace Tests
 
 
             // Open the help popup
-            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
+            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("HelpButton"));
             helpButton.Click();
 
             // Find the popup window
@@ -96,7 +96,7 @@ namespace Tests
 
 
             // Open the help popup
-            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
+            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("HelpButton"));
             helpButton.Click();
 
             // Find the popup window

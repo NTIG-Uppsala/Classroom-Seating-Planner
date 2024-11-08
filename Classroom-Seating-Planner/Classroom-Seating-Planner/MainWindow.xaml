@@ -36,7 +36,7 @@
        
 
         <!-- Help button -->
-        <Button x:Name="FileHelpButton" 
+        <Button x:Name="HelpButton" 
                 Content="Hjälp" 
                 Grid.Column="1" 
                 VerticalAlignment="Center" HorizontalAlignment="Right" 
@@ -98,8 +98,8 @@
             </Grid.ColumnDefinitions>
 
             <!-- Whiteboard -->
-            <Border x:Name="WhiteboardBorder" BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="2" Grid.ColumnSpan="2">
-                <Label x:Name="WhiteboardText" Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0"/>
+            <Border BorderBrush="#FF8F8F8F" BorderThickness="1" Grid.Column="2" Grid.ColumnSpan="2">
+                <Label Content="Tavlan" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,0,0,0"/>
             </Border>
 
             <!-- Tables -->
