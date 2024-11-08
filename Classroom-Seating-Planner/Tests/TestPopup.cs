@@ -77,53 +77,78 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
-        private static List<Window> GetAllExplorerInstances() // Add app and automation
+        private static List<FlaUIElement.AutomationElement> GetAllExplorerInstances(FlaUI.UIA3.UIA3Automation automation, ConditionFactory cf)
         {
-              // TODO: implement
+            return automation.GetDesktop().FindAllDescendants(cf.ByClassName("CabinetWClass")).ToList();
         }
 
         [TestMethod]
         public void TestOpenFileExplorer()
         {
+            Stopwatch startTime = new();
+            startTime.Start();
+
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
 
+            Trace.WriteLine("Setup took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
 
             // Open the help popup
             FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("FileHelpButton"));
             helpButton.Click();
 
+            Trace.WriteLine("Opening the help popup took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
+
             // Find the popup window
             FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
             Assert.IsNotNull(popupWindow);
 
+            Trace.WriteLine("Finding the help popup took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
+
             // Save the currently open file explorer windows
-            List<string> explorerInstances = GetAllExplorerInstances();
+            List<FlaUIElement.AutomationElement> explorerInstances = GetAllExplorerInstances(automation, cf);
+
+            Trace.WriteLine("Getting all explorer instances took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
 
             // Click the open button
             FlaUIElement.AutomationElement openButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("OpenButton"));
             openButton.Click();
 
+            Trace.WriteLine("Clicking the open button took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
+
             // Until the file explorer window opens or the timeout is reached, check for the new explorer window
-            Window? explorer = null;
+            FlaUIElement.AutomationElement? explorer = null;
             Stopwatch timeout = new();
             timeout.Start();
             while (explorer == null && timeout.ElapsedMilliseconds < 10000)
             {
-                explorer = GetAllExplorerInstances().Except(explorerInstances).FirstOrDefault();
+                explorer = GetAllExplorerInstances(automation, cf).Except(explorerInstances).FirstOrDefault();
             }
             if (explorer == null)
             {
                 Assert.Fail("The file explorer window did not open within the timeout.");
             }
 
+            Trace.WriteLine("Finding the new explorer window took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
+
             // Check that the file explorer window has the expected name
             Assert.IsTrue(explorer.Name.Contains(UtilsHelpers.dataFolderName));
+
+            Trace.WriteLine("Checking the name of the explorer window took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
 
             // Close the file explorer window
             FlaUIElement.AutomationElement closeButton = explorer.FindFirstDescendant(cf.ByAutomationId("Close"));
             closeButton.Click();
 
+            Trace.WriteLine("Closing the explorer window took " + startTime.ElapsedMilliseconds + " ms.");
+            startTime.Restart();
 
             Utils.TearDownTest(app);
         }
