@@ -74,23 +74,55 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
-        //[TestMethod, Timeout(3000)]
-        //public void TestShuffleShortList() // This is not a test of the name list, rather it's a test of the shuffle function
-        //{
-        //    // Test that Utils.ShuffleListcan handle a list with 0 items
-        //    List<string> testListLengthZero = [];
-        //    List<string> testListLengthZeroShuffled = Utils.ShuffleList(testListLengthZero);
-        //    Assert.IsNotNull(testListLengthZeroShuffled);
+        [TestMethod, Timeout(3000)]
+        public void TestRandomizeListOfZero()
+        {
+            // Set up/start the test
+            List<string> testListLengthTwo = [];
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(testListLengthTwo);
 
-        //    // Test that Utils.ShuffleListcan handle a list with 1 item
-        //    List<string> testListLengthOne = ["Name1"];
-        //    List<string> testListLengthOneShuffled = Utils.ShuffleList(testListLengthOne);
-        //    Assert.IsNotNull(testListLengthOneShuffled);
 
-        //    // Test that Utils.ShuffleListcan handle a list with 2 items and make sure the order of the lists are different
-        //    List<string> testListLengthTwo = ["Name1", "Name2"];
-        //    List<string> testListLengthTwoShuffled = Utils.ShuffleList(testListLengthTwo);
-        //    Assert.IsFalse(testListLengthTwo.SequenceEqual(testListLengthTwoShuffled));
-        //}
+            // Randomize the list and check that it works
+            Utils.ClickRandomizeSeatingButton(window, cf);
+            List<string> testListLengthZeroShuffled = Utils.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            Assert.IsNotNull(testListLengthZeroShuffled);
+
+
+            Utils.TearDownTest(app);
+        }
+
+        [TestMethod, Timeout(3000)]
+        public void TestRandomizeListOfOne() // This is not a test of the name list, rather it's a test of the shuffle function
+        {
+            // Set up/start the test
+            List<string> testListLengthOne = ["Name1"];
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(testListLengthOne);
+
+
+            // Randomize the list and check that it works
+            Utils.ClickRandomizeSeatingButton(window, cf);
+            List<string> testListLengthOneShuffled = Utils.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            Assert.IsNotNull(testListLengthOneShuffled);
+
+
+            Utils.TearDownTest(app);
+        }
+
+        [TestMethod, Timeout(3000)]
+        public void TestRandomizeListOfTwo() // This is not a test of the name list, rather it's a test of the shuffle function
+        {
+            // Set up/start the test
+            List<string> testListLengthTwo = ["Name1", "Name2"];
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(testListLengthTwo);
+
+
+            // Randomize the list and check that it works
+            Utils.ClickRandomizeSeatingButton(window, cf);
+            List<string> testListLengthTwoShuffled = Utils.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            Assert.IsNotNull(testListLengthTwoShuffled);
+
+
+            Utils.TearDownTest(app);
+        }
     }
 }

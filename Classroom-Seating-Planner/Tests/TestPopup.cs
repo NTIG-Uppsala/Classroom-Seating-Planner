@@ -127,7 +127,7 @@ namespace Tests
                 Assert.Fail("The file explorer window did not open within the timeout.");
             }
 
-            // Check that the file explorer window has the expected name
+            // Check that the file explorer is opened in the correct directory
             Assert.IsTrue(explorer.Name.Contains(UtilsHelpers.dataFolderName));
 
             // Close the file explorer window
