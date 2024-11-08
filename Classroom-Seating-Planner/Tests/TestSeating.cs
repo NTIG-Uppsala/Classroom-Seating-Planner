@@ -14,7 +14,8 @@ namespace Tests
         public void TestSeatingIsCorrect()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest();
 
             int[] testIndex = [0, 10, 16, 27, 32];
 

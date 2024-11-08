@@ -26,7 +26,8 @@ namespace Tests
         public void TestOpeningPopup()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest();
 
 
             // Open the help popup
@@ -58,7 +59,8 @@ namespace Tests
         public void TestClosingMainWindow()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest();
 
 
             // Open the help popup
@@ -89,7 +91,8 @@ namespace Tests
         public void TestOpenFileExplorer()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest();
 
 
             // Open the help popup
@@ -163,7 +166,8 @@ namespace Tests
             System.IO.Directory.Delete(UtilsHelpers.dataFolderPath, true);
 
             // Get FLaUI boilerplate
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = UtilsHelpers.InitializeApplication();
 
             // Check that the correct popup is shown when the directory is missing
             FlaUIElement.Window? popupWindow = FindPopup(missingFilePopupName, app, automation);
@@ -203,7 +207,8 @@ namespace Tests
             System.IO.File.Delete(UtilsHelpers.classListFilePath);
 
             // Get FLaUI boilerplate
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = UtilsHelpers.InitializeApplication();
 
             // Assert that the correct popup is shown when the file is missing
             FlaUIElement.Window? popupWindow = FindPopup(missingFilePopupName, app, automation);
@@ -219,7 +224,8 @@ namespace Tests
         public void TestEmptyListFile()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest([]);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest([]);
 
             // Assert that the correct popup is shown when the empty list is loaded
             FlaUIElement.Window? popupWindow = FindPopup(badFilePopupName, app, automation);
@@ -235,7 +241,8 @@ namespace Tests
         public void TestDefaultList()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(UtilsHelpers.defaultClassList);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest(UtilsHelpers.defaultClassList);
 
             // Assert that the correct popup is shown when the default list is loaded
             FlaUIElement.Window? popupWindow = FindPopup(badFilePopupName, app, automation);

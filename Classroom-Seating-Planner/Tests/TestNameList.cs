@@ -49,7 +49,8 @@ namespace Tests
             }
 
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) 
+                = Utils.SetUpTest();
 
             string classListElementAutomationId = "ClassListElement";
 
@@ -79,7 +80,8 @@ namespace Tests
         {
             // Set up/start the test
             List<string> testListLengthTwo = [];
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(testListLengthTwo);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest(testListLengthTwo);
 
 
             // Randomize the list and check that it works
@@ -96,7 +98,8 @@ namespace Tests
         {
             // Set up/start the test
             List<string> testListLengthOne = ["Name1"];
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(testListLengthOne);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest(testListLengthOne);
 
 
             // Randomize the list and check that it works
@@ -113,7 +116,8 @@ namespace Tests
         {
             // Set up/start the test
             List<string> testListLengthTwo = ["Name1", "Name2"];
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(testListLengthTwo);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUpTest(testListLengthTwo);
 
 
             // Randomize the list and check that it works
