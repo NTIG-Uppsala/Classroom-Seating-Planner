@@ -31,7 +31,7 @@ namespace Classroom_Seating_Planner
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
             string documentsFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            Process.Start("explorer.exe", Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn"));
+            Process.Start("explorer.exe", System.IO.Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn"));
         }
     }
 }

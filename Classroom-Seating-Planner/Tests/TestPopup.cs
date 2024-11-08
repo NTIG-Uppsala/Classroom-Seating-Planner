@@ -139,19 +139,19 @@ namespace Tests
         {
             // Save the file content to restore it after the test
             string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string backupFolder = Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
-            string backupFilePath = Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
+            string backupFolder = System.IO.Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
+            string backupFilePath = System.IO.Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
 
-            if (!Directory.Exists(UtilsHelpers.dataFolderPath) || !File.Exists(UtilsHelpers.classListFilePath))
+            if (!System.IO.Directory.Exists(UtilsHelpers.dataFolderPath) || !System.IO.File.Exists(UtilsHelpers.classListFilePath))
             {
                 Assert.Fail("Test failed because the file with the class list does not exist.");
             }
 
-            string fileContent = File.ReadAllText(UtilsHelpers.classListFilePath); // TODO : Avoid string for file content
-            Directory.CreateDirectory(backupFolder);
-            File.WriteAllText(backupFilePath, fileContent);
+            string fileContent = System.IO.File.ReadAllText(UtilsHelpers.classListFilePath); // TODO : Avoid string for file content
+            System.IO.Directory.CreateDirectory(backupFolder);
+            System.IO.File.WriteAllText(backupFilePath, fileContent);
             // Remove the file
-            Directory.Delete(UtilsHelpers.dataFolderPath, true);
+            System.IO.Directory.Delete(UtilsHelpers.dataFolderPath, true);
 
             // Get FLaUI boilerplate
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
@@ -162,9 +162,9 @@ namespace Tests
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
             // Clean up the test environment and restore the file
-            Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
-            File.WriteAllText(UtilsHelpers.classListFilePath, fileContent);
-            Directory.Delete(backupFolder, true);
+            System.IO.Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
+            System.IO.File.WriteAllText(UtilsHelpers.classListFilePath, fileContent);
+            System.IO.Directory.Delete(backupFolder, true);
 
 
             Utils.TearDownTest(app);
@@ -180,8 +180,8 @@ namespace Tests
             }
 
             // Backup data and delete original file
-            File.Copy(UtilsHelpers.classListFilePath, UtilsHelpers.classListBackupFilePath);
-            File.Delete(UtilsHelpers.classListFilePath);
+            System.IO.File.Copy(UtilsHelpers.classListFilePath, UtilsHelpers.classListBackupFilePath);
+            System.IO.File.Delete(UtilsHelpers.classListFilePath);
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();

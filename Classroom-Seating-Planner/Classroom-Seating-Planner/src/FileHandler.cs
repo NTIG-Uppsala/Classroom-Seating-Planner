@@ -9,8 +9,8 @@ namespace Classroom_Seating_Planner.src
         private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
         private static readonly string classListFileName = "klasslista.txt";
         
-        public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-        public static readonly string classListFilePath = Path.Combine(dataFolderPath, classListFileName);
+        public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+        public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
 
         public static readonly List<string> defaultClassList =
         [
@@ -36,20 +36,20 @@ namespace Classroom_Seating_Planner.src
         public static void WriteDefaultClassListFile()
         {
             // Make sure the data folder exists
-            if (!Directory.Exists(dataFolderPath))
+            if (!System.IO.Directory.Exists(dataFolderPath))
             {
-                Directory.CreateDirectory(dataFolderPath);
+                System.IO.Directory.CreateDirectory(dataFolderPath);
             }
 
             // Write the default list to the class list file
-            File.WriteAllText(classListFilePath, string.Join("\n", defaultClassList));
+            System.IO.File.WriteAllText(classListFilePath, string.Join("\n", defaultClassList));
         }
 
         // Handles the data in the class list file
         public static string? CheckClassListFileForIssues()
         {
             // Create the class list file if it does not exist, write the default list to it, and return the "not found" message code
-            if (!File.Exists(classListFilePath))
+            if (!System.IO.File.Exists(classListFilePath))
             {
                 WriteDefaultClassListFile();
                 return "not found";

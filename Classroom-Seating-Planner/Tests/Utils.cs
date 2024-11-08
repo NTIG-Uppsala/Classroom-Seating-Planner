@@ -138,9 +138,9 @@ namespace Tests
         public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
         public static readonly string classListFileName = "klasslista.txt";
 
-        public static readonly string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-        public static readonly string classListFilePath = Path.Combine(dataFolderPath, classListFileName);
-        public static readonly string classListBackupFilePath = $"{Path.Combine(dataFolderPath, classListFileName)}.bak";
+        public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+        public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
+        public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
 
         // Returns a list of data from an external file
         public static List<string> GetDataFromFile(string filePath)

@@ -17,7 +17,7 @@ namespace Classroom_Seating_Planner
 
         // This is the instructional text that will be displayed in the popup windows
         public string fileTutorial = $"Klasslistan ligger i\n" +
-            $"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
+            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
             $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
         public string notFoundFilePopup = "Klasslista hittades inte. En textfil har skapats. ";
