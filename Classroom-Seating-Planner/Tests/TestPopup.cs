@@ -162,20 +162,19 @@ namespace Tests
         [TestMethod]
         public void TestNoDirectory()
         {
-            // Save the file content to restore it after the test
-            string documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string backupFolder = System.IO.Path.Combine(documentsFolder, "BordsplaceringsgeneratornBackup");
-            string backupFilePath = System.IO.Path.Combine(backupFolder, "klasslista.no-directory.txt.bak");
+            // Create a backup folder
+            string backupFolderName = "ClassroomSeatingPlannerBackup";
+            string documentsFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            string backupFolder = System.IO.Path.Combine(documentsFolder, backupFolderName);
+            System.IO.Directory.CreateDirectory(backupFolder);
 
-            if (!System.IO.Directory.Exists(UtilsHelpers.dataFolderPath) || !System.IO.File.Exists(UtilsHelpers.classListFilePath))
+            // Move all files from the data folder to the backup folder
+            foreach (string file in System.IO.Directory.GetFiles(UtilsHelpers.dataFolderPath))
             {
-                Assert.Fail("Test failed because the file with the class list does not exist.");
+                System.IO.File.Move(file, System.IO.Path.Combine(UtilsHelpers.dataFolderPath, System.IO.Path.GetFileName(file)));
             }
 
-            string fileContent = System.IO.File.ReadAllText(UtilsHelpers.classListFilePath); // TODO : Avoid string for file content
-            System.IO.Directory.CreateDirectory(backupFolder);
-            System.IO.File.WriteAllText(backupFilePath, fileContent);
-            // Remove the file
+            // Delete the data folder
             System.IO.Directory.Delete(UtilsHelpers.dataFolderPath, true);
 
             // Get FLaUI boilerplate
@@ -186,9 +185,16 @@ namespace Tests
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
-            // Clean up the test environment and restore the file
+            // Recreate the data folder
             System.IO.Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
-            System.IO.File.WriteAllText(UtilsHelpers.classListFilePath, fileContent);
+
+            // Move all files back from the backup folder to the data folder
+            foreach (string file in System.IO.Directory.GetFiles(backupFolder))
+            {
+                System.IO.File.Move(file, System.IO.Path.Combine(UtilsHelpers.dataFolderPath, System.IO.Path.GetFileName(file)));
+            }
+
+            // Delete the backup folder
             System.IO.Directory.Delete(backupFolder, true);
 
 
