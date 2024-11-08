@@ -44,7 +44,7 @@
                 Foreground="#01aef0"
                 FontSize="0.48cm"
                 Margin="12,0" 
-                Click="FileHelpButton_Click"
+                Click="HelpButton_Click"
                 />
 
         <!-- Hairline at the bottom of the header -->

@@ -95,7 +95,7 @@ namespace Classroom_Seating_Planner
                 Seat34,
                 Seat35,
                 Seat36
-    ];
+            ];
             listOfSeats = seatsList;
         }
 
@@ -176,7 +176,7 @@ namespace Classroom_Seating_Planner
             RandomizeSeatingButton.FontSize = fontSize;
         }
 
-        private void FileHelpButton_Click(object sender, RoutedEventArgs e)
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             // Create an instance of the popup window
             _ = new PopupWindow(fileTutorial, "Hjälp", this);
