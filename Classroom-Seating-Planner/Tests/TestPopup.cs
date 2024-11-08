@@ -12,10 +12,14 @@ namespace Tests
     [TestClass]
     public class TestPopup
     {
-        private FlaUIElement.Window GetHelpWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        private static readonly string helpPopupName = "Hjälp";
+        private static readonly string missingFilePopupName = "Information";
+        private static readonly string badFilePopupName = "Varning";
+
+        private static Window? FindPopup(string name, FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-            return windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
+            return windows.Where(window => window.Name == name).FirstOrDefault();
         }
 
         [TestMethod]
@@ -30,8 +34,7 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
-            Trace.Assert(popupWindow != null);
+            FlaUIElement.AutomationElement? popupWindow = FindPopup(helpPopupName, app, automation);
             Assert.IsNotNull(popupWindow);
 
             // Close the popup immediately
@@ -39,12 +42,12 @@ namespace Tests
             closeButton.Click();
 
             // Check that the window has closed
-            popupWindow = GetHelpWindow(app, automation);
+            popupWindow = FindPopup(helpPopupName, app, automation);
             Assert.IsNull(popupWindow);
 
             // Open the popup again and check if it opened the second time
             helpButton.Click();
-            popupWindow = GetHelpWindow(app, automation);
+            popupWindow = FindPopup(helpPopupName, app, automation);
             Assert.IsNotNull(popupWindow);
 
 
@@ -63,14 +66,14 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
+            FlaUIElement.AutomationElement? popupWindow = FindPopup(helpPopupName, app, automation);
             Assert.IsNotNull(popupWindow);
 
             // Close the main window
             window.Close();
 
             // The popup should be closed as well
-            popupWindow = GetHelpWindow(app, automation);
+            popupWindow = FindPopup(helpPopupName, app, automation);
             Assert.IsNull(popupWindow);
 
 
@@ -94,7 +97,7 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement popupWindow = GetHelpWindow(app, automation);
+            FlaUIElement.AutomationElement? popupWindow = FindPopup(helpPopupName, app, automation);
             Assert.IsNotNull(popupWindow);
 
             // Save the currently open file explorer windows
@@ -135,12 +138,6 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
-        private FlaUIElement.Window GetNoFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
-        {
-            FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-            return windows.Where(window => window.Name == "Information").FirstOrDefault();
-        }
-
         [TestMethod]
         public void TestMissingDirectory()
         {
@@ -169,7 +166,7 @@ namespace Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
             // Check that the correct popup is shown when the directory is missing
-            FlaUIElement.Window popupWindow = GetNoFileWindow(app, automation);
+            FlaUIElement.Window? popupWindow = FindPopup(missingFilePopupName, app, automation);
             Assert.IsNotNull(popupWindow);
             Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
@@ -209,31 +206,25 @@ namespace Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
             // Assert that the correct popup is shown when the file is missing
-            FlaUIElement.Window popup = GetNoFileWindow(app, automation);
-            Assert.IsNotNull(popup);
-            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
+            FlaUIElement.Window? popupWindow = FindPopup(missingFilePopupName, app, automation);
+            Assert.IsNotNull(popupWindow);
+            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
 
             Utils.TearDownTest(app);
         }
 
-        private FlaUIElement.Window GetBadFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
-        {
-            FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-            return windows.Where(window => window.Name == "Varning").FirstOrDefault();
-        }
-
-
         // Test that the application gives a popup warning when loading an empty list
         [TestMethod]
         public void TestEmptyListFile()
         {
+            // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest([]);
 
             // Assert that the correct popup is shown when the empty list is loaded
-            FlaUIElement.Window popup = GetBadFileWindow(app, automation);
-            Assert.IsNotNull(popup);
-            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
+            FlaUIElement.Window? popupWindow = FindPopup(badFilePopupName, app, automation);
+            Assert.IsNotNull(popupWindow);
+            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
 
 
             Utils.TearDownTest(app);
@@ -246,12 +237,10 @@ namespace Tests
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(UtilsHelpers.defaultClassList);
 
-
             // Assert that the correct popup is shown when the default list is loaded
-            FlaUIElement.Window popup = GetBadFileWindow(app, automation);
-            Trace.WriteLine(popup);
-            Assert.IsNotNull(popup);
-            Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("klasslistan inte har uppdaterats"));
+            FlaUIElement.Window? popupWindow = FindPopup(badFilePopupName, app, automation);
+            Assert.IsNotNull(popupWindow);
+            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("klasslistan inte har uppdaterats"));
 
 
             Utils.TearDownTest(app);
