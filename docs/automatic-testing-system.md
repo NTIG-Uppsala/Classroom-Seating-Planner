@@ -4,7 +4,6 @@ _**Do not move your cursor or touch your keyboard while the tests are running!**
 
 ## Running the Tests
 
--   Before running any tests, run the program once to create the necessary files. 
 -   In Visual Studio, navigate to `Build`>`Configuration Manager...`.
 -   Make sure `Active solution configuration:` is set to `Debug`.
 -   Close the `Configuration Manager`.
