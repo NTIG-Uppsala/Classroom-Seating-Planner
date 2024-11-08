@@ -32,13 +32,13 @@ namespace Tests
                 return false;
             }
 
-            List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
             {
                 // Extract an list of students from the ListBox element in the UI
                 return Utils.GetListBoxItemsAsList(window, cf, listBoxAutomationId).ToList();
             }
 
-            List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
             {
                 Utils.ClickRandomizeSeatingButton(window, cf);
 
@@ -49,7 +49,7 @@ namespace Tests
             }
 
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
 
             string classListElementAutomationId = "ClassListElement";
 

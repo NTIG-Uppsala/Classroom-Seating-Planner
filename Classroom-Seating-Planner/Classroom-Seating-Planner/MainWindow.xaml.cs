@@ -9,7 +9,7 @@ namespace Classroom_Seating_Planner
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         // Define the global list of names here
         private List<string> listOfNames;

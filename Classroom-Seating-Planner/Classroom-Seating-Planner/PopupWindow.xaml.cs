@@ -7,9 +7,9 @@ namespace Classroom_Seating_Planner
     /// <summary>
     /// Interaction logic for PopupWindow.xaml
     /// </summary>
-    public partial class PopupWindow : Window
+    public partial class PopupWindow : System.Windows.Window
     {
-        public PopupWindow(string popupText, string windowTitle, Window parent)
+        public PopupWindow(string popupText, string windowTitle, System.Windows.Window parent)
         {
             InitializeComponent();
 

@@ -7,14 +7,14 @@ namespace Tests
 {
     internal class Utils
     {
-        public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, ConditionFactory cf)
+        public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
         {
             // Find and press the randomizer button
             FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
             randomizeButton.Click();
         }
 
-        public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(Window window, ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
+        public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
         {
             // Find all element
             List<AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
@@ -31,7 +31,7 @@ namespace Tests
             return allSeats;
         }
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) SetUpTest(List<string>? testClassList = null)
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUpTest(List<string>? testClassList = null)
         {
             // Restore backup data if backup file already exists
             if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
@@ -122,7 +122,7 @@ namespace Tests
         }
 
         // Returns list of ListBox items
-        public static List<string> GetListBoxItemsAsList(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomaitonId)
+        public static List<string> GetListBoxItemsAsList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomaitonId)
         {
             FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
             List<FlaUIElement.ListBoxItem> listBoxItemsList = listBox.Items.ToList();
@@ -175,15 +175,15 @@ namespace Tests
             return classList;
         }
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, Window, ConditionFactory) InitializeApplication()
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeApplication()
         {
             // Find and run the application
             FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
             using FlaUI.UIA3.UIA3Automation automation = new();
 
             // Find the main window for the purpose of finding elements
-            Window window = app.GetMainWindow(automation);
-            ConditionFactory cf = new(new UIA3PropertyLibrary());
+            FlaUIElement.Window window = app.GetMainWindow(automation);
+            FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
 
             return (app, automation, window, cf);
         }

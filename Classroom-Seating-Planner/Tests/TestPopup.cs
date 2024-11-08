@@ -12,7 +12,7 @@ namespace Tests
     [TestClass]
     public class TestPopup
     {
-        private Window GetHelpWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        private FlaUIElement.Window GetHelpWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
             return windows.Where(window => window.Name == "Hjälp").FirstOrDefault();
@@ -22,7 +22,7 @@ namespace Tests
         public void TestOpeningPopup()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
 
 
             // Open the help popup
@@ -55,7 +55,7 @@ namespace Tests
         public void TestClosingMainWindow()
         {
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
 
 
             // Open the help popup
@@ -89,7 +89,7 @@ namespace Tests
             startTime.Start();
 
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest();
 
             Trace.WriteLine("Setup took " + startTime.ElapsedMilliseconds + " ms.");
             startTime.Restart();
@@ -153,7 +153,7 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
-        private Window GetNoFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        private FlaUIElement.Window GetNoFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
             return windows.Where(window => window.Name == "Information").FirstOrDefault();
@@ -179,10 +179,10 @@ namespace Tests
             System.IO.Directory.Delete(UtilsHelpers.dataFolderPath, true);
 
             // Get FLaUI boilerplate
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
             // Check that the correct popup is shown when the directory is missing
-            Window popup = GetNoFileWindow(app, automation);
+            FlaUIElement.Window popup = GetNoFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
@@ -209,10 +209,10 @@ namespace Tests
             System.IO.File.Delete(UtilsHelpers.classListFilePath);
 
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = UtilsHelpers.InitializeApplication();
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = UtilsHelpers.InitializeApplication();
 
             // Assert that the correct popup is shown when the file is missing
-            Window popup = GetNoFileWindow(app, automation);
+            FlaUIElement.Window popup = GetNoFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
@@ -220,7 +220,7 @@ namespace Tests
             Utils.TearDownTest(app);
         }
 
-        private Window GetBadFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+        private FlaUIElement.Window GetBadFileWindow(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
             FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
             return windows.Where(window => window.Name == "Varning").FirstOrDefault();
@@ -231,10 +231,10 @@ namespace Tests
         [TestMethod]
         public void TestEmptyListFile()
         {
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest([]);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest([]);
 
 
-            Window popup = GetBadFileWindow(app, automation);
+            FlaUIElement.Window popup = GetBadFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
 
@@ -253,9 +253,9 @@ namespace Tests
                 "Förnamn Efternamn",
             ];
 
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, Window window, ConditionFactory cf) = Utils.SetUpTest(defaultNameList);
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(defaultNameList);
 
-            Window popup = GetBadFileWindow(app, automation);
+            FlaUIElement.Window popup = GetBadFileWindow(app, automation);
             Trace.WriteLine(popup);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("klasslistan inte har uppdaterats"));
