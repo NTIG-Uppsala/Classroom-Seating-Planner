@@ -163,7 +163,7 @@ namespace Tests
         public void TestNoDirectory()
         {
             // Create a backup folder
-            string backupFolderName = "ClassroomSeatingPlannerBackup";
+            string backupFolderName = $"{UtilsHelpers.dataFolderName}Backup";
             string documentsFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             string backupFolder = System.IO.Path.Combine(documentsFolder, backupFolderName);
             System.IO.Directory.CreateDirectory(backupFolder);
