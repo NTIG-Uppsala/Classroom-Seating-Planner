@@ -121,14 +121,14 @@ namespace Tests
             return newList;
         }
 
-        // Returns array of ListBox Items
-        public static string[] GetListBoxItemsAsArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomaitonId)
+        // Returns list of ListBox items
+        public static List<string> GetListBoxItemsAsList(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomaitonId)
         {
             FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
-            ListBoxItem[] listBoxItemsList = listBox.Items;
-            string[] listItemsArray = listBoxItemsList.Select(listItem => listItem.Text).ToArray();
+            List<FlaUIElement.ListBoxItem> listBoxItemsList = listBox.Items.ToList();
+            List<string> listBoxItemsStringList = listBoxItemsList.Select(item => item.Text).ToList();
 
-            return listItemsArray;
+            return listBoxItemsStringList;
         }
     }
 

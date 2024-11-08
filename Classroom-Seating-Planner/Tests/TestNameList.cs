@@ -34,16 +34,16 @@ namespace Tests
 
             List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
             {
-                // Extract an array of students from the ListBox element in the UI
-                return Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId).ToList();
+                // Extract an list of students from the ListBox element in the UI
+                return Utils.GetListBoxItemsAsList(window, cf, listBoxAutomationId).ToList();
             }
 
-            List<string> clickRandomizeButtonAndGetNewArray(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
+            List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, ConditionFactory cf, string listBoxAutomationId)
             {
                 Utils.ClickRandomizeSeatingButton(window, cf);
 
-                // Extract an array of students from the ListBox element in the UI
-                List<string> classListNew = Utils.GetListBoxItemsAsArray(window, cf, listBoxAutomationId).ToList();
+                // Extract an list of students from the ListBox element in the UI
+                List<string> classListNew = Utils.GetListBoxItemsAsList(window, cf, listBoxAutomationId).ToList();
 
                 return classListNew;
             }
@@ -54,7 +54,7 @@ namespace Tests
             string classListElementAutomationId = "ClassListElement";
 
             List<string> classListOld = getClassListFromClassListElementBeforeShuffle(window, cf, classListElementAutomationId);
-            List<string> classListNew = clickRandomizeButtonAndGetNewArray(window, cf, classListElementAutomationId);
+            List<string> classListNew = clickRandomizeButtonAndGetNewList(window, cf, classListElementAutomationId);
 
             // Custom error messages for asserts
             string errorMessageClassListOrderUnchanged = "Test failed because the order of the class list has not changed.";
@@ -65,7 +65,7 @@ namespace Tests
             Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), errorMessageClassListIsDifferent);
 
             classListOld = getClassListFromClassListElementBeforeShuffle(window, cf, classListElementAutomationId);
-            classListNew = clickRandomizeButtonAndGetNewArray(window, cf, classListElementAutomationId);
+            classListNew = clickRandomizeButtonAndGetNewList(window, cf, classListElementAutomationId);
 
             // Test one more time to make sure that the list can be scrambled again
             Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), errorMessageClassListOrderUnchanged);
