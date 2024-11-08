@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Classroom_Seating_Planner.src;
+using ExtensionMethods;
 
 namespace Classroom_Seating_Planner
 {
