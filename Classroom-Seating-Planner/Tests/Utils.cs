@@ -82,7 +82,7 @@ namespace Tests
 
             // Insert the test data into the file
             string classListFilePath = UtilsHelpers.classListFilePath;
-            using (StreamWriter writer = new(classListFilePath, false))
+            using (System.IO.StreamWriter writer = new(classListFilePath, false))
             {
                 foreach (string testStudent in testClassList)
                 {
@@ -146,7 +146,7 @@ namespace Tests
         public static List<string> GetDataFromFile(string filePath)
         {
             // Read the data from the file and return it as a list
-            using StreamReader reader = new(filePath);
+            using System.IO.StreamReader reader = new(filePath);
             List<string> dataList = reader
                 .ReadToEnd()
                 .Split("\n")

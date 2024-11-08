@@ -23,7 +23,7 @@ namespace Classroom_Seating_Planner.src
         public static List<string> GetDataFromFileAsList(string filePath)
         {
             // Read the data from the file and return it as a list
-            using StreamReader reader = new(filePath);
+            using System.IO.StreamReader reader = new(filePath);
             List<string> dataList = reader
                 .ReadToEnd()
                 .Split("\n")
