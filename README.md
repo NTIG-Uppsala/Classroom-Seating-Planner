@@ -10,14 +10,7 @@
     -   Du kan få en varning från din webbläsare eller antivirusprogram. Detta beror på att filen inte laddas ner ofta. Du kan ignorera denna varning och ladda ner filen.
 4.  När nedladdningen är klar, kör programmet.
     -   Du kan få en varning från Windows Defender. Klicka på `Mer information` och sedan `Kör ändå` för att ignorera varningen och köra den ändå.
-5.  När programmet är igång får du en popup. Klicka på `Öppna`.
-6.  En mapp öppnas som innehåller en textfil som heter `klasslista`.
-7.  Öppna textfilen.
-8.  Skriv in varje namn du vill använda på separata rader.
-9.  Spara filen och stäng den.
-10. Stäng ner programmet och kör det igen.
-
-Programmet installeras inte på din dator. Det är ett fristående program som kan köras från var som helst, antagligen från din nedladdningsmapp. För att köra progreammet igen behöver du hitta filen och köra den.
+5.  När programmet körs första gången kommer en popup-ruta med instruktioner om hur man redigerar klasslistan. Du kan alltid nå den informationen genom att klicka på `Hjälp`-knappen.
 
 ## Development Documents
 
