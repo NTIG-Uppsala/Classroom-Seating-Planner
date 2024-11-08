@@ -92,7 +92,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void TestRandomizeListOfOne() // This is not a test of the name list, rather it's a test of the shuffle function
+        public void TestRandomizeListOfOne()
         {
             // Set up/start the test
             List<string> testListLengthOne = ["Name1"];
@@ -109,7 +109,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void TestRandomizeListOfTwo() // This is not a test of the name list, rather it's a test of the shuffle function
+        public void TestRandomizeListOfTwo()
         {
             // Set up/start the test
             List<string> testListLengthTwo = ["Name1", "Name2"];
