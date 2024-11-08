@@ -39,6 +39,13 @@ namespace Tests
                 UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
             }
 
+            // Create the data folder and an empty class list file if they don't exist
+            if (!System.IO.File.Exists(UtilsHelpers.classListFilePath))
+            {
+                System.IO.Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
+                System.IO.File.Create(UtilsHelpers.classListFilePath).Close();
+            }
+
             // Backup the data from the class list file so it can be restored after testing
             System.IO.File.Copy(UtilsHelpers.classListFilePath, $"{UtilsHelpers.classListFilePath}.bak");
 
@@ -141,6 +148,12 @@ namespace Tests
         public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
         public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
         public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
+
+        public static readonly List<string> defaultClassList = [
+                "Förnamn Efternamn",
+                "Förnamn Efternamn",
+                "Förnamn Efternamn",
+            ];
 
         // Returns a list of data from an external file
         public static List<string> GetDataFromFile(string filePath)

@@ -239,7 +239,7 @@ namespace Tests
         {
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest([]);
 
-
+            // Assert that the correct popup is shown when the empty list is loaded
             FlaUIElement.Window popup = GetBadFileWindow(app, automation);
             Assert.IsNotNull(popup);
             Assert.IsTrue(popup.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
@@ -252,15 +252,11 @@ namespace Tests
         [TestMethod]
         public void TestDefaultList()
         {
-            List<string> defaultNameList =
-            [
-                "Förnamn Efternamn",
-                "Förnamn Efternamn",
-                "Förnamn Efternamn",
-            ];
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(UtilsHelpers.defaultClassList);
 
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) = Utils.SetUpTest(defaultNameList);
 
+            // Assert that the correct popup is shown when the default list is loaded
             FlaUIElement.Window popup = GetBadFileWindow(app, automation);
             Trace.WriteLine(popup);
             Assert.IsNotNull(popup);
