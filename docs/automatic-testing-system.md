@@ -11,7 +11,7 @@ _**Do not move your cursor or touch your keyboard while the tests are running!**
 -   Navigate to `Test`>`Test Explorer`.
 -   Click `Run All Tests` or press `Ctrl+R, A` to build and run all the tests.
 
-If you recieve errors when trying to run the tests, try the following:
+If you receive errors when trying to run the tests, try the following:
 
 -   Make sure no windows from previous tests are still running.
 
