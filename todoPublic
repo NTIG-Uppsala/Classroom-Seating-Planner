@@ -1,0 +1,56 @@
+C# WPF TODO list
+
+## Main
+- [ ] Strings på toppen av main ska flyttas till popup
+- [ ] Kommentarer på globala properties
+- [ ] Variable namn i main, särskilt namnlistan.
+- [ ] Ny namnstandard på xaml elementen ex. +Element
+- [ ] Listboxen fylls på från separata ställen
+- [ ] Main window loaded event listener kan flyttas ut från main
+- [ ] Randomize seating button kan flyttas till egen fil ex. Seating.cs
+- [ ] Window resize som ändrar font kan vara egen fil ex. TextRendering.cs
+- [ ] help button eventlistener kan flyttas till popupfilen
+
+## ListActions
+- [ ] ListAction.Shuffle borde extenda List-klassen
+
+## Popup
+- [ ] Borde ha hjälpknappen i sig 
+
+# Tester 
+## Utils
+- [ ] Click ClickRandomizeSeatingButton borde vara en lokal helper, inte i utils
+- [ ] Vad gör fileBackupList? Kommentar? Ska den ligga på toppen kanske?
+- [ ] Kommentar på setup metoden så det syns lättare att den är en setup. Många argument i vägen
+- [ ] Testnamnlistan kanske ska vara global property i utils istället för i setup?
+- [ ] Det måste finnas ett bättre namn för GetListBoxItemsAsArray.
+- [ ] SetUpTest och TearDownTest behöver nog inte heta test
+
+## UtilsHelpers
+- [ ] InitializeApplication kanske ska heta nått i stil med FlaUIappInit? Att specifiera att det är FlaUI boilerplate tycker jag är tydligare, Initialize är rätt diffust i sig.
+- [ ] Fil paths borde väl inte ligga i utilshelpers? Borde väl vara utils om något? Annars kan man ha en separat fileHandler i testprojektet.
+- [ ] Allt i utilshelpers kan flyttas till utils eller file handler.
+- [ ] Alla referenser till namnlistan border omfaktoriseras för att vara mer konsekvent. Och de borde flyttas till en file handler eller liknande inom test projektet.
+
+## Tester 
+- [ ] Ta bort "Test" från alla testnamn. Vi vet redan att de är tester. I test explorer slösar det bara utrymme med test i början. De behöver bara vara markerade som [TestMethod] för att fungera.
+
+## TestSeating
+- [ ] errorMessage på rad 25 borde inte behövas, kan flyttas in i foreach.
+- [ ] Samma med rad 40
+- [ ] Rad 19 testIndex borde nog döpas om. Den säger inte vad den används till.
+- [ ] Byt namn?
+
+## TestPopup
+- [ ] Alla test- och funktionsnamn behöver ses över. Jag kan göra det.
+- [ ] Teardown ska finnas på alla metoder. Jag tar den.
+- [ ] Default namnlistan borde ligga i utils eller nått, typ filehandler, inte i sista testmetoden i popup testerna.
+- [X] Justera/fix whitespace och blankrader på senaste testmetoderna i popup testerna.
+
+## TestNameList
+- [ ] filen borde kanske byta namn. Det är inte exakt vad den testar. Av namnet har jag ingen aning om vad den testar.
+- [ ] TestShuffleShortList ska tas bort inkl. util funktionen.
+- [ ] getArrayOfStudentListBeforeShuffle känns som en onödig extrahering. Det ska gå att få till på snyggare sätt. Om nått behöver den döpas om.
+- [ ] lite samma sak med clickRandomizeButtonAndGetNewArray. Det blir inte lättläsligare av att extrahera den.
+- [ ] errorMessageStudentListOrderUnchanged kan egentligen ersättas med att bara ha dubblettstrings senare. Om nått måste inte "message" speciferas utan bara att det är en error för något specifikt som är av typen string. Det bör vara tydligt nog.
+- [ ] 
