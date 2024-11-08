@@ -7,15 +7,9 @@ C# WPF TODO list
 - [ ] Ny namnstandard på xaml elementen ex. +Element
 - [ ] Listboxen fylls på från separata ställen
 - [ ] Main window loaded event listener kan flyttas ut från main
-- [ ] Randomize seating button kan flyttas till egen fil ex. Seating.cs
-- [ ] Window resize som ändrar font kan vara egen fil ex. TextRendering.cs
-- [ ] help button eventlistener kan flyttas till popupfilen
 
 ## ListActions
-- [ ] ListAction.Shuffle borde extenda List-klassen
-
-## Popup
-- [ ] Borde ha hjälpknappen i sig 
+- [X] ListAction.Shuffle borde extenda List-klassen
 
 # Tester 
 ## Utils
