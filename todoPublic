@@ -28,6 +28,7 @@ C# WPF TODO list
 
 ## Tester 
 - [ ] Ta bort "Test" från alla testnamn. Vi vet redan att de är tester. I test explorer slösar det bara utrymme med test i början. De behöver bara vara markerade som [TestMethod] för att fungera.
+- [ ] Byt ByAutomationId till ByText
 
 ## TestSeating
 - [ ] errorMessage på rad 25 borde inte behövas, kan flyttas in i foreach.
