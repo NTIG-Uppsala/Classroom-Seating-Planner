@@ -16,16 +16,6 @@ namespace Classroom_Seating_Planner
         private List<string> listOfNames;
         private List<TextBlock> listOfSeats;
 
-        // This is the instructional text that will be displayed in the popup windows
-        public string fileTutorial = $"Klasslistan ligger i\n" +
-            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
-            $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
-
-        public string notFoundFilePopup = "Klasslista hittades inte. En textfil har skapats. ";
-        public string emptyFilePopup = "Klasslistan är tom. En standardklasslista har skapats. ";
-        public string defaultFilePopup = "Det verkar som att klasslistan inte har uppdaterats. ";
-
-        private string? classListFileIssue;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,27 +23,6 @@ namespace Classroom_Seating_Planner
             // Adds event listeners to window
             SizeChanged += Window_SizeChanged;
             Loaded += MainWindow_Loaded;
-
-            // Check if there are any issues with the class list file
-            classListFileIssue = FileHandler.CheckClassListFileForIssues();
-
-            // Get the list of student names from the class list file
-            listOfNames = FileHandler.GetClassListFromFile();
-
-            // Populate the ListBox with the contents of listOfNames
-            foreach (string name in listOfNames)
-            {
-                ListBoxItem student = new()
-                {
-                    Content = name,
-                    // These properties prevent the ListBoxItem from being selected
-                    IsHitTestVisible = false,
-                    Focusable = false,
-                    IsSelected = false,
-                    IsTabStop = false
-                };
-                ClassListElement.Items.Add(student);
-            }
 
             // Make items in the ClassListElement unselectable
             ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
@@ -102,20 +71,26 @@ namespace Classroom_Seating_Planner
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (classListFileIssue == "not found")
+            // Check if there are any issues with the class list file, if so, display a popup
+            // Pass the current window as the parent window so the popups know if it needs to close
+            FileHandler.CheckClassListFileForIssues(this);
+
+            // Get the list of student names from the class list file
+            listOfNames = FileHandler.GetClassListFromFile();
+
+            // Populate the ListBox with the contents of listOfNames
+            foreach (string name in listOfNames)
             {
-                _ = new PopupWindow(notFoundFilePopup + fileTutorial, "Information", this);
-                return;
-            }
-            if (classListFileIssue == "empty")
-            {
-                _ = new PopupWindow(emptyFilePopup + fileTutorial, "Varning", this);
-                return;
-            }
-            if (classListFileIssue == "default")
-            {
-                _ = new PopupWindow(defaultFilePopup + fileTutorial, "Varning", this);
-                return;
+                ListBoxItem student = new()
+                {
+                    Content = name,
+                    // These properties prevent the ListBoxItem from being selected
+                    IsHitTestVisible = false,
+                    Focusable = false,
+                    IsSelected = false,
+                    IsTabStop = false
+                };
+                ClassListElement.Items.Add(student);
             }
         }
 
@@ -180,7 +155,7 @@ namespace Classroom_Seating_Planner
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             // Create an instance of the popup window
-            _ = new PopupWindow(fileTutorial, "Hjälp", this);
+            _ = new PopupWindow(PopupWindow.fileTutorialMessage, "Hjälp", this);
         }
     }
 }

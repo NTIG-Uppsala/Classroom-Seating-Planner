@@ -1,6 +1,8 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
+using FlaUI.Core.Tools;
 using FlaUI.UIA3;
+using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
@@ -175,11 +177,13 @@ namespace Tests
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeApplication()
         {
             // Find and run the application
+            //FlaUI.Core.Application app = FlaUI.Core.Application.Launch("C:\\Users\\viggo.strom\\Documents\\GitHub\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
+            //Console.WriteLine(app.ProcessId);
             FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            using FlaUI.UIA3.UIA3Automation automation = new();
+            FlaUI.UIA3.UIA3Automation automation = new();
 
             // Find the main window for the purpose of finding elements
-            FlaUIElement.Window window = app.GetMainWindow(automation);
+            FlaUIElement.Window? window = app.GetMainWindow(automation);
             FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
 
             return (app, automation, window, cf);

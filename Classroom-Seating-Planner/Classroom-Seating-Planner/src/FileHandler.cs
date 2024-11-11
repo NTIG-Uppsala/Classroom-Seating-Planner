@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Classroom_Seating_Planner.src
 {
@@ -46,13 +48,13 @@ namespace Classroom_Seating_Planner.src
         }
 
         // Handles the data in the class list file
-        public static string? CheckClassListFileForIssues()
+        public static void CheckClassListFileForIssues(Window parent)
         {
             // Create the class list file if it does not exist, write the default list to it, and return the "not found" message code
             if (!System.IO.File.Exists(classListFilePath))
             {
                 WriteDefaultClassListFile();
-                return "not found";
+                PopupWindow.FileIssuePopup("not found", parent);
             }
 
             // If the file exists, get its content as a list
@@ -62,17 +64,14 @@ namespace Classroom_Seating_Planner.src
             if (classListFileContent.SequenceEqual([]))
             {
                 WriteDefaultClassListFile();
-                return "empty";
+                PopupWindow.FileIssuePopup("empty", parent);
             }
 
             // If the file content is the same as the default list, return the "default" message code
             if (classListFileContent.SequenceEqual(defaultClassList))
             {
-                return "default";
+                PopupWindow.FileIssuePopup("default", parent);
             }
-
-            // Returns that there are no issues with the class list file
-            return null;
         }
 
         // Returns the list of student names read from an external file as a list
