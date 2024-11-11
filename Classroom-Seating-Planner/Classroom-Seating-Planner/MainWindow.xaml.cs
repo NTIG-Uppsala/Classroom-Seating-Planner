@@ -12,9 +12,10 @@ namespace Classroom_Seating_Planner
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
-        // Define the global list of names here
-        private List<string> listOfNames;
-        private List<TextBlock> listOfSeats;
+        // Where the student names are stored
+        private List<string>? classListFromFile;
+        // Seats are the xaml elements where the names will be displayed
+        private readonly List<TextBlock> seatElements;
 
         public MainWindow()
         {
@@ -28,7 +29,7 @@ namespace Classroom_Seating_Planner
             ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
-            List<TextBlock> seatsList = [
+            seatElements = [
                 Seat1,
                 Seat2,
                 Seat3,
@@ -66,7 +67,6 @@ namespace Classroom_Seating_Planner
                 Seat35,
                 Seat36
             ];
-            listOfSeats = seatsList;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,10 +76,10 @@ namespace Classroom_Seating_Planner
             FileHandler.CheckClassListFileForIssues(this);
 
             // Get the list of student names from the class list file
-            listOfNames = FileHandler.GetClassListFromFile();
+            classListFromFile = FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the contents of listOfNames
-            foreach (string name in listOfNames)
+            foreach (string name in classListFromFile)
             {
                 ListBoxItem student = new()
                 {
@@ -97,13 +97,13 @@ namespace Classroom_Seating_Planner
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
         {
             // Shuffle the list of student names using a custom class method
-            listOfNames.Shuffle();
+            classListFromFile.Shuffle();
 
             // Clear the ListBox before populating
             ClassListElement.Items.Clear();
 
             // Populate the ListBox with the new order
-            foreach (string name in listOfNames)
+            foreach (string name in classListFromFile)
             {
                 ListBoxItem student = new()
                 {
@@ -117,16 +117,16 @@ namespace Classroom_Seating_Planner
                 ClassListElement.Items.Add(student);
             }
 
-            List<TextBlock> seats = listOfSeats;
+            List<TextBlock> seats = seatElements;
 
             // Ensure we don't exceed the number of available seats
-            int seatCount = Math.Min(listOfNames.Count, seats.Count);
+            int seatCount = Math.Min(classListFromFile.Count, seats.Count);
 
             // Update the tables with the new order
             for (int index = 0; index < seatCount; index++)
             {
                 // Assign the shuffled student name to the corresponding seat
-                seats[index].Text = listOfNames[index];
+                seats[index].Text = classListFromFile[index];
             }
 
             // If there are more seats than students, clear the remaining seats
