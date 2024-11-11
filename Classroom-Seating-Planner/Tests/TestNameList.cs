@@ -86,9 +86,9 @@ namespace Tests
         public void TestRandomizeListOfZero()
         {
             // Set up/start the test
-            List<string> testListLengthTwo = [];
+            List<string> testListLengthZero = [];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testListLengthTwo);
+                = Utils.SetUp(testListLengthZero);
 
 
             // Randomize the list and check that it works

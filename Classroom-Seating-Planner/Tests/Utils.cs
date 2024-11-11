@@ -9,6 +9,43 @@ namespace Tests
 {
     internal class Utils
     {
+        // Class list used for tests unless another list is specified
+        public static List<string> testingClassList = [
+            "Ziggy Stardust",
+            "Frodo Baggins",
+            "Darth Vader",
+            "Galadriel Silverleaf",
+            "Sparky McFluff",
+            "Waldo B. Lost",
+            "กาญจนา McSix",
+            "Gandalf the Grey",
+            "Ulysses 'Snakehands' McDougall",
+            "Venkatanarasimharajuvaripeta Wumpus",
+            "Shivankumaraswamy Krishnamurthy Raghunath",
+            "الحسيني",
+            "Muhammad Abdelrahman ibn Al-Mahmoud al-Farouq",
+            "Papadopoulos-Alexandropoulos Firestorm",
+            "明张",
+            "Pipkin Puddleduck",
+            "Aleksandrovich Dimitrov Petrovskaya Ivanov",
+            "Per-Göran Karlsson von Heidenstam af Skånesläkten",
+            "Wiggles Snickerbottom",
+            "Zephyr Nightwind",
+            "Doodlebug Sparklestep",
+            "Sir Adrian Carton de Wiart",
+            "Tinkerbell Twinkletoes",
+            "Bo Li",
+            "Dinglehopper Wobblesworth",
+            "Kǎi McQuirk",
+            "Fizzlewhit Wobblebottom",
+            "鈴木 健太",
+            "Jo Wu",
+            "Le To",
+            "Örjan Johansson Florist",
+            "Främling Skådespelare",
+            "Émil Låås",
+        ];
+
         // SetUp method
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUp(List<string>? testClassList = null)
         {
@@ -29,43 +66,8 @@ namespace Tests
             // Backup the data from the class list file so it can be restored after testing
             System.IO.File.Copy(UtilsHelpers.classListFilePath, $"{UtilsHelpers.classListFilePath}.bak");
 
-            // Default list of students used for tests
-            testClassList ??=
-                [
-                    "Ziggy Stardust",
-                    "Frodo Baggins",
-                    "Darth Vader",
-                    "Galadriel Silverleaf",
-                    "Sparky McFluff",
-                    "Waldo B. Lost",
-                    "กาญจนา McSix",
-                    "Gandalf the Grey",
-                    "Ulysses 'Snakehands' McDougall",
-                    "Venkatanarasimharajuvaripeta Wumpus",
-                    "Shivankumaraswamy Krishnamurthy Raghunath",
-                    "الحسيني",
-                    "Muhammad Abdelrahman ibn Al-Mahmoud al-Farouq",
-                    "Papadopoulos-Alexandropoulos Firestorm",
-                    "明张",
-                    "Pipkin Puddleduck",
-                    "Aleksandrovich Dimitrov Petrovskaya Ivanov",
-                    "Per-Göran Karlsson von Heidenstam af Skånesläkten",
-                    "Wiggles Snickerbottom",
-                    "Zephyr Nightwind",
-                    "Doodlebug Sparklestep",
-                    "Sir Adrian Carton de Wiart",
-                    "Tinkerbell Twinkletoes",
-                    "Bo Li",
-                    "Dinglehopper Wobblesworth",
-                    "Kǎi McQuirk",
-                    "Fizzlewhit Wobblebottom",
-                    "鈴木 健太",
-                    "Jo Wu",
-                    "Le To",
-                    "Örjan Johansson Florist",
-                    "Främling Skådespelare",
-                    "Émil Låås",
-                ];
+            // Use default testing class list unless a list is specified
+            testClassList ??= testingClassList;
 
             // Insert the test data into the file
             string classListFilePath = UtilsHelpers.classListFilePath;
