@@ -9,6 +9,7 @@ namespace Tests
 {
     internal class Utils
     {
+        // SetUp method
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUp(List<string>? testClassList = null)
         {
             // TODO - restore backup folder
@@ -80,10 +81,10 @@ namespace Tests
             return UtilsHelpers.InitializeApplication();
         }
 
+        // TearDown method
         public static void TearDown(FlaUI.Core.Application app)
         {
             // Restore the class list file by filling it with backed up information from before the test
-
             UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
 
             // Terminate the app
