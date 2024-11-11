@@ -93,31 +93,41 @@ namespace Tests
             app.Close();
         }
 
-        public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
+        public class XAMLManager
         {
-            // Find all element
-            List<AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
+            // Returns list of ListBox items
+            public static List<string> GetListBoxItemsAsList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomaitonId)
+            {
+                FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
+                List<FlaUIElement.ListBoxItem> listBoxItemsList = listBox.Items.ToList();
+                List<string> listBoxItemsStringList = listBoxItemsList.Select(item => item.Text).ToList();
 
-            // Find all seats
-            List<FlaUIElement.AutomationElement> allSeats = allElements.Where(element =>
-                !string.IsNullOrEmpty(element.AutomationId)
-                &&
-                element.AutomationId.Contains(identifier)
-                &&
-                (controlType == null || element.ControlType.Equals(controlType))
-            ).ToList();
+                return listBoxItemsStringList;
+            }
 
-            return allSeats;
-        }
+            public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+            {
+                // Find and press the randomizer button
+                FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
+                randomizeButton.Click();
+            }
 
-        // Returns list of ListBox items
-        public static List<string> GetListBoxItemsAsList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomaitonId)
-        {
-            FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
-            List<FlaUIElement.ListBoxItem> listBoxItemsList = listBox.Items.ToList();
-            List<string> listBoxItemsStringList = listBoxItemsList.Select(item => item.Text).ToList();
+            public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
+            {
+                // Find all element
+                List<AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
 
-            return listBoxItemsStringList;
+                // Find all seats
+                List<FlaUIElement.AutomationElement> allSeats = allElements.Where(element =>
+                    !string.IsNullOrEmpty(element.AutomationId)
+                    &&
+                    element.AutomationId.Contains(identifier)
+                    &&
+                    (controlType == null || element.ControlType.Equals(controlType))
+                ).ToList();
+
+                return allSeats;
+            }
         }
     }
 
