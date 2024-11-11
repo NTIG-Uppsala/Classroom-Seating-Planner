@@ -33,6 +33,7 @@ namespace Tests
 
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUp(List<string>? testClassList = null)
         {
+            // TODO - restore backup folder
             // Restore backup data if backup file already exists
             if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
             {
