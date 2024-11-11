@@ -31,7 +31,7 @@ namespace Tests
 
 
             // Open the help popup
-            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("HelpButton"));
+            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByText("Hjälp"));
             helpButton.Click();
 
             // Find the popup window
@@ -39,7 +39,7 @@ namespace Tests
             Assert.IsNotNull(popupWindow);
 
             // Close the popup immediately
-            FlaUIElement.AutomationElement closeButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("CloseButton"));
+            FlaUIElement.AutomationElement closeButton = popupWindow.FindFirstDescendant(cf.ByText("Okej"));
             closeButton.Click();
 
             // Check that the window has closed
@@ -64,7 +64,7 @@ namespace Tests
 
 
             // Open the help popup
-            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("HelpButton"));
+            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByText("Hjälp"));
             helpButton.Click();
 
             // Find the popup window
@@ -96,7 +96,7 @@ namespace Tests
 
 
             // Open the help popup
-            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByAutomationId("HelpButton"));
+            FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByText("Hjälp"));
             helpButton.Click();
 
             // Find the popup window
@@ -107,7 +107,7 @@ namespace Tests
             List<FlaUIElement.AutomationElement> explorerInstances = GetAllExplorerInstances(automation, cf);
 
             // Click the open button
-            FlaUIElement.AutomationElement openButton = popupWindow.FindFirstDescendant(cf.ByAutomationId("OpenButton"));
+            FlaUIElement.AutomationElement openButton = popupWindow.FindFirstDescendant(cf.ByText("Öppna mapp"));
             openButton.Click();
 
             // Wait until a new explorer window is opened
