@@ -9,8 +9,22 @@ namespace Tests
 {
     internal class Utils
     {
+        // Global variables for file paths
+        public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
+        public static readonly string classListFileName = "klasslista.txt";
+
+        public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+        public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
+        public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
+
+        public static readonly List<string> defaultClassList = [
+                "Förnamn Efternamn",
+                "Förnamn Efternamn",
+                "Förnamn Efternamn",
+            ];
+
         // Class list used for tests unless another list is specified
-        public static List<string> testingClassList = [
+        private static readonly List<string> testingClassList = [
             "Ziggy Stardust",
             "Frodo Baggins",
             "Darth Vader",
@@ -49,28 +63,27 @@ namespace Tests
         // SetUp method
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUp(List<string>? testClassList = null)
         {
-            // TODO - restore backup folder
-            // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
-            {
-                UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
-            }
-
-            // Create the data folder and an empty class list file if they don't exist
-            if (!System.IO.File.Exists(UtilsHelpers.classListFilePath))
-            {
-                System.IO.Directory.CreateDirectory(UtilsHelpers.dataFolderPath);
-                System.IO.File.Create(UtilsHelpers.classListFilePath).Close();
-            }
-
-            // Backup the data from the class list file so it can be restored after testing
-            System.IO.File.Copy(UtilsHelpers.classListFilePath, $"{UtilsHelpers.classListFilePath}.bak");
-
             // Use default testing class list unless a list is specified
             testClassList ??= testingClassList;
 
+            // TODO - restore backup folder
+            // Restore backup data if backup file already exists
+            if (System.IO.File.Exists($"{classListFilePath}.bak"))
+            {
+                Utils.FileManager.RestoreBackupData(classListFilePath);
+            }
+
+            // Create the data folder and an empty class list file if they don't exist
+            if (!System.IO.File.Exists(classListFilePath))
+            {
+                System.IO.Directory.CreateDirectory(dataFolderPath);
+                System.IO.File.Create(classListFilePath).Close();
+            }
+
+            // Backup the data from the class list file so it can be restored after testing
+            System.IO.File.Copy(classListFilePath, $"{classListFilePath}.bak");
+
             // Insert the test data into the file
-            string classListFilePath = UtilsHelpers.classListFilePath;
             using (System.IO.StreamWriter writer = new(classListFilePath, false))
             {
                 foreach (string testStudent in testClassList)
@@ -80,17 +93,32 @@ namespace Tests
             }
 
             // Return values necessary for running the test
-            return UtilsHelpers.InitializeApplication();
+            return InitializeApplication();
         }
 
         // TearDown method
         public static void TearDown(FlaUI.Core.Application app)
         {
             // Restore the class list file by filling it with backed up information from before the test
-            UtilsHelpers.RestoreBackupData(UtilsHelpers.classListFilePath);
+            Utils.FileManager.RestoreBackupData(classListFilePath);
 
             // Terminate the app
             app.Close();
+        }
+
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeApplication()
+        {
+            // Find and run the application
+            //FlaUI.Core.Application app = FlaUI.Core.Application.Launch("C:\\Users\\viggo.strom\\Documents\\GitHub\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
+            //Console.WriteLine(app.ProcessId);
+            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
+            FlaUI.UIA3.UIA3Automation automation = new();
+
+            // Find the main window for the purpose of finding elements
+            FlaUIElement.Window? window = app.GetMainWindow(automation);
+            FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
+
+            return (app, automation, window, cf);
         }
 
         public class XAMLManager
@@ -129,70 +157,41 @@ namespace Tests
                 return allSeats;
             }
         }
-    }
 
-    internal class UtilsHelpers
-    {
-        // Global variables for file paths
-        public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
-        public static readonly string classListFileName = "klasslista.txt";
-
-        public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-        public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
-        public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
-
-        public static readonly List<string> defaultClassList = [
-                "Förnamn Efternamn",
-                "Förnamn Efternamn",
-                "Förnamn Efternamn",
-            ];
-
-        // Returns a list of data from an external file
-        public static List<string> GetDataFromFile(string filePath)
+        public class FileManager
         {
-            // Read the data from the file and return it as a list
-            using System.IO.StreamReader reader = new(filePath);
-            List<string> dataList = reader
-                .ReadToEnd()
-                .Split("\n")
-                .Select(item => item.Trim())
-                .Where(item => !string.IsNullOrEmpty(item))
-                .ToList();
-            return dataList;
-        }
-
-        public static void RestoreBackupData(string originalFilePath)
-        {
-            if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
+            // Returns a list of data from an external file
+            public static List<string> GetDataFromFile(string filePath)
             {
-                System.IO.File.Delete(originalFilePath);
-                System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
+                // Read the data from the file and return it as a list
+                using System.IO.StreamReader reader = new(filePath);
+                List<string> dataList = reader
+                    .ReadToEnd()
+                    .Split("\n")
+                    .Select(item => item.Trim())
+                    .Where(item => !string.IsNullOrEmpty(item))
+                    .ToList();
+                return dataList;
             }
-        }
 
-        // Returns the list of students read from an external file as a list
-        public static List<string> GetClassListFromFile()
-        {
-            string filePath = classListFilePath;
+            public static void RestoreBackupData(string originalFilePath)
+            {
+                if (System.IO.File.Exists($"{classListFilePath}.bak"))
+                {
+                    System.IO.File.Delete(originalFilePath);
+                    System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
+                }
+            }
 
-            // Read the names from the file and return them as a list
-            List<string> classList = GetDataFromFile(filePath);
-            return classList;
-        }
+            // Returns the list of students read from an external file as a list
+            public static List<string> GetClassListFromFile()
+            {
+                string filePath = classListFilePath;
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeApplication()
-        {
-            // Find and run the application
-            //FlaUI.Core.Application app = FlaUI.Core.Application.Launch("C:\\Users\\viggo.strom\\Documents\\GitHub\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            //Console.WriteLine(app.ProcessId);
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            FlaUI.UIA3.UIA3Automation automation = new();
-
-            // Find the main window for the purpose of finding elements
-            FlaUIElement.Window? window = app.GetMainWindow(automation);
-            FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
-
-            return (app, automation, window, cf);
+                // Read the names from the file and return them as a list
+                List<string> classList = GetDataFromFile(filePath);
+                return classList;
+            }
         }
     }
 }
