@@ -18,7 +18,7 @@ C# WPF TODO list
 - [ ] Kommentar på setup metoden så det syns lättare att den är en setup. Många argument i vägen
 - [ ] Testnamnlistan kanske ska vara global property i utils istället för i setup?
 - [ ] Det måste finnas ett bättre namn för GetListBoxItemsAsArray.
-- [ ] SetUpTest och TearDownTest behöver nog inte heta test
+- [X] SetUpTest och TearDownTest behöver nog inte heta test
 
 ## UtilsHelpers
 - [ ] InitializeApplication kanske ska heta nått i stil med FlaUIappInit? Att specifiera att det är FlaUI boilerplate tycker jag är tydligare, Initialize är rätt diffust i sig.

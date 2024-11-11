@@ -14,7 +14,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest();
+                = Utils.SetUp();
 
             int[] testIndex = [0, 10, 16, 27, 32];
 
@@ -43,7 +43,7 @@ namespace Tests
                 Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), errorMessage);
             }
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
     }
 }

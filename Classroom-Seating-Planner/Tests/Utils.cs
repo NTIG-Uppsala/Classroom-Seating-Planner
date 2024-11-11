@@ -31,7 +31,7 @@ namespace Tests
             return allSeats;
         }
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUpTest(List<string>? testClassList = null)
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUp(List<string>? testClassList = null)
         {
             // Restore backup data if backup file already exists
             if (System.IO.File.Exists($"{UtilsHelpers.classListFilePath}.bak"))
@@ -101,7 +101,7 @@ namespace Tests
             return UtilsHelpers.InitializeApplication();
         }
 
-        public static void TearDownTest(FlaUI.Core.Application app)
+        public static void TearDown(FlaUI.Core.Application app)
         {
             // Restore the class list file by filling it with backed up information from before the test
 

@@ -50,7 +50,7 @@ namespace Tests
 
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) 
-                = Utils.SetUpTest();
+                = Utils.SetUp();
 
             string classListElementAutomationId = "ClassListElement";
 
@@ -72,7 +72,7 @@ namespace Tests
             Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), errorMessageClassListOrderUnchanged);
             Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), errorMessageClassListIsDifferent);
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         [TestMethod, Timeout(3000)]
@@ -81,7 +81,7 @@ namespace Tests
             // Set up/start the test
             List<string> testListLengthTwo = [];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest(testListLengthTwo);
+                = Utils.SetUp(testListLengthTwo);
 
 
             // Randomize the list and check that it works
@@ -90,7 +90,7 @@ namespace Tests
             Assert.IsNotNull(testListLengthZeroShuffled);
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         [TestMethod, Timeout(3000)]
@@ -99,7 +99,7 @@ namespace Tests
             // Set up/start the test
             List<string> testListLengthOne = ["Name1"];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest(testListLengthOne);
+                = Utils.SetUp(testListLengthOne);
 
 
             // Randomize the list and check that it works
@@ -108,7 +108,7 @@ namespace Tests
             Assert.IsNotNull(testListLengthOneShuffled);
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         [TestMethod, Timeout(3000)]
@@ -117,7 +117,7 @@ namespace Tests
             // Set up/start the test
             List<string> testListLengthTwo = ["Name1", "Name2"];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest(testListLengthTwo);
+                = Utils.SetUp(testListLengthTwo);
 
 
             // Randomize the list and check that it works
@@ -126,7 +126,7 @@ namespace Tests
             Assert.IsNotNull(testListLengthTwoShuffled);
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
     }
 }

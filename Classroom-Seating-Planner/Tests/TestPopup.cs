@@ -27,7 +27,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest();
+                = Utils.SetUp();
 
 
             // Open the help popup
@@ -52,7 +52,7 @@ namespace Tests
             Assert.IsNotNull(popupWindow);
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest();
+                = Utils.SetUp();
 
 
             // Open the help popup
@@ -79,7 +79,7 @@ namespace Tests
             Assert.IsNull(popupWindow);
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         private static List<FlaUIElement.AutomationElement> GetAllExplorerInstances(FlaUI.UIA3.UIA3Automation automation, ConditionFactory cf)
@@ -92,7 +92,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest();
+                = Utils.SetUp();
 
 
             // Open the help popup
@@ -138,7 +138,7 @@ namespace Tests
             closeButton.Click();
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         [TestMethod]
@@ -190,7 +190,7 @@ namespace Tests
             System.IO.Directory.Delete(backupFolderPath, true);
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         [TestMethod]
@@ -216,7 +216,7 @@ namespace Tests
             Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         // Test that the application gives a popup warning when loading an empty list
@@ -225,7 +225,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest([]);
+                = Utils.SetUp([]);
 
             // Assert that the correct popup is shown when the empty list is loaded
             FlaUIElement.Window? popupWindow = FindPopupWindow(badFilePopupName, app, automation);
@@ -233,7 +233,7 @@ namespace Tests
             Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslistan är tom"));
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
 
         // Test that the application gives a popup warning when loading a default list
@@ -242,7 +242,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUpTest(UtilsHelpers.defaultClassList);
+                = Utils.SetUp(UtilsHelpers.defaultClassList);
 
             // Assert that the correct popup is shown when the default list is loaded
             FlaUIElement.Window? popupWindow = FindPopupWindow(badFilePopupName, app, automation);
@@ -250,7 +250,7 @@ namespace Tests
             Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("klasslistan inte har uppdaterats"));
 
 
-            Utils.TearDownTest(app);
+            Utils.TearDown(app);
         }
     }
 }
