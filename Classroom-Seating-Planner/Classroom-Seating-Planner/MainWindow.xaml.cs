@@ -79,19 +79,7 @@ namespace Classroom_Seating_Planner
             classListFromFile = FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the contents of listOfNames
-            foreach (string name in classListFromFile)
-            {
-                ListBoxItem student = new()
-                {
-                    Content = name,
-                    // These properties prevent the ListBoxItem from being selected
-                    IsHitTestVisible = false,
-                    Focusable = false,
-                    IsSelected = false,
-                    IsTabStop = false
-                };
-                ClassListElement.Items.Add(student);
-            }
+            ClassListElementManager.Populate(ClassListElement, classListFromFile);
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
@@ -99,42 +87,15 @@ namespace Classroom_Seating_Planner
             // Shuffle the list of student names using a custom class method
             classListFromFile.Shuffle();
 
-            // Clear the ListBox before populating
-            ClassListElement.Items.Clear();
+            // Populate the class list and the seats with the new order
+            ClassListElementManager.Populate(ClassListElement, classListFromFile);
+            SeatingManager.Populate(seatElements, classListFromFile);
+        }
 
-            // Populate the ListBox with the new order
-            foreach (string name in classListFromFile)
-            {
-                ListBoxItem student = new()
-                {
-                    Content = name,
-                    // These properties prevent the ListBoxItem from being selected
-                    IsHitTestVisible = false,
-                    Focusable = false,
-                    IsSelected = false,
-                    IsTabStop = false
-                };
-                ClassListElement.Items.Add(student);
-            }
-
-            List<TextBlock> seats = seatElements;
-
-            // Ensure we don't exceed the number of available seats
-            int seatCount = Math.Min(classListFromFile.Count, seats.Count);
-
-            // Update the tables with the new order
-            for (int index = 0; index < seatCount; index++)
-            {
-                // Assign the shuffled student name to the corresponding seat
-                seats[index].Text = classListFromFile[index];
-            }
-
-            // If there are more seats than students, clear the remaining seats
-            for (int index = seatCount; index < seats.Count; index++)
-            {
-                // Clear the seat if it's not occupied
-                seats[index].Text = string.Empty;
-            }
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create an instance of the popup window
+            _ = new PopupWindow(PopupWindow.fileTutorialMessage, "Hjälp", this);
         }
 
         protected void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -150,12 +111,6 @@ namespace Classroom_Seating_Planner
             double fontSize = Math.Round(m * x + b);
 
             RandomizeSeatingButton.FontSize = fontSize;
-        }
-
-        private void HelpButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create an instance of the popup window
-            _ = new PopupWindow(PopupWindow.fileTutorialMessage, "Hjälp", this);
         }
     }
 }
