@@ -157,17 +157,17 @@ namespace Tests
             System.IO.Directory.CreateDirectory(backupFolderPath);
 
             // Move all files from the data folder to the backup folder
-            foreach (string filePath in System.IO.Directory.GetFiles(Utils.dataFolderPath))
+            foreach (string filePath in System.IO.Directory.GetFiles(Utils.FileManager.dataFolderPath))
             {
                 System.IO.File.Move(filePath, System.IO.Path.Combine(backupFolderPath, System.IO.Path.GetFileName(filePath)));
             }
 
             // Delete the data folder
-            System.IO.Directory.Delete(Utils.dataFolderPath, true);
+            System.IO.Directory.Delete(Utils.FileManager.dataFolderPath, true);
 
             // Get FLaUI boilerplate
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.InitializeApplication();
+                = Utils.InitializeFlaUIApp();
 
             // Check that the correct popup is shown when the directory is missing
             FlaUIElement.Window? popupWindow = FindPopupWindow(missingFilePopupName, app, automation);
@@ -175,15 +175,15 @@ namespace Tests
             Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains("Klasslista hittades inte"));
 
             // Delete the data folder after the tests have created them
-            System.IO.Directory.Delete(Utils.dataFolderPath, true);
+            System.IO.Directory.Delete(Utils.FileManager.dataFolderPath, true);
 
             // Ensure that the data folder exists
-            System.IO.Directory.CreateDirectory(Utils.dataFolderPath);
+            System.IO.Directory.CreateDirectory(Utils.FileManager.dataFolderPath);
 
             // Move all files back from the backup folder to the data folder
             foreach (string filePath in System.IO.Directory.GetFiles(backupFolderPath))
             {
-                System.IO.File.Move(filePath, System.IO.Path.Combine(Utils.dataFolderPath, System.IO.Path.GetFileName(filePath)));
+                System.IO.File.Move(filePath, System.IO.Path.Combine(Utils.FileManager.dataFolderPath, System.IO.Path.GetFileName(filePath)));
             }
 
             // Delete the backup folder
@@ -197,18 +197,18 @@ namespace Tests
         public void TestMissingClassListFile()
         {
             // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{Utils.classListFilePath}.bak"))
+            if (System.IO.File.Exists($"{Utils.FileManager.classListFilePath}.bak"))
             {
-                Utils.FileManager.RestoreBackupData(Utils.classListFilePath);
+                Utils.FileManager.RestoreBackupData(Utils.FileManager.classListFilePath);
             }
 
             // Backup data and delete original file
-            System.IO.File.Copy(Utils.classListFilePath, Utils.classListBackupFilePath);
-            System.IO.File.Delete(Utils.classListFilePath);
+            System.IO.File.Copy(Utils.FileManager.classListFilePath, Utils.FileManager.classListBackupFilePath);
+            System.IO.File.Delete(Utils.FileManager.classListFilePath);
 
             // Get FLaUI boilerplate
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.InitializeApplication();
+                = Utils.InitializeFlaUIApp();
 
             // Assert that the correct popup is shown when the file is missing
             FlaUIElement.Window? popupWindow = FindPopupWindow(missingFilePopupName, app, automation);

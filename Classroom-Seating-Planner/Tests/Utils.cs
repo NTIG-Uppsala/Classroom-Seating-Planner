@@ -9,14 +9,11 @@ namespace Tests
 {
     internal class Utils
     {
-        // Global variables for file paths
+        // Variables for file paths
         public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
         public static readonly string classListFileName = "klasslista.txt";
 
-        public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-        public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
-        public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
-
+        // Names for default file if file does not already exist
         public static readonly List<string> defaultClassList = [
                 "Förnamn Efternamn",
                 "Förnamn Efternamn",
@@ -68,23 +65,23 @@ namespace Tests
 
             // TODO - restore backup folder
             // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{classListFilePath}.bak"))
+            if (System.IO.File.Exists($"{Utils.FileManager.classListFilePath}.bak"))
             {
-                Utils.FileManager.RestoreBackupData(classListFilePath);
+                Utils.FileManager.RestoreBackupData(Utils.FileManager.classListFilePath);
             }
 
             // Create the data folder and an empty class list file if they don't exist
-            if (!System.IO.File.Exists(classListFilePath))
+            if (!System.IO.File.Exists(Utils.FileManager.classListFilePath))
             {
-                System.IO.Directory.CreateDirectory(dataFolderPath);
-                System.IO.File.Create(classListFilePath).Close();
+                System.IO.Directory.CreateDirectory(Utils.FileManager.dataFolderPath);
+                System.IO.File.Create(Utils.FileManager.classListFilePath).Close();
             }
 
             // Backup the data from the class list file so it can be restored after testing
-            System.IO.File.Copy(classListFilePath, $"{classListFilePath}.bak");
+            System.IO.File.Copy(Utils.FileManager.classListFilePath, $"{Utils.FileManager.classListFilePath}.bak");
 
             // Insert the test data into the file
-            using (System.IO.StreamWriter writer = new(classListFilePath, false))
+            using (System.IO.StreamWriter writer = new(Utils.FileManager.classListFilePath, false))
             {
                 foreach (string testStudent in testClassList)
                 {
@@ -93,20 +90,20 @@ namespace Tests
             }
 
             // Return values necessary for running the test
-            return InitializeApplication();
+            return InitializeFlaUIApp();
         }
 
         // TearDown method
         public static void TearDown(FlaUI.Core.Application app)
         {
             // Restore the class list file by filling it with backed up information from before the test
-            Utils.FileManager.RestoreBackupData(classListFilePath);
+            Utils.FileManager.RestoreBackupData(Utils.FileManager.classListFilePath);
 
             // Terminate the app
             app.Close();
         }
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeApplication()
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeFlaUIApp()
         {
             // Find and run the application
             //FlaUI.Core.Application app = FlaUI.Core.Application.Launch("C:\\Users\\viggo.strom\\Documents\\GitHub\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
@@ -160,6 +157,11 @@ namespace Tests
 
         public class FileManager
         {
+            // Path variables constructed with folder name and file name defined at the top of Utils
+            public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+            public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
+            public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
+
             // Returns a list of data from an external file
             public static List<string> GetDataFromFile(string filePath)
             {
