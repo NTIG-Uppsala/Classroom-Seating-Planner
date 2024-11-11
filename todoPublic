@@ -2,6 +2,9 @@ C# WPF TODO list
 
 ## Main
 - [ ] Strings på toppen av main ska flyttas till popup
+    - [ ] Metod i PopupWindow för att skapa en popup.
+    - [ ] Main kallar på FileHandler, FileHandler kallar på popup. 
+    - [ ] FileHandler skickar argument som är stringen
 - [ ] Kommentarer på globala properties
 - [ ] Variabelnamn i main, särskilt namnlistan.
 - [ ] Ny namnstandard på xaml elementen ex. +Element
