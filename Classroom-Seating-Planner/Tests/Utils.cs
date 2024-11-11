@@ -90,13 +90,6 @@ namespace Tests
             app.Close();
         }
 
-        public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-        {
-            // Find and press the randomizer button
-            FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
-            randomizeButton.Click();
-        }
-
         public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
         {
             // Find all element

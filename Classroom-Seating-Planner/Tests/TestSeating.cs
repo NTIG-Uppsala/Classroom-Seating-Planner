@@ -9,6 +9,13 @@ namespace Tests
     [TestClass]
     public class TestSeating
     {
+        public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+        {
+            // Find and press the randomizer button
+            FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
+            randomizeButton.Click();
+        }
+
         [TestMethod]
         public void TestSeatingIsCorrect()
         {
@@ -28,7 +35,7 @@ namespace Tests
                 Assert.IsTrue(allSeats[index].Name.Equals(string.Empty), errorMessage);
             }
 
-            Utils.ClickRandomizeSeatingButton(window, cf);
+            ClickRandomizeSeatingButton(window, cf);
 
             // Get the seats again
             allSeats = Utils.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);

@@ -10,6 +10,13 @@ namespace Tests
     [TestClass]
     public class TestNameList
     {
+        public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+        {
+            // Find and press the randomizer button
+            FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
+            randomizeButton.Click();
+        }
+
         [TestMethod]
         public void TestRandomizer()
         {
@@ -40,7 +47,7 @@ namespace Tests
 
             List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
             {
-                Utils.ClickRandomizeSeatingButton(window, cf);
+                ClickRandomizeSeatingButton(window, cf);
 
                 // Extract an list of students from the ListBox element in the UI
                 List<string> classListNew = Utils.GetListBoxItemsAsList(window, cf, listBoxAutomationId).ToList();
@@ -85,7 +92,7 @@ namespace Tests
 
 
             // Randomize the list and check that it works
-            Utils.ClickRandomizeSeatingButton(window, cf);
+            ClickRandomizeSeatingButton(window, cf);
             List<string> testListLengthZeroShuffled = Utils.GetListBoxItemsAsList(window, cf, "ClassListElement");
             Assert.IsNotNull(testListLengthZeroShuffled);
 
@@ -103,7 +110,7 @@ namespace Tests
 
 
             // Randomize the list and check that it works
-            Utils.ClickRandomizeSeatingButton(window, cf);
+            ClickRandomizeSeatingButton(window, cf);
             List<string> testListLengthOneShuffled = Utils.GetListBoxItemsAsList(window, cf, "ClassListElement");
             Assert.IsNotNull(testListLengthOneShuffled);
 
@@ -121,7 +128,7 @@ namespace Tests
 
 
             // Randomize the list and check that it works
-            Utils.ClickRandomizeSeatingButton(window, cf);
+            ClickRandomizeSeatingButton(window, cf);
             List<string> testListLengthTwoShuffled = Utils.GetListBoxItemsAsList(window, cf, "ClassListElement");
             Assert.IsNotNull(testListLengthTwoShuffled);
 
