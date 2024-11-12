@@ -177,15 +177,6 @@ namespace Tests
             public static List<string> GetClassListFromFile()
             {
                 // Read the names from the file and return them as a list
-                // TODO - File.ReadAllLines?
-                //using System.IO.StreamReader reader = new(Utils.FileHandler.classListFilePath);
-                //List<string> classList = reader
-                //    .ReadToEnd()
-                //    .Split("\n")
-                //    .Select(name => name.Trim())
-                //    .Where(name => !string.IsNullOrEmpty(name)) // Remove empty lines
-                //    .ToList();
-                //return classList;
                 return System.IO.File.ReadAllLines(Utils.FileHandler.classListFilePath)
                     .Select(name => name.Trim())
                     .Where(name => !string.IsNullOrEmpty(name)) // Remove empty lines)
