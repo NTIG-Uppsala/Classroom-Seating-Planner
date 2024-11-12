@@ -27,7 +27,7 @@ namespace Classroom_Seating_Planner
             ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
-            seatElements = [
+            this.seatElements = [
                 Seat1,
                 Seat2,
                 Seat3,
@@ -74,20 +74,20 @@ namespace Classroom_Seating_Planner
             FileHandler.CheckClassListFileForIssues(this);
 
             // Get the list of student names from the class list file
-            classListFromFile = FileHandler.GetClassListFromFile();
+            this.classListFromFile = FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the contents of listOfNames
-            ClassListElementHandler.Populate(ClassListElement, classListFromFile);
+            ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
         {
             // Shuffle the list of student names using a custom class method
-            classListFromFile.Shuffle();
+            this.classListFromFile.Shuffle();
 
             // Populate the class list and the seats with the new order
-            ClassListElementHandler.Populate(ClassListElement, classListFromFile);
-            SeatingHandler.Populate(seatElements, classListFromFile);
+            ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+            SeatingHandler.Populate(this.seatElements, this.classListFromFile);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)

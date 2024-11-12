@@ -59,7 +59,7 @@ namespace Tests
             SetUp(List<string>? testClassList = null, bool ignoreClassListFileBackup = false, bool ignoreTestingClassList = false, bool createDataBackupFolder = false, bool deleteClassListFile = false, bool deleteDataFolder = false)
         {
             // Use default testing class list unless a list is specified
-            testClassList ??= testingClassList;
+            testClassList ??= Utils.testingClassList;
 
             // Restore backup folder if it exists
             Utils.FileHandler.RestoreBackupFolder();
@@ -168,10 +168,10 @@ namespace Tests
         public class FileHandler
         {
             // Path variables constructed with folder name and file name defined at the top of Utils
-            public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
-            public static readonly string dataBackupFolderPath = $"{dataFolderPath}.bak";
-            public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
-            public static readonly string classListBackupFilePath = $"{classListFilePath}.bak";
+            public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Utils.dataFolderName);
+            public static readonly string dataBackupFolderPath = $"{Utils.FileHandler.dataFolderPath}.bak";
+            public static readonly string classListFilePath = System.IO.Path.Combine(Utils.FileHandler.dataFolderPath, Utils.classListFileName);
+            public static readonly string classListBackupFilePath = $"{Utils.FileHandler.classListFilePath}.bak";
 
             // Returns the list of students read from an external file as a list
             public static List<string> GetClassListFromFile()

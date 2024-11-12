@@ -16,6 +16,8 @@
 #### Syntax
 
 -   Prefer explicit type declarations instead of `var`.
+-   Public properties should be declared with classes for clarity. For example `Utils.FileHandler.dataFolderPath` as opposed to `dataFolderPath`.
+-   Private properties should be declared with `this`. For example `this.classListFromFile` instead of `classListFromFile`.
 
 ## XAML
 
