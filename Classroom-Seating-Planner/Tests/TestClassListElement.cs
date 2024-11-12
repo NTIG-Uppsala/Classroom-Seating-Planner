@@ -1,9 +1,4 @@
-using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Conditions;
-using FlaUI.UIA3;
-using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
-using Classroom_Seating_Planner.src;
 
 namespace Tests
 {
@@ -32,13 +27,13 @@ namespace Tests
                 return false;
             }
 
-            List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
+            List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
             {
                 // Extract an list of students from the ListBox element in the UI
                 return Utils.XAMLManager.GetClassListFromElement(window, cf);
             }
 
-            List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
+            List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
             {
                 Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
 
@@ -49,13 +44,12 @@ namespace Tests
             }
 
             // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf) 
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp();
 
-            string classListElementAutomationId = "ClassListElement";
 
-            List<string> classListOld = getClassListFromClassListElementBeforeShuffle(window, cf, classListElementAutomationId);
-            List<string> classListNew = clickRandomizeButtonAndGetNewList(window, cf, classListElementAutomationId);
+            List<string> classListOld = getClassListFromClassListElementBeforeShuffle(window, cf);
+            List<string> classListNew = clickRandomizeButtonAndGetNewList(window, cf);
 
             // Custom error messages for asserts
             string errorMessageClassListOrderUnchanged = "Test failed because the order of the class list has not changed.";
@@ -65,12 +59,13 @@ namespace Tests
             Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), errorMessageClassListOrderUnchanged);
             Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), errorMessageClassListIsDifferent);
 
-            classListOld = getClassListFromClassListElementBeforeShuffle(window, cf, classListElementAutomationId);
-            classListNew = clickRandomizeButtonAndGetNewList(window, cf, classListElementAutomationId);
+            classListOld = getClassListFromClassListElementBeforeShuffle(window, cf);
+            classListNew = clickRandomizeButtonAndGetNewList(window, cf);
 
             // Test one more time to make sure that the list can be scrambled again
             Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), errorMessageClassListOrderUnchanged);
             Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), errorMessageClassListIsDifferent);
+
 
             Utils.TearDown(app);
         }
