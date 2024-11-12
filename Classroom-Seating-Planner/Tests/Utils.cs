@@ -58,7 +58,8 @@ namespace Tests
         ];
 
         // SetUp method
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) SetUp(List<string>? testClassList = null)
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory)
+            SetUp(List<string>? testClassList = null, bool ignoreClassListFileBackup = false, bool ignoreTestingClassList = false, bool createDataBackupFolder = false, bool deleteClassListFile = false, bool deleteDataFolder = false)
         {
             // Use default testing class list unless a list is specified
             testClassList ??= testingClassList;
@@ -69,23 +70,34 @@ namespace Tests
             // Restore backup data if backup file already exists
             Utils.FileHandler.RestoreBackupFile();
 
-            // Create the data folder and an empty class list file if they don't exist
-            if (!System.IO.File.Exists(Utils.FileHandler.classListFilePath))
+            // Create the data folder and the default class list file if they don't exist
+            Utils.FileHandler.CreateDefaultClassListFile();
+
+            if (!ignoreClassListFileBackup)
             {
-                System.IO.Directory.CreateDirectory(Utils.FileHandler.dataFolderPath);
-                System.IO.File.Create(Utils.FileHandler.classListFilePath).Close();
+                // Backup the class list file so it can be restored after testing
+                System.IO.File.Copy(Utils.FileHandler.classListFilePath, $"{Utils.FileHandler.classListFilePath}.bak");
             }
 
-            // Backup the data from the class list file so it can be restored after testing
-            System.IO.File.Copy(Utils.FileHandler.classListFilePath, $"{Utils.FileHandler.classListFilePath}.bak");
-
-            // Insert the test data into the file
-            using (System.IO.StreamWriter writer = new(Utils.FileHandler.classListFilePath, false))
+            if (!ignoreTestingClassList)
             {
-                foreach (string testStudent in testClassList)
-                {
-                    writer.WriteLine(testStudent);
-                }
+                // Insert the test class list into the file
+                System.IO.File.WriteAllLines(Utils.FileHandler.classListFilePath, testClassList);
+            }
+
+            if (createDataBackupFolder)
+            {
+                Utils.FileHandler.CreateDataBackupFolder();
+            }
+
+            if (deleteClassListFile)
+            {
+                System.IO.File.Delete(Utils.FileHandler.classListFilePath);
+            }
+
+            if (deleteDataFolder)
+            {
+                System.IO.Directory.Delete(Utils.FileHandler.dataFolderPath);
             }
 
             // Return values necessary for running the test
@@ -105,8 +117,6 @@ namespace Tests
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeFlaUIApp()
         {
             // Find and run the application
-            //FlaUI.Core.Application app = FlaUI.Core.Application.Launch("C:\\Users\\viggo.strom\\Documents\\GitHub\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            //Console.WriteLine(app.ProcessId);
             FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
             FlaUI.UIA3.UIA3Automation automation = new();
 
@@ -167,14 +177,19 @@ namespace Tests
             public static List<string> GetClassListFromFile()
             {
                 // Read the names from the file and return them as a list
-                using System.IO.StreamReader reader = new(Utils.FileHandler.classListFilePath);
-                List<string> classList = reader
-                    .ReadToEnd()
-                    .Split("\n")
+                // TODO - File.ReadAllLines?
+                //using System.IO.StreamReader reader = new(Utils.FileHandler.classListFilePath);
+                //List<string> classList = reader
+                //    .ReadToEnd()
+                //    .Split("\n")
+                //    .Select(name => name.Trim())
+                //    .Where(name => !string.IsNullOrEmpty(name)) // Remove empty lines
+                //    .ToList();
+                //return classList;
+                return System.IO.File.ReadAllLines(Utils.FileHandler.classListFilePath)
                     .Select(name => name.Trim())
-                    .Where(name => !string.IsNullOrEmpty(name)) // Remove empty lines
+                    .Where(name => !string.IsNullOrEmpty(name)) // Remove empty lines)
                     .ToList();
-                return classList;
             }
 
             public static void RestoreBackupFolder()
@@ -200,6 +215,31 @@ namespace Tests
                     // Deletes the class list file and renames the backup file to take its place
                     System.IO.File.Delete(Utils.FileHandler.classListFilePath);
                     System.IO.File.Move(Utils.FileHandler.classListBackupFilePath, Utils.FileHandler.classListFilePath);
+                }
+            }
+
+            public static void CreateDefaultClassListFile()
+            {
+                // Make sure that the data folder exists
+                if (!System.IO.Directory.Exists(Utils.FileHandler.dataFolderPath))
+                {
+                    System.IO.Directory.CreateDirectory(Utils.FileHandler.dataFolderPath);
+                }
+
+                // Create the default class list if no class list exists
+                if (!System.IO.File.Exists(Utils.FileHandler.classListFilePath))
+                {
+                    System.IO.File.WriteAllLines(Utils.FileHandler.classListFilePath, Utils.defaultClassList);
+                }
+            }
+
+            public static void CreateDataBackupFolder()
+            {
+                // Move all files from the data folder to a backup folder
+                System.IO.Directory.CreateDirectory(Utils.FileHandler.dataBackupFolderPath);
+                foreach (string filePath in System.IO.Directory.GetFiles(Utils.FileHandler.dataFolderPath))
+                {
+                    System.IO.File.Move(filePath, System.IO.Path.Combine(Utils.FileHandler.dataBackupFolderPath, System.IO.Path.GetFileName(filePath)));
                 }
             }
         }
