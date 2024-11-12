@@ -8,10 +8,10 @@ using Classroom_Seating_Planner.src;
 namespace Tests
 {
     [TestClass]
-    public class TestNameList
+    public class TestClassListElement
     {
         [TestMethod]
-        public void RandomizerTest()
+        public void RandomizeTestingClassListTest()
         {
             bool hasClassListOrderChanged(List<string> classListOld, List<string> classListNew)
             {
