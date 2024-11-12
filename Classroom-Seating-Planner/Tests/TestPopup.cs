@@ -145,21 +145,16 @@ namespace Tests
         public void MissingDirectoryTest()
         {
             // Create a backup folder
-            string backupFolderName = $"{Utils.dataFolderName}.bak";
-            string documentsFolderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            string backupFolderPath = System.IO.Path.Combine(documentsFolderPath, backupFolderName);
-
             // Ensure that there is no preexisting backup folder and create a new one
-            if (System.IO.Directory.Exists(backupFolderPath))
-            {
-                System.IO.Directory.Delete(backupFolderPath, true);
-            }
-            System.IO.Directory.CreateDirectory(backupFolderPath);
+            // TODO - maybe delete?
+            if (System.IO.Directory.Exists(Utils.FileHandler.dataBackupFolderPath)) { System.IO.Directory.Delete(Utils.FileHandler.dataBackupFolderPath, true); }
+            System.IO.Directory.CreateDirectory(Utils.FileHandler.dataBackupFolderPath);
 
+            // TODO - Maybe unneccessary / extract
             // Move all files from the data folder to the backup folder
             foreach (string filePath in System.IO.Directory.GetFiles(Utils.FileHandler.dataFolderPath))
             {
-                System.IO.File.Move(filePath, System.IO.Path.Combine(backupFolderPath, System.IO.Path.GetFileName(filePath)));
+                System.IO.File.Move(filePath, System.IO.Path.Combine(Utils.FileHandler.dataBackupFolderPath, System.IO.Path.GetFileName(filePath)));
             }
 
             // Delete the data folder
@@ -181,13 +176,13 @@ namespace Tests
             System.IO.Directory.CreateDirectory(Utils.FileHandler.dataFolderPath);
 
             // Move all files back from the backup folder to the data folder
-            foreach (string filePath in System.IO.Directory.GetFiles(backupFolderPath))
+            foreach (string filePath in System.IO.Directory.GetFiles(Utils.FileHandler.dataBackupFolderPath))
             {
                 System.IO.File.Move(filePath, System.IO.Path.Combine(Utils.FileHandler.dataFolderPath, System.IO.Path.GetFileName(filePath)));
             }
 
             // Delete the backup folder
-            System.IO.Directory.Delete(backupFolderPath, true);
+            System.IO.Directory.Delete(Utils.FileHandler.dataBackupFolderPath, true);
 
 
             Utils.TearDown(app);
@@ -196,11 +191,8 @@ namespace Tests
         [TestMethod]
         public void MissingClassListFileTest()
         {
-            // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{Utils.FileHandler.classListFilePath}.bak"))
-            {
-                Utils.FileHandler.RestoreBackupData(Utils.FileHandler.classListFilePath);
-            }
+            // Restore backup data if backup file already exists (because this test does not use SetUp)
+            Utils.FileHandler.RestoreBackupFile();
 
             // Backup data and delete original file
             System.IO.File.Copy(Utils.FileHandler.classListFilePath, Utils.FileHandler.classListBackupFilePath);

@@ -63,12 +63,11 @@ namespace Tests
             // Use default testing class list unless a list is specified
             testClassList ??= testingClassList;
 
-            // TODO - restore backup folder
+            // Restore backup folder if it exists
+            Utils.FileHandler.RestoreBackupFolder();
+
             // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{Utils.FileHandler.classListFilePath}.bak"))
-            {
-                Utils.FileHandler.RestoreBackupData(Utils.FileHandler.classListFilePath);
-            }
+            Utils.FileHandler.RestoreBackupFile();
 
             // Create the data folder and an empty class list file if they don't exist
             if (!System.IO.File.Exists(Utils.FileHandler.classListFilePath))
@@ -97,7 +96,7 @@ namespace Tests
         public static void TearDown(FlaUI.Core.Application app)
         {
             // Restore the class list file by filling it with backed up information from before the test
-            Utils.FileHandler.RestoreBackupData(Utils.FileHandler.classListFilePath);
+            Utils.FileHandler.RestoreBackupFile();
 
             // Terminate the app
             app.Close();
@@ -160,8 +159,9 @@ namespace Tests
         {
             // Path variables constructed with folder name and file name defined at the top of Utils
             public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);
+            public static readonly string dataBackupFolderPath = $"{dataFolderPath}.bak";
             public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
-            public static readonly string classListBackupFilePath = $"{System.IO.Path.Combine(dataFolderPath, classListFileName)}.bak";
+            public static readonly string classListBackupFilePath = $"{classListFilePath}.bak";
 
             // Returns a list of data from an external file
             public static List<string> GetDataFromFile(string filePath)
@@ -177,23 +177,39 @@ namespace Tests
                 return dataList;
             }
 
-            public static void RestoreBackupData(string originalFilePath)
-            {
-                if (System.IO.File.Exists($"{classListFilePath}.bak"))
-                {
-                    System.IO.File.Delete(originalFilePath);
-                    System.IO.File.Move($"{originalFilePath}.bak", originalFilePath);
-                }
-            }
-
+            // TODO - Use global var
             // Returns the list of students read from an external file as a list
             public static List<string> GetClassListFromFile()
             {
-                string filePath = classListFilePath;
-
                 // Read the names from the file and return them as a list
-                List<string> classList = GetDataFromFile(filePath);
+                List<string> classList = GetDataFromFile(Utils.FileHandler.classListFilePath);
                 return classList;
+            }
+
+            public static void RestoreBackupFolder()
+            {
+                if (System.IO.Directory.Exists(Utils.FileHandler.dataBackupFolderPath))
+                {
+                    // Make sure there is an empty data folder
+                    if (System.IO.Directory.Exists(Utils.FileHandler.dataFolderPath)) { System.IO.Directory.Delete(Utils.FileHandler.dataFolderPath, true); }
+                    System.IO.Directory.CreateDirectory(Utils.FileHandler.dataFolderPath);
+
+                    // Move all files back from the backup folder to the data folder
+                    foreach (string filePath in System.IO.Directory.GetFiles(Utils.FileHandler.dataBackupFolderPath))
+                    {
+                        System.IO.File.Move(filePath, System.IO.Path.Combine(Utils.FileHandler.dataFolderPath, System.IO.Path.GetFileName(filePath)));
+                    }
+                }
+            }
+
+            public static void RestoreBackupFile()
+            {
+                if (System.IO.File.Exists(Utils.FileHandler.classListBackupFilePath))
+                {
+                    // Deletes the class list file and renames the backup file to take its place
+                    System.IO.File.Delete(Utils.FileHandler.classListFilePath);
+                    System.IO.File.Move(Utils.FileHandler.classListBackupFilePath, Utils.FileHandler.classListFilePath);
+                }
             }
         }
     }
