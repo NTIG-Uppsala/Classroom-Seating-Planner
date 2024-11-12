@@ -10,11 +10,12 @@ namespace Tests
     public class TestSeating
     {
         [TestMethod]
-        public void SeatingIsCorrectTest()
+        public void SeatStudentsTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp();
+
 
             // Declare which seats should be checked
             List<int> seatIndexes = [0, 10, 16, 27, 32];
@@ -41,6 +42,7 @@ namespace Tests
             {
                 Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), "The order of the seating is not the same as the order of the class list");
             }
+
 
             Utils.TearDown(app);
         }
