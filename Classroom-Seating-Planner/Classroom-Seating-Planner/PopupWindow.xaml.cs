@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using System.Windows;
 
 namespace Classroom_Seating_Planner

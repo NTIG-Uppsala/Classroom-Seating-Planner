@@ -1,8 +1,5 @@
 ﻿using FlaUI.Core.AutomationElements;
-using FlaUI.Core.Conditions;
-using FlaUI.Core.Tools;
 using FlaUI.UIA3;
-using System.Diagnostics;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
