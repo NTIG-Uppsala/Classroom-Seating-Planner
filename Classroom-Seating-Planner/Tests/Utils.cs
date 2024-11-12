@@ -163,26 +163,17 @@ namespace Tests
             public static readonly string classListFilePath = System.IO.Path.Combine(dataFolderPath, classListFileName);
             public static readonly string classListBackupFilePath = $"{classListFilePath}.bak";
 
-            // Returns a list of data from an external file
-            public static List<string> GetDataFromFile(string filePath)
-            {
-                // Read the data from the file and return it as a list
-                using System.IO.StreamReader reader = new(filePath);
-                List<string> dataList = reader
-                    .ReadToEnd()
-                    .Split("\n")
-                    .Select(item => item.Trim())
-                    .Where(item => !string.IsNullOrEmpty(item))
-                    .ToList();
-                return dataList;
-            }
-
-            // TODO - Use global var
             // Returns the list of students read from an external file as a list
             public static List<string> GetClassListFromFile()
             {
                 // Read the names from the file and return them as a list
-                List<string> classList = GetDataFromFile(Utils.FileHandler.classListFilePath);
+                using System.IO.StreamReader reader = new(Utils.FileHandler.classListFilePath);
+                List<string> classList = reader
+                    .ReadToEnd()
+                    .Split("\n")
+                    .Select(name => name.Trim())
+                    .Where(name => !string.IsNullOrEmpty(name)) // Remove empty lines
+                    .ToList();
                 return classList;
             }
 
