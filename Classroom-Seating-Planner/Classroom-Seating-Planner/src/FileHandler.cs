@@ -22,10 +22,10 @@ namespace Classroom_Seating_Planner.src
         ];
 
         // Returns the list of student names read from an external file as a list
-        public static List<string> GetClassListFromFile(string filePath)
+        public static List<string> GetClassListFromFile()
         {
             // Get the list of student names from the class list file and return as a list
-            using System.IO.StreamReader reader = new(filePath);
+            using System.IO.StreamReader reader = new(FileHandler.classListFilePath);
             List<string> dataList = reader
                 .ReadToEnd()
                 .Split("\n")
@@ -58,7 +58,7 @@ namespace Classroom_Seating_Planner.src
             }
 
             // If the file exists, get its content as a list
-            List<string> classListFileContent = GetClassListFromFile(FileHandler.classListFilePath);
+            List<string> classListFileContent = GetClassListFromFile();
 
             // If the file is empty, write the default list to it and return the "empty" message code
             if (classListFileContent.SequenceEqual([]))
