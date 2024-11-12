@@ -78,11 +78,6 @@ namespace Tests
             Utils.TearDown(app);
         }
 
-        private static List<FlaUIElement.AutomationElement> GetAllExplorerInstances(FlaUI.UIA3.UIA3Automation automation, ConditionFactory cf)
-        {
-            return automation.GetDesktop().FindAllChildren(cf.ByClassName("CabinetWClass")).ToList();
-        }
-
         [TestMethod]
         public void OpenClassListDirectoryTest()
         {
@@ -90,6 +85,11 @@ namespace Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp();
 
+
+            static List<FlaUIElement.AutomationElement> getAllExplorerInstances(FlaUI.UIA3.UIA3Automation automation, ConditionFactory cf)
+            {
+                return automation.GetDesktop().FindAllChildren(cf.ByClassName("CabinetWClass")).ToList();
+            }
 
             // Open the help popup
             FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByText("Hjälp"));
@@ -100,7 +100,7 @@ namespace Tests
             Assert.IsNotNull(popupWindow);
 
             // Save the currently open file explorer windows
-            List<FlaUIElement.AutomationElement> explorerInstances = GetAllExplorerInstances(automation, cf);
+            List<FlaUIElement.AutomationElement> explorerInstances = getAllExplorerInstances(automation, cf);
 
             // Click the open button
             FlaUIElement.AutomationElement openButton = popupWindow.FindFirstDescendant(cf.ByText("Öppna mapp"));
@@ -109,7 +109,7 @@ namespace Tests
             // Wait until a new explorer window is opened
             Stopwatch timeout = new();
             timeout.Start();
-            while (explorerInstances.SequenceEqual(GetAllExplorerInstances(automation, cf)) && timeout.ElapsedMilliseconds < 10000)
+            while (explorerInstances.SequenceEqual(getAllExplorerInstances(automation, cf)) && timeout.ElapsedMilliseconds < 10000)
             {
                 // Wait...
                 // Wait...
@@ -119,7 +119,7 @@ namespace Tests
             }
 
             // Get the new explorer window
-            FlaUIElement.AutomationElement? explorer = GetAllExplorerInstances(automation, cf).Except(explorerInstances).FirstOrDefault();
+            FlaUIElement.AutomationElement? explorer = getAllExplorerInstances(automation, cf).Except(explorerInstances).FirstOrDefault();
 
             if (explorer == null)
             {
