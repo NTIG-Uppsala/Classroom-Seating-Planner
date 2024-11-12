@@ -17,10 +17,10 @@ If you receive errors when trying to run the tests, try the following:
 
 ## Editing the Tests
 
-#### Editing the Default Testing Class List
+#### Editing the Testing Class List
 
 1.  Navigate to [Utils.cs](../Classroom-Seating-Planner/Tests/Utils.cs).
-1.  Navigate to the `SetUpTest`-method and change the List `testClassList`.
+1.  Navigate to the top of [Utils.cs](../Classroom-Seating-Planner/Tests/Utils.cs) and change the List `testingClassList`.
 
 #### Creating a New Test
 
