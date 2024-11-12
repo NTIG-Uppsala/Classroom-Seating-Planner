@@ -33,22 +33,22 @@ namespace Tests
             }
 
             // Get class list before shuffle
-            List<string> classListOld = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            List<string> classListOld = Utils.XAMLHandler.GetClassListFromElement(window, cf);
 
             // Click randomize-button and get class list after shuffle
-            Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> classListNew = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+            List<string> classListNew = Utils.XAMLHandler.GetClassListFromElement(window, cf);
 
             // Trigger the randomizing function and assert that a new, randomized, class list is generated and make sure all the names are the same
             Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), "Test failed because the order of the class list has not changed.");
             Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), "Test failed because the content of the generated class list is not the same as the list before generating");
 
             // Get class list before shuffle
-            classListOld = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            classListOld = Utils.XAMLHandler.GetClassListFromElement(window, cf);
 
             // Click randomize-button and get class list after shuffle
-            Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            classListNew = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+            classListNew = Utils.XAMLHandler.GetClassListFromElement(window, cf);
 
             // Test one more time to make sure that the list can be scrambled again
             Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), "Test failed because the order of the class list has not changed.");
@@ -68,8 +68,8 @@ namespace Tests
 
 
             // Randomize the list and check that it works
-            Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthZeroShuffled = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+            List<string> testListLengthZeroShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthZeroShuffled);
 
 
@@ -86,8 +86,8 @@ namespace Tests
 
 
             // Randomize the list and check that it works
-            Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthOneShuffled = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+            List<string> testListLengthOneShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthOneShuffled);
 
 
@@ -104,8 +104,8 @@ namespace Tests
 
 
             // Randomize the list and check that it works
-            Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthTwoShuffled = Utils.XAMLManager.GetClassListFromElement(window, cf);
+            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+            List<string> testListLengthTwoShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthTwoShuffled);
 
 

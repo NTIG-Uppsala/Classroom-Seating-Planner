@@ -79,7 +79,7 @@ namespace Classroom_Seating_Planner
             classListFromFile = FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the contents of listOfNames
-            ClassListElementManager.Populate(ClassListElement, classListFromFile);
+            ClassListElementHandler.Populate(ClassListElement, classListFromFile);
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
@@ -88,8 +88,8 @@ namespace Classroom_Seating_Planner
             classListFromFile.Shuffle();
 
             // Populate the class list and the seats with the new order
-            ClassListElementManager.Populate(ClassListElement, classListFromFile);
-            SeatingManager.Populate(seatElements, classListFromFile);
+            ClassListElementHandler.Populate(ClassListElement, classListFromFile);
+            SeatingHandler.Populate(seatElements, classListFromFile);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)

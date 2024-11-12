@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace Classroom_Seating_Planner.src
 {
-    internal class SeatingManager
+    internal class SeatingHandler
     {
         public static void Populate(List<TextBlock> seatElements, List<string> classList)
         {

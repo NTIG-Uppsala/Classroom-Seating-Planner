@@ -65,23 +65,23 @@ namespace Tests
 
             // TODO - restore backup folder
             // Restore backup data if backup file already exists
-            if (System.IO.File.Exists($"{Utils.FileManager.classListFilePath}.bak"))
+            if (System.IO.File.Exists($"{Utils.FileHandler.classListFilePath}.bak"))
             {
-                Utils.FileManager.RestoreBackupData(Utils.FileManager.classListFilePath);
+                Utils.FileHandler.RestoreBackupData(Utils.FileHandler.classListFilePath);
             }
 
             // Create the data folder and an empty class list file if they don't exist
-            if (!System.IO.File.Exists(Utils.FileManager.classListFilePath))
+            if (!System.IO.File.Exists(Utils.FileHandler.classListFilePath))
             {
-                System.IO.Directory.CreateDirectory(Utils.FileManager.dataFolderPath);
-                System.IO.File.Create(Utils.FileManager.classListFilePath).Close();
+                System.IO.Directory.CreateDirectory(Utils.FileHandler.dataFolderPath);
+                System.IO.File.Create(Utils.FileHandler.classListFilePath).Close();
             }
 
             // Backup the data from the class list file so it can be restored after testing
-            System.IO.File.Copy(Utils.FileManager.classListFilePath, $"{Utils.FileManager.classListFilePath}.bak");
+            System.IO.File.Copy(Utils.FileHandler.classListFilePath, $"{Utils.FileHandler.classListFilePath}.bak");
 
             // Insert the test data into the file
-            using (System.IO.StreamWriter writer = new(Utils.FileManager.classListFilePath, false))
+            using (System.IO.StreamWriter writer = new(Utils.FileHandler.classListFilePath, false))
             {
                 foreach (string testStudent in testClassList)
                 {
@@ -97,7 +97,7 @@ namespace Tests
         public static void TearDown(FlaUI.Core.Application app)
         {
             // Restore the class list file by filling it with backed up information from before the test
-            Utils.FileManager.RestoreBackupData(Utils.FileManager.classListFilePath);
+            Utils.FileHandler.RestoreBackupData(Utils.FileHandler.classListFilePath);
 
             // Terminate the app
             app.Close();
@@ -118,7 +118,7 @@ namespace Tests
             return (app, automation, window, cf);
         }
 
-        public class XAMLManager
+        public class XAMLHandler
         {
             // Returns list of ListBox items
             public static List<string> GetClassListFromElement(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -156,7 +156,7 @@ namespace Tests
             }
         }
 
-        public class FileManager
+        public class FileHandler
         {
             // Path variables constructed with folder name and file name defined at the top of Utils
             public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), dataFolderName);

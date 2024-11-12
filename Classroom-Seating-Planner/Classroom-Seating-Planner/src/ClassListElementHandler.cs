@@ -2,7 +2,7 @@
 
 namespace Classroom_Seating_Planner.src
 {
-    internal class ClassListElementManager
+    internal class ClassListElementHandler
     {
         public static void Populate(ListBox classListElement, List<string> classList)
         {
