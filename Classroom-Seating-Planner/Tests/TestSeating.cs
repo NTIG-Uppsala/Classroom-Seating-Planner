@@ -16,13 +16,14 @@ namespace Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp();
 
-            int[] testIndex = [0, 10, 16, 27, 32];
+            // Declare which seats should be checked
+            List<int> seatIndexes = [0, 10, 16, 27, 32];
 
             // Find all the seats
             List<FlaUIElement.AutomationElement> allSeats = Utils.XAMLManager.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
 
             // Check that (some of the) seats are empty at program start
-            foreach (int index in testIndex)
+            foreach (int index in seatIndexes)
             {
                 Assert.IsTrue(allSeats[index].Name.Equals(string.Empty), "The seats are not empty at the start of the program");
             }
@@ -36,7 +37,7 @@ namespace Tests
             List<string> allStudents = Utils.XAMLManager.GetClassListFromElement(window, cf);
 
             // Check that the seating matches the order of the list of students
-            foreach (int index in testIndex)
+            foreach (int index in seatIndexes)
             {
                 Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), "The order of the seating is not the same as the order of the class list");
             }
