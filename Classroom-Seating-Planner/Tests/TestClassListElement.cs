@@ -59,7 +59,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void RandomizeListOfZeroTest()
+        public void RandomizeClassListOfZeroTest()
         {
             // Set up/start the test
             List<string> testListLengthZero = [];
@@ -77,7 +77,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void RandomizeListOfOneTest()
+        public void RandomizeClassListOfOneTest()
         {
             // Set up/start the test
             List<string> testListLengthOne = ["Name1"];
@@ -95,7 +95,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void RandomizeListOfTwoTest()
+        public void RandomizeClassListOfTwoTest()
         {
             // Set up/start the test
             List<string> testListLengthTwo = ["Name1", "Name2"];
