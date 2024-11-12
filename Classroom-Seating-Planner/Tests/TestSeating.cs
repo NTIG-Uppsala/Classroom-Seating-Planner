@@ -22,10 +22,9 @@ namespace Tests
             List<FlaUIElement.AutomationElement> allSeats = Utils.XAMLManager.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
 
             // Check that (some of the) seats are empty at program start
-            string errorMessage = "The seats are not empty at the start of the program";
             foreach (int index in testIndex)
             {
-                Assert.IsTrue(allSeats[index].Name.Equals(string.Empty), errorMessage);
+                Assert.IsTrue(allSeats[index].Name.Equals(string.Empty), "The seats are not empty at the start of the program");
             }
 
             Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
@@ -37,10 +36,9 @@ namespace Tests
             List<string> allStudents = Utils.XAMLManager.GetClassListFromElement(window, cf);
 
             // Check that the seating matches the order of the list of students
-            errorMessage = "The order of the seating is not the same as the order of the class list";
             foreach (int index in testIndex)
             {
-                Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), errorMessage);
+                Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), "The order of the seating is not the same as the order of the class list");
             }
 
             Utils.TearDown(app);
