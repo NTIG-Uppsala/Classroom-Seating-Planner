@@ -12,11 +12,20 @@ namespace Classroom_Seating_Planner
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
-        // Where the student names are stored
-        private List<string>? classListFromFile;
-        // Seats are the xaml elements where the names will be displayed
-        private readonly List<TextBlock> seatElements;
+        // Define the global list of names here
+        private List<string> listOfNames;
+        private List<TextBlock> listOfSeats;
 
+        // This is the instructional text that will be displayed in the popup windows
+        public string fileTutorial = $"Klasslistan ligger i\n" +
+            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
+            $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+
+        public string notFoundFilePopup = "Klasslista hittades inte. En textfil har skapats. ";
+        public string emptyFilePopup = "Klasslistan är tom. En standardklasslista har skapats. ";
+        public string defaultFilePopup = "Det verkar som att klasslistan inte har uppdaterats. ";
+
+        private string? classListFileIssue;
         public MainWindow()
         {
             InitializeComponent();
@@ -25,11 +34,32 @@ namespace Classroom_Seating_Planner
             SizeChanged += Window_SizeChanged;
             Loaded += MainWindow_Loaded;
 
+            // Check if there are any issues with the class list file
+            classListFileIssue = FileHandler.CheckClassListFileForIssues();
+
+            // Get the list of student names from the class list file
+            listOfNames = FileHandler.GetClassListFromFile();
+
+            // Populate the ListBox with the contents of listOfNames
+            foreach (string name in listOfNames)
+            {
+                ListBoxItem student = new()
+                {
+                    Content = name,
+                    // These properties prevent the ListBoxItem from being selected
+                    IsHitTestVisible = false,
+                    Focusable = false,
+                    IsSelected = false,
+                    IsTabStop = false
+                };
+                ClassListElement.Items.Add(student);
+            }
+
             // Make items in the ClassListElement unselectable
             ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
-            seatElements = [
+            List<TextBlock> seatsList = [
                 Seat1,
                 Seat2,
                 Seat3,
@@ -67,35 +97,69 @@ namespace Classroom_Seating_Planner
                 Seat35,
                 Seat36
             ];
+            listOfSeats = seatsList;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // Check if there are any issues with the class list file, if so, display a popup
-            // Pass the current window as the parent window so the popups know if it needs to close
-            FileHandler.CheckClassListFileForIssues(this);
-
-            // Get the list of student names from the class list file
-            classListFromFile = FileHandler.GetClassListFromFile();
-
-            // Populate the ListBox with the contents of listOfNames
-            ClassListElementManager.Populate(ClassListElement, classListFromFile);
+            if (classListFileIssue == "not found")
+            {
+                _ = new PopupWindow(notFoundFilePopup + fileTutorial, "Information", this);
+                return;
+            }
+            if (classListFileIssue == "empty")
+            {
+                _ = new PopupWindow(emptyFilePopup + fileTutorial, "Varning", this);
+                return;
+            }
+            if (classListFileIssue == "default")
+            {
+                _ = new PopupWindow(defaultFilePopup + fileTutorial, "Varning", this);
+                return;
+            }
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
         {
             // Shuffle the list of student names using a custom class method
-            classListFromFile.Shuffle();
+            listOfNames.Shuffle();
 
-            // Populate the class list and the seats with the new order
-            ClassListElementManager.Populate(ClassListElement, classListFromFile);
-            SeatingManager.Populate(seatElements, classListFromFile);
-        }
+            // Clear the ListBox before populating
+            ClassListElement.Items.Clear();
 
-        private void HelpButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create an instance of the popup window
-            _ = new PopupWindow(PopupWindow.fileTutorialMessage, "Hjälp", this);
+            // Populate the ListBox with the new order
+            foreach (string name in listOfNames)
+            {
+                ListBoxItem student = new()
+                {
+                    Content = name,
+                    // These properties prevent the ListBoxItem from being selected
+                    IsHitTestVisible = false,
+                    Focusable = false,
+                    IsSelected = false,
+                    IsTabStop = false
+                };
+                ClassListElement.Items.Add(student);
+            }
+
+            List<TextBlock> seats = listOfSeats;
+
+            // Ensure we don't exceed the number of available seats
+            int seatCount = Math.Min(listOfNames.Count, seats.Count);
+
+            // Update the tables with the new order
+            for (int index = 0; index < seatCount; index++)
+            {
+                // Assign the shuffled student name to the corresponding seat
+                seats[index].Text = listOfNames[index];
+            }
+
+            // If there are more seats than students, clear the remaining seats
+            for (int index = seatCount; index < seats.Count; index++)
+            {
+                // Clear the seat if it's not occupied
+                seats[index].Text = string.Empty;
+            }
         }
 
         protected void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -111,6 +175,12 @@ namespace Classroom_Seating_Planner
             double fontSize = Math.Round(m * x + b);
 
             RandomizeSeatingButton.FontSize = fontSize;
+        }
+
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create an instance of the popup window
+            _ = new PopupWindow(fileTutorial, "Hjälp", this);
         }
     }
 }

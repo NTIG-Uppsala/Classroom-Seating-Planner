@@ -121,13 +121,14 @@ namespace Tests
         public class XAMLManager
         {
             // Returns list of ListBox items
-            public static List<string> GetListBoxItemsAsList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomaitonId)
+            public static List<string> GetClassListFromElement(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
             {
-                FlaUIElement.ListBox listBox = window.FindFirstDescendant(cf.ByAutomationId(listBoxAutomaitonId)).AsListBox();
-                List<FlaUIElement.ListBoxItem> listBoxItemsList = listBox.Items.ToList();
-                List<string> listBoxItemsStringList = listBoxItemsList.Select(item => item.Text).ToList();
+                string automationId = "ClassListElement";
+                FlaUIElement.ListBox classListElement = window.FindFirstDescendant(cf.ByAutomationId(automationId)).AsListBox();
+                List<FlaUIElement.ListBoxItem> classListAsItems = classListElement.Items.ToList();
+                List<string> classList = classListAsItems.Select(item => item.Text).ToList();
 
-                return listBoxItemsStringList;
+                return classList;
             }
 
             public static void ClickRandomizeSeatingButton(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)

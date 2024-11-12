@@ -35,7 +35,7 @@ namespace Tests
             List<string> getClassListFromClassListElementBeforeShuffle(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
             {
                 // Extract an list of students from the ListBox element in the UI
-                return Utils.XAMLManager.GetListBoxItemsAsList(window, cf, listBoxAutomationId).ToList();
+                return Utils.XAMLManager.GetClassListFromElement(window, cf);
             }
 
             List<string> clickRandomizeButtonAndGetNewList(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string listBoxAutomationId)
@@ -43,7 +43,7 @@ namespace Tests
                 Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
 
                 // Extract an list of students from the ListBox element in the UI
-                List<string> classListNew = Utils.XAMLManager.GetListBoxItemsAsList(window, cf, listBoxAutomationId).ToList();
+                List<string> classListNew = Utils.XAMLManager.GetClassListFromElement(window, cf);
 
                 return classListNew;
             }
@@ -86,7 +86,7 @@ namespace Tests
 
             // Randomize the list and check that it works
             Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthZeroShuffled = Utils.XAMLManager.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            List<string> testListLengthZeroShuffled = Utils.XAMLManager.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthZeroShuffled);
 
 
@@ -104,7 +104,7 @@ namespace Tests
 
             // Randomize the list and check that it works
             Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthOneShuffled = Utils.XAMLManager.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            List<string> testListLengthOneShuffled = Utils.XAMLManager.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthOneShuffled);
 
 
@@ -122,7 +122,7 @@ namespace Tests
 
             // Randomize the list and check that it works
             Utils.XAMLManager.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthTwoShuffled = Utils.XAMLManager.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            List<string> testListLengthTwoShuffled = Utils.XAMLManager.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthTwoShuffled);
 
 

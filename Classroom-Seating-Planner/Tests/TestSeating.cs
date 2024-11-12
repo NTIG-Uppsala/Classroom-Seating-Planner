@@ -34,7 +34,7 @@ namespace Tests
             allSeats = Utils.XAMLManager.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
 
             // Get list of students to compare against list of seats
-            List<string> allStudents = Utils.XAMLManager.GetListBoxItemsAsList(window, cf, "ClassListElement");
+            List<string> allStudents = Utils.XAMLManager.GetClassListFromElement(window, cf);
 
             // Check that the seating matches the order of the list of students
             errorMessage = "The order of the seating is not the same as the order of the class list";
