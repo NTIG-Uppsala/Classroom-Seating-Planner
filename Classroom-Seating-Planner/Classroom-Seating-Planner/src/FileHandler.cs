@@ -22,14 +22,10 @@ namespace Classroom_Seating_Planner.src
         public static List<string> GetClassListFromFile()
         {
             // Get the list of student names from the class list file and return as a list
-            using System.IO.StreamReader reader = new(FileHandler.classListFilePath);
-            List<string> dataList = reader
-                .ReadToEnd()
-                .Split("\n")
-                .Select(item => item.Trim())
-                .Where(item => !string.IsNullOrEmpty(item))
+            return System.IO.File.ReadAllLines(FileHandler.classListFilePath)
+                .Select(name => name.Trim())
+                .Where(name => !string.IsNullOrEmpty(name))
                 .ToList();
-            return dataList;
         }
 
         public static void WriteDefaultClassListFile()
