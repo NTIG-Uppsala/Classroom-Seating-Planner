@@ -82,16 +82,19 @@ namespace Tests
                 System.IO.File.WriteAllLines(Utils.FileHandler.classListFilePath, testClassList);
             }
 
+            // Condition used by specific tests to create a backup folder
             if (createDataBackupFolder)
             {
                 Utils.FileHandler.CreateDataBackupFolder();
             }
 
+            // Condition used by specific tests to delete the class list file
             if (deleteClassListFile)
             {
                 System.IO.File.Delete(Utils.FileHandler.classListFilePath);
             }
 
+            // Condition used by specifi tests to delete the data folder
             if (deleteDataFolder)
             {
                 System.IO.Directory.Delete(Utils.FileHandler.dataFolderPath);
