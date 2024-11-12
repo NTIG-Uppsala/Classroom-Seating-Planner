@@ -23,7 +23,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void OpeningPopupWindowTest()
+        public void OpenAndCloseHelpWindowTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -56,7 +56,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void ClosingMainWindowTest()
+        public void CloseMainAndChildWindowsTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -88,7 +88,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void OpenFileExplorerTest()
+        public void OpenClassListDirectoryTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -221,11 +221,12 @@ namespace Tests
 
         // Test that the application gives a popup warning when loading an empty list
         [TestMethod]
-        public void EmptyListFileTest()
+        public void EmptyClassListFileTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp([]);
+
 
             // Assert that the correct popup is shown when the empty list is loaded
             FlaUIElement.Window? popupWindow = FindPopupWindow(badFilePopupName, app, automation);
@@ -238,7 +239,7 @@ namespace Tests
 
         // Test that the application gives a popup warning when loading a default list
         [TestMethod]
-        public void DefaultListTest()
+        public void DefaultClassListFileTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
