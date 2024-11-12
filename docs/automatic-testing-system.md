@@ -29,7 +29,7 @@ If you receive errors when trying to run the tests, try the following:
 1.  Change the method name to something that is appropriate for what you want to test.
 1.  Follow the instructions in the comments of the `TestMethod`.
 
--   If you are creating a new method within a test file, and want it to be run as a test, make sure it is preceded by `[TestMethod]` and contains `Utils.SetUpTest` and `Utils.TearDownTest` like in the template.
+-   If you are creating a new method within a test file, and want it to be run as a test, make sure it is preceded by `[TestMethod]` and contains `Utils.SetUp()` and `Utils.TearDown()` like in the template.
 
 ---
 
