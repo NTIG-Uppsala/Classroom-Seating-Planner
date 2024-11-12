@@ -11,7 +11,7 @@ namespace Tests
     public class TestNameList
     {
         [TestMethod]
-        public void TestRandomizer()
+        public void RandomizerTest()
         {
             bool hasClassListOrderChanged(List<string> classListOld, List<string> classListNew)
             {
@@ -76,7 +76,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void TestRandomizeListOfZero()
+        public void RandomizeListOfZeroTest()
         {
             // Set up/start the test
             List<string> testListLengthZero = [];
@@ -94,7 +94,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void TestRandomizeListOfOne()
+        public void RandomizeListOfOneTest()
         {
             // Set up/start the test
             List<string> testListLengthOne = ["Name1"];
@@ -112,7 +112,7 @@ namespace Tests
         }
 
         [TestMethod, Timeout(3000)]
-        public void TestRandomizeListOfTwo()
+        public void RandomizeListOfTwoTest()
         {
             // Set up/start the test
             List<string> testListLengthTwo = ["Name1", "Name2"];

@@ -23,7 +23,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestOpeningPopupWindow()
+        public void OpeningPopupWindowTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -56,7 +56,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestClosingMainWindow()
+        public void ClosingMainWindowTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -88,7 +88,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestOpenFileExplorer()
+        public void OpenFileExplorerTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -142,7 +142,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestMissingDirectory()
+        public void MissingDirectoryTest()
         {
             // Create a backup folder
             string backupFolderName = $"{Utils.dataFolderName}.bak";
@@ -194,7 +194,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TestMissingClassListFile()
+        public void MissingClassListFileTest()
         {
             // Restore backup data if backup file already exists
             if (System.IO.File.Exists($"{Utils.FileManager.classListFilePath}.bak"))
@@ -221,7 +221,7 @@ namespace Tests
 
         // Test that the application gives a popup warning when loading an empty list
         [TestMethod]
-        public void TestEmptyListFile()
+        public void EmptyListFileTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -238,7 +238,7 @@ namespace Tests
 
         // Test that the application gives a popup warning when loading a default list
         [TestMethod]
-        public void TestDefaultList()
+        public void DefaultListTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)

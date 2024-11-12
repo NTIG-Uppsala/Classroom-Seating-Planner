@@ -10,7 +10,7 @@ namespace Tests
     public class TestSeating
     {
         [TestMethod]
-        public void TestSeatingIsCorrect()
+        public void SeatingIsCorrectTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
