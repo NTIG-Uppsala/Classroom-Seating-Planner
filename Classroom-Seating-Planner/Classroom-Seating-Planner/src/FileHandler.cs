@@ -5,8 +5,8 @@ namespace Classroom_Seating_Planner.src
     public class FileHandler
     {
         // Global variables for file paths
-        private static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
-        private static readonly string classListFileName = "klasslista.txt";
+        public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
+        public static readonly string classListFileName = "klasslista.txt";
 
         public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), FileHandler.dataFolderName);
         public static readonly string classListFilePath = System.IO.Path.Combine(FileHandler.dataFolderPath, FileHandler.classListFileName);

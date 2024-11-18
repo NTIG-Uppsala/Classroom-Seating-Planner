@@ -10,7 +10,7 @@ namespace Classroom_Seating_Planner
     {
         // This is the instructional text that will be displayed in the popup windows
         public static readonly string fileTutorialMessage = $"Klasslistan ligger i\n" +
-            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), "Bordsplaceringsgeneratorn")}.\n" +
+            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), src.FileHandler.dataFolderName)}.\n" +
             $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
         public static readonly string noFileFoundMessage = "Klasslista hittades inte. En textfil har skapats. ";
@@ -38,8 +38,7 @@ namespace Classroom_Seating_Planner
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            string documentsFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
-            Process.Start("explorer.exe", System.IO.Path.Combine(documentsFolder, "Bordsplaceringsgeneratorn"));
+            Process.Start("explorer.exe", System.IO.Path.Combine(src.FileHandler.dataFolderPath));
         }
 
         public static void FileIssuePopup(string classListFileIssue, Window parent)
