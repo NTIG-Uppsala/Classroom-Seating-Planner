@@ -77,7 +77,7 @@ namespace Classroom_Seating_Planner
             this.classListFromFile = FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the content of listOfNames
-            ClassListElementHandler.Populate(ClassListElement, classListFromFile);
+            ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
