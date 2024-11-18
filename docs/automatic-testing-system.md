@@ -13,13 +13,13 @@ _**Do not move your cursor or touch your keyboard while the tests are running!**
 If you receive errors when trying to run the tests, try the following:
 
 -   Make sure no windows from previous tests are still running.
+-   Restart Visual Studio.
 -   Make sure no XAML-references such as automation ID or text content are incorrect.
 
 ## Editing the Tests
 
 #### Editing the Testing Class List
 
-1.  Navigate to [Utils.cs](../Classroom-Seating-Planner/Tests/Utils.cs).
 1.  Navigate to the top of [Utils.cs](../Classroom-Seating-Planner/Tests/Utils.cs) and change the List `testingClassList`.
 
 #### Creating a New Test

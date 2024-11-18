@@ -26,8 +26,7 @@ To create a release follow these steps in Visual Studio:
     - Changes
     - Fixes
 6. Add your exe file as an attachment.
-7. Click on `Save draft`.
-8. When product owner has approved the release, click on `Publish release`.
+7. When product owner has approved the release, click on `Publish release`.
 
 ## Configuring the Profile
 

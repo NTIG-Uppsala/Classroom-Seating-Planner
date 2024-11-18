@@ -1,6 +1,6 @@
 # File System Interactions
 
-This project requires external files and folders to use.
+###### This project requires external files and folders to use. These files are generated automatically but can be manually changed.
 
 ## Changing Information Regarding the Class List
 
