@@ -12,7 +12,7 @@ namespace Classroom_Seating_Planner.src
             // Update the tables with the new order
             for (int index = 0; index < seatCount; index++)
             {
-                // Assign the shuffled student name to the corresponding seat
+                // Assign the student name to the corresponding seat
                 seatElements[index].Text = classList[index];
             }
 
