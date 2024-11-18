@@ -40,8 +40,7 @@ namespace Classroom_Seating_Planner.src
             System.IO.File.WriteAllText(FileHandler.classListFilePath, string.Join("\n", FileHandler.defaultClassList));
         }
 
-        // Handles the data in the class list file
-        public static void CheckClassListFileForIssues(Window parent)
+        public static void HandleClassListFileIssues(Window parent)
         {
             // Create the class list file if it does not exist, write the default list to it, and return the "not found" message code
             if (!System.IO.File.Exists(FileHandler.classListFilePath))

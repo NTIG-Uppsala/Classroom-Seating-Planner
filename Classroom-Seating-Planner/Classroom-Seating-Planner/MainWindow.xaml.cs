@@ -69,9 +69,8 @@ namespace Classroom_Seating_Planner
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            // Check if there are any issues with the class list file, if so, display a popup
             // Pass the current window as the parent window so the popups know if it needs to close
-            FileHandler.CheckClassListFileForIssues(this);
+            FileHandler.HandleClassListFileIssues(this);
 
             // Get the list of student names from the class list file
             this.classListFromFile = FileHandler.GetClassListFromFile();
