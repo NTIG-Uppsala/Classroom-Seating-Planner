@@ -147,10 +147,11 @@ namespace Tests
                 randomizeButton.Click();
             }
 
+            // TODO - Is this necessary? (We are reworking stuff)
             public static List<FlaUIElement.AutomationElement> GetAllByAutomationId(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string identifier, FlaUI.Core.Definitions.ControlType? controlType = null)
             {
                 // Find all element
-                List<AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
+                List<FlaUIElement.AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
 
                 // Find all seats
                 List<FlaUIElement.AutomationElement> allSeats = allElements.Where(element =>
