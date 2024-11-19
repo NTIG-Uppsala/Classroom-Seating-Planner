@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
@@ -19,12 +21,13 @@ namespace Tests
             "\n" +
             "B BB BB  BB";
 
-        // TODO - this will change after file reading is implemented
+        // TODO - this will change after file reading is implemented - will be based on standard layout file
         private int expectedColumns = 14;
         private int expectedRows = 10;
 
         // Parses a object formatted string and converts it to an object e.g. "x:1, y:5" -> { x: 1, y: 5 }
         // Currenlty supports bool and int data types (falls back to string)
+        // TODO - check that parse can handle "cellType: table"
         private static IDictionary<string, object> ParseStringToObject(string inputString)
         {
             if (string.IsNullOrWhiteSpace(inputString))
@@ -133,13 +136,46 @@ namespace Tests
                 = Utils.SetUp(); // SetUp has optional arguments that may be useful for certain tests
 
 
+            List<Dictionary<string, int>> sampleCoordinates = [
+                new() { { "x", 0 }, { "y", 2 }, }, // Should be a table cell
+                new() { { "x", 8 }, { "y", 4 }, }, // Should be empty
+                new() { { "x", 5 }, { "y", 0 }, }, // Should be a whiteboard cell
+            ];
+
             // Get all the cells (table and whiteboard cells)
             List<FlaUIElement.AutomationElement> allCells = GetAllCells(window, cf);
 
-            // Sample some random table cells from the classroomLayout
+            // Make a list of all the cells data
+            List<IDictionary<string, object>> cellObjectList = new();
+            foreach (FlaUIElement.AutomationElement cell in allCells)
+            {
+                cellObjectList.Add(TestTableLayout.ParseStringToObject(cell.HelpText));
+            }
 
+            // Sample some random table cells from the classroomLayout (TODO // Trim does not work as spaces are necessary at the start of some lines)
+            List<string> classroomRows = classroomLayout.Split("\n").ToList();
 
-            // Check if those samples have their equivalent in the tablesGrid
+            // Check if the sample coordinates are the same type of cell in both the file and the grid
+            foreach (Dictionary<string, int> coordinate in sampleCoordinates)
+            {
+                if (classroomRows[coordinate["y"]][coordinate["x"]].Equals("B"))
+                {
+                    //var cellObject = cellObjectList.Where((cell) => {
+
+                    //    bool isTable = cell["table"];
+                    //    return
+                    //    });
+                    // Assert that the cell in WPF is a table
+                }
+                else if (classroomRows[coordinate["y"]][coordinate["x"]].Equals("T"))
+                {
+                    // Asert that the cell in WPF is a whiteboard cell
+                }
+                else if (classroomRows[coordinate["y"]][coordinate["x"]].Equals(" "))
+                {
+                    // Assert that there is no table or whiteboard
+                }
+            }
 
 
             // Write your test before this comment!
