@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
+﻿using System.Dynamic;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
@@ -158,7 +156,7 @@ namespace Tests
             {
                 int xTestCaseCoordinate = testCaseCoordinates["x"];
                 int yTestCaseCoordinate = testCaseCoordinates["y"];
-                
+
                 // Find the coresponding grid cell's data by matching it's coordinates with the test case's
                 var cellData = cellDataList.Where((cellDataCandidate) =>
                     cellDataCandidate["x"].Equals(xTestCaseCoordinate)
