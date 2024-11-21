@@ -23,77 +23,6 @@ namespace Tests
         private int expectedColumns = 14;
         private int expectedRows = 10;
 
-        // Parses a object formatted string and converts it to an object e.g. "x:1, y:5" -> { x: 1, y: 5 }
-        // Currenlty supports bool and int data types (falls back to string)
-        private static IDictionary<string, object> ParseStringToObject(string inputString)
-        {
-            if (string.IsNullOrWhiteSpace(inputString))
-            {
-                throw new ArgumentException("Input string cannot be null or empty.", nameof(inputString));
-            }
-
-            IDictionary<string, object> returnObject = new ExpandoObject() as IDictionary<string, object>;
-
-            List<string> properties = inputString.Split(",")
-                .Select((property) => property.Trim())
-                .ToList();
-
-            foreach (string property in properties)
-            {
-                List<string> keyValuePair = property.Split(":")
-                    .Select((keyOrValue) => keyOrValue.Trim())
-                    .ToList();
-
-                // If the property is not in the format "key: value" or if there are any empty strings, throw an exception
-                if (keyValuePair.Count != 2 || keyValuePair.Any((element) => string.IsNullOrEmpty(element)))
-                {
-                    throw new FormatException($"Invalid property format in '{property}', expected \"key: value\"");
-                }
-
-                string key = keyValuePair[0];
-                var value = keyValuePair[1];
-
-                // Determine the type of the value and convert it dynamically
-                if (bool.TryParse(value, out bool boolValue))
-                {
-                    returnObject[key] = boolValue;
-                }
-                else if (int.TryParse(value, out int intValue))
-                {
-                    returnObject[key] = intValue;
-                }
-                else
-                {
-                    // Fallback, just store it as a string
-                    returnObject[key] = value;
-                }
-            }
-
-            return returnObject.ToDictionary();
-        }
-
-        // TODO - integrate into utils (GetAllBy(identifierType, , , )...) when refactor
-        // Gets all the elements that have "cell: true" in their helpText
-        private static List<FlaUIElement.AutomationElement> GetAllCells(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, FlaUI.Core.Definitions.ControlType? controlType = null)
-        {
-            // Get all elements
-            List<FlaUIElement.AutomationElement> allElements = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
-
-            List<FlaUIElement.AutomationElement> allCells = allElements.Where(element =>
-                    !string.IsNullOrEmpty(element.HelpText)
-                    &&
-                    (
-                        element.HelpText.Contains("cell")
-                        &&
-                        TestTableLayout.ParseStringToObject(element.HelpText)["cell"].Equals(true)
-                    )
-                    &&
-                    (controlType == null || element.ControlType.Equals(controlType))
-                ).ToList();
-
-            return allCells;
-        }
-
         [TestMethod]
         public void ClassroomSizeTest()
         {
@@ -103,13 +32,13 @@ namespace Tests
 
 
             // Get all the cells (table and whiteboard cells)
-            List<FlaUIElement.AutomationElement> allCells = GetAllCells(window, cf);
+            List<FlaUIElement.AutomationElement> allCells = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cell", value: true, options: new(matchWholeString: false));
 
             // Make a list of all the cells data
             List<IDictionary<string, object>> cellObjectList = new();
             foreach (FlaUIElement.AutomationElement cell in allCells)
             {
-                cellObjectList.Add(TestTableLayout.ParseStringToObject(cell.HelpText));
+                cellObjectList.Add(Utils.XAMLHandler.ParseStringToObject(cell.HelpText));
             }
 
             // Store all the x and y values to find the max value
@@ -140,13 +69,13 @@ namespace Tests
             ];
 
             // Get all the cells (table and whiteboard cells)
-            List<FlaUIElement.AutomationElement> allCells = GetAllCells(window, cf);
+            List<FlaUIElement.AutomationElement> allCells = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cell", value: true, options: new(matchWholeString: false));
 
             // Make a list of all the cells data
             List<IDictionary<string, object>> cellDataList = [];
             foreach (FlaUIElement.AutomationElement cell in allCells)
             {
-                cellDataList.Add(TestTableLayout.ParseStringToObject(cell.HelpText));
+                cellDataList.Add(Utils.XAMLHandler.ParseStringToObject(cell.HelpText));
             }
 
             List<string> classroomLayoutMatrix = classroomLayout.Split("\n").ToList();
@@ -169,21 +98,21 @@ namespace Tests
                 // Empty cell (the floor) confirmation
                 if (cellType.Equals(' '))
                 {
-                    Assert.IsNull(cellData, "The cell at the coordinates {0} is not a floor cell", testCaseCoordinates);
+                    Assert.IsNull(cellData, "The cell at the coordinates {0}, {1} is not a floor cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
                 // Table confirmation
                 else if (cellType.Equals('B'))
                 {
-                    Assert.IsNotNull(cellData, "The cell at the coordinates {0} is null, not a table cell", testCaseCoordinates);
+                    Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a table cell", xTestCaseCoordinate, yTestCaseCoordinate);
                     bool isTable = (string)cellData["cellType"] == "table";
-                    Assert.IsTrue(isTable, "The cell at the coordinates {0} is not a table cell", testCaseCoordinates);
+                    Assert.IsTrue(isTable, "The cell at the coordinates {0}, {1} is not a table cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
                 // Whiteboard confirmation
                 else if (cellType.Equals('T'))
                 {
-                    Assert.IsNotNull(cellData, "The cell at the coordinates {0} is null, not a whiteboard cell", testCaseCoordinates);
+                    Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
                     bool isWhiteboard = (string)cellData["cellType"] == "whiteboard";
-                    Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0} is not a whiteboard cell", testCaseCoordinates);
+                    Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0}, {1} is not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
                 // Invalid cell type
                 else
