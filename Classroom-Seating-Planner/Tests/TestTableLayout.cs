@@ -8,7 +8,7 @@ namespace Tests
     [TestClass]
     public class TestTableLayout
     {
-        // TODO - when file reading is implemented, this will be in Utils
+        // TODO - when file reading is implemented, this will be in Utils.SetUp()
         private string classroomLayout =
             "   TTTT\n" +
             "\n" +
@@ -27,7 +27,6 @@ namespace Tests
 
         // Parses a object formatted string and converts it to an object e.g. "x:1, y:5" -> { x: 1, y: 5 }
         // Currenlty supports bool and int data types (falls back to string)
-        // TODO - check that parse can handle "cellType: table"
         private static IDictionary<string, object> ParseStringToObject(string inputString)
         {
             if (string.IsNullOrWhiteSpace(inputString))
@@ -136,7 +135,7 @@ namespace Tests
                 = Utils.SetUp(); // SetUp has optional arguments that may be useful for certain tests
 
 
-            List<Dictionary<string, int>> sampleCoordinates = [
+            List<Dictionary<string, int>> testCaseCoordinatesList = [
                 new() { { "x", 0 }, { "y", 2 }, }, // Should be a table cell
                 new() { { "x", 8 }, { "y", 4 }, }, // Should be empty
                 new() { { "x", 5 }, { "y", 0 }, }, // Should be a whiteboard cell
@@ -146,39 +145,56 @@ namespace Tests
             List<FlaUIElement.AutomationElement> allCells = GetAllCells(window, cf);
 
             // Make a list of all the cells data
-            List<IDictionary<string, object>> cellObjectList = new();
+            List<IDictionary<string, object>> cellDataList = [];
             foreach (FlaUIElement.AutomationElement cell in allCells)
             {
-                cellObjectList.Add(TestTableLayout.ParseStringToObject(cell.HelpText));
+                cellDataList.Add(TestTableLayout.ParseStringToObject(cell.HelpText));
             }
 
-            // Sample some random table cells from the classroomLayout (TODO // Trim does not work as spaces are necessary at the start of some lines)
-            List<string> classroomRows = classroomLayout.Split("\n").ToList();
+            List<string> classroomLayoutMatrix = classroomLayout.Split("\n").ToList();
 
-            // Check if the sample coordinates are the same type of cell in both the file and the grid
-            foreach (Dictionary<string, int> coordinate in sampleCoordinates)
+            // Check that the cell types are the same between the classroom layout file and the XAML grid for each sampled coordinate
+            foreach (Dictionary<string, int> testCaseCoordinates in testCaseCoordinatesList)
             {
-                if (classroomRows[coordinate["y"]][coordinate["x"]].Equals("B"))
-                {
-                    //var cellObject = cellObjectList.Where((cell) => {
+                int xTestCaseCoordinate = testCaseCoordinates["x"];
+                int yTestCaseCoordinate = testCaseCoordinates["y"];
+                
+                // Find the coresponding grid cell's data by matching it's coordinates with the test case's
+                var cellData = cellDataList.Where((cellDataCandidate) =>
+                    cellDataCandidate["x"].Equals(xTestCaseCoordinate)
+                    &&
+                    cellDataCandidate["y"].Equals(yTestCaseCoordinate)
+                ).FirstOrDefault();
 
-                    //    bool isTable = cell["table"];
-                    //    return
-                    //    });
-                    // Assert that the cell in WPF is a table
-                }
-                else if (classroomRows[coordinate["y"]][coordinate["x"]].Equals("T"))
+                char cellType = classroomLayoutMatrix[yTestCaseCoordinate][xTestCaseCoordinate];
+
+                // Empty cell (the floor) confirmation
+                if (cellType.Equals(' '))
                 {
-                    // Asert that the cell in WPF is a whiteboard cell
+                    Assert.IsNull(cellData, "The cell at the coordinates {0} is not a floor cell", testCaseCoordinates);
                 }
-                else if (classroomRows[coordinate["y"]][coordinate["x"]].Equals(" "))
+                // Table confirmation
+                else if (cellType.Equals('B'))
                 {
-                    // Assert that there is no table or whiteboard
+                    Assert.IsNotNull(cellData, "The cell at the coordinates {0} is null, not a table cell", testCaseCoordinates);
+                    bool isTable = (string)cellData["cellType"] == "table";
+                    Assert.IsTrue(isTable, "The cell at the coordinates {0} is not a table cell", testCaseCoordinates);
+                }
+                // Whiteboard confirmation
+                else if (cellType.Equals('T'))
+                {
+                    Assert.IsNotNull(cellData, "The cell at the coordinates {0} is null, not a whiteboard cell", testCaseCoordinates);
+                    bool isWhiteboard = (string)cellData["cellType"] == "whiteboard";
+                    Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0} is not a whiteboard cell", testCaseCoordinates);
+                }
+                // Invalid cell type
+                else
+                {
+                    Assert.Fail("Cell type '{0}' at x:{1}, y:{2} is not a valid cell type.", cellType, xTestCaseCoordinate, yTestCaseCoordinate);
                 }
             }
 
 
-            // Write your test before this comment!
             Utils.TearDown(app);
         }
     }
