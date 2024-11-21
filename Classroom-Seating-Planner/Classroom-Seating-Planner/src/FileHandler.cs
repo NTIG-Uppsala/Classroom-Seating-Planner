@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace Classroom_Seating_Planner.src
 {
@@ -17,6 +19,51 @@ namespace Classroom_Seating_Planner.src
             "Förnamn Efternamn",
             "Förnamn Efternamn",
         ];
+
+        // TODO - move this to a file and read that file instead
+        public static string classroomLayout =
+            "   TTTT\n" +
+            "\n" +
+            "BB BB BB BB BB\n" +
+            "\n" +
+            "BBBB       BBB\n" +
+            "      BBBB\n" +
+            "\n" +
+            " BB BB  BB BB\n" +
+            "\n" +
+            "B BB BB  BB";
+
+        public static void InterpretClassroomLayoutString(string classroomLayout, ClassroomLayoutHandler classroomLayoutHandler)
+        {
+            // We later find the biggest column width to set the column count
+            List<int> columnWidths = [];
+
+            int rowIndex = 0;
+            classroomLayout.Split("\n").ToList().ForEach((string row) =>
+            {
+                // Get every character in the row as a seperate char to iterate over
+                int columnIndex = 0;
+                row.ToList().ForEach((char letter) =>
+                {
+                    if (letter.Equals('T'))
+                    {
+                        classroomLayoutHandler.whiteboardCells.Add(new Cells.WhiteboardCell(columnIndex, rowIndex));
+                    }
+                    else if (letter.Equals('B'))
+                    {
+                        classroomLayoutHandler.tableCells.Add(new Cells.TableCell(columnIndex, rowIndex));
+                    }
+                    columnIndex++;
+
+                    columnWidths.Add(columnIndex);
+                });
+
+                rowIndex++;
+            });
+
+            classroomLayoutHandler.rowCount = rowIndex; // TODO - Maybe +1
+            classroomLayoutHandler.columnCount = columnWidths.Max(); // TODO - Maybe +1
+        }
 
         // Returns the list of student names read from an external file as a list
         public static List<string> GetClassListFromFile()

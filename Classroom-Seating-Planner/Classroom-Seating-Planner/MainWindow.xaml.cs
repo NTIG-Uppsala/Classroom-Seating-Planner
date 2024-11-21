@@ -1,5 +1,6 @@
 ﻿using Classroom_Seating_Planner.src;
 using ExtensionMethods;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,8 +13,6 @@ namespace Classroom_Seating_Planner
     {
         // Where the student names are stored
         private List<string>? classListFromFile;
-        // Seats are the xaml elements where the names will be displayed
-        private readonly List<TextBlock> seatElements;
 
         public MainWindow()
         {
@@ -27,44 +26,13 @@ namespace Classroom_Seating_Planner
             ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
-            this.seatElements = [
-                Seat1,
-                Seat2,
-                Seat3,
-                Seat4,
-                Seat5,
-                Seat6,
-                Seat7,
-                Seat8,
-                Seat9,
-                Seat10,
-                Seat11,
-                Seat12,
-                Seat13,
-                Seat14,
-                Seat15,
-                Seat16,
-                Seat17,
-                Seat18,
-                Seat19,
-                Seat20,
-                Seat21,
-                Seat22,
-                Seat23,
-                Seat24,
-                Seat25,
-                Seat26,
-                Seat27,
-                Seat28,
-                Seat29,
-                Seat30,
-                Seat31,
-                Seat32,
-                Seat33,
-                Seat34,
-                Seat35,
-                Seat36
-            ];
+            // Give a reference to the grid where the tables and whiteboard will be placed to its handler
+            src.ClassroomLayoutHandler classroomLayoutHandler = new(ClassroomElement);
+            // Reads the classroom layout string and adds tables and whiteboard to the classroomLayoutHandler and defines the row and column count of the classroomLayoutHandler
+            // TODO - Make InterpretClassroomLayoutString return the lists and row and column count instead of modifying the classroomLayoutHandler
+            src.FileHandler.InterpretClassroomLayoutString(src.FileHandler.classroomLayout, classroomLayoutHandler);
+            // 
+            classroomLayoutHandler.SetRowAndColumnCount();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -86,7 +54,6 @@ namespace Classroom_Seating_Planner
 
             // Populate the class list and the seats with the new order
             ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
-            SeatingHandler.Populate(this.seatElements, this.classListFromFile);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
