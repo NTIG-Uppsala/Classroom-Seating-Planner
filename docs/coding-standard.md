@@ -43,7 +43,7 @@
 #### Syntax
 
 -   Indent size: `4 spaces`.
--   Double quotes over single quotes. `"` > `'`.
+-   Double quotes over single quotes for strings. `"` > `'`.
 
 #### Motivations
 
