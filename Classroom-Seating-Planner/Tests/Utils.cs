@@ -104,7 +104,7 @@ namespace Tests
             }
 
             // Return values necessary for running the test
-            return InitializeFlaUIApp();
+            return Utils.Helpers.InitializeFlaUIApp();
         }
 
         // TearDown method

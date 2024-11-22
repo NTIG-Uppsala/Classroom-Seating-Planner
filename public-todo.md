@@ -1,5 +1,5 @@
 -   [ ] Lägg till caseSensitive i Options i Utils.XAMLHandler?
--   
+-   [ ] Ändra namespace src och cells till PascalCase
 
 
 Rita upp XAML template / exempel

@@ -27,12 +27,10 @@ namespace Classroom_Seating_Planner
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
             // Give a reference to the grid where the tables and whiteboard will be placed to its handler
-            src.ClassroomLayoutHandler classroomLayoutHandler = new(ClassroomElement);
-            // Reads the classroom layout string and adds tables and whiteboard to the classroomLayoutHandler and defines the row and column count of the classroomLayoutHandler
-            // TODO - Make InterpretClassroomLayoutString return the lists and row and column count instead of modifying the classroomLayoutHandler
-            src.FileHandler.InterpretClassroomLayoutString(src.FileHandler.classroomLayout, classroomLayoutHandler);
-            // 
-            classroomLayoutHandler.SetRowAndColumnCount();
+            src.ClassroomLayoutManager classroomLayoutManager = new(ClassroomElement);
+
+            // The argument retrieves data about the classroom layout for the manager to save and use
+            classroomLayoutManager.Initialize(src.FileHandler.InterpretClassroomLayoutString(src.FileHandler.classroomLayoutString));
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -50,7 +48,7 @@ namespace Classroom_Seating_Planner
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
         {
             // Shuffle the list of student names using a custom class method
-            this.classListFromFile.Shuffle();
+            this.classListFromFile?.Shuffle();
 
             // Populate the class list and the seats with the new order
             ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);

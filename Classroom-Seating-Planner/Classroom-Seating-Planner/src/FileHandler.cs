@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace Classroom_Seating_Planner.src
@@ -21,7 +22,7 @@ namespace Classroom_Seating_Planner.src
         ];
 
         // TODO - move this to a file and read that file instead
-        public static string classroomLayout =
+        public static string classroomLayoutString =
             "   TTTT\n" +
             "\n" +
             "BB BB BB BB BB\n" +
@@ -33,36 +34,52 @@ namespace Classroom_Seating_Planner.src
             "\n" +
             "B BB BB  BB";
 
-        public static void InterpretClassroomLayoutString(string classroomLayout, ClassroomLayoutHandler classroomLayoutHandler)
+        // Used by InterpretClassroomLayoutString 
+        public struct ClassroomLayoutData()
         {
+            public int columnCount = 0;
+            public int rowCount = 0;
+            public List<cells.TableCell> tableCells = [];
+            public List<cells.WhiteboardCell> whiteboardCells = [];
+        }
+
+        public static ClassroomLayoutData InterpretClassroomLayoutString(string classroomLayoutString)
+        {
+            ClassroomLayoutData returnObject = new();
+            
             // We later find the biggest column width to set the column count
-            List<int> columnWidths = [];
+            List<int> xCoordinates = [];
 
             int rowIndex = 0;
-            classroomLayout.Split("\n").ToList().ForEach((string row) =>
+            classroomLayoutString.Split("\n").ToList().ForEach((string row) =>
             {
                 // Get every character in the row as a seperate char to iterate over
                 int columnIndex = 0;
-                row.ToList().ForEach((char letter) =>
+                row.ToList().ForEach((char letter) => // TODO - letter->cell/character?
                 {
                     if (letter.Equals('T'))
                     {
-                        classroomLayoutHandler.whiteboardCells.Add(new Cells.WhiteboardCell(columnIndex, rowIndex));
+                        returnObject.whiteboardCells.Add(new cells.WhiteboardCell(columnIndex, rowIndex));
                     }
                     else if (letter.Equals('B'))
                     {
-                        classroomLayoutHandler.tableCells.Add(new Cells.TableCell(columnIndex, rowIndex));
+                        returnObject.tableCells.Add(new cells.TableCell(columnIndex, rowIndex));
                     }
-                    columnIndex++;
 
-                    columnWidths.Add(columnIndex);
+                    xCoordinates.Add(columnIndex);
+                    columnIndex++;
                 });
 
                 rowIndex++;
             });
 
-            classroomLayoutHandler.rowCount = rowIndex; // TODO - Maybe +1
-            classroomLayoutHandler.columnCount = columnWidths.Max(); // TODO - Maybe +1
+            int layoutWidth = xCoordinates.Max();
+            int yCoordinate = rowIndex - 1;
+
+            returnObject.rowCount = yCoordinate;
+            returnObject.columnCount = layoutWidth;
+
+            return returnObject;
         }
 
         // Returns the list of student names read from an external file as a list

@@ -4,8 +4,13 @@ namespace Classroom_Seating_Planner.src
 {
     internal class ClassListElementHandler
     {
-        public static void Populate(ListBox classListElement, List<string> classList)
+        public static void Populate(ListBox classListElement, List<string>? classList)
         {
+            if (classList == null)
+            {
+                return;
+            }
+
             // Clear the ListBox before populating
             classListElement.Items.Clear();
 

@@ -32,13 +32,17 @@ namespace Tests
 
 
             // Get all the cells (table and whiteboard cells)
-            List<FlaUIElement.AutomationElement> allCells = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cell", value: true, options: new(matchWholeString: false));
+            List<FlaUIElement.AutomationElement>? allCells = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cell", value: true, options: new(matchWholeString: false));
+            Assert.IsNotNull(allCells);
 
             // Make a list of all the cells data
             List<IDictionary<string, object>> cellObjectList = new();
             foreach (FlaUIElement.AutomationElement cell in allCells)
             {
-                cellObjectList.Add(Utils.XAMLHandler.ParseStringToObject(cell.HelpText));
+                IDictionary<string, object>? cellData = Utils.XAMLHandler.ParseStringToObject(cell.HelpText);
+                Assert.IsNotNull(cellData);
+
+                cellObjectList.Add(cellData);
             }
 
             // Store all the x and y values to find the max value
@@ -69,13 +73,17 @@ namespace Tests
             ];
 
             // Get all the cells (table and whiteboard cells)
-            List<FlaUIElement.AutomationElement> allCells = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cell", value: true, options: new(matchWholeString: false));
+            List<FlaUIElement.AutomationElement>? allCells = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cell", value: true, options: new(matchWholeString: false));
+            Assert.IsNotNull(allCells);
 
             // Make a list of all the cells data
             List<IDictionary<string, object>> cellDataList = [];
             foreach (FlaUIElement.AutomationElement cell in allCells)
             {
-                cellDataList.Add(Utils.XAMLHandler.ParseStringToObject(cell.HelpText));
+                IDictionary<string, object>? cellData = Utils.XAMLHandler.ParseStringToObject(cell.HelpText);
+                Assert.IsNotNull(cellData);
+
+                cellDataList.Add(cellData);
             }
 
             List<string> classroomLayoutMatrix = classroomLayout.Split("\n").ToList();

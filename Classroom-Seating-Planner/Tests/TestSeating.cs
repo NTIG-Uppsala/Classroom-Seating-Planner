@@ -17,8 +17,8 @@ namespace Tests
             List<int> seatIndexes = [0, 10, 16, 27, 32];
 
             // Find all the seats
-            //List<FlaUIElement.AutomationElement> allSeats = Utils.XAMLHandler.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
-            List<FlaUIElement.AutomationElement> allSeats = Utils.XAMLHandler.GetAllElementsByAutomationId(window, cf, matchString: "Seat", FlaUI.Core.Definitions.ControlType.Text, options: new(matchWholeString: false));
+            List<FlaUIElement.AutomationElement>? allSeats = Utils.XAMLHandler.GetAllElementsByAutomationId(window, cf, matchString: "Seat", FlaUI.Core.Definitions.ControlType.Text, options: new(matchWholeString: false));
+            Assert.IsNotNull(allSeats);
 
             // Check that (some of the) seats are empty at program start
             foreach (int index in seatIndexes)
@@ -29,8 +29,8 @@ namespace Tests
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
 
             // Get the seats again
-            //allSeats = Utils.XAMLHandler.GetAllByAutomationId(window, cf, "Seat", FlaUI.Core.Definitions.ControlType.Text);
             allSeats = Utils.XAMLHandler.GetAllElementsByAutomationId(window, cf, matchString: "Seat", FlaUI.Core.Definitions.ControlType.Text, options: new(matchWholeString: false));
+            Assert.IsNotNull(allSeats);
 
             // Get list of students to compare against list of seats
             List<string> allStudents = Utils.XAMLHandler.GetClassListFromElement(window, cf);
