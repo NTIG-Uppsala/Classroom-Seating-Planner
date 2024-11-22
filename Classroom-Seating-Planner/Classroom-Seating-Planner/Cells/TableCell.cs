@@ -8,8 +8,10 @@ namespace Classroom_Seating_Planner.cells
 {
     public class TableCell : Cell
     {
-        public TableCell(int x, int y) : base(x, y)
+        public TableCell(int x, int y) : base(x, y, "table")
         {
+            this.backgroundColor = System.Windows.Media.Brushes.LightGray;
+            this.cellText = "Bord :)";
         }
     }
 }

@@ -31,6 +31,8 @@ namespace Classroom_Seating_Planner
 
             // The argument retrieves data about the classroom layout for the manager to save and use
             classroomLayoutManager.Initialize(src.FileHandler.InterpretClassroomLayoutString(src.FileHandler.classroomLayoutString));
+
+            classroomLayoutManager.DrawChildren();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

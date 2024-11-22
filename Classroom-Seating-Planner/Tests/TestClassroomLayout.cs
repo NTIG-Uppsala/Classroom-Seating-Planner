@@ -41,6 +41,12 @@ namespace Tests
             {
                 IDictionary<string, object>? cellData = Utils.XAMLHandler.ParseStringToObject(cell.HelpText);
                 Assert.IsNotNull(cellData);
+                Assert.IsNotNull(cellData["cellType"].ToString());
+
+                if ((string)cellData["cellType"] == "whiteboardCover")
+                {
+                    continue;
+                }
 
                 cellObjectList.Add(cellData);
             }

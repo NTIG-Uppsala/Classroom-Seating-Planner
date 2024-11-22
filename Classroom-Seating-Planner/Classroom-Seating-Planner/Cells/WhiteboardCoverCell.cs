@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Classroom_Seating_Planner.cells
 {
-    public class WhiteboardCell : Cell
+    public class WhiteboardCoverCell : Cell
     {
-        public WhiteboardCell(int x, int y) : base(x, y, "whiteboard")
+        public WhiteboardCoverCell(int x, int y, int width, int height) : base(x, y, "whiteboardCover", width, height)
         {
             this.backgroundColor = System.Windows.Media.Brushes.WhiteSmoke;
-            this.cellText = "Tavla :)";
+            this.cellText = "HELA TAVLAN :)";
         }
     }
 }

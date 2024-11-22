@@ -80,7 +80,7 @@
         </Grid>
 
         <!-- The grid where all the tables and the whiteboard is placed -->
-        <Grid x:Name="ClassroomElement" Grid.Column="1" Grid.Row="1"></Grid>
+        <Grid x:Name="ClassroomElement" Grid.Column="1" Grid.Row="1" Margin="10,10,10,10"></Grid>
 
     </Grid>
 </Window>

@@ -66,17 +66,17 @@ namespace Classroom_Seating_Planner.src
                         returnObject.tableCells.Add(new cells.TableCell(columnIndex, rowIndex));
                     }
 
-                    xCoordinates.Add(columnIndex);
                     columnIndex++;
                 });
+                xCoordinates.Add(columnIndex);
 
                 rowIndex++;
             });
 
             int layoutWidth = xCoordinates.Max();
-            int yCoordinate = rowIndex - 1;
+            int layoutHeight = rowIndex;
 
-            returnObject.rowCount = yCoordinate;
+            returnObject.rowCount = layoutHeight;
             returnObject.columnCount = layoutWidth;
 
             return returnObject;
