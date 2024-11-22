@@ -4,10 +4,10 @@ using FlaUIElement = FlaUI.Core.AutomationElements;
 namespace Tests
 {
     [TestClass]
-    public class TestTableLayout
+    public class TestClassroomLayout
     {
         // TODO - when file reading is implemented, this will be in Utils.SetUp()
-        private string classroomLayout =
+        private string testingClassroomLayoutString =
             "   TTTT\n" +
             "\n" +
             "BB BB BB BB BB\n" +
@@ -86,7 +86,7 @@ namespace Tests
                 cellDataList.Add(cellData);
             }
 
-            List<string> classroomLayoutMatrix = classroomLayout.Split("\n").ToList();
+            List<string> classroomLayoutMatrix = testingClassroomLayoutString.Split("\n").ToList();
 
             // Check that the cell types are the same between the classroom layout file and the XAML grid for each sampled coordinate
             foreach (Dictionary<string, int> testCaseCoordinates in testCaseCoordinatesList)
