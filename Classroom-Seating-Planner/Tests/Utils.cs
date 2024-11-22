@@ -117,17 +117,21 @@ namespace Tests
             app.Close();
         }
 
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeFlaUIApp()
+
+        private class Helpers
         {
-            // Find and run the application
-            FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
-            FlaUI.UIA3.UIA3Automation automation = new();
+            public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) InitializeFlaUIApp()
+            {
+                // Find and run the application
+                FlaUI.Core.Application app = FlaUI.Core.Application.Launch("..\\..\\..\\..\\Classroom-Seating-Planner\\bin\\Debug\\net8.0-windows\\win-x64\\Classroom-Seating-Planner.exe");
+                FlaUI.UIA3.UIA3Automation automation = new();
 
-            // Find the main window for the purpose of finding elements
-            FlaUIElement.Window? window = app.GetMainWindow(automation);
-            FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
+                // Find the main window for the purpose of finding elements
+                FlaUIElement.Window? window = app.GetMainWindow(automation);
+                FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
 
-            return (app, automation, window, cf);
+                return (app, automation, window, cf);
+            }
         }
 
         public class XAMLHandler
@@ -135,7 +139,6 @@ namespace Tests
             public record Options(bool matchWholeString = false)
             {
                 public bool matchWholeString { get; set; } = matchWholeString;
-
             }
 
             // Returns list of ListBox items
@@ -154,27 +157,6 @@ namespace Tests
                 // Find and press the randomizer button
                 FlaUIElement.AutomationElement randomizeButton = window.FindFirstDescendant(cf.ByAutomationId("RandomizeSeatingButton")).AsButton();
                 randomizeButton.Click();
-            }
-
-            // TODO - check if controlType is used and remove if it is not
-            public static List<FlaUIElement.AutomationElement>? GetAllElementsBy(FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf, string getByAttribute, string? key = null, object? value = null, FlaUI.Core.Definitions.ControlType? controlType = null)
-            {
-                if (getByAttribute == null)
-                {
-                    return null;
-                }
-                else if (getByAttribute == "AutomationId")
-                {
-                    return GetAllElementsByAutomationId(window, cf, matchString: (string)value, controlType: controlType);
-                }
-                else if (getByAttribute == "HelpText")
-                {
-                    return GetAllElementsByHelpText(window, cf, key: key, value: value, controlType: controlType);
-                }
-                else
-                {
-                    return null;
-                }
             }
 
             public static List<FlaUIElement.AutomationElement>?
@@ -198,7 +180,8 @@ namespace Tests
                 List<FlaUIElement.AutomationElement> allElementsInWindow = window.FindAllDescendants(cf.ByFrameworkId("WPF")).ToList();
 
                 // Return all elements where AutomationId contains value or is equal to value
-                List<FlaUIElement.AutomationElement> allElementsByAutomationId = allElementsInWindow.Where(element => {
+                List<FlaUIElement.AutomationElement> allElementsByAutomationId = allElementsInWindow.Where(element =>
+                {
 
                     // Match the string differently depending on the given option
                     bool isStringMatched = false;
@@ -264,7 +247,8 @@ namespace Tests
                 // If only a value is passed, return all elements where HelpText is equal to value or contains the value
                 if (key == null && value != null)
                 {
-                    List<FlaUIElement.AutomationElement> allElementsByHelpText = allElementsInWindow.Where(element => {
+                    List<FlaUIElement.AutomationElement> allElementsByHelpText = allElementsInWindow.Where(element =>
+                    {
 
                         // Match the string differently depending on the given option
                         bool isStringMatched = false;
@@ -308,8 +292,6 @@ namespace Tests
                 // Make sure all code paths return a value
                 return null;
             }
-
-            // Helper methods TODO - maybe move?
 
             // Parses a object formatted string and converts it to an object e.g. "x:1, y:5" -> { x: 1, y: 5 }
             // Currenlty supports bool and int data types (falls back to string)
@@ -430,7 +412,5 @@ namespace Tests
                 }
             }
         }
-    
-
     }
 }

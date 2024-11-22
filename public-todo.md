@@ -1,0 +1,1 @@
+-   [ ] Lägg till caseSensitive i Options i Utils.XAMLHandler?
