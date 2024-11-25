@@ -1,13 +1,12 @@
 -   [ ] Lägg till caseSensitive i Options i Utils.XAMLHandler?
--   [ ] Ändra namespace src och cells till PascalCase
-
+-   [ ] Ändra properties till PascalCase?
 
 Rita upp XAML template / exempel
 
-// var label = new System.Windows.Controls.Label() { 
-//     Content = "I exist",
-//     HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
-//     VerticalAlignment = System.Windows.VerticalAlignment.Center
+// var label = new System.Windows.Controls.Label() {
+// Content = "I exist",
+// HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+// VerticalAlignment = System.Windows.VerticalAlignment.Center
 // };
 //
 // System.Windows.Controls.Grid.SetRow(label, 4);

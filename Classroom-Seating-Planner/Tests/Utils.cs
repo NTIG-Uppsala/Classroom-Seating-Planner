@@ -322,7 +322,7 @@ namespace Tests
                     }
 
                     string key = keyValuePair[0];
-                    var value = keyValuePair[1];
+                    string value = keyValuePair[1];
 
                     // Determine the type of the value and convert it dynamically
                     if (bool.TryParse(value, out bool boolValue))

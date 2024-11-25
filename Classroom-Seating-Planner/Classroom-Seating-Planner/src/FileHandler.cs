@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace Classroom_Seating_Planner.src
+namespace Classroom_Seating_Planner.Src
 {
     public class FileHandler
     {
@@ -39,8 +39,8 @@ namespace Classroom_Seating_Planner.src
         {
             public int columnCount = 0;
             public int rowCount = 0;
-            public List<cells.TableCell> tableCells = [];
-            public List<cells.WhiteboardCell> whiteboardCells = [];
+            public List<Cells.TableCell> tableCells = [];
+            public List<Cells.WhiteboardCell> whiteboardCells = [];
         }
 
         public static ClassroomLayoutData InterpretClassroomLayoutString(string classroomLayoutString)
@@ -59,11 +59,11 @@ namespace Classroom_Seating_Planner.src
                 {
                     if (letter.Equals('T'))
                     {
-                        returnObject.whiteboardCells.Add(new cells.WhiteboardCell(columnIndex, rowIndex));
+                        returnObject.whiteboardCells.Add(new Cells.WhiteboardCell(columnIndex, rowIndex));
                     }
                     else if (letter.Equals('B'))
                     {
-                        returnObject.tableCells.Add(new cells.TableCell(columnIndex, rowIndex));
+                        returnObject.tableCells.Add(new Cells.TableCell(columnIndex, rowIndex));
                     }
 
                     columnIndex++;

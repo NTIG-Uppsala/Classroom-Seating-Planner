@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace ExtensionMethods
+namespace Extension_Methods
 {
     // Methods that extend the List class
     public static class ListExtensions

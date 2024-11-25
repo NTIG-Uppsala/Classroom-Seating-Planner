@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Classroom_Seating_Planner.cells
+namespace Classroom_Seating_Planner.Cells
 {
     public class WhiteboardCoverCell : Cell
     {

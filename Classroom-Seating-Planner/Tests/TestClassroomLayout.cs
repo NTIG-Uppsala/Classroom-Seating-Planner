@@ -77,6 +77,8 @@ namespace Tests
                 new() { { "x", 0 }, { "y", 2 }, }, // Should be a table cell
                 new() { { "x", 8 }, { "y", 4 }, }, // Should be empty
                 new() { { "x", 5 }, { "y", 0 }, }, // Should be a whiteboard cell
+                new() { { "x", 3 }, { "y", 0 }, }, // Should be a whiteboard cell
+                new() { { "x", 6 }, { "y", 0 }, }, // Should be a whiteboard cell
             ];
 
             // Get all the cells (table and whiteboard cells)

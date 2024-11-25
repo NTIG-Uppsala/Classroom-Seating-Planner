@@ -1,11 +1,11 @@
-﻿using Classroom_Seating_Planner.cells;
+﻿using Classroom_Seating_Planner.Cells;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 
-namespace Classroom_Seating_Planner.src
+namespace Classroom_Seating_Planner.Src
 {
     public class ClassroomLayoutManager
     {
@@ -14,9 +14,9 @@ namespace Classroom_Seating_Planner.src
 
         public int columnCount;
         public int rowCount;
-        public List<cells.TableCell> tableCells = [];
-        public List<cells.WhiteboardCell> whiteboardCells = [];
-        public src.ClassroomLayoutManager.WhiteboardManager? whiteboardManager;
+        public List<Cells.TableCell> tableCells = [];
+        public List<Cells.WhiteboardCell> whiteboardCells = [];
+        public Src.ClassroomLayoutManager.WhiteboardManager? whiteboardManager;
 
         public ClassroomLayoutManager(System.Windows.Controls.Grid classroomElement)
         {
@@ -28,14 +28,13 @@ namespace Classroom_Seating_Planner.src
             this.classroomElement.RowDefinitions.Clear();
         }
 
-        public void Initialize(src.FileHandler.ClassroomLayoutData dataFromFileHandler)
+        public void Initialize(Src.FileHandler.ClassroomLayoutData dataFromFileHandler)
         {
             this.SetProperties(dataFromFileHandler);
 
             this.whiteboardManager = new(this.whiteboardCells);
 
             this.SetGridColumnsAndRows();
-
         }
 
         private void SetGridColumnsAndRows()
@@ -53,7 +52,7 @@ namespace Classroom_Seating_Planner.src
             }
         }
 
-        private void SetProperties(src.FileHandler.ClassroomLayoutData dataFromFileHandler)
+        private void SetProperties(Src.FileHandler.ClassroomLayoutData dataFromFileHandler)
         {
             this.columnCount = dataFromFileHandler.columnCount;
             this.rowCount = dataFromFileHandler.rowCount;
@@ -84,10 +83,10 @@ namespace Classroom_Seating_Planner.src
             // This calculates where the whiteboard starts and ends to be able to set its grid.column and grid.row + grid.columnspan or grid.rowspan (for vertical whiteboards)
 
             // Reference to the XAML grid
-            public List<cells.WhiteboardCell> whiteboardCells;
-            public cells.WhiteboardCoverCell whiteboardCoverCell;
+            public List<Cells.WhiteboardCell> whiteboardCells;
+            public Cells.WhiteboardCoverCell whiteboardCoverCell;
 
-            public WhiteboardManager(List<cells.WhiteboardCell> whiteboardCells)
+            public WhiteboardManager(List<Cells.WhiteboardCell> whiteboardCells)
             {
                 this.whiteboardCells = whiteboardCells;
 
@@ -102,7 +101,7 @@ namespace Classroom_Seating_Planner.src
                 int width = largestX - smallestX + 1;
                 int height = largestY - smallestY + 1;
 
-                cells.WhiteboardCoverCell whiteboardCoverCell = new(smallestX, smallestY, width, height);
+                Cells.WhiteboardCoverCell whiteboardCoverCell = new(smallestX, smallestY, width, height);
 
                 this.whiteboardCoverCell = whiteboardCoverCell;
             }

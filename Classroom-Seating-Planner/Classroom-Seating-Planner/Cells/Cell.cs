@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Classroom_Seating_Planner.cells
+namespace Classroom_Seating_Planner.Cells
 {
     public class Cell
     {

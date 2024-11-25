@@ -1,5 +1,5 @@
-﻿using Classroom_Seating_Planner.src;
-using ExtensionMethods;
+﻿using Classroom_Seating_Planner.Src;
+using Extension_Methods;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +13,7 @@ namespace Classroom_Seating_Planner
     {
         // Where the student names are stored
         private List<string>? classListFromFile;
-        public src.ClassroomLayoutManager classroomLayoutManager;
+        public Src.ClassroomLayoutManager classroomLayoutManager;
 
         public MainWindow()
         {
@@ -31,7 +31,7 @@ namespace Classroom_Seating_Planner
             classroomLayoutManager = new(ClassroomElement);
 
             // The argument retrieves data about the classroom layout for the manager to save and use
-            classroomLayoutManager.Initialize(src.FileHandler.InterpretClassroomLayoutString(src.FileHandler.classroomLayoutString));
+            classroomLayoutManager.Initialize(Src.FileHandler.InterpretClassroomLayoutString(Src.FileHandler.classroomLayoutString));
 
             classroomLayoutManager.DrawChildren();
         }

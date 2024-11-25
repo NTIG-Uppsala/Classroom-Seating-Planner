@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Classroom_Seating_Planner.src
+namespace Classroom_Seating_Planner.Src
 {
     internal class ClassListElementHandler
     {

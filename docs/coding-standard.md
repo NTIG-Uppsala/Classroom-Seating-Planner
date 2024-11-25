@@ -7,10 +7,13 @@
 -   Classes: `PascalCase`.
 -   Methods: `PascalCase`.
 -   Functions: `camelCase`.
+-   Namespaces: `Pascal_Snake_Case`.
 -   Variables: `camelCase`.
+-   Properties: `camelCase`.
 -   File names: `PascalCase`.
+-   Folder names: `Pascal-Kebab-Case`.
 
--   Methods that are triggered by elements should be named with the element name followed by an underscore and the action. For example `ButtonTop_Click`. 
+-   Methods that are triggered by elements should be named with the element name followed by an underscore and the action. For example `ButtonTop_Click`.
 -   Test methods should be named by their purpose followed by `Test`, for example `SeatingTest` as opposed to `TestSeating`. This is to make them more legible in the test explorer.
 
 #### Syntax
