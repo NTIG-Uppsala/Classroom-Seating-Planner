@@ -329,6 +329,7 @@ namespace Tests
                     {
                         returnObject[key] = (bool)boolValue;
                     }
+                    // Float works better than int in this case.
                     else if (float.TryParse(value, out float floatValue))
                     {
                         returnObject[key] = (float)floatValue;

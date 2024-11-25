@@ -11,7 +11,7 @@ namespace Classroom_Seating_Planner.cells
         public TableCell(int x, int y) : base(x, y, "table")
         {
             this.backgroundColor = System.Windows.Media.Brushes.LightGray;
-            this.cellText = "Bord :)";
+            this.cellText = "";
         }
     }
 }

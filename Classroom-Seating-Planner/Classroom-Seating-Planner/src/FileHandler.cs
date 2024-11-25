@@ -55,7 +55,7 @@ namespace Classroom_Seating_Planner.src
             {
                 // Get every character in the row as a seperate char to iterate over
                 int columnIndex = 0;
-                row.ToList().ForEach((char letter) => // TODO - letter->cell/character?
+                row.ToList().ForEach((char letter) =>
                 {
                     if (letter.Equals('T'))
                     {
@@ -76,8 +76,8 @@ namespace Classroom_Seating_Planner.src
             int layoutWidth = xCoordinates.Max();
             int layoutHeight = rowIndex;
 
-            returnObject.rowCount = layoutHeight;
             returnObject.columnCount = layoutWidth;
+            returnObject.rowCount = layoutHeight;
 
             return returnObject;
         }

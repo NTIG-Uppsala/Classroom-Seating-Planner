@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Classroom_Seating_Planner.cells;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
@@ -10,10 +12,11 @@ namespace Classroom_Seating_Planner.src
         // Reference to the XAML grid
         private readonly System.Windows.Controls.Grid classroomElement;
 
-        public int rowCount;
         public int columnCount;
+        public int rowCount;
         public List<cells.TableCell> tableCells = [];
         public List<cells.WhiteboardCell> whiteboardCells = [];
+        public src.ClassroomLayoutManager.WhiteboardManager? whiteboardManager;
 
         public ClassroomLayoutManager(System.Windows.Controls.Grid classroomElement)
         {
@@ -21,72 +24,74 @@ namespace Classroom_Seating_Planner.src
 
             // Wipe the grid clean
             this.classroomElement.Children.Clear();
-            this.classroomElement.RowDefinitions.Clear();
             this.classroomElement.ColumnDefinitions.Clear();
+            this.classroomElement.RowDefinitions.Clear();
         }
 
         public void Initialize(src.FileHandler.ClassroomLayoutData dataFromFileHandler)
         {
             this.SetProperties(dataFromFileHandler);
 
-            this.SetGridRowsAndColumns();
+            this.whiteboardManager = new(this.whiteboardCells);
+
+            this.SetGridColumnsAndRows();
+
         }
 
-        private void SetGridRowsAndColumns()
+        private void SetGridColumnsAndRows()
         {
-            // Add a RowDefinition for every row
-            for (int row = 0; row < this.rowCount; row++)
-            {
-                classroomElement.RowDefinitions.Add(new RowDefinition() { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-            }
-
             // Add a ColumnDefinition for every column
             for (int column = 0; column < this.columnCount; column++)
             {
                 classroomElement.ColumnDefinitions.Add(new ColumnDefinition() { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
             }
+
+            // Add a RowDefinition for every row
+            for (int row = 0; row < this.rowCount; row++)
+            {
+                classroomElement.RowDefinitions.Add(new RowDefinition() { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            }
         }
 
         private void SetProperties(src.FileHandler.ClassroomLayoutData dataFromFileHandler)
         {
-            this.rowCount = dataFromFileHandler.rowCount;
             this.columnCount = dataFromFileHandler.columnCount;
+            this.rowCount = dataFromFileHandler.rowCount;
             this.tableCells = dataFromFileHandler.tableCells;
             this.whiteboardCells = dataFromFileHandler.whiteboardCells;
         }
 
         public void DrawChildren()
         {
+            if (this.whiteboardManager == null)
+            {
+                return;
+            }
+
+            // Draw all tables
             this.tableCells.ForEach((tableCell) =>
             {
                 tableCell.Draw(this.classroomElement);
             });
 
-            //this.whiteboardCells.ForEach((whiteboardCell) =>
-            //{
-            //    whiteboardCell.Draw(this.classroomElement);
-            //});
-
-            WhiteboardManager whiteboardManager = new(this.whiteboardCells, this.classroomElement);
-            //whiteboardManager.coverCell.Draw();
+            // Draw whiteboard
+            this.whiteboardManager.whiteboardCoverCell.Draw(this.classroomElement);
         }
 
         public class WhiteboardManager
         {
-            // instantiates with the list of whiteboard cells as an argument
-            // this calculates where the whiteboard starts and ends to be able to set its grid.column and grid.row + grid.columnspan or grid.rowspan (for vertical whiteboards)
+            // Instantiates with the list of whiteboard cells as an argument
+            // This calculates where the whiteboard starts and ends to be able to set its grid.column and grid.row + grid.columnspan or grid.rowspan (for vertical whiteboards)
 
             // Reference to the XAML grid
-            private readonly System.Windows.Controls.Grid classroomElement;
             public List<cells.WhiteboardCell> whiteboardCells;
+            public cells.WhiteboardCoverCell whiteboardCoverCell;
 
-            public WhiteboardManager(List<cells.WhiteboardCell> whiteboardCells, System.Windows.Controls.Grid classroomElement)
+            public WhiteboardManager(List<cells.WhiteboardCell> whiteboardCells)
             {
                 this.whiteboardCells = whiteboardCells;
-                this.classroomElement = classroomElement;
 
-                // TODO - instantiate a whiteboardCellCover using the calculated min and max coordinates
-
+                // Get coordinates from all whiteboardCells to use when drawing the cover cell
                 Coordinates smallestCoordinates = GetSmallestCoordinates();
                 Coordinates largestCoordinates = GetLargestCoordinates();
 
@@ -99,7 +104,7 @@ namespace Classroom_Seating_Planner.src
 
                 cells.WhiteboardCoverCell whiteboardCoverCell = new(smallestX, smallestY, width, height);
 
-                whiteboardCoverCell.Draw(this.classroomElement);
+                this.whiteboardCoverCell = whiteboardCoverCell;
             }
 
             public struct Coordinates // TODO - Move this struct to where distance is calculated when that functionality is implemented
@@ -110,29 +115,23 @@ namespace Classroom_Seating_Planner.src
 
             private Coordinates GetSmallestCoordinates()
             {
-                int? smallestX = null;
-                int? smallestY = null;
-
                 List<int> xValues = [];
                 List<int> yValues = [];
-                
+
                 this.whiteboardCells.ForEach(whiteboardCell =>
                 {
                     xValues.Add((int)whiteboardCell.x);
                     yValues.Add((int)whiteboardCell.y);
                 });
 
-                smallestX = xValues.Min();
-                smallestY = yValues.Min();
+                int? smallestX = xValues.Min();
+                int? smallestY = yValues.Min();
 
                 return new Coordinates() { x = smallestX.Value, y = smallestY.Value };
             }
 
             private Coordinates GetLargestCoordinates()
             {
-                int? largestX = null;
-                int? largestY = null;
-
                 List<int> xValues = [];
                 List<int> yValues = [];
 
@@ -142,15 +141,10 @@ namespace Classroom_Seating_Planner.src
                     yValues.Add((int)whiteboardCell.y);
                 });
 
-                largestX = xValues.Max();
-                largestY = yValues.Max();
+                int? largestX = xValues.Max();
+                int? largestY = yValues.Max();
 
                 return new Coordinates() { x = largestX.Value, y = largestY.Value };
-            }
-
-            public void Draw(System.Windows.Controls.Grid parent)
-            {
-
             }
         }
     }

@@ -25,14 +25,14 @@
     </Window.Resources>
 
     <Grid x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1cm"/>
-            <RowDefinition Height="200*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70*" MinWidth="5cm"/>
             <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1cm"/>
+            <RowDefinition Height="200*"/>
+        </Grid.RowDefinitions>
 
 
         <!-- Help button -->

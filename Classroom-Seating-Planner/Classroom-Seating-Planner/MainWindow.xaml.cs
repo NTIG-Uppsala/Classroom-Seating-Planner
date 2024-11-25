@@ -13,6 +13,7 @@ namespace Classroom_Seating_Planner
     {
         // Where the student names are stored
         private List<string>? classListFromFile;
+        public src.ClassroomLayoutManager classroomLayoutManager;
 
         public MainWindow()
         {
@@ -27,11 +28,11 @@ namespace Classroom_Seating_Planner
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
             // Give a reference to the grid where the tables and whiteboard will be placed to its handler
-            src.ClassroomLayoutManager classroomLayoutManager = new(ClassroomElement);
+            classroomLayoutManager = new(ClassroomElement);
 
             // The argument retrieves data about the classroom layout for the manager to save and use
             classroomLayoutManager.Initialize(src.FileHandler.InterpretClassroomLayoutString(src.FileHandler.classroomLayoutString));
-            
+
             classroomLayoutManager.DrawChildren();
         }
 
