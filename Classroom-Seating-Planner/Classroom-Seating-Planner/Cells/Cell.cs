@@ -9,9 +9,10 @@ namespace Classroom_Seating_Planner.cells
 {
     public class Cell // TODO - make sure columnspan is before rowspan where possible
     {
+        // TODO - revise double/float everywhere related to this
         public int x, y;
         public int width, height;
-        public int centerX, centerY;
+        public float centerX, centerY;
 
         public string cellType;
         public string cellText = "!!CELL!!"; // This should never be seen O.O
@@ -28,8 +29,8 @@ namespace Classroom_Seating_Planner.cells
             this.y = y;
             this.width = width;
             this.height = height;
-            this.centerX = x + width / 2;
-            this.centerY = y + height / 2;
+            this.centerX = x + (width - 1) / 2;
+            this.centerY = y + (height - 1) / 2;
         }
 
         public void Draw(System.Windows.Controls.Grid parent)
@@ -43,13 +44,13 @@ namespace Classroom_Seating_Planner.cells
             };
 
             // Give element a helptext that the tests can read
-            System.Windows.Automation.AutomationProperties.SetHelpText(cellElement, $"cell:true, cellType:{this.cellType},x:{this.x},y:{this.y},centerX:{this.centerX},centerY:{this.centerY}");
+            System.Windows.Automation.AutomationProperties.SetHelpText(cellElement, $"cell:true| cellType:{this.cellType}|x:{this.x}|y:{this.y}|width:{this.width}|height:{this.height}|centerX:{this.centerX}|centerY:{this.centerY}");
 
             // Position this cell according to its coordinates
-            System.Windows.Controls.Grid.SetRow(cellElement, this.y);
-            System.Windows.Controls.Grid.SetColumn(cellElement, this.x);
-            System.Windows.Controls.Grid.SetRowSpan(cellElement, this.width);
-            System.Windows.Controls.Grid.SetColumnSpan(cellElement, this.height);
+            System.Windows.Controls.Grid.SetColumn(cellElement, (int)this.x);
+            System.Windows.Controls.Grid.SetRow(cellElement, (int)this.y);
+            System.Windows.Controls.Grid.SetColumnSpan(cellElement, (int)this.width); // STOOPID VIGGO DU SKREV FEL, COLUMN SPAN ÄR BREDD OCH ROW SPAN ÄR HÖJD
+            System.Windows.Controls.Grid.SetRowSpan(cellElement, (int)this.height); // ÄGD!!!
 
             // Add this cell to the parent grid
             parent.Children.Add(cellElement);

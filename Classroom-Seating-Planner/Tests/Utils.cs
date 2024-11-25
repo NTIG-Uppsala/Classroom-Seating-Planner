@@ -1,5 +1,6 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.Runtime.InteropServices;
@@ -304,7 +305,7 @@ namespace Tests
 
                 IDictionary<string, object> returnObject = new ExpandoObject() as IDictionary<string, object>;
 
-                List<string> properties = inputString.Split(",")
+                List<string> properties = inputString.Split("|")
                     .Select((property) => property.Trim())
                     .ToList();
 
@@ -326,11 +327,11 @@ namespace Tests
                     // Determine the type of the value and convert it dynamically
                     if (bool.TryParse(value, out bool boolValue))
                     {
-                        returnObject[key] = boolValue;
+                        returnObject[key] = (bool)boolValue;
                     }
-                    else if (int.TryParse(value, out int intValue))
+                    else if (float.TryParse(value, out float floatValue))
                     {
-                        returnObject[key] = intValue;
+                        returnObject[key] = (float)floatValue;
                     }
                     else
                     {

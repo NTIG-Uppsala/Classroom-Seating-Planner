@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Diagnostics;
+using System.Dynamic;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
@@ -52,8 +53,8 @@ namespace Tests
             }
 
             // Store all the x and y values to find the max value
-            List<int> xValues = cellObjectList.Select(cell => (int)cell["x"]).ToList();
-            List<int> yValues = cellObjectList.Select(cell => (int)cell["y"]).ToList();
+            List<float> xValues = cellObjectList.Select(cell => (float)cell["x"]).ToList();
+            List<float> yValues = cellObjectList.Select(cell => (float)cell["y"]).ToList();
 
             // compare the largest x and y values to the expected values
             // -1 on the expected values because the grid is 0-indexed
@@ -65,7 +66,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TableAtExpectedPositionTest()
+        public void CellsAtExpectedPositionsTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -100,20 +101,32 @@ namespace Tests
                 int xTestCaseCoordinate = testCaseCoordinates["x"];
                 int yTestCaseCoordinate = testCaseCoordinates["y"];
 
-                // Find the coresponding grid cell's data by matching it's coordinates with the test case's
-                var cellData = cellDataList.Where((cellDataCandidate) =>
-                    cellDataCandidate["x"].Equals(xTestCaseCoordinate)
-                    &&
-                    cellDataCandidate["y"].Equals(yTestCaseCoordinate)
-                ).FirstOrDefault();
-
                 char cellType = classroomLayoutMatrix[yTestCaseCoordinate][xTestCaseCoordinate];
 
+                IDictionary<string, object>? cellData = cellDataList.Where((cellDataCandidate) =>
+                    (float)cellDataCandidate["x"] <= xTestCaseCoordinate
+                    &&
+                    xTestCaseCoordinate <= (float)cellDataCandidate["x"] + (float)cellDataCandidate["width"] - 1
+                    &&
+                    (float)cellDataCandidate["y"] <= yTestCaseCoordinate
+                    &&
+                    yTestCaseCoordinate <= (float)cellDataCandidate["y"] + (float)cellDataCandidate["height"] - 1
+                ).FirstOrDefault();
+
+                // Whiteboard confirmation
+                if (cellType.Equals('T'))
+                {
+                    Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
+                    bool isWhiteboard = (string)cellData["cellType"] == "whiteboardCover";
+                    Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0}, {1} is not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
+                }
+
                 // Empty cell (the floor) confirmation
-                if (cellType.Equals(' '))
+                else if (cellType.Equals(' '))
                 {
                     Assert.IsNull(cellData, "The cell at the coordinates {0}, {1} is not a floor cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
+
                 // Table confirmation
                 else if (cellType.Equals('B'))
                 {
@@ -121,13 +134,7 @@ namespace Tests
                     bool isTable = (string)cellData["cellType"] == "table";
                     Assert.IsTrue(isTable, "The cell at the coordinates {0}, {1} is not a table cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
-                // Whiteboard confirmation
-                else if (cellType.Equals('T'))
-                {
-                    Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
-                    bool isWhiteboard = (string)cellData["cellType"] == "whiteboard";
-                    Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0}, {1} is not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
-                }
+
                 // Invalid cell type
                 else
                 {
