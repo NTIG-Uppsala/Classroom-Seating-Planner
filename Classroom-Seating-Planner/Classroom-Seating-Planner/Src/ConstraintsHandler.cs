@@ -16,7 +16,7 @@ namespace Classroom_Seating_Planner.Src
             double verticalDistance = Math.Abs(cell1.centerY - cell2.centerY);
 
             // Use the Pythagorean theorem to calculate the distance between the two cells
-            return Math.Sqrt(Math.Pow(horizontalDistance, 2) + Math.Pow(verticalDistance, 2)); ;
+            return Math.Sqrt(Math.Pow(horizontalDistance, 2) + Math.Pow(verticalDistance, 2));
         }
     }
 }
