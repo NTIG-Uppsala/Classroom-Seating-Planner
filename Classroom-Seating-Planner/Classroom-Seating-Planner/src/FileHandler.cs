@@ -10,9 +10,11 @@ namespace Classroom_Seating_Planner.Src
         // Global variables for file paths
         public static readonly string dataFolderName = "Bordsplaceringsgeneratorn";
         public static readonly string classListFileName = "klasslista.txt";
+        public static readonly string classroomLayoutFileName = "bordskarta.txt";
 
         public static readonly string dataFolderPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), FileHandler.dataFolderName);
         public static readonly string classListFilePath = System.IO.Path.Combine(FileHandler.dataFolderPath, FileHandler.classListFileName);
+        public static readonly string classroomLayoutFilePath = System.IO.Path.Combine(FileHandler.dataFolderPath, FileHandler.classroomLayoutFileName);
 
         public static readonly List<string> defaultClassList =
         [
@@ -21,8 +23,7 @@ namespace Classroom_Seating_Planner.Src
             "Förnamn Efternamn",
         ];
 
-        // TODO - move this to a file and read that file instead
-        public static string classroomLayoutString =
+        public static readonly string defaultClassroomLayout =
             "   TTTT\n" +
             "\n" +
             "BB BB BB BB BB\n" +
@@ -34,6 +35,9 @@ namespace Classroom_Seating_Planner.Src
             "\n" +
             "B BB BB  BB";
 
+        // TODO - move this to a file and read that file instead
+        public static string classroomLayoutString = System.IO.File.ReadAllText(classroomLayoutFilePath);
+
         // Used by InterpretClassroomLayoutString 
         public struct ClassroomLayoutData()
         {
@@ -43,7 +47,7 @@ namespace Classroom_Seating_Planner.Src
             public List<Cells.WhiteboardCell> whiteboardCells = [];
         }
 
-        public static ClassroomLayoutData InterpretClassroomLayoutString(string classroomLayoutString)
+        public static ClassroomLayoutData ClassroomLayoutDataFromFile(string classroomLayoutString)
         {
             ClassroomLayoutData returnObject = new();
             
@@ -101,10 +105,10 @@ namespace Classroom_Seating_Planner.Src
             }
 
             // Write the default list to the class list file
-            System.IO.File.WriteAllText(FileHandler.classListFilePath, string.Join("\n", FileHandler.defaultClassList));
+            System.IO.File.WriteAllLines(FileHandler.classListFilePath, FileHandler.defaultClassList);
         }
 
-        public static void HandleClassListFileIssues(Window parent)
+        public static void HandleClassListFileIssues(System.Windows.Window parent)
         {
             // Create the class list file if it does not exist, write the default list to it, and return the "not found" message code
             if (!System.IO.File.Exists(FileHandler.classListFilePath))
@@ -125,6 +129,44 @@ namespace Classroom_Seating_Planner.Src
 
             // If the file content is the same as the default list, return the "default" message code
             if (classListFileContent.SequenceEqual(FileHandler.defaultClassList))
+            {
+                PopupWindow.FileIssuePopup("default", parent);
+            }
+        }
+    
+        public static void WriteDefaultClassroomLayoutFile()
+        {
+            // Make sure the data folder exists
+            if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
+            {
+                System.IO.Directory.CreateDirectory(FileHandler.dataFolderPath);
+            }
+
+            // Write the default layout to the classroom layout file
+            System.IO.File.WriteAllText(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
+        }
+
+        public static void HandleClassroomLayoutFileIssues(System.Windows.Window parent)
+        {
+            // Create the classroom layout file if it does not exist, write the default layout to it, and return the "not found" message code
+            if (!System.IO.File.Exists(FileHandler.classroomLayoutFilePath))
+            {
+                WriteDefaultClassroomLayoutFile();
+                PopupWindow.FileIssuePopup("not found", parent);
+            }
+
+            // If the file exists, get its content as a list
+            List<string> classroomLayoutFileContent = System.IO.File.ReadAllLines(FileHandler.classroomLayoutFilePath).ToList();
+
+            // If the file is empty, write the default list to it and return the "empty" message code
+            if (classroomLayoutFileContent.SequenceEqual([]))
+            {
+                WriteDefaultClassroomLayoutFile();
+                PopupWindow.FileIssuePopup("empty", parent);
+            }
+
+            // If the file content is the same as the default list, return the "default" message code
+            if (classroomLayoutFileContent.SequenceEqual(FileHandler.defaultClassroomLayout.Split("\n").ToList()))
             {
                 PopupWindow.FileIssuePopup("default", parent);
             }

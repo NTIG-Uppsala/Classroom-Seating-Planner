@@ -28,11 +28,6 @@ namespace Classroom_Seating_Planner
 
             // Give a reference to the grid where the tables and whiteboard will be placed to its handler
             classroomLayoutManager = new(ClassroomElement);
-
-            // The argument retrieves data about the classroom layout for the manager to save and use
-            classroomLayoutManager.Initialize(Src.FileHandler.InterpretClassroomLayoutString(Src.FileHandler.classroomLayoutString));
-
-            classroomLayoutManager.DrawChildren();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -45,6 +40,13 @@ namespace Classroom_Seating_Planner
 
             // Populate the ListBox with the content of listOfNames
             Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+
+            Src.FileHandler.HandleClassroomLayoutFileIssues(this);
+
+            // The argument retrieves data about the classroom layout for the manager to save and use
+            classroomLayoutManager.Initialize(Src.FileHandler.ClassroomLayoutDataFromFile(Src.FileHandler.classroomLayoutString));
+
+            classroomLayoutManager.DrawChildren();
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
