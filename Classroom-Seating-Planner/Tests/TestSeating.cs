@@ -1,10 +1,14 @@
-﻿using FlaUIElement = FlaUI.Core.AutomationElements;
+﻿using System.Diagnostics;
+using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
 {
     [TestClass]
     public class TestSeating
     {
+        // Declare which tables should be checked
+        private List<int> testingTablesIndexes = [0, 10, 16, 27, 32];
+
         [TestMethod]
         public void SeatStudentsTest()
         {
@@ -13,32 +17,29 @@ namespace Tests
                 = Utils.SetUp();
 
 
-            // Declare which seats should be checked
-            List<int> seatIndexes = [0, 10, 16, 27, 32];
+            // Find all the tables
+            List<FlaUIElement.AutomationElement>? allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
+            Assert.IsNotNull(allTables);
 
-            // Find all the seats
-            List<FlaUIElement.AutomationElement>? allSeats = Utils.XAMLHandler.GetAllElementsByAutomationId(window, cf, matchString: "Seat", FlaUI.Core.Definitions.ControlType.Text, options: new(matchWholeString: false));
-            Assert.IsNotNull(allSeats);
-
-            // Check that (some of the) seats are empty at program start
-            foreach (int index in seatIndexes)
+            // Check that (some of) the tables are empty at program start
+            foreach (int index in this.testingTablesIndexes)
             {
-                Assert.IsTrue(allSeats[index].Name.Equals(string.Empty), "The seats are not empty at the start of the program");
+                Assert.IsTrue(allTables[index].Name.Equals(string.Empty), "The tables are not empty at the start of the program");
             }
 
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
 
-            // Get the seats again
-            allSeats = Utils.XAMLHandler.GetAllElementsByAutomationId(window, cf, matchString: "Seat", FlaUI.Core.Definitions.ControlType.Text, options: new(matchWholeString: false));
-            Assert.IsNotNull(allSeats);
+            // Get the tables again
+            allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
+            Assert.IsNotNull(allTables);
 
-            // Get list of students to compare against list of seats
+            // Get list of students to compare against list of tables
             List<string> allStudents = Utils.XAMLHandler.GetClassListFromElement(window, cf);
 
             // Check that the seating matches the order of the list of students
-            foreach (int index in seatIndexes)
+            foreach (int index in this.testingTablesIndexes)
             {
-                Assert.IsTrue(allSeats[index].Name.Equals(allStudents[index]), "The order of the seating is not the same as the order of the class list");
+                Assert.IsTrue(allTables[index].Name.Equals(allStudents[index]), "The order of the seating is not the same as the order of the class list");
             }
 
 

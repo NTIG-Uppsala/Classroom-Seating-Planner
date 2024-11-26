@@ -16,6 +16,7 @@ namespace Classroom_Seating_Planner.Src
         public int rowCount;
         public List<Cells.TableCell> tableCells = [];
         public List<Cells.WhiteboardCell> whiteboardCells = [];
+        public List<System.Windows.Controls.TextBlock> tableElements = [];
         public Src.ClassroomLayoutManager.WhiteboardManager? whiteboardManager;
 
         public ClassroomLayoutManager(System.Windows.Controls.Grid classroomElement)
@@ -42,13 +43,13 @@ namespace Classroom_Seating_Planner.Src
             // Add a ColumnDefinition for every column
             for (int column = 0; column < this.columnCount; column++)
             {
-                classroomElement.ColumnDefinitions.Add(new ColumnDefinition() { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                classroomElement.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
             // Add a RowDefinition for every row
             for (int row = 0; row < this.rowCount; row++)
             {
-                classroomElement.RowDefinitions.Add(new RowDefinition() { Height = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                classroomElement.RowDefinitions.Add(new RowDefinition());
             }
         }
 
@@ -70,11 +71,11 @@ namespace Classroom_Seating_Planner.Src
             // Draw all tables
             this.tableCells.ForEach((tableCell) =>
             {
-                tableCell.Draw(this.classroomElement);
+                tableCell.Draw(this.classroomElement, this);
             });
 
             // Draw whiteboard
-            this.whiteboardManager.whiteboardCoverCell.Draw(this.classroomElement);
+            this.whiteboardManager.whiteboardCoverCell.Draw(this.classroomElement, this);
         }
 
         public class WhiteboardManager

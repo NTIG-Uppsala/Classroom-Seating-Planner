@@ -12,13 +12,12 @@ namespace Classroom_Seating_Planner
     public partial class MainWindow : System.Windows.Window
     {
         // Where the student names are stored
-        private List<string>? classListFromFile;
+        private List<string> classListFromFile = [];
         public Src.ClassroomLayoutManager classroomLayoutManager;
 
         public MainWindow()
         {
             InitializeComponent();
-
             // Adds event listeners to window
             SizeChanged += Window_SizeChanged;
             Loaded += MainWindow_Loaded;
@@ -39,22 +38,25 @@ namespace Classroom_Seating_Planner
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Pass the current window as the parent window so the popups know if it needs to close
-            FileHandler.HandleClassListFileIssues(this);
+            Src.FileHandler.HandleClassListFileIssues(this);
 
             // Get the list of student names from the class list file
-            this.classListFromFile = FileHandler.GetClassListFromFile();
+            this.classListFromFile = Src.FileHandler.GetClassListFromFile();
 
             // Populate the ListBox with the content of listOfNames
-            ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+            Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
         {
             // Shuffle the list of student names using a custom class method
-            this.classListFromFile?.Shuffle();
+            this.classListFromFile.Shuffle();
 
             // Populate the class list and the seats with the new order
-            ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+            Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+
+            // Populate the tables with the randomised order of the class list
+            Src.SeatingHandler.Populate(classroomLayoutManager.tableElements, this.classListFromFile);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
@@ -76,6 +78,9 @@ namespace Classroom_Seating_Planner
             double fontSize = Math.Round(m * x + b);
 
             RandomizeSeatingButton.FontSize = fontSize;
+
+            // Refresh the size of the classroom layout
+            Src.ClassroomLayoutHandler.UpdateClassroomLayoutSize(e.NewSize, this);
         }
     }
 }

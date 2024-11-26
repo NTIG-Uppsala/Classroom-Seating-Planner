@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Classroom_Seating_Planner.Src;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace Classroom_Seating_Planner.Cells
             this.centerY = y + (height - 1) / 2;
         }
 
-        public void Draw(System.Windows.Controls.Grid parent)
+        public void Draw(System.Windows.Controls.Grid parent, ClassroomLayoutManager classroomLayoutManager)
         {
             // Make the XAML element that will be the visual representation of the cell
             System.Windows.Controls.TextBlock cellElement = new()
@@ -50,8 +51,13 @@ namespace Classroom_Seating_Planner.Cells
                 cellElement.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
                 cellElement.TextAlignment = System.Windows.TextAlignment.Center;
                 cellElement.FontWeight = FontWeights.SemiBold;
-                cellElement.FontSize = 48;
+                cellElement.FontSize = 32;
                 cellElement.TextWrapping = TextWrapping.Wrap;
+            }
+
+            if (this.cellType.Equals("table"))
+            {
+                cellElement.TextWrapping = TextWrapping.WrapWithOverflow;
             }
 
             // Create a Border to contain the TextBlock
@@ -60,7 +66,11 @@ namespace Classroom_Seating_Planner.Cells
                 Background = this.backgroundColor, // Set the background color on the Border
                 VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-                Child = cellElement
+                Child = cellElement,
+
+                // Give the student names some room to breathe
+                Padding = new System.Windows.Thickness(3, 3, 3, 3),
+                BorderThickness = new System.Windows.Thickness(1, 1, 1, 1),
             };
 
             // Give element a helptext that the tests can read
@@ -91,6 +101,12 @@ namespace Classroom_Seating_Planner.Cells
 
             // Add this cell to the parent grid
             parent.Children.Add(cellContainer);
+
+            // Add table to tableList for Populate method
+            if (this.cellType.Equals("table"))
+            {
+                classroomLayoutManager.tableElements.Add(cellElement);
+            }
         }
     }
 }

@@ -14,10 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Src\ClassroomLayoutHandler.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FlaUI.Core" Version="4.0.0" />
     <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
   </ItemGroup>
