@@ -7,26 +7,12 @@ namespace Tests
     [TestClass]
     public class TestClassroomLayout
     {
-        // TODO - when file reading is implemented, this will be in Utils.SetUp()
-        private string testingClassroomLayoutString =
-            "   TTTT\n" +
-            "\n" +
-            "BB BB BB BB BB\n" +
-            "\n" +
-            "BBBB       BBB\n" +
-            "      BBBB\n" +
-            "\n" +
-            " BB BB  BB BB\n" +
-            "\n" +
-            "B BB BB  BB";
-
-        // TODO - this will change after file reading is implemented - will be based on standard layout file
-        private int expectedColumns = 14;
-        private int expectedRows = 10;
-
         [TestMethod]
         public void ClassroomSizeTest()
         {
+            int expectedColumns = Utils.testingClassroomLayout.Select((row) => row.Length).Max();
+            int expectedRows = Utils.testingClassroomLayout.Count;
+
             // Setup/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp(); // SetUp has optional arguments that may be useful for certain tests
@@ -58,8 +44,8 @@ namespace Tests
 
             // compare the largest x and y values to the expected values
             // -1 on the expected values because the grid is 0-indexed
-            Assert.IsTrue(xValues.Max().Equals(this.expectedColumns - 1), "The amount of columns in the table-grid is not correct");
-            Assert.IsTrue(yValues.Max().Equals(this.expectedRows - 1), "The amount of rows in the table-grid is not correct");
+            Assert.IsTrue(xValues.Max().Equals(expectedColumns - 1), "The amount of columns in the table-grid is not correct");
+            Assert.IsTrue(yValues.Max().Equals(expectedRows - 1), "The amount of rows in the table-grid is not correct");
 
 
             Utils.TearDown(app);
@@ -95,15 +81,13 @@ namespace Tests
                 cellDataList.Add(cellData);
             }
 
-            List<string> classroomLayoutMatrix = testingClassroomLayoutString.Split("\n").ToList();
-
             // Check that the cell types are the same between the classroom layout file and the XAML grid for each sampled coordinate
             foreach (Dictionary<string, int> testCaseCoordinates in testCaseCoordinatesList)
             {
                 int xTestCaseCoordinate = testCaseCoordinates["x"];
                 int yTestCaseCoordinate = testCaseCoordinates["y"];
 
-                char cellType = classroomLayoutMatrix[yTestCaseCoordinate][xTestCaseCoordinate];
+                char cellType = Utils.testingClassroomLayout[yTestCaseCoordinate][xTestCaseCoordinate];
 
                 IDictionary<string, object>? cellData = cellDataList.Where((cellDataCandidate) =>
                     (float)cellDataCandidate["x"] <= xTestCaseCoordinate

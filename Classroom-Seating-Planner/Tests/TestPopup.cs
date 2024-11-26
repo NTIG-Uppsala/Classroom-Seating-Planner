@@ -153,7 +153,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(ignoreClassListFileBackup: true, ignoreTestingClassList: true, createDataBackupFolder: true, deleteDataFolder: true);
+                = Utils.SetUp(ignoreClassListFileBackup: true, ignoreClassroomLayoutFileBackup: true, ignoreTestingClassList: true, ignoreTestingClassroomLayout: true, createDataBackupFolder: true, deleteDataFolder: true);
 
             // Check that the correct popup is shown when the directory is missing
             FlaUIElement.Window? popupWindow = FindPopupWindow(this.missingFilePopupName, app, automation);
