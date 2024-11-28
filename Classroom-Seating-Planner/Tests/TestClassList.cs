@@ -120,9 +120,7 @@ namespace Tests
                 = Utils.SetUp(ignoreTestingClassList: true, deleteClassListFile: true);
 
             // Assert that the correct popup is shown when the file is missing
-            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.missingFilePopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
-            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.missingFilePopupText));
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Klasslista hittades inte");
 
 
             Utils.TearDown(app);
@@ -138,9 +136,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the empty list is loaded
-            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.badFilePopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
-            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.emptyFilePopupText));
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Klasslistan är tom");
 
 
             Utils.TearDown(app);
@@ -154,10 +150,9 @@ namespace Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp(Utils.defaultClassList);
 
+
             // Assert that the correct popup is shown when the default list is loaded
-            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.badFilePopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
-            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.badFilePopupText));
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "klasslistan inte har uppdaterats");
 
 
             Utils.TearDown(app);

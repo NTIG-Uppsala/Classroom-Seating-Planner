@@ -22,21 +22,24 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.helpPopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
+            List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
+            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
+            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
 
             // Close the popup immediately
-            FlaUIElement.AutomationElement closeButton = popupWindow.FindFirstDescendant(cf.ByText(Utils.PopupHandler.okayButtonText));
+            FlaUIElement.AutomationElement closeButton = popupWindows[0].FindFirstDescendant(cf.ByText(Utils.PopupHandler.okayButtonText));
             closeButton.Click();
 
             // Check that the window has closed
-            popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.helpPopupName, app, automation);
-            Assert.IsNull(popupWindow);
+            popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
+            Assert.IsFalse(popupWindows.Count.Equals(0), "The popup window did not close successfully");
+            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
 
             // Open the popup again and check if it opened the second time
             helpButton.Click();
-            popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.helpPopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
+            popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
+            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
+            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
 
 
             Utils.TearDown(app);
@@ -55,15 +58,17 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.helpPopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
+            List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
+            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
+            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
 
             // Close the main window
             window.Close();
 
             // The popup should be closed as well
-            popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.helpPopupName, app, automation);
-            Assert.IsNull(popupWindow);
+            popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
+            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
+            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
 
 
             Utils.TearDown(app);

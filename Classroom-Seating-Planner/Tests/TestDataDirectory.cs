@@ -10,7 +10,7 @@ using FlaUIElement = FlaUI.Core.AutomationElements;
 namespace Tests
 {
     [TestClass]
-    internal class TestDataDirectory
+    public class TestDataDirectory
     {
         [TestMethod]
         public void OpenDataDirectoryTest()
@@ -30,7 +30,7 @@ namespace Tests
             helpButton.Click();
 
             // Find the popup window
-            FlaUIElement.AutomationElement? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.helpPopupName, app, automation);
+            FlaUIElement.AutomationElement? popupWindow = Utils.PopupHandler.FindPopupWindows(Utils.PopupHandler.helpPopupName, app, automation);
             Assert.IsNotNull(popupWindow);
 
             // Save the currently open file explorer windows
@@ -79,9 +79,7 @@ namespace Tests
                 = Utils.SetUp(ignoreClassListFileBackup: true, ignoreClassroomLayoutFileBackup: true, ignoreTestingClassList: true, ignoreTestingClassroomLayout: true, createDataBackupFolder: true, deleteDataFolder: true);
 
             // Check that the correct popup is shown when the directory is missing
-            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.missingFilePopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
-            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.missingFilePopupText));
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Klasslista hittades inte");
 
             // Delete the data folder after the tests have created them
             System.IO.Directory.Delete(Utils.FileHandler.dataFolderPath, true);

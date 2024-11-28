@@ -1,10 +1,10 @@
 ﻿using FlaUI.Core.AutomationElements;
-using FlaUI.UIA3;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Automation;
 using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
@@ -181,7 +181,7 @@ namespace Tests
 
                 // Find the main window for the purpose of finding elements
                 FlaUIElement.Window window = app.GetMainWindow(automation);
-                FlaUI.Core.Conditions.ConditionFactory cf = new(new UIA3PropertyLibrary());
+                FlaUI.Core.Conditions.ConditionFactory cf = new(new FlaUI.UIA3.UIA3PropertyLibrary());
 
                 return (app, automation, window, cf);
             }
@@ -409,15 +409,28 @@ namespace Tests
             public static readonly string okayButtonText = "Okej";
             public static readonly string openFolderButtonText = "Öppna mapp";
 
-            // Strings to match to check if the correct popup content is shown
-            public static readonly string missingFilePopupText = "Klasslista hittades inte";
-            public static readonly string emptyFilePopupText = "Klasslistan är tom";
-            public static readonly string badFilePopupText = "klasslistan inte har uppdaterats";
-
-            public static Window? FindPopupWindow(string windowTitle, FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+            public static List<FlaUIElement.Window> FindPopupWindows(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, string windowTitle)
             {
                 FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-                return windows.Where(window => window.Name == windowTitle).FirstOrDefault();
+                return windows.Where(window => window.Name == windowTitle).ToList();
+            }
+
+            public static void PopupWindowContainsText(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUI.Core.Conditions.ConditionFactory cf, string windowTitle, string expectedText)
+            {
+                List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, windowTitle);
+
+                if (popupWindows == null || popupWindows.Count == 0)
+                {
+                    Assert.Fail("No popup windows were found");
+                }
+
+                bool anyPopupWindowContainsExpectedText = popupWindows.Any((FlaUIElement.Window window) =>
+                {
+                    FlaUIElement.AutomationElement textBody = window.FindFirstDescendant(cf.ByAutomationId("TextBody"));
+                    return textBody != null && textBody.Name.Contains(expectedText);
+                });
+
+                Assert.IsTrue(anyPopupWindowContainsExpectedText, "No popup window contains {0}", expectedText);
             }
         }
 
