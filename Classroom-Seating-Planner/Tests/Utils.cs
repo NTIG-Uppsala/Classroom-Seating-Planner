@@ -90,7 +90,7 @@ namespace Tests
         ];
 
         // SetUp method
-        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) // TODO - ignore-clauses?
+        public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory)
             SetUp(List<string>? testClassList = null, List<string>? testClassroomLayout = null, bool ignoreClassListFileBackup = false, bool ignoreClassroomLayoutFileBackup = false, bool ignoreTestingClassList = false, bool ignoreTestingClassroomLayout = false, bool createDataBackupFolder = false, bool deleteClassListFile = false, bool deleteClassroomLayoutFile = false, bool deleteDataFolder = false)
         {
             // Use default testing class list and classroom layout unless a list is specified

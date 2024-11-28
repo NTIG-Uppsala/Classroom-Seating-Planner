@@ -107,7 +107,7 @@ namespace Classroom_Seating_Planner.Src
                 this.whiteboardCoverCell = whiteboardCoverCell;
             }
 
-            public struct Coordinates // TODO - Move this struct to where distance is calculated when that functionality is implemented
+            public struct Coordinates // TODO - Check with Viggo why this is necessary
             {
                 public float x;
                 public float y;
