@@ -3,7 +3,7 @@ using FlaUIElement = FlaUI.Core.AutomationElements;
 namespace Tests
 {
     [TestClass]
-    public class TestClassListElement
+    public class TestClassList
     {
         [TestMethod]
         public void RandomizeTestingClassListTest()
@@ -107,6 +107,57 @@ namespace Tests
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
             List<string> testListLengthTwoShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
             Assert.IsNotNull(testListLengthTwoShuffled);
+
+
+            Utils.TearDown(app);
+        }
+
+        [TestMethod]
+        public void MissingClassListFileTest()
+        {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(ignoreTestingClassList: true, deleteClassListFile: true);
+
+            // Assert that the correct popup is shown when the file is missing
+            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.missingFilePopupName, app, automation);
+            Assert.IsNotNull(popupWindow);
+            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.missingFilePopupText));
+
+
+            Utils.TearDown(app);
+        }
+
+        // Test that the application gives a popup warning when loading an empty list
+        [TestMethod]
+        public void EmptyClassListFileTest()
+        {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp([]);
+
+
+            // Assert that the correct popup is shown when the empty list is loaded
+            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.badFilePopupName, app, automation);
+            Assert.IsNotNull(popupWindow);
+            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.emptyFilePopupText));
+
+
+            Utils.TearDown(app);
+        }
+
+        // Test that the application gives a popup warning when loading a default list
+        [TestMethod]
+        public void DefaultClassListFileTest()
+        {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(Utils.defaultClassList);
+
+            // Assert that the correct popup is shown when the default list is loaded
+            FlaUIElement.Window? popupWindow = Utils.PopupHandler.FindPopupWindow(Utils.PopupHandler.badFilePopupName, app, automation);
+            Assert.IsNotNull(popupWindow);
+            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(Utils.PopupHandler.badFilePopupText));
 
 
             Utils.TearDown(app);

@@ -397,6 +397,30 @@ namespace Tests
             }
         }
 
+        public class PopupHandler
+        {
+            // Names of the popup window titles, used to find the popup windows
+            public static readonly string helpPopupName = "Hjälp";
+            public static readonly string missingFilePopupName = "Information";
+            public static readonly string badFilePopupName = "Varning";
+
+            // Names of the help button in the main window and the buttons in the popup windows
+            public static readonly string helpButtonText = "Hjälp";
+            public static readonly string okayButtonText = "Okej";
+            public static readonly string openFolderButtonText = "Öppna mapp";
+
+            // Strings to match to check if the correct popup content is shown
+            public static readonly string missingFilePopupText = "Klasslista hittades inte";
+            public static readonly string emptyFilePopupText = "Klasslistan är tom";
+            public static readonly string badFilePopupText = "klasslistan inte har uppdaterats";
+
+            public static Window? FindPopupWindow(string windowTitle, FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
+            {
+                FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
+                return windows.Where(window => window.Name == windowTitle).FirstOrDefault();
+            }
+        }
+
         public class FileHandler
         {
             // Path variables constructed with folder name and file name defined at the top of Utils

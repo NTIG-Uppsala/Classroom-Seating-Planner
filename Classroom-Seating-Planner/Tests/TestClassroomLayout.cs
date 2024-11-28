@@ -131,6 +131,18 @@ namespace Tests
 
             Utils.TearDown(app);
         }
+
+        [TestMethod]
+        public void NoTablesTest()
+        {
+
+        }
+
+        [TestMethod]
+        public void NoWhiteBoard()
+        {
+
+        }
     }
 }
 
