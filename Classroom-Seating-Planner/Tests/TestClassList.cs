@@ -1,4 +1,4 @@
-using FlaUIElement = FlaUI.Core.AutomationElements;
+﻿using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
 {
@@ -136,7 +136,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the empty list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Klasslistan �r tom");
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Klasslistan är tom");
 
 
             Utils.TearDown(app);
@@ -153,6 +153,67 @@ namespace Tests
 
             // Assert that the correct popup is shown when the default list is loaded
             Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "klasslistan inte har uppdaterats");
+
+
+            Utils.TearDown(app);
+        }
+
+        [TestMethod]
+        public void TooManyStudentsTest()
+        {
+            // This is currently identical to the default testing list but is defined in case the default is changed
+            List<string> testClassList =
+            [
+                "Ziggy Stardust",
+                "Frodo Baggins",
+                "Darth Vader",
+                "Galadriel Silverleaf",
+                "Sparky McFluff",
+                "Waldo B. Lost",
+                "กาญจนา McSix",
+                "Gandalf the Grey",
+                "Ulysses 'Snakehands' McDougall",
+                "Venkatanarasimharajuvaripeta Wumpus",
+                "Shivankumaraswamy Krishnamurthy Raghunath",
+                "الحسيني",
+                "Muhammad Abdelrahman ibn Al-Mahmoud al-Farouq",
+                "Papadopoulos-Alexandropoulos Firestorm",
+                "明张",
+                "Pipkin Puddleduck",
+                "Aleksandrovich Dimitrov Petrovskaya Ivanov",
+                "Per-Göran Karlsson von Heidenstam af Skånesläkten",
+                "Wiggles Snickerbottom",
+                "Zephyr Nightwind",
+                "Doodlebug Sparklestep",
+                "Sir Adrian Carton de Wiart",
+                "Tinkerbell Twinkletoes",
+                "Bo Li",
+                "Dinglehopper Wobblesworth",
+                "Kǎi McQuirk",
+                "Fizzlewhit Wobblebottom",
+                "鈴木 健太",
+                "Jo Wu",
+                "Le To",
+                "Örjan Johansson Florist",
+                "Främling Skådespelare",
+                "Émil Låås",
+            ];
+
+            List<string> testClassroomLayout =
+            [
+                "     TTTT",
+                "",
+                "BBBB BBBB BBBB",
+                "",
+                "BBBB BBBB BBBB",
+            ];
+
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(testClassList: testClassList, testClassroomLayout: testClassroomLayout);
+
+
+            // Assert that the correct popup is shown when the default list is loaded
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "du har fler elever än bord");
 
 
             Utils.TearDown(app);
