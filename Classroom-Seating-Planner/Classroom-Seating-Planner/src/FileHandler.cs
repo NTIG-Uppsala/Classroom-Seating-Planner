@@ -156,7 +156,6 @@ namespace Classroom_Seating_Planner.Src
             if (!System.IO.File.Exists(FileHandler.classroomLayoutFilePath))
             {
                 WriteDefaultClassroomLayoutFile();
-                PopupWindow.FileIssuePopup("not found", parent);
                 return;
             }
 
@@ -167,14 +166,12 @@ namespace Classroom_Seating_Planner.Src
             if (classroomLayoutFileContent.SequenceEqual([]))
             {
                 WriteDefaultClassroomLayoutFile();
-                PopupWindow.FileIssuePopup("empty", parent);
                 return;
             }
 
             // If the file content is the same as the default list, return the "default" message code
             if (classroomLayoutFileContent.SequenceEqual(FileHandler.defaultClassroomLayout.Split("\n").ToList()))
             {
-                PopupWindow.FileIssuePopup("default", parent);
                 return;
             }
         }

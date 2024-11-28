@@ -22,7 +22,6 @@ namespace Tests
         private readonly string missingFilePopupText = "Klasslista hittades inte";
         private readonly string emptyFilePopupText = "Klasslistan är tom";
         private readonly string badFilePopupText = "klasslistan inte har uppdaterats";
-        private readonly string missingClassroomLayoutFilePopupText = "Klassrumsuppställningen hittades inte";
 
         private static Window? FindPopupWindow(string windowTitle, FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation)
         {
@@ -228,24 +227,6 @@ namespace Tests
             Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(this.badFilePopupText));
 
 
-            Utils.TearDown(app);
-        }
-
-        // Test that the application gives a popup warning when the classroom layout file is missing
-        [TestMethod]
-        public void MissingClassroomLayoutFileTest()
-        {
-            // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(deleteClassroomLayoutFile: true);
-
-
-            // Assert that the correct popup is shown when the classroom layout file is missing
-            FlaUIElement.Window? popupWindow = FindPopupWindow(this.missingFilePopupName, app, automation);
-            Assert.IsNotNull(popupWindow);
-            Assert.IsTrue(popupWindow.FindFirstDescendant(cf.ByAutomationId("TextBody")).Name.Contains(this.missingClassroomLayoutFilePopupText));
-            
-            
             Utils.TearDown(app);
         }
     }

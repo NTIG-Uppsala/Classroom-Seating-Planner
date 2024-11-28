@@ -17,14 +17,16 @@ namespace Tests
         public static readonly string classroomLayoutFileName = "bordskarta.txt";
 
         // Names for default file if file does not already exist
-        public static readonly List<string> defaultClassList = [
-                "Förnamn Efternamn",
-                "Förnamn Efternamn",
-                "Förnamn Efternamn",
-            ];
+        public static readonly List<string> defaultClassList =
+        [
+            "Förnamn Efternamn",
+            "Förnamn Efternamn",
+            "Förnamn Efternamn",
+        ];
 
         // Class list used for tests unless another list is specified
-        private static readonly List<string> testingClassList = [
+        private static readonly List<string> testingClassList =
+        [
             "Ziggy Stardust",
             "Frodo Baggins",
             "Darth Vader",
@@ -61,32 +63,31 @@ namespace Tests
         ];
 
         // Classroom layout for default file if file does not already exist
-        public static readonly List<string> defaultClassroomLayoutData = [
-                "   TTTT",
-                "",
-                "BB BB BB BB BB",
-                "",
-                "BBBB       BBB",
-                "      BBBB",
-                "",
-                " BB BB  BB BB",
-                "",
-                "B BB BB  BB",
-            ];
+        public static readonly List<string> defaultClassroomLayoutData =
+        [
+            "     TTTT",
+            "",
+            "BBBB BBBB BBBB",
+            "",
+            "BBBB BBBB BBBB",
+            "",
+            "BBBB BBBB BBBB",
+        ];
 
         // Classroom layout used for tests unless another layout is specified
-        public static readonly List<string> testingClassroomLayout = [
-                "   TTTT",
-                "",
-                "BB BB BB BB BB",
-                "",
-                "BBBB       BBB",
-                "      BBBB",
-                "",
-                " BB BB  BB BB",
-                "",
-                "B BB BB  BB",
-            ];
+        public static readonly List<string> testingClassroomLayout =
+        [
+            "   TTTT",
+            "",
+            "BB BB BB BB BB",
+            "",
+            "BBBB       BBB",
+            "      BBBB",
+            "",
+            " BB BB  BB BB",
+            "",
+            "B BB BB  BB",
+        ];
 
         // SetUp method
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory) // TODO - ignore-clauses?
@@ -472,6 +473,7 @@ namespace Tests
 
             public static void CreateDefaultDataFile(string dataFileName, List<string> defaultFileData)
             {
+
                 // Make sure that the data folder exists
                 if (!System.IO.Directory.Exists(Utils.FileHandler.dataFolderPath))
                 {
