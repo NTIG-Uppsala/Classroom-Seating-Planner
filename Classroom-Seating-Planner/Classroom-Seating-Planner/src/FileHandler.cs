@@ -43,7 +43,7 @@ namespace Classroom_Seating_Planner.Src
             public List<Cells.WhiteboardCell> whiteboardCells = [];
         }
 
-        public static ClassroomLayoutData GetClassroomLayoutDataFromFile()
+        public static ClassroomLayoutData GetClassroomLayoutFromFile()
         {
             List<string> classroomLayout = System.IO.File.ReadAllLines(classroomLayoutFilePath).ToList();
             ClassroomLayoutData returnObject = new();

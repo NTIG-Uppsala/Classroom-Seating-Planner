@@ -44,7 +44,7 @@ namespace Classroom_Seating_Planner
             Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
 
             // The argument retrieves data about the classroom layout for the manager to save and use
-            classroomLayoutManager.Initialize(Src.FileHandler.GetClassroomLayoutDataFromFile());
+            classroomLayoutManager.Initialize(Src.FileHandler.GetClassroomLayoutFromFile());
             classroomLayoutManager.DrawChildren();
 
             System.Windows.Size windowSize = new(this.Width, this.Height);

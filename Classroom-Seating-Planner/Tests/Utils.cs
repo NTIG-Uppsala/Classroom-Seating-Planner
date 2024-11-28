@@ -63,7 +63,7 @@ namespace Tests
         ];
 
         // Classroom layout for default file if file does not already exist
-        public static readonly List<string> defaultClassroomLayoutData =
+        public static readonly List<string> defaultClassroomLayout =
         [
             "     TTTT",
             "",
@@ -468,7 +468,7 @@ namespace Tests
             public static void CreateDefaultDataFiles()
             {
                 CreateDefaultDataFile(Utils.classListFileName, Utils.defaultClassList);
-                CreateDefaultDataFile(Utils.classroomLayoutFileName, Utils.defaultClassroomLayoutData);
+                CreateDefaultDataFile(Utils.classroomLayoutFileName, Utils.defaultClassroomLayout);
             }
 
             public static void CreateDefaultDataFile(string dataFileName, List<string> defaultFileData)
