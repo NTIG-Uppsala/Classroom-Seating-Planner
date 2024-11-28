@@ -23,20 +23,16 @@ namespace Classroom_Seating_Planner.Src
             "Förnamn Efternamn",
         ];
 
-        public static readonly string defaultClassroomLayout =
-            "   TTTT\n" +
-            "\n" +
-            "BB BB BB BB BB\n" +
-            "\n" +
-            "BBBB       BBB\n" +
-            "      BBBB\n" +
-            "\n" +
-            " BB BB  BB BB\n" +
-            "\n" +
-            "B BB BB  BB";
-
-        // TODO - move this to a file and read that file instead
-        //public static string classroomLayoutString = System.IO.File.ReadAllText(classroomLayoutFilePath);
+        public static readonly List<string> defaultClassroomLayout =
+        [
+            "     TTTT",
+            "",
+            "BBBB BBBB BBBB",
+            "",
+            "BBBB BBBB BBBB",
+            "",
+            "BBBB BBBB BBBB",
+        ];
 
         // Used by InterpretClassroomLayoutString 
         public struct ClassroomLayoutData()
@@ -49,14 +45,14 @@ namespace Classroom_Seating_Planner.Src
 
         public static ClassroomLayoutData GetClassroomLayoutDataFromFile()
         {
-            string classroomLayoutString = System.IO.File.ReadAllText(classroomLayoutFilePath);
+            List<string> classroomLayout = System.IO.File.ReadAllLines(classroomLayoutFilePath).ToList();
             ClassroomLayoutData returnObject = new();
             
             // We later find the biggest column width to set the column count
             List<int> xCoordinates = [];
 
             int rowIndex = 0;
-            classroomLayoutString.Split("\n").ToList().ForEach((string row) =>
+            classroomLayout.ForEach((string row) =>
             {
                 // Get every character in the row as a seperate char to iterate over
                 int columnIndex = 0;
@@ -147,10 +143,10 @@ namespace Classroom_Seating_Planner.Src
             }
 
             // Write the default layout to the classroom layout file
-            System.IO.File.WriteAllText(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
+            System.IO.File.WriteAllLines(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
         }
 
-        public static void HandleClassroomLayoutFileIssues(System.Windows.Window parent)
+        public static void HandleClassroomLayoutFileIssues()
         {
             // Create the classroom layout file if it does not exist, write the default layout to it, and return the "not found" message code
             if (!System.IO.File.Exists(FileHandler.classroomLayoutFilePath))
@@ -166,12 +162,6 @@ namespace Classroom_Seating_Planner.Src
             if (classroomLayoutFileContent.SequenceEqual([]))
             {
                 WriteDefaultClassroomLayoutFile();
-                return;
-            }
-
-            // If the file content is the same as the default list, return the "default" message code
-            if (classroomLayoutFileContent.SequenceEqual(FileHandler.defaultClassroomLayout.Split("\n").ToList()))
-            {
                 return;
             }
         }
