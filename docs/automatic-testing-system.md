@@ -22,6 +22,10 @@ If you receive errors when trying to run the tests, try the following:
 
 1.  Navigate to the top of [Utils.cs](../Classroom-Seating-Planner/Tests/Utils.cs) and change the List `testingClassList`.
 
+#### Editing the Testing Classroom Layout
+
+1.  Navigate to the top of [Utils.cs](../Classroom-Seating-Planner/Tests/Utils.cs) and change the List `testingClassroomLayout`.
+
 #### Creating a New Test
 
 1.  Duplicate [TestTemplate.cs](../Classroom-Seating-Planner/Tests/TestTemplate.cs).
