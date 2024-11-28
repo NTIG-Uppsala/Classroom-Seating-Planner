@@ -66,7 +66,7 @@ namespace Classroom_Seating_Planner
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             // Create an instance of the popup window
-            _ = new PopupWindow(PopupWindow.fileTutorialMessage, "Hjälp", this);
+            _ = new PopupWindow(PopupWindow.classListFileTutorialMessage, "Hjälp", this);
         }
 
         protected void Window_SizeChanged(object sender, SizeChangedEventArgs e)

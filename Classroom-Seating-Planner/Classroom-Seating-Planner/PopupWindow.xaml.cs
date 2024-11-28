@@ -9,13 +9,25 @@ namespace Classroom_Seating_Planner
     public partial class PopupWindow : System.Windows.Window
     {
         // This is the instructional text that will be displayed in the popup windows
-        public static readonly string fileTutorialMessage = $"Klasslistan ligger i\n" +
+        public static readonly string classListFileTutorialMessage = $"Klasslistan ligger i\n" +
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+        public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i\n" +
+            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
+            $"Varje tecken i filen är en del av klassrummet. B representerar platser och T representerar en del av tavlan.\n" +
+            $"Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
-        public static readonly string noFileFoundMessage = "Klasslista hittades inte. En textfil har skapats. ";
-        public static readonly string emptyFileMessage = "Klasslistan är tom. En standardklasslista har skapats. ";
-        public static readonly string defaultFileMessage = "Det verkar som att klasslistan inte har uppdaterats. ";
+        public static readonly string noClassListFileFoundMessage = "Klasslista hittades inte. En textfil har skapats.";
+        public static readonly string emptyClassListFileMessage = "Klasslistan är tom. En standardklasslista har skapats.";
+        public static readonly string defaultClassListFileMessage = "Det verkar som att klasslistan inte har uppdaterats.";
+
+        public static readonly string noClassroomLayoutFileFoundMessage = "Ingen bordskarta hittades. En textfil har skapats.";
+        public static readonly string emptyClassroomLayoutFileMessage = "Bordskartan är tom. En standardklasslista har skapats.";
+        public static readonly string defaultClassroomLayoutFileMessage = "Det verkar som att bordskartan inte har uppdaterats.";
+        public static readonly string noTablesInLayoutFileMessage = "Det finns inga bord i bordskartan.";
+        public static readonly string noWhiteboardsInFileMessage = "Det finns ingen tavla i bordskartan.";
+
+        public static readonly string helpMessage;
 
         public PopupWindow(string popupText, string windowTitle, System.Windows.Window parent)
         {
@@ -41,21 +53,31 @@ namespace Classroom_Seating_Planner
             Process.Start("explorer.exe", System.IO.Path.Combine(Src.FileHandler.dataFolderPath));
         }
 
-        public static void FileIssuePopup(string classListFileIssue, Window parent)
+        public static void FileIssuePopup(string dataFileIssue, Window parent)
         {
-            if (classListFileIssue == "not found")
+            if (dataFileIssue == "noClassList")
             {
-                _ = new PopupWindow(PopupWindow.noFileFoundMessage + PopupWindow.fileTutorialMessage, "Information", parent);
+                new PopupWindow($"{PopupWindow.noClassListFileFoundMessage} {PopupWindow.classListFileTutorialMessage}", "Information", parent);
                 return;
             }
-            if (classListFileIssue == "empty")
+            if (dataFileIssue == "emptyClassList")
             {
-                _ = new PopupWindow(PopupWindow.emptyFileMessage + PopupWindow.fileTutorialMessage, "Varning", parent);
+                new PopupWindow($"{PopupWindow.emptyClassListFileMessage} {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
                 return;
             }
-            if (classListFileIssue == "default")
+            if (dataFileIssue == "defaultClassList")
             {
-                _ = new PopupWindow(PopupWindow.defaultFileMessage + PopupWindow.fileTutorialMessage, "Varning", parent);
+                new PopupWindow($"{PopupWindow.defaultClassListFileMessage} {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
+                return;
+            }
+            if (dataFileIssue == "noTablesInLayout")
+            {
+                new PopupWindow($"{PopupWindow.defaultClassListFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                return;
+            }
+            if (dataFileIssue == "noWhiteboardsInLayout")
+            {
+                new PopupWindow($"{PopupWindow.defaultClassListFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
         }

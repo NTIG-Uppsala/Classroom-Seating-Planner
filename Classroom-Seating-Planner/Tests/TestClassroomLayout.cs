@@ -156,7 +156,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "det finns ingen tavla");
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns ingen tavla");
 
 
             Utils.TearDown(app);

@@ -111,7 +111,7 @@ namespace Classroom_Seating_Planner.Src
             if (!System.IO.File.Exists(FileHandler.classListFilePath))
             {
                 WriteDefaultClassListFile();
-                PopupWindow.FileIssuePopup("not found", parent);
+                PopupWindow.FileIssuePopup("noClassList", parent);
                 return;
             }
 
@@ -122,14 +122,14 @@ namespace Classroom_Seating_Planner.Src
             if (classListFileContent.SequenceEqual([]))
             {
                 WriteDefaultClassListFile();
-                PopupWindow.FileIssuePopup("empty", parent);
+                PopupWindow.FileIssuePopup("emptyClassList", parent);
                 return;
             }
 
             // If the file content is the same as the default list, return the "default" message code
             if (classListFileContent.SequenceEqual(FileHandler.defaultClassList))
             {
-                PopupWindow.FileIssuePopup("default", parent);
+                PopupWindow.FileIssuePopup("defaultClassList", parent);
                 return;
             }
         }
@@ -158,7 +158,7 @@ namespace Classroom_Seating_Planner.Src
             // If the file exists, get its content as a list
             List<string> classroomLayoutFileContent = System.IO.File.ReadAllLines(FileHandler.classroomLayoutFilePath).ToList();
 
-            // If the file is empty, write the default list to it and return the "empty" message code
+            // If the file is empty or only contains whitespace, write the default list to it and return the "empty" message code
             if (classroomLayoutFileContent.SequenceEqual([]) || classroomLayoutFileContent.All((string row) => row.Trim().Length.Equals(0)))
             {
                 WriteDefaultClassroomLayoutFile();
@@ -166,12 +166,15 @@ namespace Classroom_Seating_Planner.Src
             }
 
             // If the file contains no tables, display a popup
-            if (!classroomLayoutFileContent.Any((classroomLayoutFileLine) =>
+            if (!classroomLayoutFileContent.Any((classroomLayoutFileLine) => classroomLayoutFileLine.Contains('T')))
             {
-                return classroomLayoutFileLine.Contains('T');
-            })) 
+                PopupWindow.FileIssuePopup("noTablesInLayout", parent);
+            };
+
+            // If the file contains no whiteboards, display a popup
+            if (!classroomLayoutFileContent.Any((classroomLayoutFileLine) => classroomLayoutFileLine.Contains('T')))
             {
-                PopupWindow.FileIssuePopup("no tables in layout", parent);
+                PopupWindow.FileIssuePopup("noWhiteboardsInLayout", parent);
             };
         }
     }
