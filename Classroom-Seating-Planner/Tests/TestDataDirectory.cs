@@ -29,8 +29,14 @@ namespace Tests
             FlaUIElement.AutomationElement helpButton = window.FindFirstDescendant(cf.ByText(Utils.PopupHandler.helpButtonText));
             helpButton.Click();
 
-            // Find the popup window
-            FlaUIElement.AutomationElement? popupWindow = Utils.PopupHandler.FindPopupWindows(Utils.PopupHandler.helpPopupName, app, automation);
+            // Get all matching popup windows (Should only be one)
+            List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
+            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
+            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
+
+
+            // Get the popup window
+            FlaUIElement.Window popupWindow = popupWindows[0];
             Assert.IsNotNull(popupWindow);
 
             // Save the currently open file explorer windows

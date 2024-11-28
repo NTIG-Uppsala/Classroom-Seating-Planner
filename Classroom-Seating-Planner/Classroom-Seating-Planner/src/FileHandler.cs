@@ -146,7 +146,7 @@ namespace Classroom_Seating_Planner.Src
             System.IO.File.WriteAllLines(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
         }
 
-        public static void HandleClassroomLayoutFileIssues()
+        public static void HandleClassroomLayoutFileIssues(Classroom_Seating_Planner.MainWindow parent)
         {
             // Create the classroom layout file if it does not exist, write the default layout to it, and return the "not found" message code
             if (!System.IO.File.Exists(FileHandler.classroomLayoutFilePath))
@@ -159,11 +159,20 @@ namespace Classroom_Seating_Planner.Src
             List<string> classroomLayoutFileContent = System.IO.File.ReadAllLines(FileHandler.classroomLayoutFilePath).ToList();
 
             // If the file is empty, write the default list to it and return the "empty" message code
-            if (classroomLayoutFileContent.SequenceEqual([]))
+            if (classroomLayoutFileContent.SequenceEqual([]) || classroomLayoutFileContent.All((string row) => row.Trim().Length.Equals(0)))
             {
                 WriteDefaultClassroomLayoutFile();
                 return;
             }
+
+            // If the file contains no tables, display a popup
+            if (!classroomLayoutFileContent.Any((classroomLayoutFileLine) =>
+            {
+                return classroomLayoutFileLine.Contains('T');
+            })) 
+            {
+                PopupWindow.FileIssuePopup("no tables in layout", parent);
+            };
         }
     }
 }

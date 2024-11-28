@@ -35,7 +35,7 @@ namespace Classroom_Seating_Planner
             // Handle any possible file issues
             // Pass the current window as the parent window so the popups know if it needs to close
             Src.FileHandler.HandleClassListFileIssues(this);
-            Src.FileHandler.HandleClassroomLayoutFileIssues();
+            Src.FileHandler.HandleClassroomLayoutFileIssues(this);
 
             // Get the list of student names from the class list file
             this.classListFromFile = Src.FileHandler.GetClassListFromFile();

@@ -32,8 +32,7 @@ namespace Tests
 
             // Check that the window has closed
             popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
-            Assert.IsFalse(popupWindows.Count.Equals(0), "The popup window did not close successfully");
-            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
+            Assert.IsTrue(popupWindows.Count.Equals(0), "The popup window did not close successfully");
 
             // Open the popup again and check if it opened the second time
             helpButton.Click();
@@ -67,8 +66,7 @@ namespace Tests
 
             // The popup should be closed as well
             popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
-            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
-            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
+            Assert.IsTrue(popupWindows.Count.Equals(0), "A popup window was found");
 
 
             Utils.TearDown(app);
