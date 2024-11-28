@@ -36,7 +36,7 @@ namespace Classroom_Seating_Planner.Src
             "B BB BB  BB";
 
         // TODO - move this to a file and read that file instead
-        public static string classroomLayoutString = System.IO.File.ReadAllText(classroomLayoutFilePath);
+        //public static string classroomLayoutString = System.IO.File.ReadAllText(classroomLayoutFilePath);
 
         // Used by InterpretClassroomLayoutString 
         public struct ClassroomLayoutData()
@@ -47,8 +47,9 @@ namespace Classroom_Seating_Planner.Src
             public List<Cells.WhiteboardCell> whiteboardCells = [];
         }
 
-        public static ClassroomLayoutData ClassroomLayoutDataFromFile(string classroomLayoutString)
+        public static ClassroomLayoutData GetClassroomLayoutDataFromFile()
         {
+            string classroomLayoutString = System.IO.File.ReadAllText(classroomLayoutFilePath);
             ClassroomLayoutData returnObject = new();
             
             // We later find the biggest column width to set the column count
@@ -115,6 +116,7 @@ namespace Classroom_Seating_Planner.Src
             {
                 WriteDefaultClassListFile();
                 PopupWindow.FileIssuePopup("not found", parent);
+                return;
             }
 
             // If the file exists, get its content as a list
@@ -125,12 +127,14 @@ namespace Classroom_Seating_Planner.Src
             {
                 WriteDefaultClassListFile();
                 PopupWindow.FileIssuePopup("empty", parent);
+                return;
             }
 
             // If the file content is the same as the default list, return the "default" message code
             if (classListFileContent.SequenceEqual(FileHandler.defaultClassList))
             {
                 PopupWindow.FileIssuePopup("default", parent);
+                return;
             }
         }
     
@@ -153,6 +157,7 @@ namespace Classroom_Seating_Planner.Src
             {
                 WriteDefaultClassroomLayoutFile();
                 PopupWindow.FileIssuePopup("not found", parent);
+                return;
             }
 
             // If the file exists, get its content as a list
@@ -163,12 +168,14 @@ namespace Classroom_Seating_Planner.Src
             {
                 WriteDefaultClassroomLayoutFile();
                 PopupWindow.FileIssuePopup("empty", parent);
+                return;
             }
 
             // If the file content is the same as the default list, return the "default" message code
             if (classroomLayoutFileContent.SequenceEqual(FileHandler.defaultClassroomLayout.Split("\n").ToList()))
             {
                 PopupWindow.FileIssuePopup("default", parent);
+                return;
             }
         }
     }

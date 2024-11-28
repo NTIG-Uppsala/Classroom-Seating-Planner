@@ -34,6 +34,7 @@ namespace Classroom_Seating_Planner
         {
             // Pass the current window as the parent window so the popups know if it needs to close
             Src.FileHandler.HandleClassListFileIssues(this);
+            Src.FileHandler.HandleClassroomLayoutFileIssues(this);
 
             // Get the list of student names from the class list file
             this.classListFromFile = Src.FileHandler.GetClassListFromFile();
@@ -41,10 +42,8 @@ namespace Classroom_Seating_Planner
             // Populate the ListBox with the content of listOfNames
             Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
 
-            Src.FileHandler.HandleClassroomLayoutFileIssues(this);
-
             // The argument retrieves data about the classroom layout for the manager to save and use
-            classroomLayoutManager.Initialize(Src.FileHandler.ClassroomLayoutDataFromFile(Src.FileHandler.classroomLayoutString));
+            classroomLayoutManager.Initialize(Src.FileHandler.GetClassroomLayoutDataFromFile());
 
             classroomLayoutManager.DrawChildren();
         }
