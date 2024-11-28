@@ -135,14 +135,33 @@ namespace Tests
         [TestMethod]
         public void NoTablesTest()
         {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(testClassroomLayout: new List<string>(["   TTTT"]));
 
+
+            // Assert that the correct popup is shown when the default list is loaded
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "det finns inga bord");
+
+
+            Utils.TearDown(app);
         }
 
         [TestMethod]
-        public void NoWhiteBoard()
+        public void NoWhiteboardTest()
         {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(testClassroomLayout: new List<string>(["BBBB BBBB BBBB", "", "BBBB BBBB BBBB", "", "BBBB BBBB BBBB"]));
 
+
+            // Assert that the correct popup is shown when the default list is loaded
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "det finns ingen tavla");
+
+
+            Utils.TearDown(app);
         }
+
     }
 }
 
