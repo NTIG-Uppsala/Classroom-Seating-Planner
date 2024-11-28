@@ -74,6 +74,11 @@ namespace Classroom_Seating_Planner.Src
                 tableCell.Draw(this.classroomElement, this);
             });
 
+            if (this.whiteboardManager.whiteboardCoverCell == null)
+            {
+                return;
+            }
+
             // Draw whiteboard
             this.whiteboardManager.whiteboardCoverCell.Draw(this.classroomElement, this);
         }
@@ -85,11 +90,16 @@ namespace Classroom_Seating_Planner.Src
 
             // Reference to the XAML grid
             public List<Cells.WhiteboardCell> whiteboardCells;
-            public Cells.WhiteboardCoverCell whiteboardCoverCell;
+            public Cells.WhiteboardCoverCell? whiteboardCoverCell;
 
             public WhiteboardManager(List<Cells.WhiteboardCell> whiteboardCells)
             {
                 this.whiteboardCells = whiteboardCells;
+
+                if(this.whiteboardCells.Count.Equals(0))
+                {
+                    return;
+                }
 
                 // Get coordinates from all whiteboardCells to use when drawing the cover cell
                 Coordinates smallestCoordinates = GetSmallestCoordinates();

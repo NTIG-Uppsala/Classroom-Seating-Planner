@@ -9,13 +9,13 @@ namespace Classroom_Seating_Planner
     public partial class PopupWindow : System.Windows.Window
     {
         // This is the instructional text that will be displayed in the popup windows
-        public static readonly string classListFileTutorialMessage = $"Klasslistan ligger i\n" +
+        public static readonly string classListFileTutorialMessage = $"Klasslistan ligger i " +
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
-            $"Varje rad i listan är ett namn. Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
-        public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i\n" +
+            $"Varje rad i listan är ett namn. Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+        public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i " +
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
-            $"Varje tecken i filen är en del av klassrummet. B representerar platser och T representerar en del av tavlan.\n" +
-            $"Efter du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+            $"Varje tecken i filen är en del av klassrummet. B representerar platser och T representerar en del av tavlan. " +
+            "Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
         public static readonly string noClassListFileFoundMessage = "Klasslista hittades inte. En textfil har skapats.";
         public static readonly string emptyClassListFileMessage = "Klasslistan är tom. En standardklasslista har skapats.";
@@ -26,8 +26,6 @@ namespace Classroom_Seating_Planner
         public static readonly string defaultClassroomLayoutFileMessage = "Det verkar som att bordskartan inte har uppdaterats.";
         public static readonly string noTablesInLayoutFileMessage = "Det finns inga bord i bordskartan.";
         public static readonly string noWhiteboardsInFileMessage = "Det finns ingen tavla i bordskartan.";
-
-        public static readonly string helpMessage;
 
         public PopupWindow(string popupText, string windowTitle, System.Windows.Window parent)
         {
@@ -72,12 +70,12 @@ namespace Classroom_Seating_Planner
             }
             if (dataFileIssue == "noTablesInLayout")
             {
-                new PopupWindow($"{PopupWindow.defaultClassListFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"{PopupWindow.noTablesInLayoutFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
             if (dataFileIssue == "noWhiteboardsInLayout")
             {
-                new PopupWindow($"{PopupWindow.defaultClassListFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"{PopupWindow.noWhiteboardsInFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
         }

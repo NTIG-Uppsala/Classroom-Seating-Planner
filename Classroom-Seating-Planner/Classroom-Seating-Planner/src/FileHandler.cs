@@ -166,7 +166,7 @@ namespace Classroom_Seating_Planner.Src
             }
 
             // If the file contains no tables, display a popup
-            if (!classroomLayoutFileContent.Any((classroomLayoutFileLine) => classroomLayoutFileLine.Contains('T')))
+            if (!classroomLayoutFileContent.Any((classroomLayoutFileLine) => classroomLayoutFileLine.Contains('B')))
             {
                 PopupWindow.FileIssuePopup("noTablesInLayout", parent);
             };

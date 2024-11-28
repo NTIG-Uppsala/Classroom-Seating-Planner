@@ -141,7 +141,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "det finns inga bord");
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns inga bord");
 
 
             Utils.TearDown(app);
