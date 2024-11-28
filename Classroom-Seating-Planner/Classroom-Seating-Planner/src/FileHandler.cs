@@ -43,7 +43,7 @@ namespace Classroom_Seating_Planner.Src
             public List<Cells.WhiteboardCell> whiteboardCells = [];
         }
 
-        public static ClassroomLayoutData GetClassroomLayoutFromFile()
+        public static ClassroomLayoutData GetClassroomLayoutDataFromFile()
         {
             List<string> classroomLayout = System.IO.File.ReadAllLines(classroomLayoutFilePath).ToList();
             ClassroomLayoutData returnObject = new();
@@ -91,6 +91,20 @@ namespace Classroom_Seating_Planner.Src
                 .Select(name => name.Trim())
                 .Where(name => !string.IsNullOrEmpty(name))
                 .ToList();
+        }
+
+        public static void HandleAllDataFileIssues(System.Windows.Window parent)
+        {
+            HandleClassroomLayoutFileIssues(parent);
+            HandleClassListFileIssues(parent);
+
+            // Check if there are more students than there are available seats/tables
+            int numberOfStudents = GetClassListFromFile().Count;
+            int numberOfTables = System.IO.File.ReadAllText(FileHandler.classroomLayoutFilePath).Count(letter => letter == 'B');
+            if (numberOfStudents > numberOfTables)
+            {
+                PopupWindow.FileIssuePopup("moreStudentsThanTables", parent);
+            }
         }
 
         public static void WriteDefaultClassListFile()
@@ -146,7 +160,7 @@ namespace Classroom_Seating_Planner.Src
             System.IO.File.WriteAllLines(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
         }
 
-        public static void HandleClassroomLayoutFileIssues(Classroom_Seating_Planner.MainWindow parent)
+        public static void HandleClassroomLayoutFileIssues(System.Windows.Window parent)
         {
             // Create the classroom layout file if it does not exist, write the default layout to it, and return the "not found" message code
             if (!System.IO.File.Exists(FileHandler.classroomLayoutFilePath))

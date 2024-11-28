@@ -26,6 +26,7 @@ namespace Classroom_Seating_Planner
         public static readonly string defaultClassroomLayoutFileMessage = "Det verkar som att bordskartan inte har uppdaterats.";
         public static readonly string noTablesInLayoutFileMessage = "Det finns inga bord i bordskartan.";
         public static readonly string noWhiteboardsInFileMessage = "Det finns ingen tavla i bordskartan.";
+        public static readonly string moreStudentsThanTablesMessage = "Det finns fler elever än bord.";
 
         public PopupWindow(string popupText, string windowTitle, System.Windows.Window parent)
         {
@@ -76,6 +77,12 @@ namespace Classroom_Seating_Planner
             if (dataFileIssue == "noWhiteboardsInLayout")
             {
                 new PopupWindow($"{PopupWindow.noWhiteboardsInFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                return;
+            }
+
+            if (dataFileIssue == "moreStudentsThanTables")
+            {
+                new PopupWindow($"{PopupWindow.moreStudentsThanTablesMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
         }

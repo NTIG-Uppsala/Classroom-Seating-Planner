@@ -213,7 +213,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "du har fler elever än bord");
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns fler elever än bord");
 
 
             Utils.TearDown(app);
