@@ -44,8 +44,10 @@ namespace Classroom_Seating_Planner
 
             // The argument retrieves data about the classroom layout for the manager to save and use
             classroomLayoutManager.Initialize(Src.FileHandler.GetClassroomLayoutDataFromFile());
-
             classroomLayoutManager.DrawChildren();
+
+            System.Windows.Size windowSize = new(this.Width, this.Height);
+            Src.ClassroomLayoutHandler.UpdateClassroomLayoutSize(windowSize, this);
         }
 
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
