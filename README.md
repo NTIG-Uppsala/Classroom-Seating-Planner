@@ -15,9 +15,11 @@
 ## Development Documents
 
 <!-- Below are the links to the guides/instructions -->
+
 -   [Automatic Testing System](docs/automatic-testing-system.md)
 -   [Publishing a New Release](docs/publishing-a-new-release.md)
 -   [File System Interactions](docs/file-system-interactions.md)
+-   [Layout Elements](docs/layout-elements.md)
 <!-- Below are the links to the regulation docs -->
 -   [Definition of Done](docs/definition-of-done.md)
 -   [Coding Standards](docs/coding-standard.md)
