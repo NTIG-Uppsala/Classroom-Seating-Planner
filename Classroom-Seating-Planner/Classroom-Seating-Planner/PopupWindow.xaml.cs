@@ -93,6 +93,12 @@ namespace Classroom_Seating_Planner
                 new PopupWindow($"{PopupWindow.moreStudentsThanTablesMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
+
+            if (dataFileIssue == "emptyClassroomLayout")
+            {
+                new PopupWindow($"{PopupWindow.emptyClassroomLayoutFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                return;
+            }
         }
     }
 }

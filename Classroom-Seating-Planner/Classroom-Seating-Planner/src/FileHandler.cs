@@ -188,6 +188,7 @@ namespace Classroom_Seating_Planner.Src
             if (classroomLayoutFileContent.SequenceEqual([]) || classroomLayoutFileContent.All((string row) => row.Trim().Length.Equals(0)))
             {
                 CreateDefaultClassroomLayoutFile();
+                PopupWindow.FileIssuePopup("emptyClassroomLayout", parent);
                 return;
             }
 
