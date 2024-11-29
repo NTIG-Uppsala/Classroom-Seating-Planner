@@ -103,7 +103,7 @@ namespace Tests
             // Restore backup data if backup files already exist
             Utils.FileHandler.RestoreAllDataFiles();
 
-            // Create the data folder and the default class list file if they don't exist
+            // Create the data folder and the default files if they don't exist
             Utils.FileHandler.CreateDefaultDataFiles();
 
             if (!ignoreClassListFileBackup)
@@ -165,6 +165,9 @@ namespace Tests
 
             // Restore the data files by filling them with backed up information from before the test
             Utils.FileHandler.RestoreAllDataFiles();
+
+            // Create the data folder and the default files if tests have gone wrong and they don't exist
+            Utils.FileHandler.CreateDefaultDataFiles();
 
             // Terminate the app
             app.Close();
@@ -478,6 +481,12 @@ namespace Tests
 
             public static void RestoreAllDataFiles()
             {
+                // If the data directory does not exist, abort and let the default files be created after this function
+                if(!System.IO.Directory.Exists(Utils.FileHandler.dataFolderPath))
+                {
+                    return;
+                }
+
                 // Find all backup files and restore them
                 System.IO.Directory.GetFiles(Utils.FileHandler.dataFolderPath)
                     .Where((dataFile) => dataFile.Contains(".bak"))
