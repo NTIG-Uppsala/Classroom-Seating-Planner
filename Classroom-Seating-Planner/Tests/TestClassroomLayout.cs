@@ -176,6 +176,36 @@ namespace Tests
 
             Utils.TearDown(app);
         }
+
+        [TestMethod]
+        public void EmptyClassroomLayoutFileTest()
+        {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(testClassroomLayout: new List<string>([]));
+
+
+            // Assert that the correct popup is shown when the file is empty
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Bordskartan är tom");
+
+
+            Utils.TearDown(app);
+        }
+
+        [TestMethod]
+        public void WhitespaceOnlyClassroomLayoutFileTest()
+        {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(testClassroomLayout: new List<string>(["  ", "", "    ", ""]));
+
+
+            // Assert that the correct popup is shown when the file is empty
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Bordskartan är tom");
+
+
+            Utils.TearDown(app);
+        }
     }
 }
 

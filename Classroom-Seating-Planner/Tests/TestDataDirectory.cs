@@ -86,6 +86,7 @@ namespace Tests
 
             // Check that the correct popup is shown when the directory is missing
             Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Alla filer hittades inte");
+            Utils.PopupHandler.NoPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "är tom");
 
             // Delete the data folder after the tests have created them
             System.IO.Directory.Delete(Utils.FileHandler.dataFolderPath, true);
