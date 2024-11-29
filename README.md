@@ -10,7 +10,7 @@
     -   Du kan få en varning från din webbläsare eller antivirusprogram. Detta beror på att filen inte laddas ner ofta. Du kan ignorera denna varning och ladda ner filen.
 4.  När nedladdningen är klar, kör programmet.
     -   Du kan få en varning från Windows Defender. Klicka på `Mer information` och sedan `Kör ändå` för att ignorera varningen och köra den ändå.
-5.  När programmet körs första gången kommer en popup-ruta med instruktioner om hur man redigerar klasslistan. Du kan alltid nå den informationen genom att klicka på `Hjälp`-knappen.
+5.  När programmet körs första gången kommer en popup-ruta med instruktioner om hur man redigerar klasslistan och bordskartan. Du kan alltid nå den informationen genom att klicka på `Hjälp`-knappen.
 
 ## Development Documents
 
