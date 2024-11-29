@@ -87,7 +87,7 @@ namespace Classroom_Seating_Planner
 
             if (dataFileIssue == "emptyClassroomLayout")
             {
-                new PopupWindow($"Bordskartan är tom. En standardklasslista har skapats. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Bordskartan är tom. En standardbordskarta har skapats. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
         }
