@@ -17,11 +17,13 @@ namespace Classroom_Seating_Planner
             $"Varje tecken i filen är en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan. " +
             "Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
-        public static readonly string helpTextMessage = $"Klasslistan och bordskartan ligger i " +
+        public static readonly string helpWindowMessage = $"Klasslistan och bordskartan ligger i " +
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"I klasslistan är varje rad ett namn.\n" +
             $"I bordskartan är varje tecken en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan.\n" +
             $"Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+
+        public static readonly string notAllFilesWereFoundMessage = $"Alla filer hittades inte.";
 
         public static readonly string noClassListFileFoundMessage = "Klasslista hittades inte. En textfil har skapats.";
         public static readonly string emptyClassListFileMessage = "Klasslistan är tom. En standardklasslista har skapats.";
@@ -60,9 +62,9 @@ namespace Classroom_Seating_Planner
 
         public static void FileIssuePopup(string dataFileIssue, Window parent)
         {
-            if (dataFileIssue == "noClassList")
+            if (dataFileIssue == "notAllFilesWereFound")
             {
-                new PopupWindow($"{PopupWindow.noClassListFileFoundMessage} {PopupWindow.classListFileTutorialMessage}", "Information", parent);
+                new PopupWindow($"{PopupWindow.notAllFilesWereFoundMessage} {PopupWindow.helpWindowMessage}", "Information", parent);
                 return;
             }
             if (dataFileIssue == "emptyClassList")

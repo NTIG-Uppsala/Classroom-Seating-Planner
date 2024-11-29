@@ -95,8 +95,35 @@ namespace Classroom_Seating_Planner.Src
 
         public static void HandleAllDataFileIssues(System.Windows.Window parent)
         {
-            HandleClassroomLayoutFileIssues(parent);
-            HandleClassListFileIssues(parent);
+            // Create booleans regarding the existance of the files at the start of the program
+            bool classListFileExists = System.IO.File.Exists(FileHandler.classListFilePath);
+            bool classroomLayoutFileExists = System.IO.File.Exists(FileHandler.classroomLayoutFilePath);
+
+            // Give popup warning if either file does not exist
+            if (!classListFileExists || !classroomLayoutFileExists)
+            {
+                PopupWindow.FileIssuePopup("notAllFilesWereFound", parent);
+                
+                if (!classListFileExists)
+                {
+                    CreateDefaultClassListFile();
+                }
+
+                if (!classroomLayoutFileExists)
+                {
+                    CreateDefaultClassroomLayoutFile();
+                }
+            }
+
+            if(classListFileExists)
+            {
+                HandleClassListFileIssues(parent);
+            }
+
+            if(classroomLayoutFileExists)
+            {
+                HandleClassroomLayoutFileIssues(parent);
+            }
 
             // Check if there are more students than there are available seats/tables
             int numberOfStudents = GetClassListFromFile().Count;
@@ -107,7 +134,7 @@ namespace Classroom_Seating_Planner.Src
             }
         }
 
-        public static void WriteDefaultClassListFile()
+        public static void CreateDefaultClassListFile()
         {
             // Make sure the data folder exists
             if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
@@ -121,21 +148,13 @@ namespace Classroom_Seating_Planner.Src
 
         public static void HandleClassListFileIssues(System.Windows.Window parent)
         {
-            // Create the class list file if it does not exist, write the default list to it, and return the "not found" message code
-            if (!System.IO.File.Exists(FileHandler.classListFilePath))
-            {
-                WriteDefaultClassListFile();
-                PopupWindow.FileIssuePopup("noClassList", parent);
-                return;
-            }
-
             // If the file exists, get its content as a list
             List<string> classListFileContent = GetClassListFromFile();
 
             // If the file is empty, write the default list to it and return the "empty" message code
             if (classListFileContent.SequenceEqual([]))
             {
-                WriteDefaultClassListFile();
+                CreateDefaultClassListFile();
                 PopupWindow.FileIssuePopup("emptyClassList", parent);
                 return;
             }
@@ -148,7 +167,7 @@ namespace Classroom_Seating_Planner.Src
             }
         }
     
-        public static void WriteDefaultClassroomLayoutFile()
+        public static void CreateDefaultClassroomLayoutFile()
         {
             // Make sure the data folder exists
             if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
@@ -162,20 +181,13 @@ namespace Classroom_Seating_Planner.Src
 
         public static void HandleClassroomLayoutFileIssues(System.Windows.Window parent)
         {
-            // Create the classroom layout file if it does not exist, write the default layout to it, and return the "not found" message code
-            if (!System.IO.File.Exists(FileHandler.classroomLayoutFilePath))
-            {
-                WriteDefaultClassroomLayoutFile();
-                return;
-            }
-
             // If the file exists, get its content as a list
             List<string> classroomLayoutFileContent = System.IO.File.ReadAllLines(FileHandler.classroomLayoutFilePath).ToList();
 
             // If the file is empty or only contains whitespace, write the default list to it and return the "empty" message code
             if (classroomLayoutFileContent.SequenceEqual([]) || classroomLayoutFileContent.All((string row) => row.Trim().Length.Equals(0)))
             {
-                WriteDefaultClassroomLayoutFile();
+                CreateDefaultClassroomLayoutFile();
                 return;
             }
 
