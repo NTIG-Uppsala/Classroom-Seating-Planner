@@ -14,3 +14,7 @@ Rita upp XAML template / exempel
 // System.Windows.Controls.Grid.SetColumn(label, 4);
 //
 // ClassroomElement.Children.Add(label);
+
+---
+
+[Back to README.](README.md)
