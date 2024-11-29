@@ -10,7 +10,7 @@ namespace Tests
     {
 
         [TestMethod]
-        public void OpenAndCloseHelpWindowTest()
+        public void HelpWindowTest()
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
@@ -23,8 +23,7 @@ namespace Tests
 
             // Find the popup window
             List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
-            Assert.IsFalse(popupWindows.Count.Equals(0), "No popup window was found");
-            Assert.IsTrue(popupWindows.Count.Equals(1), "There is more than one popup window");
+            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.helpPopupName, "Klasslistan och bordskartan ligger i");
 
             // Close the popup immediately
             FlaUIElement.AutomationElement closeButton = popupWindows[0].FindFirstDescendant(cf.ByText(Utils.PopupHandler.okayButtonText));
