@@ -14,8 +14,14 @@ namespace Classroom_Seating_Planner
             $"Varje rad i listan är ett namn. Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
         public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i " +
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
-            $"Varje tecken i filen är en del av klassrummet. B representerar platser och T representerar en del av tavlan. " +
+            $"Varje tecken i filen är en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan. " +
             "Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+
+        public static readonly string helpTextMessage = $"Klasslistan och bordskartan ligger i " +
+            $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
+            $"I klasslistan är varje rad ett namn.\n" +
+            $"I bordskartan är varje tecken en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan.\n" +
+            $"Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
         public static readonly string noClassListFileFoundMessage = "Klasslista hittades inte. En textfil har skapats.";
         public static readonly string emptyClassListFileMessage = "Klasslistan är tom. En standardklasslista har skapats.";
