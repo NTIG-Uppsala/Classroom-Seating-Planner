@@ -1,0 +1,14 @@
+{
+    "name": "classroom-seating-planner",
+    "version": "1.0.0",
+    "description": "This is a TE4 project by the group Teachers' Pets. Group members: Viggo Ström, Axel Thornberg, Jesper Cejie.",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "start": "node constraints-experiments/experimenting.js"
+    },
+    "author": "",
+    "license": "ISC"
+}

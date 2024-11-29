@@ -1,0 +1,42 @@
+[
+    {
+        "name": "A",
+        "constraints": {
+            "closeToWhiteboard": true
+        }
+    },
+    {
+        "name": "C",
+        "constraints": {}
+    },
+    {
+        "name": "D",
+        "constraints": {}
+    },
+    {
+        "name": "E",
+        "constraints": {}
+    },
+    {
+        "name": "F",
+        "constraints": {
+            "closeToWhiteboard": true
+        }
+    },
+    {
+        "name": "G",
+        "constraints": {}
+    },
+    {
+        "name": "H",
+        "constraints": {}
+    },
+    {
+        "name": "I",
+        "constraints": {}
+    },
+    {
+        "name": "J",
+        "constraints": {}
+    }
+]
