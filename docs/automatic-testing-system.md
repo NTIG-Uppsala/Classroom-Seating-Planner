@@ -13,6 +13,7 @@ _**Do not move your cursor or touch your keyboard while the tests are running!**
 If you receive errors when trying to run the tests, try the following:
 
 -   Make sure no windows from previous tests are still running.
+-   Run the failed tests one at a time.
 -   Restart Visual Studio.
 -   Make sure no XAML-references such as automation ID or text content are incorrect.
 
