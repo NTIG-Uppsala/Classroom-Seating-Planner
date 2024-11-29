@@ -1,5 +1,6 @@
 -   [ ] Lägg till caseSensitive i Options i Utils.XAMLHandler?
 -   [ ] Ändra properties till PascalCase?
+-   [ ] Lägg till funktionalitet i AnyPopupWindowContainsTest som kollar att det bara finns en popup
 
 Rita upp XAML template / exempel
 
