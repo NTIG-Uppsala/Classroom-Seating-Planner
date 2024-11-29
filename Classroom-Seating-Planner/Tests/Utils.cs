@@ -24,6 +24,18 @@ namespace Tests
             "Förnamn Efternamn",
         ];
 
+        // Classroom layout for default file if file does not already exist
+        public static readonly List<string> defaultClassroomLayout =
+        [
+            "     TTTT",
+            "",
+            "BBBB BBBB BBBB",
+            "",
+            "BBBB BBBB BBBB",
+            "",
+            "BBBB BBBB BBBB",
+        ];
+
         // Class list used for tests unless another list is specified
         private static readonly List<string> testingClassList =
         [
@@ -60,18 +72,6 @@ namespace Tests
             "Örjan Johansson Florist",
             "Främling Skådespelare",
             "Émil Låås",
-        ];
-
-        // Classroom layout for default file if file does not already exist
-        public static readonly List<string> defaultClassroomLayout =
-        [
-            "     TTTT",
-            "",
-            "BBBB BBBB BBBB",
-            "",
-            "BBBB BBBB BBBB",
-            "",
-            "BBBB BBBB BBBB",
         ];
 
         // Classroom layout used for tests unless another layout is specified
