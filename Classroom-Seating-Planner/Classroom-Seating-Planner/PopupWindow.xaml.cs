@@ -9,32 +9,19 @@ namespace Classroom_Seating_Planner
     public partial class PopupWindow : System.Windows.Window
     {
         // This is the instructional text that will be displayed in the popup windows
-        public static readonly string classListFileTutorialMessage = $"Klasslistan ligger i " +
+        public static readonly string classListFileTutorialMessage = $"Klasslistan ligger i " + 
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"Varje rad i listan är ett namn. Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
-        public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i " +
+        public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i " + 
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"Varje tecken i filen är en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan. " +
             "Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
 
-        public static readonly string helpWindowMessage = $"Klasslistan och bordskartan ligger i " +
+        public static readonly string helpWindowMessage = $"Klasslistan och bordskartan ligger i " + 
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"I klasslistan är varje rad ett namn.\n" +
             $"I bordskartan är varje tecken en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan.\n" +
             $"Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
-
-        public static readonly string notAllFilesWereFoundMessage = $"Alla filer hittades inte.";
-
-        public static readonly string noClassListFileFoundMessage = "Klasslista hittades inte. En textfil har skapats.";
-        public static readonly string emptyClassListFileMessage = "Klasslistan är tom. En standardklasslista har skapats.";
-        public static readonly string defaultClassListFileMessage = "Det verkar som att klasslistan inte har uppdaterats.";
-
-        public static readonly string noClassroomLayoutFileFoundMessage = "Ingen bordskarta hittades. En textfil har skapats.";
-        public static readonly string emptyClassroomLayoutFileMessage = "Bordskartan är tom. En standardklasslista har skapats.";
-        public static readonly string defaultClassroomLayoutFileMessage = "Det verkar som att bordskartan inte har uppdaterats.";
-        public static readonly string noTablesInLayoutFileMessage = "Det finns inga bord i bordskartan.";
-        public static readonly string noWhiteboardsInFileMessage = "Det finns ingen tavla i bordskartan.";
-        public static readonly string moreStudentsThanTablesMessage = "Det finns fler elever än bord.";
 
         public PopupWindow(string popupText, string windowTitle, System.Windows.Window parent)
         {
@@ -57,46 +44,50 @@ namespace Classroom_Seating_Planner
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", System.IO.Path.Combine(Src.FileHandler.dataFolderPath));
+            Process.Start("explorer.exe", Src.FileHandler.dataFolderPath);
         }
 
         public static void FileIssuePopup(string dataFileIssue, Window parent)
         {
             if (dataFileIssue == "notAllFilesWereFound")
             {
-                new PopupWindow($"{PopupWindow.notAllFilesWereFoundMessage} {PopupWindow.helpWindowMessage}", "Information", parent);
+                new PopupWindow($"Alla filer hittades inte. {PopupWindow.helpWindowMessage}", "Information", parent);
                 return;
             }
+
             if (dataFileIssue == "emptyClassList")
             {
-                new PopupWindow($"{PopupWindow.emptyClassListFileMessage} {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Klasslistan är tom. En standardklasslista har skapats. {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
                 return;
             }
+
             if (dataFileIssue == "defaultClassList")
             {
-                new PopupWindow($"{PopupWindow.defaultClassListFileMessage} {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Det verkar som att klasslistan inte har uppdaterats. {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
                 return;
             }
+
             if (dataFileIssue == "noTablesInLayout")
             {
-                new PopupWindow($"{PopupWindow.noTablesInLayoutFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Det finns inga bord i bordskartan. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
+
             if (dataFileIssue == "noWhiteboardsInLayout")
             {
-                new PopupWindow($"{PopupWindow.noWhiteboardsInFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Det finns ingen tavla i bordskartan. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
             if (dataFileIssue == "moreStudentsThanTables")
             {
-                new PopupWindow($"{PopupWindow.moreStudentsThanTablesMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Det finns fler elever än bord. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
             if (dataFileIssue == "emptyClassroomLayout")
             {
-                new PopupWindow($"{PopupWindow.emptyClassroomLayoutFileMessage} {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
+                new PopupWindow($"Bordskartan är tom. En standardklasslista har skapats. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
         }
