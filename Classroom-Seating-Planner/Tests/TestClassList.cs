@@ -119,8 +119,9 @@ namespace Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp(ignoreTestingClassList: true, deleteClassListFile: true);
 
+
             // Assert that the correct popup is shown when the file is missing
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Klasslista hittades inte");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Alla filer hittades inte");
 
 
             Utils.TearDown(app);
@@ -136,7 +137,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the empty list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Klasslistan är tom");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Klasslistan är tom");
 
 
             Utils.TearDown(app);
@@ -152,7 +153,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "klasslistan inte har uppdaterats");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "klasslistan inte har uppdaterats");
 
 
             Utils.TearDown(app);
@@ -214,7 +215,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns fler elever än bord");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns fler elever än bord");
 
 
             Utils.TearDown(app);

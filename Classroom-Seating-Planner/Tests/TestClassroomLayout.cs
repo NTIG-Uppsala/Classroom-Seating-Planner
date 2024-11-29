@@ -141,7 +141,7 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns inga bord");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns inga bord");
 
 
             Utils.TearDown(app);
@@ -156,12 +156,26 @@ namespace Tests
 
 
             // Assert that the correct popup is shown when the default list is loaded
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns ingen tavla");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.badFilePopupName, "Det finns ingen tavla");
 
 
             Utils.TearDown(app);
         }
 
+        [TestMethod]
+        public void MissingClassroomLayoutFileTest()
+        {
+            // Set up/start the test
+            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+                = Utils.SetUp(ignoreTestingClassroomLayout: true, deleteClassroomLayoutFile: true);
+
+
+            // Assert that the correct popup is shown when the file is missing
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Alla filer hittades inte");
+
+
+            Utils.TearDown(app);
+        }
     }
 }
 

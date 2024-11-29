@@ -23,7 +23,7 @@ namespace Tests
 
             // Find the popup window
             List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, Utils.PopupHandler.helpPopupName);
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.helpPopupName, "Klasslistan och bordskartan ligger i");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.helpPopupName, "Klasslistan och bordskartan ligger i");
 
             // Close the popup immediately
             FlaUIElement.AutomationElement closeButton = popupWindows[0].FindFirstDescendant(cf.ByText(Utils.PopupHandler.okayButtonText));

@@ -418,15 +418,17 @@ namespace Tests
                 return windows.Where(window => window.Name == windowTitle).ToList();
             }
 
-            public static void PopupWindowContainsText(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUI.Core.Conditions.ConditionFactory cf, string windowTitle, string expectedText)
+            public static void AnyPopupWindowContainsText(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUI.Core.Conditions.ConditionFactory cf, string windowTitle, string expectedText)
             {
                 List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, windowTitle);
 
+                // Test fails if no popup windows are found
                 if (popupWindows == null || popupWindows.Count == 0)
                 {
                     Assert.Fail("No popup windows were found");
                 }
 
+                // Check if any popup window contains the expected text
                 bool anyPopupWindowContainsExpectedText = popupWindows.Any((FlaUIElement.Window window) =>
                 {
                     FlaUIElement.AutomationElement textBody = window.FindFirstDescendant(cf.ByAutomationId("TextBody"));
@@ -434,6 +436,26 @@ namespace Tests
                 });
 
                 Assert.IsTrue(anyPopupWindowContainsExpectedText, "No popup window contains {0}", expectedText);
+            }
+
+            public static void NoPopupWindowContainsText(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUI.Core.Conditions.ConditionFactory cf, string windowTitle, string expectedText)
+            {
+                List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, windowTitle);
+
+                // Test is passed if no popup windows are found
+                if (popupWindows.Count == 0)
+                {
+                    return;
+                }
+
+                // Check if any popup window contains the expected text
+                bool anyPopupWindowContainsExpectedText = popupWindows.Any((FlaUIElement.Window window) =>
+                {
+                    FlaUIElement.AutomationElement textBody = window.FindFirstDescendant(cf.ByAutomationId("TextBody"));
+                    return textBody != null && textBody.Name.Contains(expectedText);
+                });
+
+                Assert.IsFalse(anyPopupWindowContainsExpectedText, "There is a popup window that contains {0}", expectedText);
             }
         }
 

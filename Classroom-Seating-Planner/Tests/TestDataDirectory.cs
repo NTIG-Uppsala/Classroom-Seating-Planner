@@ -85,7 +85,7 @@ namespace Tests
                 = Utils.SetUp(ignoreClassListFileBackup: true, ignoreClassroomLayoutFileBackup: true, ignoreTestingClassList: true, ignoreTestingClassroomLayout: true, createDataBackupFolder: true, deleteDataFolder: true);
 
             // Check that the correct popup is shown when the directory is missing
-            Utils.PopupHandler.PopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Klasslista hittades inte");
+            Utils.PopupHandler.AnyPopupWindowContainsText(app, automation, cf, Utils.PopupHandler.missingFilePopupName, "Alla filer hittades inte");
 
             // Delete the data folder after the tests have created them
             System.IO.Directory.Delete(Utils.FileHandler.dataFolderPath, true);
