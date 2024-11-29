@@ -159,7 +159,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void TooManyStudentsTest()
+        public void MoreStudentsThanTablesTest()
         {
             // This is defined to be independent of the default testing list to always have a list of 33 names
             // to test against 24 tables to make sure that the program displays a warning when it should
