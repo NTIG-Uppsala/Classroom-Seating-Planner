@@ -21,19 +21,12 @@
 -   [ ] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
 -   [ ] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
 -   [ ] Cell.cs -> hur ska cellen läggas till i lista? nu är wAcc, eftersom den lägger till sig själv.
-
-Rita upp XAML template / exempel
-
-// var label = new System.Windows.Controls.Label() {
-// Content = "I exist",
-// HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
-// VerticalAlignment = System.Windows.VerticalAlignment.Center
-// };
-//
-// System.Windows.Controls.Grid.SetRow(label, 4);
-// System.Windows.Controls.Grid.SetColumn(label, 4);
-//
-// ClassroomElement.Children.Add(label);
+-   [ ] Man kan få flera popups samtidigt vilket inte är nice. Kanske skapa ett bannersystem inom någon framtid?
+-   [ ] .Equals() i HandleAllDataFileIssues 
+-   [ ] Se över formuleringen i "det finns fler elever än bord". Bord/platser är svårläst. Platser är mer korrekt och kanske tydligare.
+-   [ ] Se över popupmeddelandena allmänt med deras formuleringar.
+-   [ ] Lägg till ett sätt att kommentera ut rader i layoutfilen (t.ex. #)
+-   [ ] Kommentera layoutfilen med instruktioner på hur man gör en layout
 
 ---
 
