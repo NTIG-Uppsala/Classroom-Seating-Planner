@@ -348,7 +348,7 @@ def generate_random_seating_arrangement():
 
 grid_generations = []
 
-iterations = 1000000
+iterations = 1000
 
 for i in range(iterations):
     # print("--------------------")
@@ -394,12 +394,15 @@ print(f"Average score: {grid_generations_total_score / len(grid_generations)}\n"
 
 print("--------------------")
 
-print(
-    f"Scores above or equal to 50: {len(scores_above_or_equal_to_50)} | Max: {max(scores_above_or_equal_to_50)} | %: {len(scores_above_or_equal_to_50)/iterations*100}\n"
-)
-print(
-    f"Scores above or equal to 60: {len(scores_above_or_equal_to_60)} | Max: {max(scores_above_or_equal_to_60)} | %: {len(scores_above_or_equal_to_60)/iterations*100}\n"
-)
+if len(scores_above_or_equal_to_50) > 0:
+    print(
+        f"Scores above or equal to 50: {len(scores_above_or_equal_to_50)} | Max: {max(scores_above_or_equal_to_50)} | %: {len(scores_above_or_equal_to_50)/iterations*100}\n"
+    )
+
+if len(scores_above_or_equal_to_60) > 0:
+    print(
+        f"Scores above or equal to 60: {len(scores_above_or_equal_to_60)} | Max: {max(scores_above_or_equal_to_60)} | %: {len(scores_above_or_equal_to_60)/iterations*100}\n"
+    )
 
 # for score in scores_above_50:
 #     print(score)
