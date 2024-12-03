@@ -15,7 +15,8 @@ If you receive errors when trying to run the tests, try the following:
 -   Make sure no windows from previous tests are still running.
 -   Run the failed tests one at a time.
 -   Restart Visual Studio.
--   Make sure no XAML-references such as automation ID or text content are incorrect.
+-   Restart your computer.
+-   Make sure the XAML property values match the C# code that needs to reference them. For example, AutomationID and HelpText.
 
 ## Editing the Tests
 
