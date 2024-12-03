@@ -22,7 +22,6 @@ tables = [
 
 # have list with available tables
 available_tables = [table["table"] for table in tables if table["occupant"] == " "]
-# print(available_tables)
 
 # have list with constraints : different types (binary/dynamic) and levels of importance (0-10)
 constraints = [
@@ -70,6 +69,11 @@ constraints = [
     },
 ]
 grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+
+def reset():
+    available_students = students.copy()
+    # grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 
 
 def calculate_distance(x1, y1, x2, y2):
@@ -162,7 +166,7 @@ def check_seating_score(
                             f"constraint score: {constraint_score}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]}"
                         )
 
-            # Check what type of constraing it is
+            # Check what type of constraint it is
             if (
                 constraint["constraint"] == "farFrom"
             ):  # TODO - something that makes it easy to check if constraint is regarding another student or if constraint is regarding an object
@@ -277,29 +281,6 @@ def check_seating_score(
 
 table = list(filter(lambda x: x["table"] == "1", tables))[0]
 
-# print(check_seating_score("E", table))
-
-# function to check how well constraints are met when student is placed at a table
-#   calculate score based on constraints : average or sum - sum could be beneficial as someone could have a lot of importance 10
-#               constraints and that should be reflected in the score of this students seating and in the score of the overall seating arrangement
-
-#       if constraint is to be close to whiteboard
-#           base score on distance to whiteboard and importance of constraint
-
-#       if constraint is to be close to window
-#           base score on distance to window and importance of constraint
-
-#       if constraint is to be close to door
-#           base score on distance to door and importance of constraint
-
-#       if constraint is to be far from another student
-#           base score on distance to other student and importance of constraint
-
-#       if constraint is to not sit next to another student
-#           base score whether constraint is met and importance of constraint
-
-#       return score
-
 
 def generate_random_seating_arrangement():
 
@@ -308,11 +289,10 @@ def generate_random_seating_arrangement():
     sorted_constraints = sorted(
         constraints, key=lambda x: x["importance"], reverse=True
     )
-    # print(sorted_constraints)
 
     # loop through constraints and place students referenced in constraints at tables
     for constraint in sorted_constraints:
-        print("\n-----------------------------------\n")
+        # print("\n-----------------------------------\n")
         if constraint["element"] in available_students:
             # get available tables
             available_tables = [table for table in tables if table["occupant"] == " "]
@@ -328,19 +308,17 @@ def generate_random_seating_arrangement():
             if len(available_tables_with_constraints) > 0:
                 random_table = random.choice(available_tables_with_constraints)
                 seating_score = check_seating_score(
-                    constraint["element"], random_table, True
+                    constraint["element"], random_table, False
                 )
                 seating_arrangement_score += seating_score
-                print(
-                    f"element: {constraint["element"]}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
-                )
+                # print(
+                #     f"element: {constraint["element"]}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
+                # )
                 random_table["occupant"] = constraint["element"]
                 available_students.remove(constraint["element"])
 
         if constraint["constraintElement"] in available_students:
-            # print(
-            #     f"constraint element: {constraint["constraintElement"]}, available students: {available_students}"
-            # )
+
             # get available tables
             available_tables = [table for table in tables if table["occupant"] == " "]
 
@@ -351,33 +329,90 @@ def generate_random_seating_arrangement():
                 if check_seating_score(constraint["constraintElement"], table, False)
                 > 0
             ]
-            print()
+            # print()
             # randomly select table from available tables with constraints
             if len(available_tables_with_constraints) > 0:
                 random_table = random.choice(available_tables_with_constraints)
                 seating_score = check_seating_score(
-                    constraint["constraintElement"], random_table, True
+                    constraint["constraintElement"], random_table, False
                 )
                 seating_arrangement_score += seating_score
-                print(
-                    f"element: {constraint["constraintElement"]}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
-                )
+                # print(
+                #     f"element: {constraint["constraintElement"]}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
+                # )
                 random_table["occupant"] = constraint["constraintElement"]
                 available_students.remove(constraint["constraintElement"])
-
-    # print(tables)
-    # print(available_students)
 
     return seating_arrangement_score
 
 
-print(generate_random_seating_arrangement())
+grid_generations = []
 
-for table in tables:
-    grid[table["y"]][table["x"]] = table["occupant"]
+iterations = 1000000
 
-for row in grid:
-    print(row)
+for i in range(iterations):
+    # print("--------------------")
+    available_students = students.copy()
+    for table in tables:
+        table["occupant"] = " "
+        grid[table["y"]][table["x"]] = table["occupant"]
+
+    reset()
+
+    score = generate_random_seating_arrangement()
+    for table in tables:
+        grid[table["y"]][table["x"]] = table["occupant"]
+
+    grid_generations.append({"score": score, "grid": grid.copy()})
+    # print("\n score \n")
+    # print(score)
+    # print("\n grid \n")
+    # for row in grid:
+    #     print(row)
+    # grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+# print("--------------------")
+grid_generations_total_score = 0
+grid_generations_scores_list = []
+scores_above_or_equal_to_50 = []
+scores_above_or_equal_to_60 = []
+for grid_generation in grid_generations:
+    # print(grid_generation["score"])
+    grid_generations_total_score += grid_generation["score"]
+    if grid_generation["score"] >= 50:
+        scores_above_or_equal_to_50.append(grid_generation["score"])
+        if grid_generation["score"] >= 60:
+            scores_above_or_equal_to_60.append(grid_generation["score"])
+    grid_generations_scores_list.append(grid_generation["score"])
+    # for row in grid_generation["grid"]:
+    #     print(row)
+    # print("\n")
+
+print("--------------------")
+print(f"Total score: {grid_generations_total_score}\n")
+print(f"Average score: {grid_generations_total_score / len(grid_generations)}\n")
+
+print("--------------------")
+
+print(
+    f"Scores above or equal to 50: {len(scores_above_or_equal_to_50)} | Max: {max(scores_above_or_equal_to_50)} | %: {len(scores_above_or_equal_to_50)/iterations*100}\n"
+)
+print(
+    f"Scores above or equal to 60: {len(scores_above_or_equal_to_60)} | Max: {max(scores_above_or_equal_to_60)} | %: {len(scores_above_or_equal_to_60)/iterations*100}\n"
+)
+
+# for score in scores_above_50:
+#     print(score)
+
+# for score in grid_generations_scores_list:
+#     if score > 50:
+#         print(score)
+
+# for grid_generation in grid_generations:
+#     print(grid_generation["score"])
+#     for row in grid_generation["grid"]:
+#         print(row)
+#     print("\n")
 
 # function to generate a random seating arrangement
 
