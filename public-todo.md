@@ -27,6 +27,8 @@
 -   [ ] Se över popupmeddelandena allmänt med deras formuleringar.
 -   [ ] Lägg till ett sätt att kommentera ut rader i layoutfilen (t.ex. #)
 -   [ ] Kommentera layoutfilen med instruktioner på hur man gör en layout
+-   [ ] File system interactions borde kanske byta namn (t.ex. hard coded data).
+-   [ ] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
 
 ---
 
