@@ -13,7 +13,7 @@ To create a release follow these steps in Visual Studio:
 7. Right click `Classroom-Seating-Planner` in the solution explorer and choose `Publish...`.
 8. If it is the first time you are publishing, follow the steps under [Configuring the Profile](#configuring-the-profile).
 9. Click the `Publish` button that has an icon.
-10. Navigate to [Classroom-Seating-Planner/Classroom-Seating-Planner/bin/Release/net8.0-windows/win-x64/publish/win-x64/](../Classroom-Seating-Planner/Classroom-Seating-Planner/bin/Release/net8.0-windows/win-x64/publish/win-x64/) in file explorer to find the built exe-file.
+10. Navigate to [Classroom-Seating-Planner/Classroom-Seating-Planner/bin/Release/net8.0-windows/win-x64/publish/win-x64/](../Classroom-Seating-Planner/Classroom-Seating-Planner/bin/Release/net8.0-windows/win-x64/publish/win-x64/) in file explorer to find the built exe file.
 
 ## Publishing a Build on GitHub
 
