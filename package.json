@@ -7,7 +7,7 @@
         "doc": "docs"
     },
     "scripts": {
-        "start": "node constraints-experiments/experimenting.js"
+        "start": "cls && node constraints-experiments/experimenting.js"
     },
     "author": "",
     "license": "ISC"

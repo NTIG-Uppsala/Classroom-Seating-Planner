@@ -29,7 +29,9 @@
     },
     {
         "name": "H",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "I",
