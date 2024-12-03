@@ -31,59 +31,104 @@ const getFactorial = (n) => {
     return Array.from({ length: n }, (_, i) => i + 1).reduce((acc, curr) => acc * curr, 1);
 };
 
-const getAllPermutations = (grid, people) => {
-    // All people with at least one value in the constraint object being a truthy value
-    const peopleWithConstraints = people.filter((person) => Object.values(person.constraints).some(Boolean));
-    const tables = grid.filter((cell) => cell.type === "table");
-    const k = peopleWithConstraints.length;
-    const n = tables.length;
-    // Time complexity: O(n!/(n-k)!)
-    const numberOfPermutations = getFactorial(n) / getFactorial(n - k);
-
-    const permutations = [];
-
-    // Create all possible permutations of peopleWithConstraints on the grid on cells that are type table
-
-    for (let i = 0; i < numberOfPermutations; i++) {
-        const permutation = [];
-        const usedTables = new Set();
-        for (let j = 0; j < k; j++) {
-            let randomTableIndex;
-            do {
-                randomTableIndex = Math.floor(Math.random() * n);
-            } while (usedTables.has(randomTableIndex));
-            usedTables.add(randomTableIndex);
-            permutation.push({
-                person: peopleWithConstraints[j],
-                table: tables[randomTableIndex],
-            });
-        }
-
-        // Sum all the distances of all the students in this permutation
-        const whiteboard = grid.filter((cell) => cell.type === "whiteboard")[0];
-        const penalty = permutation.reduce((acc, person) => acc + getDistance(whiteboard, person.table), 0);
-
-        permutations.push({ penalty, permutation: [] });
-    }
-
-    return permutations;
+const getConstraintCombinations = (people) => {
+    const constraints = [];
+    people.forEach((person) => {
+        constraints.push(person.constraints);
+    });
+    return constraints.filter((value, index, self) => index === self.findIndex((t) => JSON.stringify(t) === JSON.stringify(value)));
 };
 
-const getAllPermutations2 = (grid, people) => {
-    // All people with at least one value in the constraint object being a truthy value
-    const peopleWithConstraints = people.filter((person) => Object.values(person.constraints).some(Boolean));
-    const tables = grid.filter((cell) => cell.type === "table");
-    const k = peopleWithConstraints.length;
-    const n = tables.length;
-    // Time complexity: O(n!/(n-k)!)
-    const numberOfPermutations = getFactorial(n) / getFactorial(n - k);
+const groupPeopleByConstraints = (people, constraints) => {
+    return constraints.map((constraint) => {
+        return people.filter((person) => {
+            return Object.entries(constraint).every(([key, value]) => person.constraints[key] === value);
+        });
+    });
+};
 
-    const bestPermutations = [];
+function* generateClassroomPermutations(groups) {
+    // Generate all permutations of the "groups"
+    function* permute(arr) {
+        if (arr.length === 1) {
+            yield arr;
+        } else {
+            for (let i = 0; i < arr.length; i++) {
+                const current = arr[i];
+                const rest = arr.slice(0, i).concat(arr.slice(i + 1));
+                for (const perm of permute(rest)) {
+                    yield [current, ...perm];
+                }
+            }
+        }
+    }
 
-    for (let i = 0; i < numberOfPermutations; i++) {
-        
+    // Generate the group permutations
+    for (const groupPermutation of permute(groups)) {
+        // Flatten the groupPermutation array and yield each unique seating arrangement
+        yield groupPermutation.flat();
     }
 }
+
+const getBestPermutations = (grid, people) => {
+    const peopleWithConstraints = people.filter((person) => Object.values(person.constraints).some(Boolean));
+    const tables = grid.filter((cell) => cell.type === "table");
+    const constraints = getConstraintCombinations(peopleWithConstraints);
+    const k = constraints.length;
+    const n = tables.length;
+    const numberOfPermutations = getFactorial(n) / getFactorial(n - k);
+    const whiteboard = grid.filter((cell) => cell.type === "whiteboard")[0];
+
+    let highestPenalty;
+    const bestPermutations = [];
+
+    // Group people based on constraints
+    const groupedSeats = groupPeopleByConstraints(people, constraints);
+
+    // Generate each permutation of seating arrangements using the generator
+    const generator = generateClassroomPermutations(groupedSeats);
+    let result = generator.next();
+    while (!result.done) {
+        const permutation = result.value;
+        let penalty = 0;
+
+        // Iterate over the generated permutation and calculate penalties
+        permutation.forEach((person) => {
+            if (person.table) {
+                // Check if the person is assigned a table
+                if (person.constraints.closeToWhiteboard) {
+                    const distance = getDistance(whiteboard, person.table);
+                    penalty += distance;
+                }
+
+                // Add the penalty for other constraints below, e.g., closeToDoor, etc.
+            }
+        });
+
+        const permutationObject = {
+            permutation,
+            penalty,
+        };
+
+        if (bestPermutations.length < 5) {
+            bestPermutations.push(permutationObject);
+            highestPenalty = Math.max(...bestPermutations.map((permutationObject) => permutationObject.penalty));
+            result = generator.next(); // Move to next permutation
+            continue;
+        }
+
+        if (penalty < highestPenalty) {
+            const index = bestPermutations.findIndex((permutationObject) => permutationObject.penalty === highestPenalty);
+            bestPermutations[index] = permutationObject;
+            highestPenalty = Math.max(...bestPermutations.map((permutationObject) => permutationObject.penalty));
+        }
+
+        result = generator.next(); // Move to next permutation
+    }
+
+    return bestPermutations;
+};
+
 
 
 
@@ -105,56 +150,21 @@ const drawGridWithPeopleToConsole = (grid, people) => {
 };
 
 const handleConstraints = (grid, people) => {
-
-    // Find all possible permutations of people with constraints on the grid
-    const permutations = getAllPermutations(grid, people);
-
-    // Shuffle the permutations array
-    permutations.sort(() => Math.random() - 0.5);
-
-    // Create an array of objects with the permutation and the penalty
-    const permutationObjects = permutations.map((permutation) => {
-        const penalty = 0;
-        return {
-            permutation,
-            penalty,
-        };
-    });
-
-    const whiteboard = grid.filter((cell) => cell.type === "whiteboard")[0];
-
-    // IMPORTANT
-    // Optimisation: Reduce the number of permutations
-
-    // permutationObjects.forEach((permutation) => {
-    //     permutation.permutation.forEach((person) => {
-    //         // Add penalty for each permutation depending on the constraints
-
-    //         if (person.person.constraints.closeToWhiteboard) {
-    //             const distance = getDistance(whiteboard, person.table);
-    //             permutation.penalty += distance;
-    //         }
-
-    //         // Add the penalty for new constraints below
-    //     });
-    // });
+    const permutationObjects = getBestPermutations(grid, people);
 
     // Sort the permutationObjects array by penalty, lowest to highest
     permutationObjects.sort((a, b) => a.penalty - b.penalty);
 
     // Log the five best permutations to the console using drawGridWithPeopleToConsole
     permutationObjects.slice(0, 5).forEach((permutationObject) => {
-        drawGridWithPeopleToConsole(grid, permutationObject.permutation);
         console.log(`Penalty: ${permutationObject.penalty}`);
+        drawGridWithPeopleToConsole(grid, permutationObject.permutation);
     });
-
-
 };
 
-const main = async () => {
+const main = () => {
     const people = JSON.parse(fs.readFileSync("constraints-experiments/list.json", "utf-8"));
     const grid = JSON.parse(fs.readFileSync("constraints-experiments/data.json", "utf-8"));
-    // drawGridToConsole(grid, people);
     handleConstraints(grid, people);
 };
 

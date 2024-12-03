@@ -7,15 +7,21 @@
     },
     {
         "name": "C",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "D",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "E",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "F",
@@ -29,9 +35,7 @@
     },
     {
         "name": "H",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "I",
