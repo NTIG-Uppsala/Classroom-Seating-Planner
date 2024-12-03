@@ -58,11 +58,34 @@ const getAllPermutations = (grid, people) => {
                 table: tables[randomTableIndex],
             });
         }
-        permutations.push(permutation);
+
+        // Sum all the distances of all the students in this permutation
+        const whiteboard = grid.filter((cell) => cell.type === "whiteboard")[0];
+        const penalty = permutation.reduce((acc, person) => acc + getDistance(whiteboard, person.table), 0);
+
+        permutations.push({ penalty, permutation: [] });
     }
 
     return permutations;
 };
+
+const getAllPermutations2 = (grid, people) => {
+    // All people with at least one value in the constraint object being a truthy value
+    const peopleWithConstraints = people.filter((person) => Object.values(person.constraints).some(Boolean));
+    const tables = grid.filter((cell) => cell.type === "table");
+    const k = peopleWithConstraints.length;
+    const n = tables.length;
+    // Time complexity: O(n!/(n-k)!)
+    const numberOfPermutations = getFactorial(n) / getFactorial(n - k);
+
+    const bestPermutations = [];
+
+    for (let i = 0; i < numberOfPermutations; i++) {
+        
+    }
+}
+
+
 
 const drawGridWithPeopleToConsole = (grid, people) => {
     const maxX = Math.max(...grid.map((cell) => cell.centerX));
@@ -103,18 +126,18 @@ const handleConstraints = (grid, people) => {
     // IMPORTANT
     // Optimisation: Reduce the number of permutations
 
-    permutationObjects.forEach((permutation) => {
-        permutation.permutation.forEach((person) => {
-            // Add penalty for each permutation depending on the constraints
+    // permutationObjects.forEach((permutation) => {
+    //     permutation.permutation.forEach((person) => {
+    //         // Add penalty for each permutation depending on the constraints
 
-            if (person.person.constraints.closeToWhiteboard) {
-                const distance = getDistance(whiteboard, person.table);
-                permutation.penalty += distance;
-            }
+    //         if (person.person.constraints.closeToWhiteboard) {
+    //             const distance = getDistance(whiteboard, person.table);
+    //             permutation.penalty += distance;
+    //         }
 
-            // Add the penalty for new constraints below
-        });
-    });
+    //         // Add the penalty for new constraints below
+    //     });
+    // });
 
     // Sort the permutationObjects array by penalty, lowest to highest
     permutationObjects.sort((a, b) => a.penalty - b.penalty);
