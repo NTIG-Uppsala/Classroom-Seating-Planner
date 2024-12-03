@@ -97,16 +97,20 @@ const getWhiteboard = (layout) => {
 const addWhiteboardDistToTables = (tableCells, whiteboard) => {
     // Each table knows their distance to the whiteboard
     tableCells.forEach((table) => {
-        tableCells.distanceToWhiteboard = Math.sqrt((table.x - whiteboard.x) ** 2 + (table.y - whiteboard.y) ** 2);
+        table.distanceToWhiteboard = Math.sqrt((table.x - whiteboard.x) ** 2 + (table.y - whiteboard.y) ** 2);
     });
 };
 
 const addWeightMapToStudents = (students, layout) => {
     const rowCount = layout.length;
-    const colCount = layout.max((row) => row.length);
+    const colCount = layout.reduce((max, row) => Math.max(max, row.length), 0);
 
     students.forEach((student) => {
-        student.weightMap = Array.from({ length: rowCount }, () => Array(colCount).fill(0));
+        if (student.constraints) {
+            student.weightMap = Array.from({ length: rowCount }, () => Array(colCount).fill(0));
+        } else {
+            student.weightMap = null;
+        }
     });
 };
 
@@ -122,15 +126,71 @@ addWeightMapToStudents(students, layout);
 // Distance to whiteboard penalty thingies //
 //                                         //
 
-// Each student will have a preference map of the layout with a score for each table
-
-
 const calculateWhiteboardDistWeights = () => {
     addWhiteboardDistToTables(tables, whiteboard);
-    
+
     const baseWeight = 1;
     const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
-    const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));  
+    const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
+
+    // Sort students with NearWhiteboard constraint first
+    const [withConstraints, noConstraints] = students.reduce((acc, student) => {
+        if (student.constraints?.includes("NearWhiteboard")) {
+            acc[0].push(student);
+        } else {
+            acc[1].push(student);
+        }
+        return acc;
+    }, [[], []]);
+
+    const studentsNearWhiteboardFirst = [...withConstraints, ...noConstraints];
+    const nearestTablesFirst = tables.sort((a, b) => a.distanceToWhiteboard - b.distanceToWhiteboard);
+
+    studentsNearWhiteboardFirst.forEach((student) => {
+        if (student.constraints?.includes("NearWhiteboard")) {
+            nearestTablesFirst.forEach((table) => {
+                student.weightMap[table.y][table.x] = baseWeight * (1 - (table.distanceToWhiteboard - minDist) / (maxDist - minDist));
+            });
+        }
+    });
+
+    studentsNearWhiteboardFirst.forEach((student) => {
+        if (!student.weightMap) return;
+
+        console.log("-------------------");
+        console.log(student.name);
+
+        const maxWeight = Math.max(...student.weightMap.flat());
+        const colors = ["░", "▒", "▓", "█", "█"];
+        const getWeightIndex = (weight) => {
+            return Math.floor(weight / maxWeight * (colors.length - 1)) || 0;
+        };
+
+        student.weightMap.forEach((row) => {
+            let fancyRow = "";
+
+            row.forEach((weight) => {
+                fancyRow += colors[getWeightIndex(weight)];
+            });
+
+            console.log(fancyRow);
+        });
+    });
+
+    // Sort students by their max weight on their weightMap
+    const sortedStudents = studentsNearWhiteboardFirst.sort((a, b) => {
+        if (!a.weightMap) return 1;
+        if (!b.weightMap) return -1
+
+        const aMax = Math.max(...a.weightMap.flat()) || 0;
+        const bMax = Math.max(...b.weightMap.flat()) || 0;
+
+        return bMax - aMax;
+    });
+
+    console.log(sortedStudents);
 };
 
 calculateWhiteboardDistWeights();
+
+
