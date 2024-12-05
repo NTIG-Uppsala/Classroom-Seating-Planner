@@ -29,7 +29,7 @@ const calculatePenalty = (placement, cells) => {
 
         if (person.constraints.canNotSitNextTo) {
             placement
-                .filter((otherPerson) => otherPerson.name !== person.name)
+                .filter((otherPerson) => otherPerson.name === person.constraints.canNotSitNextTo)
                 .forEach((otherPerson) => {
                     const otherPersonsTable = cells.find((cell) => cell.centerX === otherPerson.table.centerX && cell.centerY === otherPerson.table.centerY);
 
