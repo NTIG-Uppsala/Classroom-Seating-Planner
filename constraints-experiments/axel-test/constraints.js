@@ -13,3 +13,9 @@ const closeToWhiteboard = (person, cells) => {
     const table = cells.find((cell) => cell.centerX === person.table.centerX && cell.centerY === person.table.centerY);
     return getDistance(whiteboard, table) * person.constraints.closeToWhiteboard.weight;
 };
+
+const constraints = [closeToWhiteboard];
+
+module.exports = {
+    constraints,
+};

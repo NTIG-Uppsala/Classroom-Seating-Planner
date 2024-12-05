@@ -1,4 +1,4 @@
-const constraints = require("./constraints.js");
+const { constraints } = require("./constraints.js");
 
 // Calculate how good a placement is based on the constraints
 const calculatePenalty = (placement, cells) => {
@@ -7,7 +7,9 @@ const calculatePenalty = (placement, cells) => {
     placement
         .filter((person) => person.constraints)
         .forEach((person) => {
-            penalty += constraints.closeToWhiteboard(person, cells);
+            constraints.forEach((constraint) => {
+                penalty += constraint(person, cells);
+            });
         });
     return penalty;
 };
@@ -64,7 +66,6 @@ const mutate = (placement, cells, mutationRate) => {
 
 // Using a genetic algorithm to find the best seating arrangement in a reasonable amount of time
 const getSeatingArrangement = (students, cells, populationSize, generations) => {
-
     // The chance that a person will be moved to a different table
     let mutationChance = 0.5;
 
