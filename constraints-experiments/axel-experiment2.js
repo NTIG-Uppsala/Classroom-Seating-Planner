@@ -113,7 +113,16 @@ const runGeneticAlgorithm = (people, cells, populationSize, generations, mutatio
     return { placement: bestPlacement, penalty: bestFitness };
 };
 
-const drawResultToConsole = (result, cells) => {
+const drawResultToConsole = (result, cells, whiteboards) => {
+    // Remove the average whiteboard position from the cells
+    cells = cells.filter((cell) => cell.type === "table");
+
+    // Add all the whiteboards to the cells
+
+    whiteboards.forEach((whiteboard) => {
+        cells.push(whiteboard);
+    });
+
     fs.writeFileSync("constraints-experiments/result.json", JSON.stringify(result, null, 2));
 
     console.log(result);
@@ -143,10 +152,55 @@ const drawResultToConsole = (result, cells) => {
         filledGrid[person.table.centerY][person.table.centerX] = person.name[0];
     });
 
-    console.log(filledGrid);
+    filledGrid.forEach((row) => {
+        console.log(row.join(""));
+    });
 };
 
-const cells = JSON.parse(fs.readFileSync("constraints-experiments/data.json", "utf8"));
+const format = (layout) => {
+    const tables = [];
+    const whiteboards = [];
+
+    layout.split("\n").forEach((row, centerY) => {
+        row.split("").forEach((cell, centerX) => {
+            if (cell === "B") {
+                tables.push({ centerX, centerY, type: "table" });
+                return;
+            }
+
+            if (cell === "T") {
+                whiteboards.push({ centerX, centerY, type: "whiteboard" });
+                return;
+            }
+        });
+    });
+
+    // Turn the whiteboards into a single cell with the average position
+    const whiteboardPosAvg = whiteboards.reduce(
+        (accumulator, current) => {
+            accumulator.centerX += current.centerX;
+            accumulator.centerY += current.centerY;
+            return accumulator;
+        },
+        { centerX: 0, centerY: 0 }
+    );
+
+    whiteboardPosAvg.centerX /= whiteboards.length;
+    whiteboardPosAvg.centerY /= whiteboards.length;
+
+    const cells = [...tables, { ...whiteboardPosAvg, type: "whiteboard" }];
+
+    // Correct the return to return both values as an object or array
+    return { cells, whiteboards };
+};
+
+const layout = fs.readFileSync("constraints-experiments/classroom.txt", "utf-8");
+
+// Destructure the returned object to get cells and whiteboards
+const { cells, whiteboards } = format(layout);
+
+// console.log(whiteboards);
+
 const people = JSON.parse(fs.readFileSync("constraints-experiments/list.json", "utf8"));
 
 const populationSize = 100;
@@ -154,4 +208,4 @@ const generations = 500;
 const mutationRate = 0.25;
 
 const result = runGeneticAlgorithm(people, cells, populationSize, generations, mutationRate);
-drawResultToConsole(result, cells);
+drawResultToConsole(result, cells, whiteboards);
