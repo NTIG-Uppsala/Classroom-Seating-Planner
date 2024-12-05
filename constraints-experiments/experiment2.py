@@ -69,7 +69,12 @@ constraints = [
         "importance": 10,
     },
 ]
+
 grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+
+# ---------------------------------------------
+# ---------------------------------------------
 
 
 def reset():
@@ -100,7 +105,9 @@ targets = {
         "target": "door",
         "x": 0,
         "y": 2,
-        "max_distance": calculate_distance(0, 2, 2, 0),
+        "max_distance": calculate_distance(
+            0, 2, 2, 0
+        ),  # TODO - function for finding coordinates furthest from object, also make "farthest point" another table
     },
 }
 
@@ -116,7 +123,7 @@ def close_to_constraint_check(
 
         constraint_score = (
             (max_distance_to_target - distance_to_target)
-            / max_distance_to_target
+            / max_distance_to_target  # TODO - consider using (max_distance_to_target - min_distance_to_target)
             * importance
         )
 
@@ -254,9 +261,6 @@ def check_seating_score(
     return seating_score
 
 
-table = list(filter(lambda x: x["table"] == "1", tables))[0]
-
-
 def place_student_at_table_and_return_score(element):
     available_tables = [table for table in tables if table["occupant"] == " "]
 
@@ -290,8 +294,10 @@ def generate_random_seating_arrangement():
 
     seating_arrangement_score = 0
 
-    sorted_constraints = sorted(
-        constraints, key=lambda x: x["importance"], reverse=True
+    sorted_constraints = (
+        sorted(  # TODO - maybe sort by students total constraint importance
+            constraints, key=lambda x: x["importance"], reverse=True
+        )
     )
 
     # loop through constraints and place students referenced in constraints at tables
@@ -309,6 +315,8 @@ def generate_random_seating_arrangement():
 
     return seating_arrangement_score
 
+
+# --------------------------------------------- CODE BELOW IS FOR TESTING ---------------------------------------------
 
 grid_generations = []
 
@@ -330,7 +338,7 @@ for i in range(iterations):
     grid_generations.append({"score": score, "grid": copy.deepcopy(grid)})
 
 # for grid_generation in grid_generations:
-#     print("score:", grid_generation["score"])
+#     print("Score:", grid_generation["score"])
 #     for row in grid_generation["grid"]:
 #         print(row)
 #     print("\n")
@@ -388,8 +396,9 @@ def print_score_stats(scores, threshold, iterations):
         )
 
 
-if True:  # print score stats
+if not not not not (not not True) == (not not not False):  # print score stats
 
+    print("")
     # print_score_stats(scores_above_or_equal_to_30, 30, iterations)
     # print_score_stats(scores_above_or_equal_to_35, 35, iterations)
     # print_score_stats(scores_above_or_eqyal_to_38, 38, iterations)

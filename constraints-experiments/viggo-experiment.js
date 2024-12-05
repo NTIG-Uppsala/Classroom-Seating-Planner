@@ -146,30 +146,33 @@ const students = getStudentList();
 addWhiteboardDistToTables(tables, whiteboard);
 
 const constraints = {
-    NearWhiteboard: {
-        baseWeight: 1,
-        get: (student, table) => {
-            const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
-            const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
+    distance: (where, whom) => {
+        return; // weight or null or 0
+    },
+    // NearWhiteboard: {
+    //     baseWeight: 1,
+    //     get: (student, table) => {
+    //         const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
+    //         const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
 
-            const distToWhiteboard = table.distanceToWhiteboard;
+    //         const distToWhiteboard = table.distanceToWhiteboard;
 
-            const weight = (maxDist - distToWhiteboard) / (maxDist - minDist);
-            return weight;
-        },
-    },
-    NotNextTo: {
-        baseWeight: 1,
-        get: (student, table) => {
-            return null; // weight or null
-        },
-    },
-    NextTo: {
-        baseWeight: 1,
-        get: (student, table) => {
-            return null; // weight or null
-        },
-    },
+    //         const weight = (maxDist - distToWhiteboard) / (maxDist - minDist);
+    //         return weight;
+    //     },
+    // },
+    // NotNextTo: {
+    //     baseWeight: 1,
+    //     get: (student, table) => {
+    //         return null; // weight or null
+    //     },
+    // },
+    // NextTo: {
+    //     baseWeight: 1,
+    //     get: (student, table) => {
+    //         return null; // weight or null
+    //     },
+    // },
 }
 
 // Students with more constraints are placed first
@@ -232,82 +235,55 @@ console.log("Time:", Date.now() - startTime, "ms");
 
 
 
+// # Names.txt
+// A: nära tavlan
+// # or
+// A: NearWhiteboard
+// # or
+// A: CloseTo(whiteboard)
+// # or
+// A: CloseTo(B)
 
-// const addWeightMapToStudents = (students, layout) => {
-//     const rowCount = layout.length;
-//     const colCount = layout.reduce((max, row) => Math.max(max, row.length), 0);
+// # (siffra) är viktighet
+// N: långt från tavlan (10)
+// N: inte bredvid A (99999)
 
-//     students.forEach((student) => {
-//         if (student.constraints) {
-//             student.weightMap = Array.from({ length: rowCount }, () => Array(colCount).fill(0));
-//         } else {
-//             student.weightMap = null;
-//         }
-//     });
+// B: CloseTo(Whiteboard)
+// # or
+// B: Distance(near, Whiteboard)
+// const studentz = [
+//     {
+//         name: "A",
+//         constraints: [{ type: "distance", arguments: ["near", "B"], priority: 10 }],
+//     },
+// // ];
+
+// const fs = require("node:fs");
+
+// const lookup = {
+//     nära: { type: "distance", arguments: ["near", undefined], priority: undefined },
+//     långtfrån: { type: "distance", arguments: ["far", undefined], priority: undefined },
+//     bredvid: { type: "adjacent", arguments: [true, undefined], priority: undefined },
+//     intebredvid: { type: "adjacent", arguments: [false, undefined], priority: undefined },
 // };
 
-// const fancyDraw = (students) => {
-//     // Fancy output
-//     students.forEach((student) => {
-//         if (!student.weightMap) return;
+// const students = fs
+//     .readFileSync("./viggos-data/names.txt", "utf-8")
+//     .split("\n")
+//     .map((row) => row.trim())
+//     .map((row) => {
+//         const [rawName, rawConstraints] = row.split(":");
 
-//         console.log("-------------------");
-//         console.log(student.name);
-
-//         const maxWeight = Math.max(...student.weightMap.flat());
-//         const colors = ["░", "▒", "▓", "█", "█"];
-//         const getWeightIndex = (weight) => {
-//             return Math.floor(weight / maxWeight * (colors.length - 1)) || 0;
-//         };
-
-//         student.weightMap.forEach((row) => {
-//             let fancyRow = "";
-
-//             row.forEach((weight) => {
-//                 fancyRow += colors[getWeightIndex(weight)];
-//             });
-
-//             console.log(fancyRow);
+//         Object.keys(lookup).forEach((key) => {
+//             if (rawConstraints.includes(key)) {
+                
+//             }
 //         });
-//     });
-// };
 
+//         return returnObject;
+//     })
+//     .filter(Boolean);
 
-// const layout = getLayout();
-// const tables = getTables(layout);
-// const whiteboard = getWhiteboard(layout);
-// const students = getStudentList();
-// addWeightMapToStudents(students, layout);
-// addWhiteboardDistToTables(tables, whiteboard);
-
-
-
-// const setWeightsForStaticConstraints = () => {
-//     const baseWeight = 1;
-//     const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
-//     const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
-
-//     students.forEach((student) => {
-//         if (!student.weightMap) return;
-//         tables.forEach((table) => {
-//             student.weightMap[table.y][table.x] = baseWeight * (1 - (table.distanceToWhiteboard - minDist) / (maxDist - minDist));
-//         });
-//     });
-// };
-
-// setWeightsForStaticConstraints();
-
-
-// // Sort students by their max weight on their weightMap
-// // so students with the most restrictions are placed first
-// const studentsByMaxWeight = students.sort((a, b) => {
-//     if (!a.weightMap) return 1;
-//     if (!b.weightMap) return -1
-
-//     const aMax = Math.max(...a.weightMap.flat()) || 0;
-//     const bMax = Math.max(...b.weightMap.flat()) || 0;
-
-//     return bMax - aMax;
+// students.forEach((student) => {
+//     console.log(student.name, "\n   Constraints:", JSON.stringify(student.constraints));
 // });
-
-// fancyDraw(studentsByMaxWeight);
