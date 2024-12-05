@@ -52,7 +52,7 @@ const getWhiteboardCells = (layout) => {
             }
         });
     });
-    
+
     // console.log(whiteboardCells);
     return whiteboardCells;
 };
@@ -99,8 +99,12 @@ const fancyDraw = (tables) => {
 
     tables.forEach((table) => {
         if (table.student) {
-            map[table.y][table.x] = "█";
-        } else {   
+            if (table.student.constraints) {
+                map[table.y][table.x] = "█";
+            } else {
+                map[table.y][table.x] = "▓";
+            }
+        } else {
             map[table.y][table.x] = "▒";
         }
     });
@@ -112,10 +116,11 @@ const fancyDraw = (tables) => {
     console.log("----------------------");
     console.log("T Whiteboard.");
     console.log("█ Table with student.");
+    console.log("█ Table with student without constraints.");
     console.log("▒ Table without student.");
     console.log("░ Floor.");
     console.log("");
-    
+
     map.forEach((row) => {
         console.log(row.join(""));
     });
@@ -166,6 +171,7 @@ students.sort((a, b) => {
     return b.constraints.length - a.constraints.length;
 });
 
+// Place the students with constraints
 students.forEach((student) => {
     if (!student.constraints) return;
 
@@ -192,6 +198,17 @@ students.forEach((student) => {
 
     if (bestTable) {
         bestTable.student = student;
+    }
+});
+
+// Place the students without constraints
+students.forEach((student) => {
+    if (student.constraints) return;
+
+    const table = tables.find((table) => !table.student);
+
+    if (table) {
+        table.student = student;
     }
 });
 
