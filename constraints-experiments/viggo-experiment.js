@@ -42,6 +42,21 @@ const getTables = (layout) => {
     return tableCells;
 };
 
+const getWhiteboardCells = (layout) => {
+    const whiteboardCells = [];
+
+    layout.forEach((row, y) => {
+        row.split("").forEach((cell, x) => {
+            if (cell === "T") {
+                whiteboardCells.push({ x, y });
+            }
+        });
+    });
+    
+    // console.log(whiteboardCells);
+    return whiteboardCells;
+};
+
 const getWhiteboard = (layout) => {
     const whiteboardCells = [];
 
@@ -74,6 +89,38 @@ const addWhiteboardDistToTables = (tableCells, whiteboard) => {
     tableCells.forEach((table) => {
         table.distanceToWhiteboard = Math.sqrt((table.x - whiteboard.x) ** 2 + (table.y - whiteboard.y) ** 2);
     });
+};
+
+const fancyDraw = (tables) => {
+    const maxX = Math.max(...tables.map((table) => table.x));
+    const maxY = Math.max(...tables.map((table) => table.y));
+
+    const map = Array.from({ length: maxY + 1 }, () => Array(maxX + 1).fill("░"));
+
+    tables.forEach((table) => {
+        if (table.student) {
+            map[table.y][table.x] = "█";
+        } else {   
+            map[table.y][table.x] = "▒";
+        }
+    });
+
+    getWhiteboardCells(layout).forEach((whiteboard) => {
+        map[whiteboard.y][whiteboard.x] = "T";
+    });
+
+    console.log("----------------------");
+    console.log("T Whiteboard.");
+    console.log("█ Table with student.");
+    console.log("▒ Table without student.");
+    console.log("░ Floor.");
+    console.log("");
+    
+    map.forEach((row) => {
+        console.log(row.join(""));
+    });
+
+    console.log("----------------------");
 };
 
 
@@ -130,9 +177,9 @@ students.forEach((student) => {
 
         let weight = 0;
 
-        // Try every constraint
+        // Try every constraint to get a students overall preference for a table
         student.constraints.forEach((constraint) => {
-            weight += constraints[constraint]?.get(student, table) || 0;
+            weight += constraints[constraint]?.get(student, table) || 0; // ? in case the constraint is not defined
         });
 
         if (weight > bestWeight) {
@@ -148,7 +195,7 @@ students.forEach((student) => {
     }
 });
 
-console.log(tables);
+fancyDraw(tables);
 
 
 
