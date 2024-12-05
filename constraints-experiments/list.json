@@ -13,19 +13,27 @@
     },
     {
         "name": "Alice",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Charlie",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "David",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Eve",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Frank",
@@ -35,23 +43,33 @@
     },
     {
         "name": "Grace",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Heidi",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Ivan",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Jenny",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Karl",
-        "constraints": {}
+        "constraints": {
+            "closeToWhiteboard": true
+        }
     },
     {
         "name": "Liam",
@@ -79,7 +97,9 @@
     },
     {
         "name": "Rachel",
-        "constraints": {}
+        "constraints": {
+            "mustSitNextTo": "Quincy"
+        }
     },
     {
         "name": "Sam",
@@ -87,7 +107,9 @@
     },
     {
         "name": "Tina",
-        "constraints": {}
+        "constraints": {
+            "mustSitNextTo": "Sam"
+        }
     },
     {
         "name": "Ursula",
@@ -107,7 +129,12 @@
     },
     {
         "name": "Yara",
-        "constraints": {}
+        "constraints": {
+            "mustSitAt": {
+                "x": 5,
+                "y": 2
+            }
+        }
     },
     {
         "name": "Zane",
@@ -119,7 +146,12 @@
     },
     {
         "name": "Ben",
-        "constraints": {}
+        "constraints": {
+            "mustSitAt": {
+                "x": 3,
+                "y": 2
+            }
+        }
     },
     {
         "name": "Cora",

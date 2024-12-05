@@ -34,6 +34,8 @@ const calculatePenalty = (placement, cells) => {
                 penalty += getDistance(whiteboard, table);
             }
 
+            // Constraints that are not going to be used in the final product below
+
             if (person.constraints.canNotSitNextTo) {
                 placement
                     .filter((otherPerson) => otherPerson.name === person.constraints.canNotSitNextTo)
@@ -42,6 +44,24 @@ const calculatePenalty = (placement, cells) => {
 
                         penalty += 5 / getDistance(table, otherPersonsTable);
                     });
+            }
+
+            if (person.constraints.mustSitNextTo) {
+                placement
+                    .filter((otherPerson) => otherPerson.name === person.constraints.mustSitNextTo)
+                    .forEach((otherPerson) => {
+                        const otherPersonsTable = cells.find((cell) => cell.centerX === otherPerson.table.centerX && cell.centerY === otherPerson.table.centerY);
+
+                        penalty += 10 * getDistance(table, otherPersonsTable);
+                    });
+            }
+
+            if (person.constraints.mustSitAt) {
+                const mustSitAtTable = cells.find((cell) => cell.centerX === person.constraints.mustSitAt.x && cell.centerY === person.constraints.mustSitAt.y);
+
+                if (table.centerX !== mustSitAtTable.centerX || table.centerY !== mustSitAtTable.centerY) {
+                    penalty += 100;
+                }
             }
 
             // Add additional constraints here
@@ -224,8 +244,8 @@ const { cells, whiteboards } = format(layout);
 
 const people = JSON.parse(fs.readFileSync("constraints-experiments/list.json", "utf8"));
 
-const populationSize = 150;
-const generations = 150;
+const populationSize = 500;
+const generations = 500;
 
 const result = runGeneticAlgorithm(people, cells, populationSize, generations);
 drawResultToConsole(result, cells, whiteboards);
