@@ -1,28 +1,3 @@
-// Grid:
-// [
-//     {
-//         "centerX": 1,
-//         "centerY": 0,
-//         "cellType": "whiteboard"
-//     },
-//     {
-//         "centerX": 2,
-//         "centerY": 3,
-//         "cellType": "table",
-//         "student": null
-//     }
-// ]
-
-// Students:
-// [
-//     {
-//         "name": "John Doe",
-//         "constraints": [
-//             "closeToWhiteboard",
-//         ],
-//     },
-// ]
-
 const fs = require("node:fs");
 
 const getStudentList = () => {
@@ -101,95 +76,146 @@ const addWhiteboardDistToTables = (tableCells, whiteboard) => {
     });
 };
 
-const addWeightMapToStudents = (students, layout) => {
-    const rowCount = layout.length;
-    const colCount = layout.reduce((max, row) => Math.max(max, row.length), 0);
-
-    students.forEach((student) => {
-        if (student.constraints) {
-            student.weightMap = Array.from({ length: rowCount }, () => Array(colCount).fill(0));
-        } else {
-            student.weightMap = null;
-        }
-    });
-};
 
 
 const layout = getLayout();
 const tables = getTables(layout);
 const whiteboard = getWhiteboard(layout);
 const students = getStudentList();
-addWeightMapToStudents(students, layout);
+addWhiteboardDistToTables(tables, whiteboard);
 
+const constraints = {
+    nearWhiteboard: {
+        type: "static",
+        baseWeight: 1,
+        get: (students, tables) => {
+            return // weight or null
+        },
+    },
+    notNextTo: {
+        type: "dynamic",
+        baseWeight: 1,
+        get: (students, tables) => {
+            return // weight or null
+        },
+    },
+    notFacing: {
+        type: "dynamic",
+        baseWeight: 1,
+        get: (students, tables) => {
+            return // weight or null
+        },
+    },
+}
 
-//                                         //
-// Distance to whiteboard penalty thingies //
-//                                         //
-
-const calculateWhiteboardDistWeights = () => {
-    addWhiteboardDistToTables(tables, whiteboard);
-
-    const baseWeight = 1;
-    const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
-    const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
-
-    // Sort students with NearWhiteboard constraint first
-    const [withConstraints, noConstraints] = students.reduce((acc, student) => {
-        if (student.constraints?.includes("NearWhiteboard")) {
-            acc[0].push(student);
-        } else {
-            acc[1].push(student);
-        }
-        return acc;
-    }, [[], []]);
-
-    const studentsNearWhiteboardFirst = [...withConstraints, ...noConstraints];
-    const nearestTablesFirst = tables.sort((a, b) => a.distanceToWhiteboard - b.distanceToWhiteboard);
-
-    studentsNearWhiteboardFirst.forEach((student) => {
-        if (student.constraints?.includes("NearWhiteboard")) {
-            nearestTablesFirst.forEach((table) => {
-                student.weightMap[table.y][table.x] = baseWeight * (1 - (table.distanceToWhiteboard - minDist) / (maxDist - minDist));
-            });
-        }
-    });
-
-    studentsNearWhiteboardFirst.forEach((student) => {
-        if (!student.weightMap) return;
-
-        console.log("-------------------");
-        console.log(student.name);
-
-        const maxWeight = Math.max(...student.weightMap.flat());
-        const colors = ["░", "▒", "▓", "█", "█"];
-        const getWeightIndex = (weight) => {
-            return Math.floor(weight / maxWeight * (colors.length - 1)) || 0;
-        };
-
-        student.weightMap.forEach((row) => {
-            let fancyRow = "";
-
-            row.forEach((weight) => {
-                fancyRow += colors[getWeightIndex(weight)];
-            });
-
-            console.log(fancyRow);
+// Do all static constraints for tables
+tables.forEach((table) => {
+    constraints
+        .filter((constraint) => constraint.type === "static")
+        .forEach((constraint) => {
+            
         });
-    });
+});
 
-    // Sort students by their max weight on their weightMap
-    // so students with the most restrictions are placed first
-    const sortedStudents = studentsNearWhiteboardFirst.sort((a, b) => {
-        if (!a.weightMap) return 1;
-        if (!b.weightMap) return -1
+// // Students with more constraints are placed first
+// students.sort((a, b) => {
+//     if (!a.constraints) return 1;
+//     if (!b.constraints) return -1;
 
-        const aMax = Math.max(...a.weightMap.flat()) || 0;
-        const bMax = Math.max(...b.weightMap.flat()) || 0;
+//     return b.constraints.length - a.constraints.length;
+// });
 
-        return bMax - aMax;
-    });
-};
-
-calculateWhiteboardDistWeights();
+// students.forEach((student) => {
+//     // Try every table
+// });
 
 
+
+
+
+
+
+
+
+
+
+
+
+// const addWeightMapToStudents = (students, layout) => {
+//     const rowCount = layout.length;
+//     const colCount = layout.reduce((max, row) => Math.max(max, row.length), 0);
+
+//     students.forEach((student) => {
+//         if (student.constraints) {
+//             student.weightMap = Array.from({ length: rowCount }, () => Array(colCount).fill(0));
+//         } else {
+//             student.weightMap = null;
+//         }
+//     });
+// };
+
+// const fancyDraw = (students) => {
+//     // Fancy output
+//     students.forEach((student) => {
+//         if (!student.weightMap) return;
+
+//         console.log("-------------------");
+//         console.log(student.name);
+
+//         const maxWeight = Math.max(...student.weightMap.flat());
+//         const colors = ["░", "▒", "▓", "█", "█"];
+//         const getWeightIndex = (weight) => {
+//             return Math.floor(weight / maxWeight * (colors.length - 1)) || 0;
+//         };
+
+//         student.weightMap.forEach((row) => {
+//             let fancyRow = "";
+
+//             row.forEach((weight) => {
+//                 fancyRow += colors[getWeightIndex(weight)];
+//             });
+
+//             console.log(fancyRow);
+//         });
+//     });
+// };
+
+
+// const layout = getLayout();
+// const tables = getTables(layout);
+// const whiteboard = getWhiteboard(layout);
+// const students = getStudentList();
+// addWeightMapToStudents(students, layout);
+// addWhiteboardDistToTables(tables, whiteboard);
+
+
+
+// const setWeightsForStaticConstraints = () => {
+//     const baseWeight = 1;
+//     const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
+//     const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
+
+//     students.forEach((student) => {
+//         if (!student.weightMap) return;
+//         tables.forEach((table) => {
+//             student.weightMap[table.y][table.x] = baseWeight * (1 - (table.distanceToWhiteboard - minDist) / (maxDist - minDist));
+//         });
+//     });
+// };
+
+// setWeightsForStaticConstraints();
+
+
+// // Sort students by their max weight on their weightMap
+// // so students with the most restrictions are placed first
+// const studentsByMaxWeight = students.sort((a, b) => {
+//     if (!a.weightMap) return 1;
+//     if (!b.weightMap) return -1
+
+//     const aMax = Math.max(...a.weightMap.flat()) || 0;
+//     const bMax = Math.max(...b.weightMap.flat()) || 0;
+
+//     return bMax - aMax;
+// });
+
+// fancyDraw(studentsByMaxWeight);
