@@ -178,6 +178,7 @@ const calculateWhiteboardDistWeights = () => {
     });
 
     // Sort students by their max weight on their weightMap
+    // so students with the most restrictions are placed first
     const sortedStudents = studentsNearWhiteboardFirst.sort((a, b) => {
         if (!a.weightMap) return 1;
         if (!b.weightMap) return -1
@@ -187,8 +188,6 @@ const calculateWhiteboardDistWeights = () => {
 
         return bMax - aMax;
     });
-
-    console.log(sortedStudents);
 };
 
 calculateWhiteboardDistWeights();
