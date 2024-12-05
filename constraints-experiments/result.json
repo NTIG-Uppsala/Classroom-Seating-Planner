@@ -1,0 +1,96 @@
+{
+  "placement": [
+    {
+      "name": "John",
+      "constraints": {
+        "closeToWhiteboard": true
+      },
+      "table": {
+        "centerX": 2,
+        "centerY": 1,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Bob",
+      "constraints": {
+        "closeToWhiteboard": true
+      },
+      "table": {
+        "centerX": 0,
+        "centerY": 1,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Alice",
+      "constraints": {
+        "closeToWhiteboard": true
+      },
+      "table": {
+        "centerX": 1,
+        "centerY": 1,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Charlie",
+      "constraints": {
+        "closeToWhiteboard": true
+      },
+      "table": {
+        "centerX": 2,
+        "centerY": 2,
+        "type": "table"
+      }
+    },
+    {
+      "name": "David",
+      "constraints": {
+        "closeToWhiteboard": true
+      },
+      "table": {
+        "centerX": 1,
+        "centerY": 3,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Eve",
+      "constraints": {},
+      "table": {
+        "centerX": 3,
+        "centerY": 4,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Frank",
+      "constraints": {},
+      "table": {
+        "centerX": 1,
+        "centerY": 4,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Grace",
+      "constraints": {},
+      "table": {
+        "centerX": 1,
+        "centerY": 8,
+        "type": "table"
+      }
+    },
+    {
+      "name": "Heidi",
+      "constraints": {},
+      "table": {
+        "centerX": 3,
+        "centerY": 3,
+        "type": "table"
+      }
+    }
+  ],
+  "penalty": 9.06449510224598
+}

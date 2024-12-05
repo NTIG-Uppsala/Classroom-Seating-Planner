@@ -1,48 +1,48 @@
 [
     {
-        "name": "A",
+        "name": "John",
         "constraints": {
             "closeToWhiteboard": true
         }
     },
     {
-        "name": "C",
+        "name": "Bob",
         "constraints": {
             "closeToWhiteboard": true
         }
     },
     {
-        "name": "D",
+        "name": "Alice",
         "constraints": {
             "closeToWhiteboard": true
         }
     },
     {
-        "name": "E",
+        "name": "Charlie",
         "constraints": {
             "closeToWhiteboard": true
         }
     },
     {
-        "name": "F",
+        "name": "David",
         "constraints": {
             "closeToWhiteboard": true
         }
     },
     {
-        "name": "G",
+        "name": "Eve",
         "constraints": {}
     },
     {
-        "name": "H",
+        "name": "Frank",
         "constraints": {}
     },
     {
-        "name": "I",
+        "name": "Grace",
         "constraints": {}
     },
     {
-        "name": "J",
+        "name": "Heidi",
         "constraints": {}
     }
 ]
