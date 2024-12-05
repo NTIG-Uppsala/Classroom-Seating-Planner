@@ -1,3 +1,4 @@
+import copy
 import math
 import random
 
@@ -23,47 +24,47 @@ tables = [
 # have list with available tables
 available_tables = [table["table"] for table in tables if table["occupant"] == " "]
 
-# have list with constraints : different types (binary/dynamic) and levels of importance (0-10)
+# have list with constraints : different types (boolean/distance) and levels of importance (0-10)
 constraints = [
     {
         "element": "A",
         "constraint": "closeTo",
-        "constraintType": "dynamic",
+        "constraintType": "distance",
         "constraintElement": "whiteboard",
         "importance": 10,
     },
     {
         "element": "B",
         "constraint": "closeTo",
-        "constraintType": "dynamic",
+        "constraintType": "distance",
         "constraintElement": "window",
         "importance": 5,
     },
     {
         "element": "C",
         "constraint": "closeTo",
-        "constraintType": "dynamic",
+        "constraintType": "distance",
         "constraintElement": "door",
         "importance": 5,
     },
     {
         "element": "D",
         "constraint": "farFrom",
-        "constraintType": "dynamic",
+        "constraintType": "distance",
         "constraintElement": "E",
         "importance": 10,
     },
     {
         "element": "E",
         "constraint": "closeTo",
-        "constraintType": "dynamic",
+        "constraintType": "distance",
         "constraintElement": "C",
         "importance": 5,
     },
     {
         "element": "E",
         "constraint": "notNextTo",
-        "constraintType": "binary",
+        "constraintType": "boolean",
         "constraintElement": "F",
         "importance": 10,
     },
@@ -73,14 +74,104 @@ grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 
 def reset():
     available_students = students.copy()
-    # grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+    grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 
 
 def calculate_distance(x1, y1, x2, y2):
     xDiff = abs(x1 - x2)
     yDiff = abs(y1 - y2)
-    # print(math.sqrt(xDiff**2 + yDiff**2))
     return math.sqrt(xDiff**2 + yDiff**2)
+
+
+targets = {
+    "whiteboard": {
+        "target": "whiteboard",
+        "x": 1,
+        "y": 0,
+        "max_distance": calculate_distance(1, 0, 2, 2),
+    },
+    "window": {
+        "target": "window",
+        "x": 2,
+        "y": 0,
+        "max_distance": calculate_distance(2, 0, 0, 2),
+    },
+    "door": {
+        "target": "door",
+        "x": 0,
+        "y": 2,
+        "max_distance": calculate_distance(0, 2, 2, 0),
+    },
+}
+
+
+def close_to_constraint_check(target, x, y, importance, debug):
+    if target in targets:
+        distance_to_target = calculate_distance(
+            x1=x, y1=y, x2=targets[target]["x"], y2=targets[target]["y"]
+        )
+        max_distance_to_target = targets[target]["max_distance"]
+
+        constraint_score = (
+            (max_distance_to_target - distance_to_target)
+            / max_distance_to_target
+            * importance
+        )
+
+        if debug:
+            print(f"constraint score: {constraint_score}, constraint: closeTo {target}")
+        return constraint_score
+    else:
+        return 0
+
+
+def far_from_constraint_check(target, x, y, importance, debug):
+    if debug:
+        print("farFrom")
+    if target in available_students:
+        if debug:
+            print(
+                f"constraint score: {importance}, constraint: farFrom {target} (not placed)"
+            )
+        return importance
+    for table in tables:
+        if table["occupant"] == target:
+            distance_to_occupant = calculate_distance(
+                x1=x, y1=y, x2=table["x"], y2=table["y"]
+            )
+            max_distance_to_occupant = calculate_distance(x1=0, y1=0, x2=2, y2=2)
+
+            constraint_score = (
+                distance_to_occupant / max_distance_to_occupant * importance
+            )
+
+            if debug:
+                print(
+                    f"constraint score: {constraint_score}, constraint: farFrom {target}"
+                )
+            return constraint_score
+
+
+def not_next_to_constraint_check(target, x, y, importance, debug):
+    if target in available_students:
+        if debug:
+            print(
+                f"constraint score: {importance}, constraint: notNextTo, {target} (not placed)"
+            )
+        return importance
+
+    for table in tables:
+        if table["occupant"] == target:
+            if not (
+                (abs(x - table["x"]) == 1 and abs(y - table["y"]) == 0)
+                or (abs(x - table["x"]) == 0 and abs(y - table["y"]) == 1)
+            ):
+                if debug:
+                    print(
+                        f"constraint score: {importance}, constraint: notNextTo, {target}"
+                    )
+                return importance
+    return 0
 
 
 def check_seating_score(
@@ -114,172 +205,81 @@ def check_seating_score(
         # Check if the element passed is the root element of the constraint
         if constraint["element"] == element:
 
-            # Check what type of constraint it is
+            # Check what type of constraint it is TODO - closeTo for other students
             if constraint["constraint"] == "closeTo":
-                if constraint["constraintElement"] == "whiteboard":
-                    distance_to_whiteboard = calculate_distance(x1=x, y1=y, x2=1, y2=0)
-                    max_distance_to_whiteboard = calculate_distance(
-                        x1=1, y1=0, x2=2, y2=2
-                    )
-
-                    constraint_score = (
-                        (max_distance_to_whiteboard - distance_to_whiteboard)
-                        / max_distance_to_whiteboard
-                        * constraint["importance"]
-                    )
-
-                    seating_score += constraint_score
-                    if debug:
-                        print(
-                            f"constraint score: {constraint_score}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]}"
-                        )
-
-                elif constraint["constraintElement"] == "window":
-                    distance_to_window = calculate_distance(x1=x, y1=y, x2=2, y2=0)
-                    max_distance_to_window = calculate_distance(x1=2, y1=0, x2=0, y2=2)
-
-                    constraint_score = (
-                        (max_distance_to_window - distance_to_window)
-                        / max_distance_to_window
-                        * constraint["importance"]
-                    )
-
-                    seating_score += constraint_score
-                    if debug:
-                        print(
-                            f"constraint score: {constraint_score}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]}"
-                        )
-
-                elif constraint["constraintElement"] == "door":
-                    distance_to_door = calculate_distance(x1=x, y1=y, x2=0, y2=2)
-                    max_distance_to_door = calculate_distance(x1=0, y1=2, x2=2, y2=0)
-
-                    constraint_score = (
-                        (max_distance_to_door - distance_to_door)
-                        / max_distance_to_door
-                        * constraint["importance"]
-                    )
-
-                    seating_score += constraint_score
-                    if debug:
-                        print(
-                            f"constraint score: {constraint_score}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]}"
-                        )
+                seating_score += close_to_constraint_check(
+                    constraint["constraintElement"],
+                    x,
+                    y,
+                    constraint["importance"],
+                    debug,
+                )
 
             # Check what type of constraint it is
             if (
                 constraint["constraint"] == "farFrom"
             ):  # TODO - something that makes it easy to check if constraint is regarding another student or if constraint is regarding an object
-                if debug:
-                    print("farFrom")
-                if constraint["constraintElement"] in available_students:
-                    seating_score += constraint["importance"]
-                    if debug:
-                        print(
-                            f"constraint score: {constraint["importance"]}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]} (not placed)"
-                        )
-                    continue
-                for table in tables:
-                    print("checking table")
-                    if table["occupant"] == constraint["constraintElement"]:
-                        distance_to_occupant = calculate_distance(
-                            x1=x, y1=y, x2=table["x"], y2=table["y"]
-                        )
-                        max_distance_to_occupant = calculate_distance(
-                            x1=0, y1=0, x2=2, y2=2
-                        )
-
-                        constraint_score = (
-                            distance_to_occupant
-                            / max_distance_to_occupant
-                            * constraint["importance"]
-                        )
-
-                        seating_score += constraint_score
-                        if debug:
-                            print(
-                                f"constraint score: {constraint_score}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]}"
-                            )
+                seating_score += far_from_constraint_check(
+                    constraint["constraintElement"],
+                    x,
+                    y,
+                    constraint["importance"],
+                    debug,
+                )
 
             if constraint["constraint"] == "notNextTo":
-                if constraint["constraintElement"] in available_students:
-                    seating_score += constraint["importance"]
-                    if debug:
-                        print(
-                            f"constraint score: {constraint["importance"]}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]} (not placed)"
-                        )
-                    continue
-
-                for table in tables:
-                    if table["occupant"] == constraint["constraintElement"]:
-                        if not (
-                            (abs(x - table["x"]) == 1 and abs(y - table["y"]) == 0)
-                            or (abs(x - table["x"]) == 0 and abs(y - table["y"]) == 1)
-                        ):
-                            seating_score += constraint["importance"]
-                            if debug:
-                                print(
-                                    f"constraint score: {constraint["importance"]}, constraint: {constraint["constraint"]}, {constraint["constraintElement"]}"
-                                )
+                seating_score += not_next_to_constraint_check(
+                    constraint["constraintElement"],
+                    x,
+                    y,
+                    constraint["importance"],
+                    debug,
+                )
 
         elif constraint["constraintElement"] == element:
             if constraint["constraint"] == "farFrom":
-                if constraint["element"] in available_students:
-                    seating_score += constraint["importance"]
-                    if debug:
-                        print(
-                            f"constraint score: {constraint["importance"]}, constraint: {constraint["constraint"]}, {constraint["element"]} (not placed)"
-                        )
-                    continue
-
-                for table in tables:
-                    if table["occupant"] == constraint["element"]:
-                        distance_to_occupant = calculate_distance(
-                            x1=x, y1=y, x2=table["x"], y2=table["y"]
-                        )
-                        max_distance_to_occupant = calculate_distance(
-                            x1=0, y1=0, x2=2, y2=2
-                        )
-
-                        constraint_score = (
-                            distance_to_occupant
-                            / max_distance_to_occupant
-                            * constraint["importance"]
-                        )
-
-                        seating_score += constraint_score
-                        if debug:
-                            print(
-                                f"constraint score: {constraint_score}, constraint: {constraint["constraint"]}, {constraint["element"]}"
-                            )
+                seating_score += far_from_constraint_check(
+                    constraint["element"], x, y, constraint["importance"], debug
+                )
 
             if constraint["constraint"] == "notNextTo":
-                if constraint["element"] in available_students:
-                    seating_score += constraint["importance"]
-
-                    if debug:
-                        print(
-                            f"constraint score: {constraint["importance"]}, constraint: {constraint["constraint"]}, {constraint["element"]} (not placed)"
-                        )
-                    continue
-
-                for table in tables:
-                    if table["occupant"] == constraint["element"]:
-                        if not (
-                            (abs(x - table["x"]) == 1 and abs(y - table["y"]) == 0)
-                            or (abs(x - table["x"]) == 0 and abs(y - table["y"]) == 1)
-                        ):
-                            seating_score += constraint["importance"]
-                            if debug:
-                                print(
-                                    f"constraint score: {constraint["importance"]}, constraint: {constraint["constraint"]}, {constraint["element"]}"
-                                )
-
+                seating_score += not_next_to_constraint_check(
+                    constraint["element"], x, y, constraint["importance"], debug
+                )
     # print(f"Element: {element}, Table: {target_table['table']}, Score: {seating_score}")
     return seating_score
 
 
 table = list(filter(lambda x: x["table"] == "1", tables))[0]
+
+
+def place_student_at_table_and_return_score(element):
+    available_tables = [table for table in tables if table["occupant"] == " "]
+
+    # get available tables that meet constraints
+    available_tables_with_constraints = (
+        [  # TODO - make sure that a table can be selected
+            table
+            for table in available_tables
+            if check_seating_score(element, table, False) > 0
+        ]
+    )
+
+    # randomly select table from available tables with constraints
+    if len(available_tables_with_constraints) > 0:
+        random_table = random.choice(
+            available_tables_with_constraints
+        )  # TODO - make sure that it selects one of the best tables
+        # print(
+        #     f"element: {element}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
+        # )
+        random_table["occupant"] = element
+        available_students.remove(element)
+
+        seating_score = check_seating_score(element, random_table, False)
+        return seating_score
+    else:
+        return 0
 
 
 def generate_random_seating_arrangement():
@@ -294,65 +294,25 @@ def generate_random_seating_arrangement():
     for constraint in sorted_constraints:
         # print("\n-----------------------------------\n")
         if constraint["element"] in available_students:
-            # get available tables
-            available_tables = [table for table in tables if table["occupant"] == " "]
-
-            # get available tables that meet constraints
-            available_tables_with_constraints = [
-                table
-                for table in available_tables
-                if check_seating_score(constraint["element"], table, False) > 0
-            ]
-
-            # randomly select table from available tables with constraints
-            if len(available_tables_with_constraints) > 0:
-                random_table = random.choice(available_tables_with_constraints)
-                seating_score = check_seating_score(
-                    constraint["element"], random_table, False
-                )
-                seating_arrangement_score += seating_score
-                # print(
-                #     f"element: {constraint["element"]}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
-                # )
-                random_table["occupant"] = constraint["element"]
-                available_students.remove(constraint["element"])
+            seating_arrangement_score += place_student_at_table_and_return_score(
+                constraint["element"]
+            )
 
         if constraint["constraintElement"] in available_students:
-
-            # get available tables
-            available_tables = [table for table in tables if table["occupant"] == " "]
-
-            # get available tables that meet constraints
-            available_tables_with_constraints = [
-                table
-                for table in available_tables
-                if check_seating_score(constraint["constraintElement"], table, False)
-                > 0
-            ]
-            # print()
-            # randomly select table from available tables with constraints
-            if len(available_tables_with_constraints) > 0:
-                random_table = random.choice(available_tables_with_constraints)
-                seating_score = check_seating_score(
-                    constraint["constraintElement"], random_table, False
-                )
-                seating_arrangement_score += seating_score
-                # print(
-                #     f"element: {constraint["constraintElement"]}, table: {random_table}, constraint: {constraint["constraint"]}, seating score: {seating_score}"
-                # )
-                random_table["occupant"] = constraint["constraintElement"]
-                available_students.remove(constraint["constraintElement"])
+            seating_arrangement_score += place_student_at_table_and_return_score(
+                constraint["constraintElement"]
+            )
 
     return seating_arrangement_score
 
 
 grid_generations = []
 
-iterations = 1000
+iterations = 10000
 
 for i in range(iterations):
     # print("--------------------")
-    available_students = students.copy()
+    available_students = copy.deepcopy(students)
     for table in tables:
         table["occupant"] = " "
         grid[table["y"]][table["x"]] = table["occupant"]
@@ -363,30 +323,45 @@ for i in range(iterations):
     for table in tables:
         grid[table["y"]][table["x"]] = table["occupant"]
 
-    grid_generations.append({"score": score, "grid": grid.copy()})
-    # print("\n score \n")
-    # print(score)
-    # print("\n grid \n")
-    # for row in grid:
-    #     print(row)
-    # grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+    grid_generations.append({"score": score, "grid": copy.deepcopy(grid)})
+
+# for grid_generation in grid_generations:
+#     print("score:", grid_generation["score"])
+#     for row in grid_generation["grid"]:
+#         print(row)
+#     print("\n")
 
 # print("--------------------")
 grid_generations_total_score = 0
 grid_generations_scores_list = []
+scores_above_or_equal_to_30 = []
+scores_above_or_equal_to_35 = []
+scores_above_or_eqyal_to_38 = []
+scores_above_or_equal_to_40 = []
 scores_above_or_equal_to_50 = []
 scores_above_or_equal_to_60 = []
 for grid_generation in grid_generations:
-    # print(grid_generation["score"])
+
     grid_generations_total_score += grid_generation["score"]
+
+    if grid_generation["score"] >= 30:
+        scores_above_or_equal_to_30.append(grid_generation["score"])
+
+    if grid_generation["score"] >= 35:
+        scores_above_or_equal_to_35.append(grid_generation["score"])
+
+    if grid_generation["score"] >= 38:
+        scores_above_or_eqyal_to_38.append(grid_generation["score"])
+
+    if grid_generation["score"] >= 40:
+        scores_above_or_equal_to_40.append(grid_generation["score"])
+
     if grid_generation["score"] >= 50:
         scores_above_or_equal_to_50.append(grid_generation["score"])
-        if grid_generation["score"] >= 60:
-            scores_above_or_equal_to_60.append(grid_generation["score"])
+
+    if grid_generation["score"] >= 60:
+        scores_above_or_equal_to_60.append(grid_generation["score"])
     grid_generations_scores_list.append(grid_generation["score"])
-    # for row in grid_generation["grid"]:
-    #     print(row)
-    # print("\n")
 
 print("--------------------")
 print(f"Total score: {grid_generations_total_score}\n")
@@ -394,28 +369,34 @@ print(f"Average score: {grid_generations_total_score / len(grid_generations)}\n"
 
 print("--------------------")
 
-if len(scores_above_or_equal_to_50) > 0:
-    print(
-        f"Scores above or equal to 50: {len(scores_above_or_equal_to_50)} | Max: {max(scores_above_or_equal_to_50)} | %: {len(scores_above_or_equal_to_50)/iterations*100}\n"
-    )
 
-if len(scores_above_or_equal_to_60) > 0:
-    print(
-        f"Scores above or equal to 60: {len(scores_above_or_equal_to_60)} | Max: {max(scores_above_or_equal_to_60)} | %: {len(scores_above_or_equal_to_60)/iterations*100}\n"
-    )
+def print_score_stats(scores, threshold, iterations):
+    print(len(str(iterations)))
+    max_count_string_length = len(str(iterations))
+    scores_count_string = str(len(scores))
+    scores_rate = len(scores) / iterations * 100
+    scores_rate_string = str(scores_rate)
+    if len(scores_count_string) < max_count_string_length:
+        scores_count_string = (
+            " " * (max_count_string_length - len(scores_count_string))
+            + scores_count_string
+        )
 
-# for score in scores_above_50:
-#     print(score)
+    if len(str(int(scores_rate))) < 3:
+        scores_rate_string = " " * (3 - len(str(int(scores_rate)))) + scores_rate_string
 
-# for score in grid_generations_scores_list:
-#     if score > 50:
-#         print(score)
+    if len(scores) > 0:
+        print(
+            f"Scores above {threshold}: {scores_count_string} | {scores_rate_string}%\n"
+        )
 
-# for grid_generation in grid_generations:
-#     print(grid_generation["score"])
-#     for row in grid_generation["grid"]:
-#         print(row)
-#     print("\n")
+
+if True:  # print score stats
+
+    print(f"Max score in list: {max(grid_generations_scores_list)}\n")
+    print_score_stats(scores_above_or_equal_to_40, 40, iterations)
+    print_score_stats(scores_above_or_equal_to_50, 50, iterations)
+    print_score_stats(scores_above_or_equal_to_60, 60, iterations)
 
 # function to generate a random seating arrangement
 
@@ -435,3 +416,22 @@ if len(scores_above_or_equal_to_60) > 0:
 # call function to generate a random seating arrangement until there are enough good seating arrangements
 
 # pick one of the good seating arrangements and make sure it is different from the 5 most recent seating arrangements
+
+# ide: spara alla möjliga positioner för elev samt positionernas poäng i en lista och efter alla listor är genererade, beräkna bästa bordsplacering
+# problem: hur hantera att en elev inte kan sitta bredvid en annan elev
+# lösning?: backtracking algoritm
+
+# ide: spara poäng för constraints som är relaterade till objekt som tavla och dörr i en lista och använd listan för att beräkna
+# plats när elev har sådan constraint
+
+# grid_list = []
+# grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+# for i in range(10):
+# slumpa grid
+# grid_list.append(grid)
+# for grid in grid_list:
+# for row in grid:
+# print(row)
+# print("\n")
+
+# alla grids kommer vara likadana
