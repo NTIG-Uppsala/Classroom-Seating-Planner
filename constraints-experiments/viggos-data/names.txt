@@ -1,222 +1,37 @@
 Éli Garn
 Abhishek Patel
-Ava Johnson: NearWhiteboard
+Ava Johnson
 Lucía Fernández
 Mei Chen¤¤¤
 Ingrid Svensson
 Tatiana Ivanova
 Anastasiya Kuznetsova
 Konstantin Mikhailov
-Mao Takahashi: NearWhiteboard
+Mao Takahashi
 Aya Hasan
-Éli Cohen: OtherConstraint/
+Éli Cohen
 Zhihao Wang
 Youssef Farah
-Sofía García: NearWhiteboard
-Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera: NearWhiteboard
-Valeria Rossi: NearWhiteboard
-Chloé Dubois: NearWhiteboard
-Maximilian Fischer: NearWhiteboard
-Alejandro Martínez: NearWhiteboard /OtherConstraint
-Kai Nakamura: OtherConstraint
-Dmitri Petrov: NearWhiteboard
-Amina Abdi: NearWhiteboard
+Sofía García
+Matsuo Tanaka: NearWhiteboard
+Esmeralda Rivera: nära(tavlan)
+Valeria Rossi: nära(aya hasen)
+Chloé Dubois
+Maximilian Fischer
+Alejandro Martínez
+Kai Nakamura
+Dmitri Petrov
+Amina Abdi
 Ivo Novak
-Rajesh Sharma: NearWhiteboard/NearWhiteboard
+Rajesh Sharma
 Alessandra Romano
-Léo Dupont: NearWhiteboard/
+Léo Dupont
 Fatima Al-Mansouri
 Katarina Schmidt
-Benedetta Conti: NearWhiteboard/NearWhiteboard
+Benedetta Conti
 Amara Okafor
-Eero Virtanen: NearWhiteboard
-Théodore Laurent: NearWhiteboard
-Haruto Yamamoto: NearWhiteboard
-Eleftherios Nikolaidis: NearWhiteboard
-Yannis Papadopoulos: NearWhiteboard
-Éli Garn
-Abhishek Patel
-Ava Johnson: NearWhiteboard
-Lucía Fernández
-Mei Chen¤¤¤
-Ingrid Svensson
-Tatiana Ivanova
-Anastasiya Kuznetsova
-Konstantin Mikhailov
-Mao Takahashi: NearWhiteboard
-Aya Hasan
-Éli Cohen: OtherConstraint/
-Zhihao Wang
-Youssef Farah
-Sofía García: NearWhiteboard
-Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera: NearWhiteboard
-Valeria Rossi: NearWhiteboard
-Chloé Dubois: NearWhiteboard
-Maximilian Fischer: NearWhiteboard
-Alejandro Martínez: NearWhiteboard /OtherConstraint
-Kai Nakamura: OtherConstraint
-Dmitri Petrov: NearWhiteboard
-Amina Abdi: NearWhiteboard
-Ivo Novak
-Rajesh Sharma: NearWhiteboard/NearWhiteboard
-Alessandra Romano
-Léo Dupont: NearWhiteboard/
-Fatima Al-Mansouri
-Katarina Schmidt
-Benedetta Conti: NearWhiteboard/NearWhiteboard
-Amara Okafor
-Eero Virtanen: NearWhiteboard
-Théodore Laurent: NearWhiteboard
-Haruto Yamamoto: NearWhiteboard
-Eleftherios Nikolaidis: NearWhiteboard
-Yannis Papadopoulos: NearWhiteboard
-Éli Garn
-Abhishek Patel
-Ava Johnson: NearWhiteboard
-Lucía Fernández
-Mei Chen¤¤¤
-Ingrid Svensson
-Tatiana Ivanova
-Anastasiya Kuznetsova
-Konstantin Mikhailov
-Mao Takahashi: NearWhiteboard
-Aya Hasan
-Éli Cohen: OtherConstraint/
-Zhihao Wang
-Youssef Farah
-Sofía García: NearWhiteboard
-Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera: NearWhiteboard
-Valeria Rossi: NearWhiteboard
-Chloé Dubois: NearWhiteboard
-Maximilian Fischer: NearWhiteboard
-Alejandro Martínez: NearWhiteboard /OtherConstraint
-Kai Nakamura: OtherConstraint
-Dmitri Petrov: NearWhiteboard
-Amina Abdi: NearWhiteboard
-Ivo Novak
-Rajesh Sharma: NearWhiteboard/NearWhiteboard
-Alessandra Romano
-Léo Dupont: NearWhiteboard/
-Fatima Al-Mansouri
-Katarina Schmidt
-Benedetta Conti: NearWhiteboard/NearWhiteboard
-Amara Okafor
-Eero Virtanen: NearWhiteboard
-Théodore Laurent: NearWhiteboard
-Haruto Yamamoto: NearWhiteboard
-Eleftherios Nikolaidis: NearWhiteboard
-Yannis Papadopoulos: NearWhiteboard
-Éli Garn
-Abhishek Patel
-Ava Johnson: NearWhiteboard
-Lucía Fernández
-Mei Chen¤¤¤
-Ingrid Svensson
-Tatiana Ivanova
-Anastasiya Kuznetsova
-Konstantin Mikhailov
-Mao Takahashi: NearWhiteboard
-Aya Hasan
-Éli Cohen: OtherConstraint/
-Zhihao Wang
-Youssef Farah
-Sofía García: NearWhiteboard
-Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera: NearWhiteboard
-Valeria Rossi: NearWhiteboard
-Chloé Dubois: NearWhiteboard
-Maximilian Fischer: NearWhiteboard
-Alejandro Martínez: NearWhiteboard /OtherConstraint
-Kai Nakamura: OtherConstraint
-Dmitri Petrov: NearWhiteboard
-Amina Abdi: NearWhiteboard
-Ivo Novak
-Rajesh Sharma: NearWhiteboard/NearWhiteboard
-Alessandra Romano
-Léo Dupont: NearWhiteboard/
-Fatima Al-Mansouri
-Katarina Schmidt
-Benedetta Conti: NearWhiteboard/NearWhiteboard
-Amara Okafor
-Eero Virtanen: NearWhiteboard
-Théodore Laurent: NearWhiteboard
-Haruto Yamamoto: NearWhiteboard
-Eleftherios Nikolaidis: NearWhiteboard
-Yannis Papadopoulos: NearWhiteboard
-Éli Garn
-Abhishek Patel
-Ava Johnson: NearWhiteboard
-Lucía Fernández
-Mei Chen¤¤¤
-Ingrid Svensson
-Tatiana Ivanova
-Anastasiya Kuznetsova
-Konstantin Mikhailov
-Mao Takahashi: NearWhiteboard
-Aya Hasan
-Éli Cohen: OtherConstraint/
-Zhihao Wang
-Youssef Farah
-Sofía García: NearWhiteboard
-Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera: NearWhiteboard
-Valeria Rossi: NearWhiteboard
-Chloé Dubois: NearWhiteboard
-Maximilian Fischer: NearWhiteboard
-Alejandro Martínez: NearWhiteboard /OtherConstraint
-Kai Nakamura: OtherConstraint
-Dmitri Petrov: NearWhiteboard
-Amina Abdi: NearWhiteboard
-Ivo Novak
-Rajesh Sharma: NearWhiteboard/NearWhiteboard
-Alessandra Romano
-Léo Dupont: NearWhiteboard/
-Fatima Al-Mansouri
-Katarina Schmidt
-Benedetta Conti: NearWhiteboard/NearWhiteboard
-Amara Okafor
-Eero Virtanen: NearWhiteboard
-Théodore Laurent: NearWhiteboard
-Haruto Yamamoto: NearWhiteboard
-Eleftherios Nikolaidis: NearWhiteboard
-Yannis Papadopoulos: NearWhiteboard
-Éli Garn
-Abhishek Patel
-Ava Johnson: NearWhiteboard
-Lucía Fernández
-Mei Chen¤¤¤
-Ingrid Svensson
-Tatiana Ivanova
-Anastasiya Kuznetsova
-Konstantin Mikhailov
-Mao Takahashi: NearWhiteboard
-Aya Hasan
-Éli Cohen: OtherConstraint/
-Zhihao Wang
-Youssef Farah
-Sofía García: NearWhiteboard
-Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera: NearWhiteboard
-Valeria Rossi: NearWhiteboard
-Chloé Dubois: NearWhiteboard
-Maximilian Fischer: NearWhiteboard
-Alejandro Martínez: NearWhiteboard /OtherConstraint
-Kai Nakamura: OtherConstraint
-Dmitri Petrov: NearWhiteboard
-Amina Abdi: NearWhiteboard
-Ivo Novak
-Rajesh Sharma: NearWhiteboard/NearWhiteboard
-Alessandra Romano
-Léo Dupont: NearWhiteboard/
-Fatima Al-Mansouri
-Katarina Schmidt
-Benedetta Conti: NearWhiteboard/NearWhiteboard
-Amara Okafor
-Eero Virtanen: NearWhiteboard
-Théodore Laurent: NearWhiteboard
-Haruto Yamamoto: NearWhiteboard
-Eleftherios Nikolaidis: NearWhiteboard
-Yannis Papadopoulos: NearWhiteboard
+Eero Virtanen
+Théodore Laurent
+Haruto Yamamoto
+Eleftherios Nikolaidis
+Yannis Papadopoulos
