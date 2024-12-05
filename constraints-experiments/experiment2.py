@@ -105,7 +105,9 @@ targets = {
 }
 
 
-def close_to_constraint_check(target, x, y, importance, debug):
+def close_to_constraint_check(
+    target, x, y, importance, debug
+):  # TODO - implement that student can be close to another student
     if target in targets:
         distance_to_target = calculate_distance(
             x1=x, y1=y, x2=targets[target]["x"], y2=targets[target]["y"]
@@ -125,7 +127,9 @@ def close_to_constraint_check(target, x, y, importance, debug):
         return 0
 
 
-def far_from_constraint_check(target, x, y, importance, debug):
+def far_from_constraint_check(
+    target, x, y, importance, debug
+):  # TODO - implement that student can be far from an object
     if debug:
         print("farFrom")
     if target in available_students:
@@ -363,15 +367,8 @@ for grid_generation in grid_generations:
         scores_above_or_equal_to_60.append(grid_generation["score"])
     grid_generations_scores_list.append(grid_generation["score"])
 
-print("--------------------")
-print(f"Total score: {grid_generations_total_score}\n")
-print(f"Average score: {grid_generations_total_score / len(grid_generations)}\n")
-
-print("--------------------")
-
 
 def print_score_stats(scores, threshold, iterations):
-    print(len(str(iterations)))
     max_count_string_length = len(str(iterations))
     scores_count_string = str(len(scores))
     scores_rate = len(scores) / iterations * 100
@@ -393,10 +390,15 @@ def print_score_stats(scores, threshold, iterations):
 
 if True:  # print score stats
 
-    print(f"Max score in list: {max(grid_generations_scores_list)}\n")
+    # print_score_stats(scores_above_or_equal_to_30, 30, iterations)
+    # print_score_stats(scores_above_or_equal_to_35, 35, iterations)
+    # print_score_stats(scores_above_or_eqyal_to_38, 38, iterations)
     print_score_stats(scores_above_or_equal_to_40, 40, iterations)
     print_score_stats(scores_above_or_equal_to_50, 50, iterations)
     print_score_stats(scores_above_or_equal_to_60, 60, iterations)
+    print(f"Total score: {grid_generations_total_score}")
+    print(f"Average score: {grid_generations_total_score / len(grid_generations)}")
+    print(f"Max score in list: {max(grid_generations_scores_list)}\n")
 
 # function to generate a random seating arrangement
 
