@@ -1,48 +1,56 @@
 const fs = require("fs");
 
+// Returns the euclidean distance between two cells
 const getDistance = (cell1, cell2) => {
     const x = Math.abs(cell1.centerX - cell2.centerX);
     const y = Math.abs(cell1.centerY - cell2.centerY);
     return Math.sqrt(x ** 2 + y ** 2);
 };
 
+// Adds the table to a set of tables that someone is sitting at
 const markTableAsUsed = (table, usedTables) => {
     const tableKey = `${table.centerX},${table.centerY}`;
     usedTables.add(tableKey);
 };
 
+// Returns a boolean indicating whether someone is already sitting at the table
 const isTableAvailable = (table, usedTables) => {
     const tableKey = `${table.centerX},${table.centerY}`;
     const isAvailable = !usedTables.has(tableKey);
     return isAvailable;
 };
 
+// Calculates the penalty for a placement
 const calculatePenalty = (placement, cells) => {
     const whiteboard = cells.find((cell) => cell.type === "whiteboard");
     let penalty = 0;
 
-    placement.forEach((person) => {
-        const table = cells.find((cell) => cell.centerX === person.table.centerX && cell.centerY === person.table.centerY);
-        if (person.constraints.closeToWhiteboard) {
-            penalty += getDistance(whiteboard, table);
-        }
+    // Check that the constraint object is not empty
+    placement
+        .filter((person) => person.constraints)
+        .forEach((person) => {
+            const table = cells.find((cell) => cell.centerX === person.table.centerX && cell.centerY === person.table.centerY);
+            if (person.constraints.closeToWhiteboard) {
+                penalty += getDistance(whiteboard, table);
+            }
 
-        if (person.constraints.canNotSitNextTo) {
-            placement
-                .filter((otherPerson) => otherPerson.name === person.constraints.canNotSitNextTo)
-                .forEach((otherPerson) => {
-                    const otherPersonsTable = cells.find((cell) => cell.centerX === otherPerson.table.centerX && cell.centerY === otherPerson.table.centerY);
+            if (person.constraints.canNotSitNextTo) {
+                placement
+                    .filter((otherPerson) => otherPerson.name === person.constraints.canNotSitNextTo)
+                    .forEach((otherPerson) => {
+                        const otherPersonsTable = cells.find((cell) => cell.centerX === otherPerson.table.centerX && cell.centerY === otherPerson.table.centerY);
 
-                    penalty += 5 / getDistance(table, otherPersonsTable);
-                });
-        }
+                        penalty += 5 / getDistance(table, otherPersonsTable);
+                    });
+            }
 
-        // Add additional constraints here
-    });
+            // Add additional constraints here
+        });
 
     return penalty;
 };
 
+// Creates an initial random placement of people at tables
 const initializePlacement = (people, cells) => {
     const tables = cells.filter((cell) => cell.type === "table");
     const usedTables = new Set();
@@ -64,6 +72,7 @@ const initializePlacement = (people, cells) => {
     });
 };
 
+// Randomly reassigns people to tables with a certain probability
 const mutate = (placement, cells, mutationRate) => {
     const tables = cells.filter((cell) => cell.type === "table");
     const usedTables = new Set(placement.map((person) => `${person.table.centerX},${person.table.centerY}`));
@@ -91,7 +100,10 @@ const mutate = (placement, cells, mutationRate) => {
     });
 };
 
-const runGeneticAlgorithm = (people, cells, populationSize, generations, mutationRate) => {
+// Mutate the currently best placement a number of times and return the best one
+const runGeneticAlgorithm = (people, cells, populationSize, generations) => {
+    let mutationRate = 0.5;
+
     // Initialize the population
     let population = Array.from({ length: populationSize }, () => initializePlacement(people, cells));
 
@@ -118,16 +130,16 @@ const runGeneticAlgorithm = (people, cells, populationSize, generations, mutatio
             newPopulation.push(mutatedPlacement);
         }
         population = newPopulation;
+
+        mutationRate *= 0.99;
     }
 
     return { placement: bestPlacement, penalty: bestFitness };
 };
 
+// Draws the result to the console
 const drawResultToConsole = (result, cells, whiteboards) => {
-    // Remove the average whiteboard position from the cells
     cells = cells.filter((cell) => cell.type === "table");
-
-    // Add all the whiteboards to the cells
 
     whiteboards.forEach((whiteboard) => {
         cells.push(whiteboard);
@@ -135,7 +147,6 @@ const drawResultToConsole = (result, cells, whiteboards) => {
 
     fs.writeFileSync("constraints-experiments/result.json", JSON.stringify(result, null, 2));
 
-    console.log(result);
     const maxX = Math.max(...cells.map((cell) => cell.centerX));
     const maxY = Math.max(...cells.map((cell) => cell.centerY));
 
@@ -162,11 +173,16 @@ const drawResultToConsole = (result, cells, whiteboards) => {
         filledGrid[person.table.centerY][person.table.centerX] = person.name[0];
     });
 
+    console.log("Penalty:", result.penalty);
+
+    console.log("Result:\n");
+
     filledGrid.forEach((row) => {
         console.log(row.join(""));
     });
 };
 
+// Turns the layout string into an array of cells and an array of whiteboards
 const format = (layout) => {
     const tables = [];
     const whiteboards = [];
@@ -185,7 +201,6 @@ const format = (layout) => {
         });
     });
 
-    // Turn the whiteboards into a single cell with the average position
     const whiteboardPosAvg = whiteboards.reduce(
         (accumulator, current) => {
             accumulator.centerX += current.centerX;
@@ -200,22 +215,17 @@ const format = (layout) => {
 
     const cells = [...tables, { ...whiteboardPosAvg, type: "whiteboard" }];
 
-    // Correct the return to return both values as an object or array
     return { cells, whiteboards };
 };
 
 const layout = fs.readFileSync("constraints-experiments/classroom.txt", "utf-8");
 
-// Destructure the returned object to get cells and whiteboards
 const { cells, whiteboards } = format(layout);
-
-// console.log(whiteboards);
 
 const people = JSON.parse(fs.readFileSync("constraints-experiments/list.json", "utf8"));
 
-const populationSize = 100;
-const generations = 500;
-const mutationRate = 0.25;
+const populationSize = 150;
+const generations = 150;
 
-const result = runGeneticAlgorithm(people, cells, populationSize, generations, mutationRate);
+const result = runGeneticAlgorithm(people, cells, populationSize, generations);
 drawResultToConsole(result, cells, whiteboards);
