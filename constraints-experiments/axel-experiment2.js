@@ -27,6 +27,20 @@ const calculatePenalty = (placement, cells) => {
             penalty += getDistance(whiteboard, table);
         }
 
+        if (person.constraints.canNotSitNextTo) {
+            placement.forEach((otherPerson) => {
+                if (otherPerson.name === person.name) {
+                    return;
+                }
+
+                const otherPersonsTable = cells.find(
+                    (cell) => cell.centerX === otherPerson.table.centerX && cell.centerY === otherPerson.table.centerY
+                );
+
+                penalty += 5 / getDistance(table, otherPersonsTable);
+            });
+        }
+
         // Add additional constraints here
     });
 

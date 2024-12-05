@@ -35,7 +35,9 @@
     },
     {
         "name": "Frank",
-        "constraints": {}
+        "constraints": {
+            "canNotSitNextTo": "Eve"
+        }
     },
     {
         "name": "Grace",
