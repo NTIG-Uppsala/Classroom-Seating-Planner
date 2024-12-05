@@ -151,7 +151,7 @@ const runGeneticAlgorithm = (people, cells, populationSize, generations) => {
         }
         population = newPopulation;
 
-        mutationRate *= 0.99;
+        mutationRate *= 0.995;
     }
 
     return { placement: bestPlacement, penalty: bestFitness };
