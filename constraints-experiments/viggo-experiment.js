@@ -92,33 +92,42 @@ const addWhiteboardDistToTables = (tableCells, whiteboard) => {
 };
 
 const fancyDraw = (tables) => {
+
+    const palette = {
+        whiteboard: "T",
+        tableWithStudent: "█",
+        tableWithStudentNoConstraints: "▓",
+        tableWithoutStudent: "▒",
+        floor: "░",
+    }
+
     const maxX = Math.max(...tables.map((table) => table.x));
     const maxY = Math.max(...tables.map((table) => table.y));
 
-    const map = Array.from({ length: maxY + 1 }, () => Array(maxX + 1).fill("░"));
+    const map = Array.from({ length: maxY + 1 }, () => Array(maxX + 1).fill(palette.floor));
 
     tables.forEach((table) => {
         if (table.student) {
             if (table.student.constraints) {
-                map[table.y][table.x] = "█";
+                map[table.y][table.x] = palette.tableWithStudent;
             } else {
-                map[table.y][table.x] = "▓";
+                map[table.y][table.x] = palette.tableWithStudentNoConstraints;
             }
         } else {
-            map[table.y][table.x] = "▒";
+            map[table.y][table.x] = palette.tableWithoutStudent;
         }
     });
 
     getWhiteboardCells(layout).forEach((whiteboard) => {
-        map[whiteboard.y][whiteboard.x] = "T";
+        map[whiteboard.y][whiteboard.x] = palette.whiteboard;
     });
 
     console.log("----------------------");
-    console.log("T Whiteboard.");
-    console.log("█ Table with student.");
-    console.log("█ Table with student without constraints.");
-    console.log("▒ Table without student.");
-    console.log("░ Floor.");
+    console.log(`${palette.whiteboard} Whiteboard.`);
+    console.log(`${palette.tableWithStudent} Table with student.`);
+    console.log(`${palette.tableWithStudentNoConstraints} Table with unconstrained student.`);
+    console.log(`${palette.tableWithoutStudent} Table without student.`);
+    console.log(`${palette.floor} Floor.`);
     console.log("");
 
     map.forEach((row) => {
@@ -128,7 +137,7 @@ const fancyDraw = (tables) => {
     console.log("----------------------");
 };
 
-
+const startTime = Date.now();
 
 const layout = getLayout();
 const tables = getTables(layout);
@@ -214,7 +223,7 @@ students.forEach((student) => {
 
 fancyDraw(tables);
 
-
+console.log("Time:", Date.now() - startTime, "ms");
 
 
 

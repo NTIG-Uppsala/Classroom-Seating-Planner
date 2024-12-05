@@ -7,31 +7,216 @@ Ingrid Svensson
 Tatiana Ivanova
 Anastasiya Kuznetsova
 Konstantin Mikhailov
-Mao Takahashi
+Mao Takahashi: NearWhiteboard
 Aya Hasan
 Éli Cohen: OtherConstraint/
 Zhihao Wang
 Youssef Farah
-Sofía García
+Sofía García: NearWhiteboard
 Matsuo Tanaka: NearWhiteboard/OtherConstraint/
-Esmeralda Rivera
-Valeria Rossi
-Chloé Dubois
-Maximilian Fischer
+Esmeralda Rivera: NearWhiteboard
+Valeria Rossi: NearWhiteboard
+Chloé Dubois: NearWhiteboard
+Maximilian Fischer: NearWhiteboard
 Alejandro Martínez: NearWhiteboard /OtherConstraint
 Kai Nakamura: OtherConstraint
-Dmitri Petrov
-Amina Abdi
+Dmitri Petrov: NearWhiteboard
+Amina Abdi: NearWhiteboard
 Ivo Novak
-Rajesh Sharma
+Rajesh Sharma: NearWhiteboard/NearWhiteboard
 Alessandra Romano
 Léo Dupont: NearWhiteboard/
 Fatima Al-Mansouri
 Katarina Schmidt
-Benedetta Conti
+Benedetta Conti: NearWhiteboard/NearWhiteboard
 Amara Okafor
-Eero Virtanen
-Théodore Laurent
-Haruto Yamamoto
-Eleftherios Nikolaidis
-Yannis Papadopoulos
+Eero Virtanen: NearWhiteboard
+Théodore Laurent: NearWhiteboard
+Haruto Yamamoto: NearWhiteboard
+Eleftherios Nikolaidis: NearWhiteboard
+Yannis Papadopoulos: NearWhiteboard
+Éli Garn
+Abhishek Patel
+Ava Johnson: NearWhiteboard
+Lucía Fernández
+Mei Chen¤¤¤
+Ingrid Svensson
+Tatiana Ivanova
+Anastasiya Kuznetsova
+Konstantin Mikhailov
+Mao Takahashi: NearWhiteboard
+Aya Hasan
+Éli Cohen: OtherConstraint/
+Zhihao Wang
+Youssef Farah
+Sofía García: NearWhiteboard
+Matsuo Tanaka: NearWhiteboard/OtherConstraint/
+Esmeralda Rivera: NearWhiteboard
+Valeria Rossi: NearWhiteboard
+Chloé Dubois: NearWhiteboard
+Maximilian Fischer: NearWhiteboard
+Alejandro Martínez: NearWhiteboard /OtherConstraint
+Kai Nakamura: OtherConstraint
+Dmitri Petrov: NearWhiteboard
+Amina Abdi: NearWhiteboard
+Ivo Novak
+Rajesh Sharma: NearWhiteboard/NearWhiteboard
+Alessandra Romano
+Léo Dupont: NearWhiteboard/
+Fatima Al-Mansouri
+Katarina Schmidt
+Benedetta Conti: NearWhiteboard/NearWhiteboard
+Amara Okafor
+Eero Virtanen: NearWhiteboard
+Théodore Laurent: NearWhiteboard
+Haruto Yamamoto: NearWhiteboard
+Eleftherios Nikolaidis: NearWhiteboard
+Yannis Papadopoulos: NearWhiteboard
+Éli Garn
+Abhishek Patel
+Ava Johnson: NearWhiteboard
+Lucía Fernández
+Mei Chen¤¤¤
+Ingrid Svensson
+Tatiana Ivanova
+Anastasiya Kuznetsova
+Konstantin Mikhailov
+Mao Takahashi: NearWhiteboard
+Aya Hasan
+Éli Cohen: OtherConstraint/
+Zhihao Wang
+Youssef Farah
+Sofía García: NearWhiteboard
+Matsuo Tanaka: NearWhiteboard/OtherConstraint/
+Esmeralda Rivera: NearWhiteboard
+Valeria Rossi: NearWhiteboard
+Chloé Dubois: NearWhiteboard
+Maximilian Fischer: NearWhiteboard
+Alejandro Martínez: NearWhiteboard /OtherConstraint
+Kai Nakamura: OtherConstraint
+Dmitri Petrov: NearWhiteboard
+Amina Abdi: NearWhiteboard
+Ivo Novak
+Rajesh Sharma: NearWhiteboard/NearWhiteboard
+Alessandra Romano
+Léo Dupont: NearWhiteboard/
+Fatima Al-Mansouri
+Katarina Schmidt
+Benedetta Conti: NearWhiteboard/NearWhiteboard
+Amara Okafor
+Eero Virtanen: NearWhiteboard
+Théodore Laurent: NearWhiteboard
+Haruto Yamamoto: NearWhiteboard
+Eleftherios Nikolaidis: NearWhiteboard
+Yannis Papadopoulos: NearWhiteboard
+Éli Garn
+Abhishek Patel
+Ava Johnson: NearWhiteboard
+Lucía Fernández
+Mei Chen¤¤¤
+Ingrid Svensson
+Tatiana Ivanova
+Anastasiya Kuznetsova
+Konstantin Mikhailov
+Mao Takahashi: NearWhiteboard
+Aya Hasan
+Éli Cohen: OtherConstraint/
+Zhihao Wang
+Youssef Farah
+Sofía García: NearWhiteboard
+Matsuo Tanaka: NearWhiteboard/OtherConstraint/
+Esmeralda Rivera: NearWhiteboard
+Valeria Rossi: NearWhiteboard
+Chloé Dubois: NearWhiteboard
+Maximilian Fischer: NearWhiteboard
+Alejandro Martínez: NearWhiteboard /OtherConstraint
+Kai Nakamura: OtherConstraint
+Dmitri Petrov: NearWhiteboard
+Amina Abdi: NearWhiteboard
+Ivo Novak
+Rajesh Sharma: NearWhiteboard/NearWhiteboard
+Alessandra Romano
+Léo Dupont: NearWhiteboard/
+Fatima Al-Mansouri
+Katarina Schmidt
+Benedetta Conti: NearWhiteboard/NearWhiteboard
+Amara Okafor
+Eero Virtanen: NearWhiteboard
+Théodore Laurent: NearWhiteboard
+Haruto Yamamoto: NearWhiteboard
+Eleftherios Nikolaidis: NearWhiteboard
+Yannis Papadopoulos: NearWhiteboard
+Éli Garn
+Abhishek Patel
+Ava Johnson: NearWhiteboard
+Lucía Fernández
+Mei Chen¤¤¤
+Ingrid Svensson
+Tatiana Ivanova
+Anastasiya Kuznetsova
+Konstantin Mikhailov
+Mao Takahashi: NearWhiteboard
+Aya Hasan
+Éli Cohen: OtherConstraint/
+Zhihao Wang
+Youssef Farah
+Sofía García: NearWhiteboard
+Matsuo Tanaka: NearWhiteboard/OtherConstraint/
+Esmeralda Rivera: NearWhiteboard
+Valeria Rossi: NearWhiteboard
+Chloé Dubois: NearWhiteboard
+Maximilian Fischer: NearWhiteboard
+Alejandro Martínez: NearWhiteboard /OtherConstraint
+Kai Nakamura: OtherConstraint
+Dmitri Petrov: NearWhiteboard
+Amina Abdi: NearWhiteboard
+Ivo Novak
+Rajesh Sharma: NearWhiteboard/NearWhiteboard
+Alessandra Romano
+Léo Dupont: NearWhiteboard/
+Fatima Al-Mansouri
+Katarina Schmidt
+Benedetta Conti: NearWhiteboard/NearWhiteboard
+Amara Okafor
+Eero Virtanen: NearWhiteboard
+Théodore Laurent: NearWhiteboard
+Haruto Yamamoto: NearWhiteboard
+Eleftherios Nikolaidis: NearWhiteboard
+Yannis Papadopoulos: NearWhiteboard
+Éli Garn
+Abhishek Patel
+Ava Johnson: NearWhiteboard
+Lucía Fernández
+Mei Chen¤¤¤
+Ingrid Svensson
+Tatiana Ivanova
+Anastasiya Kuznetsova
+Konstantin Mikhailov
+Mao Takahashi: NearWhiteboard
+Aya Hasan
+Éli Cohen: OtherConstraint/
+Zhihao Wang
+Youssef Farah
+Sofía García: NearWhiteboard
+Matsuo Tanaka: NearWhiteboard/OtherConstraint/
+Esmeralda Rivera: NearWhiteboard
+Valeria Rossi: NearWhiteboard
+Chloé Dubois: NearWhiteboard
+Maximilian Fischer: NearWhiteboard
+Alejandro Martínez: NearWhiteboard /OtherConstraint
+Kai Nakamura: OtherConstraint
+Dmitri Petrov: NearWhiteboard
+Amina Abdi: NearWhiteboard
+Ivo Novak
+Rajesh Sharma: NearWhiteboard/NearWhiteboard
+Alessandra Romano
+Léo Dupont: NearWhiteboard/
+Fatima Al-Mansouri
+Katarina Schmidt
+Benedetta Conti: NearWhiteboard/NearWhiteboard
+Amara Okafor
+Eero Virtanen: NearWhiteboard
+Théodore Laurent: NearWhiteboard
+Haruto Yamamoto: NearWhiteboard
+Eleftherios Nikolaidis: NearWhiteboard
+Yannis Papadopoulos: NearWhiteboard
