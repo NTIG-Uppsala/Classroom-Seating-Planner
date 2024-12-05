@@ -85,51 +85,70 @@ const students = getStudentList();
 addWhiteboardDistToTables(tables, whiteboard);
 
 const constraints = {
-    nearWhiteboard: {
-        type: "static",
+    NearWhiteboard: {
         baseWeight: 1,
-        get: (students, tables) => {
-            return // weight or null
+        get: (student, table) => {
+            const maxDist = Math.max(...tables.map((table) => table.distanceToWhiteboard));
+            const minDist = Math.min(...tables.map((table) => table.distanceToWhiteboard));
+
+            const distToWhiteboard = table.distanceToWhiteboard;
+
+            const weight = (maxDist - distToWhiteboard) / (maxDist - minDist);
+            return weight;
         },
     },
-    notNextTo: {
-        type: "dynamic",
+    NotNextTo: {
         baseWeight: 1,
-        get: (students, tables) => {
-            return // weight or null
+        get: (student, table) => {
+            return null; // weight or null
         },
     },
-    notFacing: {
-        type: "dynamic",
+    NextTo: {
         baseWeight: 1,
-        get: (students, tables) => {
-            return // weight or null
+        get: (student, table) => {
+            return null; // weight or null
         },
     },
 }
 
-// Do all static constraints for tables
-tables.forEach((table) => {
-    constraints
-        .filter((constraint) => constraint.type === "static")
-        .forEach((constraint) => {
-            
-        });
+// Students with more constraints are placed first
+students.sort((a, b) => {
+    if (!a.constraints) return 1;
+    if (!b.constraints) return -1;
+
+    return b.constraints.length - a.constraints.length;
 });
 
-// // Students with more constraints are placed first
-// students.sort((a, b) => {
-//     if (!a.constraints) return 1;
-//     if (!b.constraints) return -1;
+students.forEach((student) => {
+    if (!student.constraints) return;
 
-//     return b.constraints.length - a.constraints.length;
-// });
+    // Try every table
+    let bestTable = null;
+    tables.reduce((bestWeight, table) => {
+        // Skip already used tables
+        if (table.student) return bestWeight;
 
-// students.forEach((student) => {
-//     // Try every table
-// });
+        let weight = 0;
 
+        // Try every constraint
+        student.constraints.forEach((constraint) => {
+            weight += constraints[constraint]?.get(student, table) || 0;
+        });
 
+        if (weight > bestWeight) {
+            bestWeight = weight;
+            bestTable = table;
+        }
+
+        return bestWeight;
+    }, 0);
+
+    if (bestTable) {
+        bestTable.student = student;
+    }
+});
+
+console.log(tables);
 
 
 
