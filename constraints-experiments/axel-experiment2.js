@@ -1,4 +1,5 @@
 const fs = require("fs");
+const main = require("./axel-test/main.js");
 
 // Returns the euclidean distance between two cells
 const getDistance = (cell1, cell2) => {
@@ -94,27 +95,33 @@ const initializePlacement = (people, cells) => {
 
 // Randomly reassigns people to tables with a certain probability
 const mutate = (placement, cells, mutationRate) => {
-    const tables = cells.filter((cell) => cell.type === "table");
-    const usedTables = new Set(placement.map((person) => `${person.table.centerX},${person.table.centerY}`));
+    // Copy the current placement to avoid modifying the original during mutation
+    const updatedPlacement = [...placement];
 
-    return placement.map((person) => {
+    return updatedPlacement.map((person, _, originalPlacement) => {
         if (Math.random() < mutationRate) {
-            const currentTableKey = `${person.table.centerX},${person.table.centerY}`;
-            usedTables.delete(currentTableKey); // Free current table
+            // Select another random person to swap tables with
+            let swapIndex;
+            do {
+                swapIndex = Math.floor(Math.random() * originalPlacement.length);
+            } while (originalPlacement[swapIndex] === person); // Ensure we don't swap with the same person
 
-            const availableTables = tables.filter((table) => isTableAvailable(table, usedTables));
+            const swapPerson = originalPlacement[swapIndex];
 
-            if (availableTables.length === 0) {
-                throw new Error("No available tables during mutation.");
-            }
-
-            const newTable = availableTables[Math.floor(Math.random() * availableTables.length)];
-            markTableAsUsed(newTable, usedTables);
-
-            return {
+            // Perform the swap by exchanging their table assignments
+            const newPerson = {
                 ...person,
-                table: newTable,
+                table: swapPerson.table,
             };
+
+            const newSwapPerson = {
+                ...swapPerson,
+                table: person.table,
+            };
+
+            // Update both swapped individuals in the placement array
+            originalPlacement[swapIndex] = newSwapPerson;
+            return newPerson;
         }
         return person;
     });
@@ -177,7 +184,7 @@ const drawResultToConsole = (result, cells, whiteboards) => {
     });
 
     const tableCounts = {};
-    result.placement.forEach((person) => {
+    result.forEach((person) => {
         const key = `${person.table.centerX},${person.table.centerY}`;
         tableCounts[key] = tableCounts[key] ? tableCounts[key] + 1 : 1;
     });
@@ -189,17 +196,17 @@ const drawResultToConsole = (result, cells, whiteboards) => {
         }
     }
 
-    result.placement.forEach((person) => {
-        filledGrid[person.table.centerY][person.table.centerX] = person.name[0];
+    result.forEach((person) => {
+        filledGrid[person.table.centerY][person.table.centerX] = person.name.name[0];
     });
-
-    console.log("Penalty:", result.penalty);
 
     console.log("Result:\n");
 
     filledGrid.forEach((row) => {
         console.log(row.join(""));
     });
+
+    console.log("\nPenalty:", main.calculatePenalty(result, cells));
 };
 
 // Turns the layout string into an array of cells and an array of whiteboards
@@ -244,8 +251,9 @@ const { cells, whiteboards } = format(layout);
 
 const people = JSON.parse(fs.readFileSync("constraints-experiments/list.json", "utf8"));
 
-const populationSize = 500;
-const generations = 500;
+const populationSize = 250;
+const generations = 250;
 
-const result = runGeneticAlgorithm(people, cells, populationSize, generations);
+// const result = runGeneticAlgorithm(people, cells, populationSize, generations);
+const result = main.getSeatingArrangement(people, cells, populationSize, generations);
 drawResultToConsole(result, cells, whiteboards);

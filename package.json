@@ -7,7 +7,8 @@
         "doc": "docs"
     },
     "scripts": {
-        "start": "cls && node constraints-experiments/axel-experiment2.js"
+        "start": "cls && node constraints-experiments/axel-experiment2.js",
+        "test": "cls && node constraints-experiments/axel-test/main.js"
     },
     "author": "",
     "license": "ISC"

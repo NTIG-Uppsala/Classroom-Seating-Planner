@@ -15,62 +15,68 @@ const calculatePenalty = (placement, cells) => {
 };
 
 // Generates an initial random placement of people at tables
-const generateInitialPlacement = (students, cells) => {
+const generateInitialPlacement = (students, tables) => {
     let usedTables = new Set();
     let placement = [];
 
     // Randomly assign students to tables
     students.forEach((student) => {
-        let table = cells[Math.floor(Math.random() * cells.length)];
+        let table = tables[Math.floor(Math.random() * tables.length)];
 
         while (usedTables.has(table)) {
-            table = cells[Math.floor(Math.random() * cells.length)];
+            table = tables[Math.floor(Math.random() * tables.length)];
         }
 
         usedTables.add(table);
         placement.push({
             name: student,
             table: table,
-            constraints: constraints.getConstraints(student),
+            constraints: student.constraints,
         });
     });
 
     return placement;
 };
 
-// Mutates the placement of people at tables
-const mutate = (placement, cells, mutationRate) => {
-    const tables = cells.filter((cell) => cell.type === "table");
-    const usedTables = new Set(placement.map((person) => `${person.table.centerX},${person.table.centerY}`));
+const mutate = (placement, mutationRate, cells) => {
+    // Clone the placement to avoid modifying the original directly
+    const newPlacement = [...placement.map((person) => ({ ...person }))];
 
-    // Randomly reassign people to tables with a certain probability based on the mutation rate
-    return placement.map((person) => {
+    // Find the whiteboard in the cells array (if present)
+    const whiteboard = cells.find((cell) => cell.type === "whiteboard");
+    const whiteboardIndex = newPlacement.findIndex((person) => person.table === whiteboard?.table);
+
+    for (let i = 0; i < newPlacement.length; i++) {
+        // Decide whether to mutate this person's placement
         if (Math.random() < mutationRate) {
-            // Get a list of tables that are not currently being used
-            const availableTables = tables.filter((table) => !usedTables.has(`${table.centerX},${table.centerY}`));
+            // Pick a random person to swap tables with
+            const swapIndex = Math.floor(Math.random() * newPlacement.length);
+            const person = newPlacement[i];
+            const swapPerson = newPlacement[swapIndex];
 
-            // Move the person to a new table
-            const assignedTable = availableTables[Math.floor(Math.random() * availableTables.length)];
-            usedTables.delete(`${person.table.centerX},${person.table.centerY}`);
-            usedTables.add(`${assignedTable.centerX},${assignedTable.centerY}`);
+            // Skip mutation if either person is at the whiteboard's table
+            if (person.table === whiteboard?.table || swapPerson.table === whiteboard?.table) {
+                continue; // Skip the mutation and proceed to the next iteration
+            }
 
-            return {
-                ...person,
-                table: assignedTable,
-            };
+            // Perform the swap
+            [person.table, swapPerson.table] = [swapPerson.table, person.table];
         }
+    }
 
-        return person;
-    });
+    return newPlacement;
 };
 
 // Using a genetic algorithm to find the best seating arrangement in a reasonable amount of time
 const getSeatingArrangement = (students, cells, populationSize, generations) => {
+    // Get all the tables in the room
+    const tables = cells.filter((cell) => cell.type === "table");
+
     // The chance that a person will be moved to a different table
     let mutationChance = 0.5;
 
     // Generate the initial population of seating arrangements and sort them by how good they are
-    let seatingArrangementsPopulation = Array.from({ length: populationSize }, () => generateInitialPlacement(students, cells));
+    let seatingArrangementsPopulation = Array.from({ length: populationSize }, () => generateInitialPlacement(students, tables));
     seatingArrangementsPopulation = seatingArrangementsPopulation.sort((a, b) => calculatePenalty(a, cells) - calculatePenalty(b, cells));
 
     // Find the best placement and its penalty in the initial population
@@ -82,7 +88,7 @@ const getSeatingArrangement = (students, cells, populationSize, generations) => 
 
         // Create a new population based on the best placement
         for (let index = 0; index < populationSize; index++) {
-            newSeatingArrangementsPopulation.push(mutate(bestPlacement, cells, mutationChance));
+            newSeatingArrangementsPopulation.push(mutate(bestPlacement, mutationChance, cells));
         }
 
         // Sorts the new population by how good the placement is
@@ -100,4 +106,9 @@ const getSeatingArrangement = (students, cells, populationSize, generations) => 
     }
 
     return bestPlacement;
+};
+
+module.exports = {
+    getSeatingArrangement,
+    calculatePenalty,
 };

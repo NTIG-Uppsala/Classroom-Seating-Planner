@@ -7,69 +7,47 @@
     },
     {
         "name": "Bob",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Alice",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Charlie",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "David",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Eve",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Frank",
-        "constraints": {
-            "canNotSitNextTo": "Eve"
-        }
+        "constraints": {}
     },
     {
         "name": "Grace",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Heidi",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Ivan",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Jenny",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Karl",
-        "constraints": {
-            "closeToWhiteboard": true
-        }
+        "constraints": {}
     },
     {
         "name": "Liam",
@@ -97,9 +75,7 @@
     },
     {
         "name": "Rachel",
-        "constraints": {
-            "mustSitNextTo": "Quincy"
-        }
+        "constraints": {}
     },
     {
         "name": "Sam",
@@ -107,9 +83,7 @@
     },
     {
         "name": "Tina",
-        "constraints": {
-            "mustSitNextTo": "Sam"
-        }
+        "constraints": {}
     },
     {
         "name": "Ursula",
@@ -129,12 +103,7 @@
     },
     {
         "name": "Yara",
-        "constraints": {
-            "mustSitAt": {
-                "x": 5,
-                "y": 2
-            }
-        }
+        "constraints": {}
     },
     {
         "name": "Zane",
@@ -146,12 +115,7 @@
     },
     {
         "name": "Ben",
-        "constraints": {
-            "mustSitAt": {
-                "x": 3,
-                "y": 2
-            }
-        }
+        "constraints": {}
     },
     {
         "name": "Cora",
