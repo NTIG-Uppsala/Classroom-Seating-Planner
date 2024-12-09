@@ -1,8 +1,7 @@
-const { log } = require("node:console");
 const fs = require("node:fs");
 
-const interpretConstraints = (name, rawConstraints) => {
-    const lookupTable = {
+const interpretStudentConstraints = (name, rawConstraints) => {
+    const functionLookupTable = {
         nära: { type: "distance", arguments: [name, "near", undefined], priority: 1 },
         intenära: { type: "distance", arguments: [name, "far", undefined], priority: 1 },
         långtfrån: { type: "distance", arguments: [name, "far", undefined], priority: 1 },
@@ -10,7 +9,7 @@ const interpretConstraints = (name, rawConstraints) => {
         intebredvid: { type: "adjacent", arguments: [name, false, undefined], priority: 1 },
     };
 
-    const aliases = {
+    const targetLookupTable = {
         tavlan: "whiteboardCover",
         tavla: "whiteboardCover",
         whiteboard: "whiteboardCover",
@@ -24,35 +23,88 @@ const interpretConstraints = (name, rawConstraints) => {
         vindöga: "window",
     };
 
-    const returnConstraints = [];
+    const interpretedConstraints = [];
 
     const constraintList = rawConstraints.split("/").map((constraint) => constraint.trim());
 
-    constraintList.forEach((constraint) => {
-        // Match first part of string with lookupTable
-        Object.keys(lookupTable).forEach((key) => {
-            if (constraint.replace(/\s/g, "").toLowerCase().startsWith(key)) {
-                const returnConstraint = lookupTable[key];
+    constraintList.forEach((rawConstraint) => {
+        // Find the function name from the functionLookupTable
+        const trimmedConstraint = rawConstraint.replace(/\s/g, "").toLowerCase();
+        const functionName = Object.keys(functionLookupTable)
+            .filter((functionName) => trimmedConstraint.startsWith(functionName))
+            .at(0);
 
-                let target = constraint
-                    .replace(key, "")
-                    .replace(/\(.*\)/, "")
-                    .trim();
+        // Create the template constraint object
+        const interpretedConstraint = functionLookupTable[functionName];
 
-                if (aliases[target.replace(/\s/g, "")]) {
-                    target = aliases[target];
-                }
-                returnConstraint.arguments[2] = target;
+        if (!interpretedConstraint) return;
 
-                const match = constraint.match(/\(([^)]+)\)/);
-                returnConstraint.priority = match ? parseFloat(match[1]) : 1;
+        // Isolate the target string
+        let target = rawConstraint
+            .replace(functionName, "")
+            .replace(/\(.*\)/, "") // Remove priority (N)
+            .trim();
 
-                returnConstraints.push(returnConstraint);
-            }
-        });
+        // Clean up the target string using lookup table
+        if (targetLookupTable[target.replace(/\s/g, "").toLowerCase()]) {
+            target = targetLookupTable[target];
+        }
+        interpretedConstraint.arguments[2] = target;
+
+        // Find the priority of the constraint
+        // Priority is the number inside the parenthesis (N)
+        const priority = parseFloat(rawConstraint.match(/\(([^)]+)\)/)?.[1] || 1); // Default priority is 1
+        interpretedConstraint.priority = priority;
+
+        interpretedConstraints.push(interpretedConstraint);
     });
 
-    return returnConstraints || null;
+    return interpretedConstraints || null; // Return null if no constraints are assigned
+};
+
+const constraintFunctions = {
+    distance: (source, target, nearOrFar, priority, references) => {
+        // If target is a student and is not placed
+        if (!target) return 0;
+
+        // Get distance of every classroom element compared to the source object
+        const distances = references.classroomElements.map((cell) => {
+            return Math.sqrt((cell.x - target.x) ** 2 + (cell.y - target.y) ** 2);
+        });
+
+        const maxDistance = Math.max(...distances);
+        const minDistance = Math.min(...distances);
+
+        const actualDistance = Math.sqrt((target.x - source.x) ** 2 + (target.y - source.y) ** 2);
+
+        const scaledDist = (actualDistance - minDistance) / (maxDistance - minDistance);
+
+        switch (nearOrFar) {
+            case "near": {
+                return (1 - scaledDist) * priority;
+            }
+            case "far": {
+                return scaledDist * priority;
+            }
+            default: {
+                return 0;
+            }
+        }
+    },
+    adjacent: (source, target, yesOrNo, priority, references) => {
+        if (!target) return 0; // If target is a student and is not placed
+
+        // Check if caller is adjacent to target
+        const xDiff = Math.abs(source.x - target.x);
+        const yDiff = Math.abs(source.y - target.y);
+        const isAdjacent = (xDiff === 1 && yDiff === 0) || (xDiff === 0 && yDiff === 1);
+
+        if (isAdjacent === yesOrNo) {
+            return priority;
+        } else {
+            return 0;
+        }
+    },
 };
 
 const getStudentList = () => {
@@ -66,7 +118,7 @@ const getStudentList = () => {
             const returnObject = { name: name.trim() };
 
             if (constraints?.trim()) {
-                returnObject.constraints = interpretConstraints(name.trim(), constraints);
+                returnObject.constraints = interpretStudentConstraints(name.trim(), constraints);
             }
 
             return returnObject;
@@ -176,7 +228,7 @@ const fancyDraw = (classroomElements, students) => {
         console.log(`${key}: ${palette[key]}`);
     });
     console.log("");
-    console.log("Students:");
+    console.log("Students: (▣: constrained), (▢: unconstrained)");
     tables
         .filter((table) => table.student)
         .sort((a, b) => {
@@ -186,7 +238,7 @@ const fancyDraw = (classroomElements, students) => {
             return aLetter.localeCompare(bLetter);
         })
         .forEach((table, index) => {
-            console.log(`${studentLookup[table.student.name]}: ${table.student.name}`);
+            console.log(`${studentLookup[table.student.name]} ${table.student.constraints ? "▣" : "▢"}: ${table.student.name}`);
         });
 
     console.log("");
@@ -198,57 +250,26 @@ const fancyDraw = (classroomElements, students) => {
 
     console.log("");
     console.line();
+    console.log("");
 };
 
 const seatStudent = (student, classroomElements) => {
-    if (!student.constraints) return 0;
-
-    const constraintFunctions = {
-        distance: (table, target, nearOrFar, priority) => {
-            if (!target) return 0; // if target is a student and is not placed
-
-            // Get distance of every classroom element compared to the tableObj
-            const distances = classroomElements.map((cell) => {
-                return Math.sqrt((cell.x - target.x) ** 2 + (cell.y - target.y) ** 2);
-            });
-
-            const maxDistance = Math.max(...distances);
-            const minDistance = Math.min(...distances);
-
-            const actualDistance = Math.sqrt((target.x - table.x) ** 2 + (target.y - table.y) ** 2);
-
-            const scaledDist = (actualDistance - minDistance) / (maxDistance - minDistance);
-
-            switch (nearOrFar) {
-                case "near": {
-                    return (1 - scaledDist) * priority;
-                }
-                case "far": {
-                    return scaledDist * priority;
-                }
-                default: {
-                    return 0;
-                }
-            }
-        },
-        adjacent: (table, target, yesOrNo, priority) => {
-            if (!target) return 0; // if target is a student and is not placed
-
-            // Check if caller is adjacent to target
-            const xDiff = Math.abs(table.x - target.x);
-            const yDiff = Math.abs(table.y - target.y);
-            const isAdjacent = (xDiff === 1 && yDiff === 0) || (xDiff === 0 && yDiff === 1);
-            
-            if (isAdjacent === yesOrNo) {
-                return priority;
-            } else {
-                return 0;
-            }
-        },
-    };
-
     const tables = classroomElements.filter((element) => element.cellType === "table");
     const availableTables = tables.filter((table) => !table.student);
+
+    // If student has no constraints, place them randomly
+    if (!student.constraints) {
+        const randomTable = availableTables[Math.floor(Math.random() * availableTables.length)];
+
+        randomTable.student = student;
+
+        return 0;
+    }
+
+    // Wipe all tables scores since they are persistent
+    tables.forEach((table) => {
+        table.score = 0;
+    });
 
     // Sort the tables by how well they meet the constraints
     const rankedTables = availableTables
@@ -257,44 +278,40 @@ const seatStudent = (student, classroomElements) => {
 
             // Try every constraint to get a students overall preference for a table - CHECK might be necessary to send args in order depending on the args of the constraint
             student.constraints.forEach((constraint) => {
-                // [caller, target, constraintArgument]
+                // [source, target, constraintArgument]
                 const args = [table, null, constraint.arguments[1]];
 
-                // Get the object reference of the target classroom element
-                if (constraint.arguments[2] === "whiteboardCover") {
-                    args[1] = getWhiteboardCover(classroomElements);
-                    
-                } else if (constraint.arguments[2] === "door") {
-                    args[1] = classroomElements.filter((element) => element.cellType === "door").at(0);
+                const classroomElementsNames = ["whiteboardCover", "door", "window"];
 
-                } else if (constraint.arguments[2] === "window") {
-                    args[1] = classroomElements.filter((element) => element.cellType === "window").at(0);
+                // If target is a classroom element
+                if (classroomElementsNames.includes(constraint.arguments[2])) {
+                    args[1] = classroomElements.filter((element) => element.cellType === constraint.arguments[2]).at(0);
+                }
 
-                } else {
-                    // Logic to check if the current student is the target or caller of the constraint
+                // Check if the current student is the target or caller of the constraint
+                // Assign target of constraint function accordingly - TODO - why?
+                else {
+                    // Student is the caller in the constraint arguments
                     if (student.name === constraint.arguments[0]) {
-                        const target =
+                        args[1] =
                             tables
                                 .filter((table) => {
                                     return table.student && table.student.name === constraint.arguments[2];
                                 })
-                                .at(0) || null;
-
-                        args[1] = target;
-                        
-                    } else if (student.name === constraint.arguments[2]) {
-                        const target =
+                                .at(0) || null; // If the target is not placed, pass null
+                    }
+                    // Student is the target in the constraint arguments
+                    else if (student.name === constraint.arguments[2]) {
+                        args[1] =
                             tables
                                 .filter((table) => {
                                     return table.student && table.student.name === constraint.arguments[0];
                                 })
-                                .at(0) || null;
-
-                        args[1] = target;
+                                .at(0) || null; // If the target is not placed, pass null
                     }
                 }
 
-                score += constraintFunctions[constraint.type](...args, constraint.priority);
+                score += constraintFunctions[constraint.type](...args, constraint.priority, { classroomElements });
             });
 
             table.score = score;
@@ -303,12 +320,11 @@ const seatStudent = (student, classroomElements) => {
         })
         .sort((a, b) => b.score - a.score);
 
-    // Take the top 30% of the tables
-    const topTables = rankedTables.slice(0, Math.floor(rankedTables.length * 0.3));// Change this to consider priority. prel idea: use 0.9 to the power of priority
+    // Make a list of the best tables based on the priority of the constraints
+    const prioritySum = student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
+    const topTables = rankedTables.slice(0, Math.ceil(rankedTables.length * (0.85 ** prioritySum / 2.83333333333334)));
 
-    // Make table completely random if score is 0
     const randomTable = topTables[Math.floor(Math.random() * topTables.length)];
-
     randomTable.student = student;
 
     // Main wants to know the score of the table
@@ -317,7 +333,6 @@ const seatStudent = (student, classroomElements) => {
 
 const main = (students, classroomElements, debug = false) => {
     let seatingArrangementScore = 0;
-    seatingArrangementScore = 0;
 
     const getAllConstraints = (students) => {
         return students
@@ -332,8 +347,6 @@ const main = (students, classroomElements, debug = false) => {
             if (!a.constraints) return 1;
             if (!b.constraints) return -1;
 
-            // Compare their sum of priorities - TODO add priorities where the student is the target for the constraint :
-            // Problem is that the weight of these constraints would then be inflated (x2)
             const aPriority = a.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
             const bPriority = b.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
 
@@ -396,16 +409,13 @@ const main = (students, classroomElements, debug = false) => {
 
     fancyDraw(classroomElements, students);
 
-    // console.log(`Seating arrangement score: ${seatingArrangementScore.toFixed(2)}`);
     return seatingArrangementScore;
 };
 
 const startTime = Date.now();
 
 const scoresList = [];
-let totalScore = 0;
-
-const iterations = 1;
+const iterations = 10;
 
 for (let i = 0; i < iterations; i++) {
     const layout = getLayout();
@@ -414,12 +424,9 @@ for (let i = 0; i < iterations; i++) {
 
     score = main(students, classroomElements, (debug = false));
     scoresList.push(score);
-    totalScore += score;
 }
 
-console.log("-----------------------------");
 console.log("Average score:", (scoresList.reduce((sum, curr) => (sum += curr), 0) / iterations).toFixed(2));
 console.log("Max score:", Math.max(...scoresList).toFixed(2));
-
 console.log("Time:", Date.now() - startTime, "ms");
-console.log("");
+console.log("\n------------------------------------\n");
