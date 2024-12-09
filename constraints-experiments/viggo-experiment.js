@@ -64,80 +64,88 @@ const interpretStudentConstraints = (name, rawConstraints) => {
 
 const constraintFunctions = {
     distance: (source, target, nearOrFar, priority, references) => {
-        // If target is a student and is not placed
         if (!target) return 0;
 
-        // Get distance of every classroom element compared to the source object
-        const distances = references.classroomElements.map((cell) => {
-            return Math.sqrt((cell.x - target.x) ** 2 + (cell.y - target.y) ** 2);
-        });
+        // Get all the possible distances between the target and every classroom element
+        const allDistances = references.classroomElements
+            .filter((cell) => cell !== target) // Remove self as a candidate
+            .filter((cell) => cell.cellType === "table") // Only consider tables
+            .map((cell) => {
+                return Math.sqrt((cell.x - target.x) ** 2 + (cell.y - target.y) ** 2);
+            });
 
-        const maxDistance = Math.max(...distances);
-        const minDistance = Math.min(...distances);
+        const maxDistance = Math.max(...allDistances);
+        const minDistance = Math.min(...allDistances);
 
         const actualDistance = Math.sqrt((target.x - source.x) ** 2 + (target.y - source.y) ** 2);
 
-        const scaledDist = (actualDistance - minDistance) / (maxDistance - minDistance);
+        // Between 0 and 1
+        const relativeDistance = (actualDistance - minDistance) / (maxDistance - minDistance);
 
         switch (nearOrFar) {
             case "near": {
-                return (1 - scaledDist) * priority;
+                return (1 - relativeDistance) * priority;
             }
             case "far": {
-                return scaledDist * priority;
+                return relativeDistance * priority;
+            }
+            default: {
+                return 0; // In case the arguments are somehow messed up
+            }
+        }
+    },
+    adjacent: (source, target, yesOrNo, priority, references) => {
+        if (!target) return 0;
+
+        // Check if source is adjacent to target
+        const xDiff = Math.abs(source.x - target.x);
+        const yDiff = Math.abs(source.y - target.y);
+        const isAdjacent = (xDiff === 1 && yDiff === 0) || (xDiff === 0 && yDiff === 1);
+
+        switch (yesOrNo) {
+            case "yes" && isAdjacent: {
+                return priority;
+            }
+            case "no" && !isAdjacent: {
+                return priority;
             }
             default: {
                 return 0;
             }
         }
     },
-    adjacent: (source, target, yesOrNo, priority, references) => {
-        if (!target) return 0; // If target is a student and is not placed
-
-        // Check if caller is adjacent to target
-        const xDiff = Math.abs(source.x - target.x);
-        const yDiff = Math.abs(source.y - target.y);
-        const isAdjacent = (xDiff === 1 && yDiff === 0) || (xDiff === 0 && yDiff === 1);
-
-        if (isAdjacent === yesOrNo) {
-            return priority;
-        } else {
-            return 0;
-        }
-    },
 };
 
-const getStudentList = () => {
+const getStudentListFromFile = () => {
     const students = fs
         .readFileSync("./constraints-experiments/viggos-data/names.txt", "utf-8")
         .split("\n")
         .map((row) => row.trim())
-        .filter(Boolean)
+        .filter(Boolean) // Remove empty lines
         .map((row) => {
             const [name, constraints] = row.split(":");
-            const returnObject = { name: name.trim() };
+            const student = { name: name.trim() };
 
             if (constraints?.trim()) {
-                returnObject.constraints = interpretStudentConstraints(name.trim(), constraints);
+                student.constraints = interpretStudentConstraints(name.trim(), constraints);
             }
 
-            return returnObject;
+            return student;
         })
-        .filter(Boolean);
+        .filter((student) => student.name); // Remove nameless students
 
     return students;
 };
 
-const getLayout = () => {
-    const layout = fs.readFileSync("./constraints-experiments/viggos-data/classroom.txt", "utf-8").split("\n");
-
-    return layout;
+const getLayoutFromFile = () => {
+    // A layout is a list of strings where each string represents a row in the classroom
+    return fs.readFileSync("./constraints-experiments/viggos-data/classroom.txt", "utf-8").split("\n");
 };
 
 const getWhiteboardCover = (classroomElements) => {
     const whiteboardCells = classroomElements.filter((element) => element.cellType === "whiteboard");
 
-    // Avg position of the whiteboards which is really what we want
+    // Average position of the whiteboards which is really what we want
     const whiteboardPosAvg = whiteboardCells.reduce(
         (accumulator, current) => {
             accumulator.x += current.x;
@@ -146,37 +154,42 @@ const getWhiteboardCover = (classroomElements) => {
         },
         { x: 0, y: 0, cellType: "whiteboardCover" }
     );
-
     whiteboardPosAvg.x /= whiteboardCells.length;
     whiteboardPosAvg.y /= whiteboardCells.length;
 
     return whiteboardPosAvg;
 };
 
-const getClassroomElements = (layout) => {
+const getClassroomElementsFromLayout = (layout) => {
     const classroomElements = [];
 
+    // Lookup table for the different cell types
+    const cellTypes = {
+        B: "table",
+        T: "whiteboard",
+        D: "door",
+        F: "window",
+    };
+
+    // Parse layout character by character and add them to the classroomElements list
     layout.forEach((row, y) => {
         row.split("").forEach((cell, x) => {
-            if (cell === "B") {
-                classroomElements.push({ x, y, cellType: "table", student: null });
-            } else if (cell === "T") {
-                classroomElements.push({ x, y, cellType: "whiteboard" });
-            } else if (cell === "D") {
-                classroomElements.push({ x, y, cellType: "door" });
-            } else if (cell === "F") {
-                classroomElements.push({ x, y, cellType: "window" });
+            if (cellTypes[cell]) {
+                classroomElements.push({ x, y, cellType: cellTypes[cell] });
             }
         });
     });
 
-    classroomElements.push(getWhiteboardCover(classroomElements));
+    // Add the whiteboard cover as a separate element to find more seamlessly later
+    if (classroomElements.some((element) => element.cellType === "whiteboard")) {
+        classroomElements.push(getWhiteboardCover(classroomElements));
+    }
 
     return classroomElements;
 };
 
 const fancyDraw = (classroomElements, students) => {
-    // ░▒▓█
+    // Cool colors ░▒▓█
     const palette = {
         whiteboard: "T",
         window: "F",
@@ -185,7 +198,9 @@ const fancyDraw = (classroomElements, students) => {
         tableEmpty: "▒",
         floor: "░",
     };
-    const iconPool = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+
+    const iconPool = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t"];
+
     const studentLookup = {};
     students.forEach((student, index) => {
         studentLookup[student.name] = iconPool[index];
@@ -228,6 +243,7 @@ const fancyDraw = (classroomElements, students) => {
         console.log(`${key}: ${palette[key]}`);
     });
     console.log("");
+
     console.log("Students: (▣: constrained), (▢: unconstrained)");
     tables
         .filter((table) => table.student)
@@ -238,9 +254,14 @@ const fancyDraw = (classroomElements, students) => {
             return aLetter.localeCompare(bLetter);
         })
         .forEach((table, index) => {
-            console.log(`${studentLookup[table.student.name]} ${table.student.constraints ? "▣" : "▢"}: ${table.student.name}`);
+            const letter = studentLookup[table.student.name];
+            const icon = table.student.constraints ? "▣" : "▢";
+            const priority = table.student.constraints ? table.student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0) : null;
+
+            console.log(`${letter} ${icon}: ${table.student.name} ${priority ? "(" + priority + ")" : "(-)"}`);
         });
 
+    console.log("");
     console.log("");
 
     // Draw entire grid
@@ -288,8 +309,8 @@ const seatStudent = (student, classroomElements) => {
                     args[1] = classroomElements.filter((element) => element.cellType === constraint.arguments[2]).at(0);
                 }
 
-                // Check if the current student is the target or caller of the constraint
-                // Assign target of constraint function accordingly - TODO - why?
+                // Check if this student is the target or caller of the constraint
+                //  to call the constraint function with the correct source and target
                 else {
                     // Student is the caller in the constraint arguments
                     if (student.name === constraint.arguments[0]) {
@@ -298,7 +319,7 @@ const seatStudent = (student, classroomElements) => {
                                 .filter((table) => {
                                     return table.student && table.student.name === constraint.arguments[2];
                                 })
-                                .at(0) || null; // If the target is not placed, pass null
+                                .at(0) || null; // If the target student is not placed, pass null
                     }
                     // Student is the target in the constraint arguments
                     else if (student.name === constraint.arguments[2]) {
@@ -307,10 +328,11 @@ const seatStudent = (student, classroomElements) => {
                                 .filter((table) => {
                                     return table.student && table.student.name === constraint.arguments[0];
                                 })
-                                .at(0) || null; // If the target is not placed, pass null
+                                .at(0) || null; // If the target student is not placed, pass null
                     }
                 }
 
+                // Call the relevant constraint function
                 score += constraintFunctions[constraint.type](...args, constraint.priority, { classroomElements });
             });
 
@@ -320,20 +342,19 @@ const seatStudent = (student, classroomElements) => {
         })
         .sort((a, b) => b.score - a.score);
 
-    // Make a list of the best tables based on the priority of the constraints
+    // Take the best scored tables. The amount is based on the student's constraints' summed priorities
     const prioritySum = student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
-    const topTables = rankedTables.slice(0, Math.ceil(rankedTables.length * (0.85 ** prioritySum / 2.83333333333334)));
+    const bestTables = rankedTables.slice(0, Math.ceil(rankedTables.length * ((0.85 ** prioritySum / 0.85) * 0.3))); // Viggo does not approve - TODO - maybe configure to allow for more randomness??
 
-    const randomTable = topTables[Math.floor(Math.random() * topTables.length)];
+    // Pick a random table from the best tables and place the student there
+    const randomTable = bestTables[Math.floor(Math.random() * bestTables.length)];
     randomTable.student = student;
 
     // Main wants to know the score of the table
     return randomTable.score;
 };
 
-const main = (students, classroomElements, debug = false) => {
-    let seatingArrangementScore = 0;
-
+const main = (students, classroomElements, options) => {
     const getAllConstraints = (students) => {
         return students
             .filter((students) => students.constraints)
@@ -347,6 +368,7 @@ const main = (students, classroomElements, debug = false) => {
             if (!a.constraints) return 1;
             if (!b.constraints) return -1;
 
+            // Compare the students by the sum of their constraints' priorities
             const aPriority = a.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
             const bPriority = b.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
 
@@ -354,16 +376,18 @@ const main = (students, classroomElements, debug = false) => {
         });
     };
 
-    const removeStudentConstraints = (students) => {
+    const nullifyAllStudentConstraints = (students) => {
         students = students.map((student) => {
             student.constraints = null;
             return student;
         });
     };
 
+    // Takes a list of all the constraints and give every student a copy the each constraint involving them
     const assignAllConstraints = (constraints, students) => {
         constraints.forEach((constraint) => {
             students = students.map((student) => {
+                // Check if student is involved in the constraint, either as the caller or the target
                 if (constraint.arguments[0] === student.name || constraint.arguments[2] === student.name) {
                     if (!student.constraints) {
                         student.constraints = [];
@@ -375,8 +399,9 @@ const main = (students, classroomElements, debug = false) => {
         });
     };
 
-    const DEBUG_logAllStudents = (message = null) => {
-        if (!debug) {
+    // Function for cleaner debugging
+    const IF_DEBUG_logAllStudents = (message = null) => {
+        if (!options.debug) {
             return;
         }
 
@@ -390,43 +415,69 @@ const main = (students, classroomElements, debug = false) => {
         });
     };
 
-    DEBUG_logAllStudents("\nBefore sorting\n");
+    IF_DEBUG_logAllStudents("\nBefore sorting\n");
+
+    // THIS IS WHERE THE MAGIC HAPPENS
 
     // Get all constraints sorted by the students sum of priorities
     const constraints = getAllConstraints(students);
 
-    removeStudentConstraints(students);
-
+    // Make sure all constraints where a student is involved are assigned to the student
+    nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
     assignAllConstraints(constraints, students);
 
+    // Sort students to seat the pickiest students first
     sortStudentsByPriority(students);
 
-    DEBUG_logAllStudents("\nAfter sorting\n");
+    IF_DEBUG_logAllStudents("\nAfter sorting\n");
 
+    let seatingArrangementScore = 0;
+
+    // Seat every student one at a time
     students.forEach((student) => {
         seatingArrangementScore += seatStudent(student, classroomElements);
     });
 
-    fancyDraw(classroomElements, students);
+    // Draw the classroom
+    if (options.fancyDraw) {
+        fancyDraw(classroomElements, students);
+    }
 
     return seatingArrangementScore;
 };
 
 const startTime = Date.now();
 
+const layouts = [];
 const scoresList = [];
-const iterations = 10;
+const iterations = 10000;
+
+// console.clear();
 
 for (let i = 0; i < iterations; i++) {
-    const layout = getLayout();
-    const classroomElements = getClassroomElements(layout);
-    const students = getStudentList();
+    const layout = getLayoutFromFile();
+    const classroomElements = getClassroomElementsFromLayout(layout);
+    const students = getStudentListFromFile();
 
-    score = main(students, classroomElements, (debug = false));
+    const score = main(students, classroomElements, { debug: false, fancyDraw: i >= iterations - 1 }); // Show output on the last iteration(s)
+    // const score = main(students, classroomElements, { debug: false, fancyDraw: false }); // Show output on the last iteration(s)
+
+    layouts.push({ score, classroomElements });
     scoresList.push(score);
 }
 
-console.log("Average score:", (scoresList.reduce((sum, curr) => (sum += curr), 0) / iterations).toFixed(2));
-console.log("Max score:", Math.max(...scoresList).toFixed(2));
-console.log("Time:", Date.now() - startTime, "ms");
+const timeTaken = Date.now() - startTime;
+
+// Draw the best layout
+const bestLayout = layouts.sort((a, b) => b.score - a.score)[0];
+// fancyDraw(bestLayout.classroomElements, getStudentListFromFile());
+
+console.log("Iterations:", iterations);
+console.log("Avg score:", parseFloat((scoresList.reduce((sum, curr) => (sum += curr), 0) / iterations).toFixed(2)));
+console.log("Max score:", parseFloat(Math.max(...scoresList).toFixed(2)));
+console.log("Min score:", parseFloat(Math.min(...scoresList).toFixed(2)));
+console.log("Time taken:", timeTaken, "ms");
 console.log("\n------------------------------------\n");
+
+// TODO - maybe consider average or mew score of students instead of total score of layout
+// TODO - toy around with increasing the amount of randomness in the pickNG
