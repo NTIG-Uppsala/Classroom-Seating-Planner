@@ -145,19 +145,23 @@ const getLayoutFromFile = () => {
 const getWhiteboardCover = (classroomElements) => {
     const whiteboardCells = classroomElements.filter((element) => element.cellType === "whiteboard");
 
-    // Average position of the whiteboards which is really what we want
-    const whiteboardPosAvg = whiteboardCells.reduce(
-        (accumulator, current) => {
-            accumulator.x += current.x;
-            accumulator.y += current.y;
-            return accumulator;
+    // Sum up the coordinates of all whiteboard cells to find the average position
+    const coordinatesSum = whiteboardCells.reduce(
+        (coordinates, whiteboard) => {
+            coordinates.x += whiteboard.x;
+            coordinates.y += whiteboard.y;
+            return coordinates;
         },
-        { x: 0, y: 0, cellType: "whiteboardCover" }
+        { x: 0, y: 0 }
     );
-    whiteboardPosAvg.x /= whiteboardCells.length;
-    whiteboardPosAvg.y /= whiteboardCells.length;
 
-    return whiteboardPosAvg;
+    const whiteboardCover = {
+        cellType: "whiteboardCover",
+        x: coordinatesSum.x / whiteboardCells.length, // Average
+        y: coordinatesSum.y / whiteboardCells.length, // Average
+    };
+
+    return whiteboardCover;
 };
 
 const getClassroomElementsFromLayout = (layout) => {
