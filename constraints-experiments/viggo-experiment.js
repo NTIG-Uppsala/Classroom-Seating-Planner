@@ -423,22 +423,3 @@ console.log("Max score:", Math.max(...scoresList).toFixed(2));
 
 console.log("Time:", Date.now() - startTime, "ms");
 console.log("");
-
-/*
-asd
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
