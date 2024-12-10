@@ -334,34 +334,45 @@ const seatStudent = (student, classroomElements) => {
                 // [source, target, constraintArgument]
                 const args = [table, null, constraint.arguments[1]];
 
+                const constraintCaller = constraint.arguments[0]; ///
+                const constraintTarget = constraint.arguments[2];
+
                 const classroomElementsNames = ["whiteboardCover", "door", "window"];
 
                 // If target is a classroom element
-                if (classroomElementsNames.includes(constraint.arguments[2])) {
+                if (classroomElementsNames.includes(constraintTarget)) {
                     args[1] = classroomElements.filter((element) => element.cellType === constraint.arguments[2]).at(0);
                 }
 
                 // Check if this student is the target or caller of the constraint
                 //  to call the constraint function with the correct source and target
-                else {
-                    // Student is the caller in the constraint arguments
-                    if (student.name === constraint.arguments[0]) {
-                        args[1] =
-                            tables
-                                .filter((table) => {
-                                    return table.student && table.student.name === constraint.arguments[2];
-                                })
-                                .at(0) || null; // If the target student is not placed, pass null
+
+                // Student is the caller in the constraint arguments
+                else if (constraintCaller === student.name) {
+
+                    const targetTable = tables.filter((table) => {
+                        return table.student && table.student.name === constraint.arguments[2];
+                    });
+
+                    if (!targetTable) {
+                        args[1] = null;
+                    } else {
+                        args[1] = targetTable.at(0);
                     }
-                    // Student is the target in the constraint arguments
-                    else if (student.name === constraint.arguments[2]) {
-                        args[1] =
-                            tables
-                                .filter((table) => {
-                                    return table.student && table.student.name === constraint.arguments[0];
-                                })
-                                .at(0) || null; // If the target student is not placed, pass null
-                    }
+
+                    // args[1] = tables
+                    //     .filter((table) => {
+                    //         return table.student && table.student.name === constraint.arguments[2];
+                    //     })
+                    //     .at(0) || null; // If the target student is not placed, pass null
+                }
+                // Student is the target in the constraint arguments
+                else if (student.name === constraint.arguments[2]) {
+                    args[1] = tables
+                        .filter((table) => {
+                            return table.student && table.student.name === constraint.arguments[0];
+                        })
+                        .at(0) || null; // If the target student is not placed, pass null
                 }
 
                 // Call the relevant constraint function
@@ -543,4 +554,3 @@ runIterations(1000, options);
 console.log("Total time taken:", Date.now() - globalStartTime, "ms");
 console.log("");
 // TODO - maybe consider average or mew score of students instead of total score of layout
-// TODO - toy around with increasing the amount of randomness in the pickNG
