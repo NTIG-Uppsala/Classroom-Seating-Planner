@@ -426,8 +426,6 @@ const main = (students, classroomElements) => {
         });
     };
 
-    // THIS IS WHERE THE MAGIC HAPPENS
-
     // Get all constraints sorted by the students sum of priorities
     const constraints = getAllConstraints(students);
     // TODO - maybe sort constraints by priority here - low priority | is sorting needed here? students are sorted later
