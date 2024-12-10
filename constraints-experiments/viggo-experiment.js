@@ -9,7 +9,7 @@ const interpretStudentConstraints = (name, rawConstraints) => {
         intebredvid: { type: "adjacent", arguments: [name, "no", undefined], priority: 1 },
     };
 
-    const targetLookupTable = {
+    const recipientLookupTable = {
         tavlan: "whiteboardCover",
         tavla: "whiteboardCover",
         whiteboard: "whiteboardCover",
@@ -39,17 +39,17 @@ const interpretStudentConstraints = (name, rawConstraints) => {
 
         if (!interpretedConstraint) return;
 
-        // Isolate the target string
-        let target = rawConstraint
+        // Isolate the recipient string
+        let recipient = rawConstraint
             .replace(functionName, "")
             .replace(/\(.*\)/, "") // Remove priority (N)
             .trim();
 
-        // Clean up the target string using lookup table
-        if (targetLookupTable[target.replace(/\s/g, "").toLowerCase()]) {
-            target = targetLookupTable[target];
+        // Clean up the recipient string using lookup table
+        if (recipientLookupTable[recipient.replace(/\s/g, "").toLowerCase()]) {
+            recipient = recipientLookupTable[recipient];
         }
-        interpretedConstraint.arguments[2] = target;
+        interpretedConstraint.arguments[2] = recipient;
 
         // Find the priority of the constraint
         // Priority is the number inside the parenthesis (N)
@@ -331,52 +331,58 @@ const seatStudent = (student, classroomElements) => {
 
             // Try every constraint to get a students overall preference for a table
             student.constraints.forEach((constraint) => {
-                // [source, target, constraintArgument]
-                const args = [table, null, constraint.arguments[1]];
+                const callConstraintFunction = (target) => {
+                    // Call the relevant constraint function from the constraintFunctions object
+                    // Arguments: source, target, constraint specific parameter, priority, references to things beyond the constraint's scope
+                    return constraintFunctions[constraint.type](table, target, constraint.arguments[1], constraint.priority, { classroomElements });
+                };
 
-                const constraintCaller = constraint.arguments[0]; ///
-                const constraintTarget = constraint.arguments[2];
+                // These are taken from the interpreted constraint and are strings
+                const caller = constraint.arguments[0];
+                const recipient = constraint.arguments[2];
 
+                // If more classroom elements are added, add them here as well (TODO - ADD TO DOCUMENTATION WHEN IMPLEMENTING IN C#)
                 const classroomElementsNames = ["whiteboardCover", "door", "window"];
 
-                // If target is a classroom element
-                if (classroomElementsNames.includes(constraintTarget)) {
-                    args[1] = classroomElements.filter((element) => element.cellType === constraint.arguments[2]).at(0);
+                // If recipient is a classroom element, set it as the target
+                if (classroomElementsNames.includes(recipient)) {
+
+                    const target = classroomElements.filter((element) => {
+                        return element.cellType === recipient
+                    }).at(0);
+
+                    // Call the relevant constraint function
+                    score += callConstraintFunction(target);
                 }
 
-                // Check if this student is the target or caller of the constraint
-                //  to call the constraint function with the correct source and target
+                // Else, the target must be student
 
-                // Student is the caller in the constraint arguments
-                else if (constraintCaller === student.name) {
+                // Depending on if this student is the caller or recipient in the constraint, 
+                //  set the target of the constraint function to the other student's table
+                else if (student.name === caller) {
 
-                    const targetTable = tables.filter((table) => {
-                        return table.student && table.student.name === constraint.arguments[2];
-                    });
+                    // Try to find the table of the targeted student, they might not be seated yet
+                    const targetStudentTable = tables.filter((table) => {
+                        return table.student && table.student.name === recipient;
+                    }).at(0);
 
-                    if (!targetTable) {
-                        args[1] = null;
-                    } else {
-                        args[1] = targetTable.at(0);
-                    }
+                    // If the student has been placed, set their table as the target. Otherwise set it to null
+                    const target = targetStudentTable || null;
 
-                    // args[1] = tables
-                    //     .filter((table) => {
-                    //         return table.student && table.student.name === constraint.arguments[2];
-                    //     })
-                    //     .at(0) || null; // If the target student is not placed, pass null
+                    score += callConstraintFunction(target);
                 }
-                // Student is the target in the constraint arguments
-                else if (student.name === constraint.arguments[2]) {
-                    args[1] = tables
-                        .filter((table) => {
-                            return table.student && table.student.name === constraint.arguments[0];
-                        })
-                        .at(0) || null; // If the target student is not placed, pass null
-                }
+                else if (student.name === recipient) {
 
-                // Call the relevant constraint function
-                score += constraintFunctions[constraint.type](...args, constraint.priority, { classroomElements });
+                    // Try to find the table of the targeted student, they might not be seated yet
+                    const targetStudentTable = tables.filter((table) => {
+                        return table.student && table.student.name === caller;
+                    }).at(0);
+
+                    // If the student has been placed, set their table as the target. Otherwise set it to null
+                    const target = targetStudentTable || null;
+
+                    score += callConstraintFunction(target);
+                }
             });
 
             table.score = score;
@@ -430,7 +436,7 @@ const main = (students, classroomElements) => {
     const assignAllConstraints = (constraints, students) => {
         constraints.forEach((constraint) => {
             students = students.map((student) => {
-                // Check if student is involved in the constraint, either as the caller or the target
+                // Check if student is involved in the constraint, either as the caller or the recipient
                 if (constraint.arguments[0] === student.name || constraint.arguments[2] === student.name) {
                     if (!student.constraints) {
                         student.constraints = [];
@@ -477,7 +483,7 @@ const runIterations = (iterationsCount, options) => {
         const classroomElements = getClassroomElementsFromLayout(layout);
         const students = getStudentListFromFile();
 
-        const score = main(students, classroomElements); // Show output on the last iteration(s)
+        const score = main(students, classroomElements);
 
         layouts.push({ score, classroomElements });
         scoresList.push(score);
@@ -532,25 +538,24 @@ const options = {
         lastN: 0,
         options: {
             drawLegend: false,
-            drawStudentList: false,
+            drawStudentList: !false,
             drawClassroom: true,
         }
     },
     logStats: true,
 };
 
-// console.clear();
 console.log("------------------------------------");
 console.log("");
 
 const globalStartTime = Date.now();
 
-// runIterations(1, options);
-// runIterations(10, options);
-// runIterations(100, options);
+runIterations(1, options);
+runIterations(10, options);
+runIterations(100, options);
 runIterations(1000, options);
-// runIterations(10000, options);
+runIterations(10000, options);
+runIterations(100000, options);
 
 console.log("Total time taken:", Date.now() - globalStartTime, "ms");
 console.log("");
-// TODO - maybe consider average or mew score of students instead of total score of layout
