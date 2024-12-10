@@ -324,7 +324,7 @@ const seatStudent = (student, classroomElements) => {
         .map((table) => {
             let score = 0;
 
-            // Try every constraint to get a students overall preference for a table - CHECK might be necessary to send args in order depending on the args of the constraint
+            // Try every constraint to get a students overall preference for a table
             student.constraints.forEach((constraint) => {
                 // [source, target, constraintArgument]
                 const args = [table, null, constraint.arguments[1]];
@@ -371,7 +371,7 @@ const seatStudent = (student, classroomElements) => {
 
     // Take the best scored tables. The amount is based on the student's constraints' summed priorities
     const prioritySum = student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
-    const bestTables = rankedTables.slice(0, Math.ceil(rankedTables.length * ((0.85 ** prioritySum / 0.85) * 0.3))); // TODO - maybe configure to allow for more randomness??
+    const bestTables = rankedTables.slice(0, Math.ceil(rankedTables.length * ((0.85 ** prioritySum / 0.85) * 0.3)));
 
     // Pick a random table from the best tables and place the student there
     const randomTable = bestTables[Math.floor(Math.random() * bestTables.length)];
