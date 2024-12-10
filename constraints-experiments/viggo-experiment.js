@@ -247,7 +247,6 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
     });
 
     if (title) {
-        // console.log("");
         console.log(title);
     }
     console.log("------------------------------------");
@@ -382,7 +381,7 @@ const seatStudent = (student, classroomElements) => {
     return randomTable.score;
 };
 
-const main = (students, classroomElements, options) => {
+const main = (students, classroomElements) => {
     const getAllConstraints = (students) => {
         return students
             .filter((students) => students.constraints)
@@ -427,24 +426,6 @@ const main = (students, classroomElements, options) => {
         });
     };
 
-    // Function for cleaner debugging
-    const IF_DEBUG_logAllStudents = (message = null) => {
-        if (!options.debug) {
-            return;
-        }
-
-        if (message) console.log(message);
-
-        students.forEach((student) => {
-            console.log(
-                student.name,
-                student.constraints?.reduce((sum, constraint) => sum + constraint?.priority || 0, 0)
-            );
-        });
-    };
-
-    IF_DEBUG_logAllStudents("\nBefore sorting\n");
-
     // THIS IS WHERE THE MAGIC HAPPENS
 
     // Get all constraints sorted by the students sum of priorities
@@ -458,19 +439,12 @@ const main = (students, classroomElements, options) => {
     // Sort students to seat the pickiest students first
     sortStudentsByPriority(students);
 
-    IF_DEBUG_logAllStudents("\nAfter sorting\n");
-
     let seatingArrangementScore = 0;
 
     // Seat every student one at a time
     students.forEach((student) => {
         seatingArrangementScore += seatStudent(student, classroomElements);
     });
-
-    // Draw the classroom - TODO - remove, we already draw later
-    if (options.fancyDraw) {
-        fancyDraw(classroomElements, students);
-    }
 
     return seatingArrangementScore;
 };
@@ -488,7 +462,7 @@ const runIterations = (iterationsCount, options) => {
         const classroomElements = getClassroomElementsFromLayout(layout);
         const students = getStudentListFromFile();
 
-        const score = main(students, classroomElements, { debug: false, fancyDraw: false }); // Show output on the last iteration(s)
+        const score = main(students, classroomElements); // Show output on the last iteration(s)
 
         layouts.push({ score, classroomElements });
         scoresList.push(score);
