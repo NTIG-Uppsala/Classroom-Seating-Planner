@@ -118,7 +118,7 @@ const constraintFunctions = {
 
 const getStudentListFromFile = () => {
     const students = fs
-        .readFileSync("./constraints-experiments/viggos-data/names.txt", "utf-8")
+        .readFileSync("./scripts/constraints-algorithm-proof-of-concept/data/names.txt", "utf-8")
         .split("\n")
         .map((row) => row.trim())
         .filter(Boolean) // Remove empty lines
@@ -139,7 +139,7 @@ const getStudentListFromFile = () => {
 
 const getLayoutFromFile = () => {
     // A layout is a list of strings where each string represents a row in the classroom
-    return fs.readFileSync("./constraints-experiments/viggos-data/classroom.txt", "utf-8").split("\n");
+    return fs.readFileSync("./scripts/constraints-algorithm-proof-of-concept/data/classroom.txt", "utf-8").split("\n");
 };
 
 const getWhiteboardCover = (classroomElements) => {
@@ -252,7 +252,6 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
     }
     console.log("------------------------------------");
 
-
     // Legend
     if (options.drawLegend) {
         console.log("Legend:");
@@ -264,13 +263,12 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
         console.log("");
     }
 
-
     if (options.drawStudentList) {
         console.log("Students: (▣: constrained), (▢: unconstrained)");
         tables
             .filter((table) => table.student)
             .sort((a, b) => {
-                // Sort students by their letter 
+                // Sort students by their letter
 
                 const aLetter = studentLookup[a.student.name];
                 const bLetter = studentLookup[b.student.name];
@@ -293,7 +291,6 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
         console.log("");
     }
 
-
     if (options.drawClassroom) {
         // Draw entire grid
         grid.forEach((row) => {
@@ -301,7 +298,7 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
         });
     }
 
-    console.log("------------------------------------")
+    console.log("------------------------------------");
 
     console.log("");
 };
@@ -346,10 +343,11 @@ const seatStudent = (student, classroomElements) => {
 
                 // If recipient is a classroom element, set it as the target
                 if (classroomElementsNames.includes(recipient)) {
-
-                    const target = classroomElements.filter((element) => {
-                        return element.cellType === recipient
-                    }).at(0);
+                    const target = classroomElements
+                        .filter((element) => {
+                            return element.cellType === recipient;
+                        })
+                        .at(0);
 
                     // Call the relevant constraint function
                     score += callConstraintFunction(target);
@@ -357,26 +355,27 @@ const seatStudent = (student, classroomElements) => {
 
                 // Else, the target must be student
 
-                // Depending on if this student is the caller or recipient in the constraint, 
+                // Depending on if this student is the caller or recipient in the constraint,
                 //  set the target of the constraint function to the other student's table
                 else if (student.name === caller) {
-
                     // Try to find the table of the targeted student, they might not be seated yet
-                    const targetStudentTable = tables.filter((table) => {
-                        return table.student && table.student.name === recipient;
-                    }).at(0);
+                    const targetStudentTable = tables
+                        .filter((table) => {
+                            return table.student && table.student.name === recipient;
+                        })
+                        .at(0);
 
                     // If the student has been placed, set their table as the target. Otherwise set it to null
                     const target = targetStudentTable || null;
 
                     score += callConstraintFunction(target);
-                }
-                else if (student.name === recipient) {
-
+                } else if (student.name === recipient) {
                     // Try to find the table of the targeted student, they might not be seated yet
-                    const targetStudentTable = tables.filter((table) => {
-                        return table.student && table.student.name === caller;
-                    }).at(0);
+                    const targetStudentTable = tables
+                        .filter((table) => {
+                            return table.student && table.student.name === caller;
+                        })
+                        .at(0);
 
                     // If the student has been placed, set their table as the target. Otherwise set it to null
                     const target = targetStudentTable || null;
@@ -446,7 +445,6 @@ const main = (students, classroomElements) => {
 
                 return student;
             });
-
         });
     };
 
@@ -527,7 +525,7 @@ const runIterations = (iterationsCount, options) => {
         console.log("------------------------------------");
         console.log("");
     }
-}
+};
 
 const options = {
     fancyDraw: {
@@ -540,7 +538,7 @@ const options = {
             drawLegend: false,
             drawStudentList: !false,
             drawClassroom: true,
-        }
+        },
     },
     logStats: true,
 };
@@ -555,7 +553,6 @@ runIterations(10, options);
 runIterations(100, options);
 runIterations(1000, options);
 runIterations(10000, options);
-runIterations(100000, options);
 
 console.log("Total time taken:", Date.now() - globalStartTime, "ms");
 console.log("");
