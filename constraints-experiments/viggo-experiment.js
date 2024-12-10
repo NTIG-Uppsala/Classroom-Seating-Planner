@@ -192,7 +192,11 @@ const getClassroomElementsFromLayout = (layout) => {
     return classroomElements;
 };
 
-const fancyDraw = (classroomElements, students) => {
+const fancyDraw = (title, classroomElements, students, options = { drawLegend: true, drawStudentList: true, drawClassroom: true }) => {
+    if (!options.drawClassroom && !options.drawStudentList && !options.drawLegend) {
+        console.log("You disabled all drawing options you silly goose");
+    }
+
     // Cool colors ░▒▓█
     const palette = {
         whiteboard: "T",
@@ -203,31 +207,26 @@ const fancyDraw = (classroomElements, students) => {
         floor: "░",
     };
 
-    const iconPool = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t"];
+    const letterPool = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "x", "y", "z", "å", "ä", "ö"];
 
+    // Associate each student with a unique letter
     const studentLookup = {};
     students.forEach((student, index) => {
-        studentLookup[student.name] = iconPool[index];
+        studentLookup[student.name] = letterPool[index];
     });
 
+    // Define all the classroom elements
     const tables = classroomElements.filter((element) => element.cellType === "table");
     const whiteboards = classroomElements.filter((element) => element.cellType === "whiteboard");
     const windows = classroomElements.filter((element) => element.cellType === "window");
     const doors = classroomElements.filter((element) => element.cellType === "door");
 
+    // Get the bounds of the classroom and create a grid of that size
     const maxX = Math.max(...classroomElements.map((cells) => cells.x));
     const maxY = Math.max(...classroomElements.map((cells) => cells.y));
-
     const grid = Array.from({ length: maxY + 1 }, () => Array(maxX + 1).fill(palette.floor));
 
-    // Populate grid
-    tables.forEach((table, index) => {
-        if (table.student) {
-            grid[table.y][table.x] = studentLookup[table.student.name];
-        } else {
-            grid[table.y][table.x] = palette.tableEmpty;
-        }
-    });
+    // Populate grid with classroom elements
     whiteboards.forEach((whiteboard) => {
         grid[whiteboard.y][whiteboard.x] = palette.whiteboard;
     });
@@ -237,44 +236,69 @@ const fancyDraw = (classroomElements, students) => {
     windows.forEach((window) => {
         grid[window.y][window.x] = palette.window;
     });
-
-    console.line = () => console.log("------------------------------------");
-
-    console.line();
-
-    // Legend
-    Object.keys(palette).forEach((key) => {
-        console.log(`${key}: ${palette[key]}`);
+    // Tables are handled a bit differently
+    tables.forEach((table) => {
+        if (table.student) {
+            // If occupied, use the student's letter
+            grid[table.y][table.x] = studentLookup[table.student.name];
+        } else {
+            grid[table.y][table.x] = palette.tableEmpty;
+        }
     });
-    console.log("");
 
-    console.log("Students: (▣: constrained), (▢: unconstrained)");
-    tables
-        .filter((table) => table.student)
-        .sort((a, b) => {
-            const aLetter = studentLookup[a.student.name];
-            const bLetter = studentLookup[b.student.name];
+    if (title) {
+        // console.log("");
+        console.log(title);
+    }
+    console.log("------------------------------------");
 
-            return aLetter.localeCompare(bLetter);
-        })
-        .forEach((table, index) => {
-            const letter = studentLookup[table.student.name];
-            const icon = table.student.constraints ? "▣" : "▢";
-            const priority = table.student.constraints ? table.student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0) : null;
-
-            console.log(`${letter} ${icon}: ${table.student.name} ${priority ? "(" + priority + ")" : "(-)"}`);
+    if (options.drawLegend) {
+        console.log("Legend:");
+        // Classroom layout legend
+        Object.keys(palette).forEach((key) => {
+            console.log(`${key}: ${palette[key]}`);
         });
 
-    console.log("");
-    console.log("");
+        console.log("");
+    }
 
-    // Draw entire grid
-    grid.forEach((row) => {
-        console.log(row.join(""));
-    });
 
-    console.log("");
-    console.line();
+    if (options.drawStudentList) {
+        console.log("Students: (▣: constrained), (▢: unconstrained)");
+        tables
+            .filter((table) => table.student)
+            .sort((a, b) => {
+                // Sort students by their letter 
+
+                const aLetter = studentLookup[a.student.name];
+                const bLetter = studentLookup[b.student.name];
+
+                return aLetter.localeCompare(bLetter);
+            })
+            .forEach((table) => {
+                const letter = studentLookup[table.student.name];
+                let constrained = "▢";
+                let priority = null;
+
+                if (table.student.constraints) {
+                    constrained = "▣";
+                    priority = table.student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
+                }
+
+                console.log(`${letter} ${constrained}: ${table.student.name} ${priority ? "(" + priority + ")" : "(-)"}`);
+            });
+    }
+
+
+    if (options.drawClassroom) {
+        // Draw entire grid
+        grid.forEach((row) => {
+            console.log(row.join(""));
+        });
+    }
+    
+    console.log("------------------------------------")
+    
     console.log("");
 };
 
@@ -292,7 +316,7 @@ const seatStudent = (student, classroomElements) => {
     }
 
     // Wipe all tables scores since they are persistent
-    tables.forEach((table) => {
+    availableTables.forEach((table) => {
         table.score = 0;
     });
 
@@ -348,7 +372,7 @@ const seatStudent = (student, classroomElements) => {
 
     // Take the best scored tables. The amount is based on the student's constraints' summed priorities
     const prioritySum = student.constraints.reduce((sum, constraint) => sum + constraint.priority, 0);
-    const bestTables = rankedTables.slice(0, Math.ceil(rankedTables.length * ((0.85 ** prioritySum / 0.85) * 0.3))); // Viggo does not approve - TODO - maybe configure to allow for more randomness??
+    const bestTables = rankedTables.slice(0, Math.ceil(rankedTables.length * ((0.85 ** prioritySum / 0.85) * 0.3))); // TODO - maybe configure to allow for more randomness??
 
     // Pick a random table from the best tables and place the student there
     const randomTable = bestTables[Math.floor(Math.random() * bestTables.length)];
@@ -425,7 +449,8 @@ const main = (students, classroomElements, options) => {
 
     // Get all constraints sorted by the students sum of priorities
     const constraints = getAllConstraints(students);
-
+    // TODO - maybe sort constraints by priority here - low priority | is sorting needed here? students are sorted later
+    
     // Make sure all constraints where a student is involved are assigned to the student
     nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
     assignAllConstraints(constraints, students);
@@ -442,7 +467,7 @@ const main = (students, classroomElements, options) => {
         seatingArrangementScore += seatStudent(student, classroomElements);
     });
 
-    // Draw the classroom
+    // Draw the classroom - TODO - remove, we already draw later
     if (options.fancyDraw) {
         fancyDraw(classroomElements, students);
     }
@@ -450,38 +475,94 @@ const main = (students, classroomElements, options) => {
     return seatingArrangementScore;
 };
 
-const startTime = Date.now();
+// Run the main function with the students and classroom elements
+const runIterations = (iterationsCount, options) => {
+    const startTime = Date.now();
 
-const layouts = [];
-const scoresList = [];
-const iterations = 10000;
+    const layouts = [];
+    const scoresList = [];
+    const iterations = iterationsCount;
 
-// console.clear();
+    for (let i = 0; i < iterations; i++) {
+        const layout = getLayoutFromFile();
+        const classroomElements = getClassroomElementsFromLayout(layout);
+        const students = getStudentListFromFile();
 
-for (let i = 0; i < iterations; i++) {
-    const layout = getLayoutFromFile();
-    const classroomElements = getClassroomElementsFromLayout(layout);
-    const students = getStudentListFromFile();
+        const score = main(students, classroomElements, { debug: false, fancyDraw: false }); // Show output on the last iteration(s)
 
-    const score = main(students, classroomElements, { debug: false, fancyDraw: i >= iterations - 1 }); // Show output on the last iteration(s)
-    // const score = main(students, classroomElements, { debug: false, fancyDraw: false }); // Show output on the last iteration(s)
+        layouts.push({ score, classroomElements });
+        scoresList.push(score);
+    }
 
-    layouts.push({ score, classroomElements });
-    scoresList.push(score);
+    const timeTaken = Date.now() - startTime;
+
+    // Fancy draw after the iterations are done since it takes considerable time
+    if (options.fancyDraw.best) {
+        const bestLayout = layouts.sort((a, b) => b.score - a.score)[0];
+        fancyDraw("Best Layout", bestLayout.classroomElements, getStudentListFromFile(), options.fancyDraw.options); // Best
+    }
+    if (options.fancyDraw.worst) {
+        const worstLayout = layouts.sort((a, b) => a.score - b.score)[0];
+        fancyDraw("Worst Layout", worstLayout.classroomElements, getStudentListFromFile(), options.fancyDraw.options); // Worst
+    }
+    if (options.fancyDraw.median) {
+        const medianLayout = layouts.sort((a, b) => a.score - b.score)[Math.floor(layouts.length / 2)];
+        fancyDraw("Median Layout", medianLayout.classroomElements, getStudentListFromFile(), options.fancyDraw.options); // Median
+    }
+    if (options.fancyDraw.random) {
+        const randomLayout = layouts[Math.floor(Math.random() * layouts.length)];
+        fancyDraw("Random Layout", randomLayout.classroomElements, getStudentListFromFile(), options.fancyDraw.options); // Random
+    }
+    if (options.fancyDraw.lastN) {
+        const lastNLayout = layouts.slice(layouts.length - options.fancyDraw.lastN);
+        lastNLayout.forEach((layout, i) => {
+            fancyDraw(`${options.fancyDraw.lastN - i} to Last Layout`, layout.classroomElements, getStudentListFromFile(), options.fancyDraw.options); // Last N
+        });
+    }
+
+    if (options.logStats) {
+        console.log("Stats:");
+        console.log("Iterations:", iterations);
+        console.log("Avg score:", parseFloat((scoresList.reduce((sum, curr) => (sum += curr), 0) / iterations).toFixed(2)));
+        console.log("Median score:", parseFloat(scoresList.sort((a, b) => a - b)[Math.floor(iterations / 2)].toFixed(2)));
+        console.log("Max score:", parseFloat(Math.max(...scoresList).toFixed(2)));
+        console.log("Min score:", parseFloat(Math.min(...scoresList).toFixed(2)));
+        console.log("Time taken:", timeTaken, "ms");
+        console.log("");
+        console.log("------------------------------------");
+        console.log("");
+    }
 }
 
-const timeTaken = Date.now() - startTime;
+const options = {
+    fancyDraw: {
+        best: false,
+        median: !false,
+        random: false,
+        worst: false,
+        lastN: 0,
+        options: {
+            drawLegend: false,
+            drawStudentList: false,
+            drawClassroom: true,
+        }
+    },
+    logStats: true,
+};
 
-// Draw the best layout
-const bestLayout = layouts.sort((a, b) => b.score - a.score)[0];
-// fancyDraw(bestLayout.classroomElements, getStudentListFromFile());
+console.clear();
+console.log("------------------------------------");
+console.log("");
 
-console.log("Iterations:", iterations);
-console.log("Avg score:", parseFloat((scoresList.reduce((sum, curr) => (sum += curr), 0) / iterations).toFixed(2)));
-console.log("Max score:", parseFloat(Math.max(...scoresList).toFixed(2)));
-console.log("Min score:", parseFloat(Math.min(...scoresList).toFixed(2)));
-console.log("Time taken:", timeTaken, "ms");
-console.log("\n------------------------------------\n");
+const globalStartTime = Date.now();
 
+runIterations(1, options);
+runIterations(10, options);
+runIterations(100, options);
+runIterations(1000, options);
+runIterations(10000, options);
+
+console.log("Total time taken:", Date.now() - globalStartTime, "ms");
+console.log("");
 // TODO - maybe consider average or mew score of students instead of total score of layout
 // TODO - toy around with increasing the amount of randomness in the pickNG
