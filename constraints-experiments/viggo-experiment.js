@@ -5,8 +5,8 @@ const interpretStudentConstraints = (name, rawConstraints) => {
         nära: { type: "distance", arguments: [name, "near", undefined], priority: 1 },
         intenära: { type: "distance", arguments: [name, "far", undefined], priority: 1 },
         långtfrån: { type: "distance", arguments: [name, "far", undefined], priority: 1 },
-        bredvid: { type: "adjacent", arguments: [name, true, undefined], priority: 1 },
-        intebredvid: { type: "adjacent", arguments: [name, false, undefined], priority: 1 },
+        bredvid: { type: "adjacent", arguments: [name, "yes", undefined], priority: 1 },
+        intebredvid: { type: "adjacent", arguments: [name, "no", undefined], priority: 1 },
     };
 
     const targetLookupTable = {
@@ -246,14 +246,17 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
         }
     });
 
+    // Title
     if (title) {
         console.log(title);
     }
     console.log("------------------------------------");
 
+
+    // Legend
     if (options.drawLegend) {
         console.log("Legend:");
-        // Classroom layout legend
+
         Object.keys(palette).forEach((key) => {
             console.log(`${key}: ${palette[key]}`);
         });
@@ -286,6 +289,8 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
 
                 console.log(`${letter} ${constrained}: ${table.student.name} ${priority ? "(" + priority + ")" : "(-)"}`);
             });
+
+        console.log("");
     }
 
 
@@ -295,9 +300,9 @@ const fancyDraw = (title, classroomElements, students, options = { drawLegend: t
             console.log(row.join(""));
         });
     }
-    
+
     console.log("------------------------------------")
-    
+
     console.log("");
 };
 
@@ -385,7 +390,7 @@ const main = (students, classroomElements) => {
     const getAllConstraints = (students) => {
         return students
             .filter((students) => students.constraints)
-            .map((student) => student.constraints.sort((a, b) => b.priority - a.priority)) // Sort a students constraints by priority
+            .map((student) => student.constraints)
             .flat()
             .filter(Boolean);
     };
@@ -421,18 +426,16 @@ const main = (students, classroomElements) => {
                     }
                     student.constraints.push(constraint);
                 }
+
                 return student;
             });
+
         });
     };
 
-    // Get all constraints sorted by the students sum of priorities
+    // Get all constraints as a list
     const constraints = getAllConstraints(students);
-    constraints.forEach((constraint) => {
-        console.log(constraint.priority, constraint.arguments);
-    });
-    // TODO - maybe sort constraints by priority here - low priority | is sorting needed here? students are sorted later
-    
+
     // Make sure all constraints where a student is involved are assigned to the student
     nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
     assignAllConstraints(constraints, students);
@@ -525,16 +528,16 @@ const options = {
     logStats: true,
 };
 
-console.clear();
+// console.clear();
 console.log("------------------------------------");
 console.log("");
 
 const globalStartTime = Date.now();
 
-runIterations(1, options);
+// runIterations(1, options);
 // runIterations(10, options);
 // runIterations(100, options);
-// runIterations(1000, options);
+runIterations(1000, options);
 // runIterations(10000, options);
 
 console.log("Total time taken:", Date.now() - globalStartTime, "ms");
