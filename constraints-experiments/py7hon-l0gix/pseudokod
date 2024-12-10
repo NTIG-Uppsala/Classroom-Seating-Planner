@@ -1,0 +1,47 @@
+# have list with students
+# have list with available students
+# have list with tables
+# have list with available tables
+# have list with constraints : different types (binary/dynamic) and levels of importance (0-10)
+
+# function to check how well constraints are met when student is placed at a table
+#   calculate score based on constraints : average or sum - sum could be beneficial as someone could have a lot of importance 10 
+#               constraints and that should be reflected in the score of this students seating and in the score of the overall seating arrangement
+
+#       if constraint is to be close to whiteboard
+#           base score on distance to whiteboard and importance of constraint
+
+#       if constraint is to be close to window
+#           base score on distance to window and importance of constraint  
+
+#       if constraint is to be close to door
+#           base score on distance to door and importance of constraint
+
+#       if constraint is to be far from another student
+#           base score on distance to other student and importance of constraint
+
+#       if constraint is to not sit next to another student
+#           base score whether constraint is met and importance of constraint
+
+#       return score
+
+
+# function to generate a random seating arrangement
+
+#   start calculating average score based on all students with constraints
+
+#   sort students by importance of constraints
+
+#       for each student with constraints
+
+#           call function that checks how well constraints are met when student is placed at a table
+
+#           ??make sure constraints are met at a level that is reflective of the importance of the constraints
+
+#   return seating arrangement and score
+
+
+
+# call function to generate a random seating arrangement until there are enough good seating arrangements
+
+# pick one of the good seating arrangements and make sure it is different from the 5 most recent seating arrangements

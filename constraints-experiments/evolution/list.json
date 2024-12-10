@@ -1,0 +1,128 @@
+[
+    {
+        "name": "John",
+        "constraints": {
+            "closeToWhiteboard": true
+        }
+    },
+    {
+        "name": "Bob",
+        "constraints": {}
+    },
+    {
+        "name": "Alice",
+        "constraints": {}
+    },
+    {
+        "name": "Charlie",
+        "constraints": {}
+    },
+    {
+        "name": "David",
+        "constraints": {}
+    },
+    {
+        "name": "Eve",
+        "constraints": {}
+    },
+    {
+        "name": "Frank",
+        "constraints": {}
+    },
+    {
+        "name": "Grace",
+        "constraints": {}
+    },
+    {
+        "name": "Heidi",
+        "constraints": {}
+    },
+    {
+        "name": "Ivan",
+        "constraints": {}
+    },
+    {
+        "name": "Jenny",
+        "constraints": {}
+    },
+    {
+        "name": "Karl",
+        "constraints": {}
+    },
+    {
+        "name": "Liam",
+        "constraints": {}
+    },
+    {
+        "name": "Mona",
+        "constraints": {}
+    },
+    {
+        "name": "Nina",
+        "constraints": {}
+    },
+    {
+        "name": "Oscar",
+        "constraints": {}
+    },
+    {
+        "name": "Paul",
+        "constraints": {}
+    },
+    {
+        "name": "Quincy",
+        "constraints": {}
+    },
+    {
+        "name": "Rachel",
+        "constraints": {}
+    },
+    {
+        "name": "Sam",
+        "constraints": {}
+    },
+    {
+        "name": "Tina",
+        "constraints": {}
+    },
+    {
+        "name": "Ursula",
+        "constraints": {}
+    },
+    {
+        "name": "Victor",
+        "constraints": {}
+    },
+    {
+        "name": "Wendy",
+        "constraints": {}
+    },
+    {
+        "name": "Xander",
+        "constraints": {}
+    },
+    {
+        "name": "Yara",
+        "constraints": {}
+    },
+    {
+        "name": "Zane",
+        "constraints": {}
+    },
+    {
+        "name": "Amelia",
+        "constraints": {}
+    },
+    {
+        "name": "Ben",
+        "constraints": {}
+    },
+    {
+        "name": "Cora",
+        "constraints": {}
+    },
+    {
+        "name": "Derek",
+        "constraints": {}
+    }
+]
