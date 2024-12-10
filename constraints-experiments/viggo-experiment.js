@@ -428,6 +428,9 @@ const main = (students, classroomElements) => {
 
     // Get all constraints sorted by the students sum of priorities
     const constraints = getAllConstraints(students);
+    constraints.forEach((constraint) => {
+        console.log(constraint.priority, constraint.arguments);
+    });
     // TODO - maybe sort constraints by priority here - low priority | is sorting needed here? students are sorted later
     
     // Make sure all constraints where a student is involved are assigned to the student
@@ -529,10 +532,10 @@ console.log("");
 const globalStartTime = Date.now();
 
 runIterations(1, options);
-runIterations(10, options);
-runIterations(100, options);
-runIterations(1000, options);
-runIterations(10000, options);
+// runIterations(10, options);
+// runIterations(100, options);
+// runIterations(1000, options);
+// runIterations(10000, options);
 
 console.log("Total time taken:", Date.now() - globalStartTime, "ms");
 console.log("");
