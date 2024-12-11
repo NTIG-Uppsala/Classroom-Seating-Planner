@@ -520,6 +520,7 @@ const runIterations = (iterationsCount, options) => {
         console.log("Median score:", parseFloat(scoresList.sort((a, b) => a - b)[Math.floor(iterations / 2)].toFixed(2)));
         console.log("Max score:", parseFloat(Math.max(...scoresList).toFixed(2)));
         console.log("Min score:", parseFloat(Math.min(...scoresList).toFixed(2)));
+        console.log("Amount of times max score is met:", scoresList.filter((score) => score === Math.max(...scoresList)).length);
         console.log("Time taken:", timeTaken, "ms");
         console.log("");
         console.log("------------------------------------");
@@ -529,13 +530,13 @@ const runIterations = (iterationsCount, options) => {
 
 const options = {
     fancyDraw: {
-        best: false,
+        best: !false,
         median: !false,
-        random: false,
-        worst: false,
+        random: !false,
+        worst: !false,
         lastN: 0,
         options: {
-            drawLegend: false,
+            drawLegend: !false,
             drawStudentList: !false,
             drawClassroom: true,
         },
@@ -548,11 +549,11 @@ console.log("");
 
 const globalStartTime = Date.now();
 
-runIterations(1, options);
-runIterations(10, options);
+// runIterations(1, options);
+// runIterations(10, options);
 runIterations(100, options);
-runIterations(1000, options);
-runIterations(10000, options);
+// runIterations(1000, options);
+// runIterations(10000, options);
 
 console.log("Total time taken:", Date.now() - globalStartTime, "ms");
 console.log("");

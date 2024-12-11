@@ -11,13 +11,13 @@
 -   [ ] xPopupName-variabler -> xWindowTitle
 -   [ ] Directory eller folder?
 -   [ ] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
--   [ ] Fixa responsivitet i XAML istället för C#?
--   [ ] min-höjd på bord wacc?
+-   [max 15 min?] Fixa responsivitet i XAML istället för C#?
+-   [ez fix] min-höjd på bord wacc?
 -   [ ] ClassroomLayoutManager/Handler? mappar?
 -   [ ] Använd Coordinates till constraints
 -   [ ] Cell x och y -> Coordinate object? (Samma med centerX o centerY)
 -   [ ] Fundera på kommentar för -1 när man beräknar centerX o centerY
--   [ ] Fixa Cellklass så att undantag omhändertas i respektive underklass
+-   [fixa] Fixa Cellklass så att undantag omhändertas i respektive underklass
 -   [ ] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
 -   [ ] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
 -   [ ] Cell.cs -> hur ska cellen läggas till i lista? nu är wAcc, eftersom den lägger till sig själv.
