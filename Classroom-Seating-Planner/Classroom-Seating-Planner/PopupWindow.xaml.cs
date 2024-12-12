@@ -49,43 +49,43 @@ namespace Classroom_Seating_Planner
 
         public static void FileIssuePopup(string dataFileIssue, Window parent)
         {
-            if (dataFileIssue == "notAllFilesWereFound")
+            if (dataFileIssue.Equals("notAllFilesWereFound"))
             {
                 new PopupWindow($"Alla filer hittades inte. {PopupWindow.helpWindowMessage}", "Information", parent);
                 return;
             }
 
-            if (dataFileIssue == "emptyClassList")
+            if (dataFileIssue.Equals("emptyClassList"))
             {
                 new PopupWindow($"Klasslistan är tom. En standardklasslista har skapats. {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
-            if (dataFileIssue == "defaultClassList")
+            if (dataFileIssue.Equals("defaultClassList"))
             {
                 new PopupWindow($"Det verkar som att klasslistan inte har uppdaterats. {PopupWindow.classListFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
-            if (dataFileIssue == "noTablesInLayout")
+            if (dataFileIssue.Equals("noTablesInLayout"))
             {
                 new PopupWindow($"Det finns inga bord i bordskartan. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
-            if (dataFileIssue == "noWhiteboardsInLayout")
+            if (dataFileIssue.Equals("noWhiteboardsInLayout"))
             {
                 new PopupWindow($"Det finns ingen tavla i bordskartan. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
-            if (dataFileIssue == "moreStudentsThanTables")
+            if (dataFileIssue.Equals("moreStudentsThanTables"))
             {
                 new PopupWindow($"Det finns fler elever än bord. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;
             }
 
-            if (dataFileIssue == "emptyClassroomLayout")
+            if (dataFileIssue.Equals("emptyClassroomLayout"))
             {
                 new PopupWindow($"Bordskartan är tom. En standardbordskarta har skapats. {PopupWindow.classroomLayoutFileTutorialMessage}", "Varning", parent);
                 return;

@@ -127,7 +127,7 @@ namespace Classroom_Seating_Planner.Src
 
             // Check if there are more students than there are available seats/tables
             int numberOfStudents = GetClassListFromFile().Count;
-            int numberOfTables = System.IO.File.ReadAllText(FileHandler.classroomLayoutFilePath).Count(letter => letter == 'B');
+            int numberOfTables = System.IO.File.ReadAllText(FileHandler.classroomLayoutFilePath).Count(letter => letter.Equals('B'));
             if (numberOfStudents > numberOfTables)
             {
                 PopupWindow.FileIssuePopup("moreStudentsThanTables", parent);

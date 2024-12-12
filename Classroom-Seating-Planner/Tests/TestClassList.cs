@@ -62,15 +62,15 @@ namespace Tests
         public void RandomizeClassListOfZeroTest()
         {
             // Set up/start the test
-            List<string> testListLengthZero = [];
+            List<string> testingListLengthZero = [];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testListLengthZero);
+                = Utils.SetUp(testingListLengthZero);
 
 
             // Randomize the list and check that it works
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthZeroShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-            Assert.IsNotNull(testListLengthZeroShuffled);
+            List<string> testingListLengthZeroShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
+            Assert.IsNotNull(testingListLengthZeroShuffled);
 
 
             Utils.TearDown(app);
@@ -80,15 +80,15 @@ namespace Tests
         public void RandomizeClassListOfOneTest()
         {
             // Set up/start the test
-            List<string> testListLengthOne = ["Name1"];
+            List<string> testingListLengthOne = ["Name1"];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testListLengthOne);
+                = Utils.SetUp(testingListLengthOne);
 
 
             // Randomize the list and check that it works
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthOneShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-            Assert.IsNotNull(testListLengthOneShuffled);
+            List<string> testingListLengthOneShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
+            Assert.IsNotNull(testingListLengthOneShuffled);
 
 
             Utils.TearDown(app);
@@ -98,15 +98,15 @@ namespace Tests
         public void RandomizeClassListOfTwoTest()
         {
             // Set up/start the test
-            List<string> testListLengthTwo = ["Name1", "Name2"];
+            List<string> testingListLengthTwo = ["Name1", "Name2"];
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testListLengthTwo);
+                = Utils.SetUp(testingListLengthTwo);
 
 
             // Randomize the list and check that it works
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-            List<string> testListLengthTwoShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-            Assert.IsNotNull(testListLengthTwoShuffled);
+            List<string> testingListLengthTwoShuffled = Utils.XAMLHandler.GetClassListFromElement(window, cf);
+            Assert.IsNotNull(testingListLengthTwoShuffled);
 
 
             Utils.TearDown(app);
@@ -162,7 +162,7 @@ namespace Tests
         [TestMethod]
         public void MoreStudentsThanTablesTest()
         {
-            List<string> testClassroomLayout =
+            List<string> testingClassroomLayout =
             [
                 "     TTTT",
                 "",
@@ -170,7 +170,7 @@ namespace Tests
             ];
 
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testClassroomLayout: testClassroomLayout);
+                = Utils.SetUp(testingClassroomLayout: testingClassroomLayout);
 
 
             // Assert that the correct popup is shown when the default list is loaded

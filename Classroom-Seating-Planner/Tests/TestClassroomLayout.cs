@@ -98,7 +98,7 @@ namespace Tests
                 if (cellLetter.Equals('T'))
                 {
                     Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
-                    bool isWhiteboard = (string)cellData["cellType"] == "whiteboardCover";
+                    bool isWhiteboard = ((string)cellData["cellType"]).Equals("whiteboardCover");
                     Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0}, {1} is not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
 
@@ -112,7 +112,7 @@ namespace Tests
                 else if (cellLetter.Equals('B'))
                 {
                     Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a table cell", xTestCaseCoordinate, yTestCaseCoordinate);
-                    bool isTable = (string)cellData["cellType"] == "table";
+                    bool isTable = ((string)cellData["cellType"]).Equals("table");
                     Assert.IsTrue(isTable, "The cell at the coordinates {0}, {1} is not a table cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
 
@@ -132,7 +132,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testClassroomLayout: new List<string>(["   TTTT"]));
+                = Utils.SetUp(testingClassroomLayout: new List<string>(["   TTTT"]));
 
 
             // Assert that the correct popup is shown when the default list is loaded
@@ -147,7 +147,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testClassroomLayout: new List<string>(["BBBB BBBB BBBB", "", "BBBB BBBB BBBB", "", "BBBB BBBB BBBB"]));
+                = Utils.SetUp(testingClassroomLayout: new List<string>(["BBBB BBBB BBBB", "", "BBBB BBBB BBBB", "", "BBBB BBBB BBBB"]));
 
 
             // Assert that the correct popup is shown when the default list is loaded
@@ -177,7 +177,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testClassroomLayout: new List<string>([]));
+                = Utils.SetUp(testingClassroomLayout: new List<string>([]));
 
 
             // Assert that the correct popup is shown when the file is empty
@@ -192,7 +192,7 @@ namespace Tests
         {
             // Set up/start the test
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testClassroomLayout: new List<string>(["  ", "", "    ", ""]));
+                = Utils.SetUp(testingClassroomLayout: new List<string>(["  ", "", "    ", ""]));
 
 
             // Assert that the correct popup is shown when the file is empty

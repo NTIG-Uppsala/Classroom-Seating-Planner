@@ -91,11 +91,11 @@ namespace Tests
 
         // SetUp method
         public static (FlaUI.Core.Application, FlaUI.UIA3.UIA3Automation, FlaUIElement.Window, FlaUI.Core.Conditions.ConditionFactory)
-            SetUp(List<string>? testClassList = null, List<string>? testClassroomLayout = null, bool ignoreClassListFileBackup = false, bool ignoreClassroomLayoutFileBackup = false, bool ignoreTestingClassList = false, bool ignoreTestingClassroomLayout = false, bool createDataBackupFolder = false, bool deleteClassListFile = false, bool deleteClassroomLayoutFile = false, bool deleteDataFolder = false)
+            SetUp(List<string>? testingClassList = null, List<string>? testingClassroomLayout = null, bool ignoreClassListFileBackup = false, bool ignoreClassroomLayoutFileBackup = false, bool ignoreTestingClassList = false, bool ignoreTestingClassroomLayout = false, bool createDataBackupFolder = false, bool deleteClassListFile = false, bool deleteClassroomLayoutFile = false, bool deleteDataFolder = false)
         {
             // Use default testing class list and classroom layout unless a list is specified
-            testClassList ??= Utils.testingClassList;
-            testClassroomLayout ??= Utils.testingClassroomLayout;
+            testingClassList ??= Utils.testingClassList;
+            testingClassroomLayout ??= Utils.testingClassroomLayout;
 
             // Restore backup folder if it exists
             Utils.FileHandler.RestoreDataFolder();
@@ -121,13 +121,13 @@ namespace Tests
             if (!ignoreTestingClassList)
             {
                 // Insert the test class list into the file
-                System.IO.File.WriteAllLines(Utils.FileHandler.classListFilePath, testClassList);
+                System.IO.File.WriteAllLines(Utils.FileHandler.classListFilePath, testingClassList);
             }
 
             if (!ignoreTestingClassroomLayout)
             {
                 // Insert the test classroom layout into the file
-                System.IO.File.WriteAllLines(Utils.FileHandler.classroomLayoutFilePath, testClassroomLayout);
+                System.IO.File.WriteAllLines(Utils.FileHandler.classroomLayoutFilePath, testingClassroomLayout);
             }
 
             // Condition used by specific tests to create a backup folder
@@ -415,7 +415,7 @@ namespace Tests
             public static List<FlaUIElement.Window> FindPopupWindows(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, string windowTitle)
             {
                 FlaUIElement.Window[] windows = app.GetAllTopLevelWindows(automation);
-                return windows.Where(window => window.Name == windowTitle).ToList();
+                return windows.Where(window => window.Name.Equals(windowTitle)).ToList();
             }
 
             public static void AnyPopupWindowContainsText(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUI.Core.Conditions.ConditionFactory cf, string windowTitle, string expectedText)
@@ -423,7 +423,7 @@ namespace Tests
                 List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, windowTitle);
 
                 // Test fails if no popup windows are found
-                if (popupWindows == null || popupWindows.Count == 0)
+                if (popupWindows == null || popupWindows.Count.Equals(0))
                 {
                     Assert.Fail("No popup windows were found");
                 }
@@ -443,7 +443,7 @@ namespace Tests
                 List<FlaUIElement.Window> popupWindows = Utils.PopupHandler.FindPopupWindows(app, automation, windowTitle);
 
                 // Test is passed if no popup windows are found
-                if (popupWindows.Count == 0)
+                if (popupWindows.Count.Equals(0))
                 {
                     return;
                 }

@@ -34,9 +34,11 @@
     -   [X] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
     -   [X] Dela upp i olika filer
 
--   [ ] .Equals() i HandleAllDataFileIssues (konsekventhet)
+-   [X] .Equals() i HandleAllDataFileIssues (konsekventhet)
+    -   [X] Skippa null iom varning om att det är null
 -   [ ] Directory eller folder? (konsekventhet)
--   [ ] testVariable -> testingVariable?? (konsekventhet)
+    -   [X] V och T tycker att det inte är så viktigt och att det för det mesta bara förekommer i testDataDirectory.cs och den kan få leva i sin egen värld. De är ju trots allt synonymer.
+-   [X] testVariable -> testingVariable?? (konsekventhet)
 -   [ ] Utilsmapp/namespace
 -   [ ] AnyPopupWindowContainsText/NoPopupWindowContainsText - omfaktorisera, true/false?
 -   [ ] Test för layoutfil som testar vad som händer om man har skumma grejer (tex en 4, ett q eller ett ö)
