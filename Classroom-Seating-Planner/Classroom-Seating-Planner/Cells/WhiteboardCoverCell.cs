@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Classroom_Seating_Planner.Cells
 {
     public class WhiteboardCoverCell : Cell
     {
-        public WhiteboardCoverCell(int x, int y, int width, int height) : base(x, y, "whiteboardCover", width, height)
+        public WhiteboardCoverCell(int gridX, int gridY, int width, int height) : base(gridX, gridY, "whiteboardCover", width, height)
         {
             this.backgroundColor = System.Windows.Media.Brushes.WhiteSmoke;
             this.cellText = "TAVLA";
