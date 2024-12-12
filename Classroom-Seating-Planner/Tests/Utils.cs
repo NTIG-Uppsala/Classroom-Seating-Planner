@@ -349,7 +349,7 @@ namespace Tests
                 return null;
             }
 
-            // Parses a object formatted string and converts it to an object e.g. "x:1, y:5" -> { x: 1, y: 5 }
+            // Parses a object formatted string and converts it to an object e.g. "x:1; y:5" -> { x: 1, y: 5 }
             // Currenlty supports bool and int data types (falls back to string)
             public static IDictionary<string, object>? ParseStringToObject(string inputString)
             {
@@ -360,7 +360,7 @@ namespace Tests
 
                 IDictionary<string, object> returnObject = new ExpandoObject() as IDictionary<string, object>;
 
-                List<string> properties = inputString.Split("|")
+                List<string> properties = inputString.Split(";")
                     .Select((property) => property.Trim())
                     .ToList();
 

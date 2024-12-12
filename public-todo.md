@@ -1,9 +1,9 @@
 ### Sektion 1
 
--   [ ] i projektet: x, y -> gridX, gridY & centerX, centerY -> x, y
+-   [X] i projektet: x, y -> gridX, gridY & centerX, centerY -> x, y
 -   [X] Fixa Cellklass så att undantag omhändertas i respektive underklass
--   [ ] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
-    -   [ ] "|" -> ";"?
+-   [X] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
+    -   [X] "|" -> ";"?
 
 ### Fixas med implementation
 -   [ ] Fixa namn i Cell.cs på cellElement

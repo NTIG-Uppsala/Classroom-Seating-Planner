@@ -61,19 +61,19 @@ namespace Classroom_Seating_Planner.Cells
             System.Windows.Automation.AutomationProperties
                 .SetHelpText(cellElement,
                 $"cell:true" +
-                $"|" +
+                $";" +
                 $"cellType:{this.cellType}" +
-                $"|" +
+                $";" +
                 $"gridX:{this.gridX}" +
-                $"|" +
+                $";" +
                 $"gridY:{this.gridY}" +
-                $"|" +
+                $";" +
                 $"width:{this.width}" +
-                $"|" +
+                $";" +
                 $"height:{this.height}" +
-                $"|" +
+                $";" +
                 $"x:{this.x}" +
-                $"|" +
+                $";" +
                 $"y:{this.y}"
                 );
 
