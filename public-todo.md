@@ -54,11 +54,12 @@
 
 ### Senare senare dvs är en del av senare men inte lika viktigt
 
--   [ ] Fixa responsivitet i XAML istället för C#?
+-   [X] Fixa responsivitet i XAML istället för C#?
 -   [ ] xPopupName-variabler -> xWindowTitle
 -   [ ] Filinläsning case-sensitive? (B: b, T: t)
--   [ ] Lägg till caseSensitive i Options i Utils.XAMLHandler?
+-   [ ] Lägg till frivillig option i GetAllElementsBy* i XAMLHandler för case sensitivity?
 -   [ ] Ändra properties till PascalCase?
+    -   [ ] V: Nej?
 -   [ ] Lägg till funktionalitet i AnyPopupWindowContainsTest som kollar att det bara finns en popup
 -
 
