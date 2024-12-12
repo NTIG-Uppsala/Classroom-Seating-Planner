@@ -162,56 +162,15 @@ namespace Tests
         [TestMethod]
         public void MoreStudentsThanTablesTest()
         {
-            // This is defined to be independent of the default testing list to always have a list of 33 names
-            // to test against 24 tables to make sure that the program displays a warning when it should
-            List<string> testClassList =
-            [
-                "Ziggy Stardust",
-                "Frodo Baggins",
-                "Darth Vader",
-                "Galadriel Silverleaf",
-                "Sparky McFluff",
-                "Waldo B. Lost",
-                "กาญจนา McSix",
-                "Gandalf the Grey",
-                "Ulysses 'Snakehands' McDougall",
-                "Venkatanarasimharajuvaripeta Wumpus",
-                "Shivankumaraswamy Krishnamurthy Raghunath",
-                "الحسيني",
-                "Muhammad Abdelrahman ibn Al-Mahmoud al-Farouq",
-                "Papadopoulos-Alexandropoulos Firestorm",
-                "明张",
-                "Pipkin Puddleduck",
-                "Aleksandrovich Dimitrov Petrovskaya Ivanov",
-                "Per-Göran Karlsson von Heidenstam af Skånesläkten",
-                "Wiggles Snickerbottom",
-                "Zephyr Nightwind",
-                "Doodlebug Sparklestep",
-                "Sir Adrian Carton de Wiart",
-                "Tinkerbell Twinkletoes",
-                "Bo Li",
-                "Dinglehopper Wobblesworth",
-                "Kǎi McQuirk",
-                "Fizzlewhit Wobblebottom",
-                "鈴木 健太",
-                "Jo Wu",
-                "Le To",
-                "Örjan Johansson Florist",
-                "Främling Skådespelare",
-                "Émil Låås",
-            ];
-
             List<string> testClassroomLayout =
             [
                 "     TTTT",
                 "",
                 "BBBB BBBB BBBB",
-                "",
-                "BBBB BBBB BBBB",
             ];
 
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testClassList: testClassList, testClassroomLayout: testClassroomLayout);
+                = Utils.SetUp(testClassroomLayout: testClassroomLayout);
 
 
             // Assert that the correct popup is shown when the default list is loaded

@@ -22,6 +22,7 @@ namespace Tests
 
             static List<FlaUIElement.AutomationElement> getAllExplorerInstances(FlaUI.UIA3.UIA3Automation automation, ConditionFactory cf)
             {
+                // The class name for the file explorers window is "CabinetWClass". It's weird but that just how it is.
                 return automation.GetDesktop().FindAllChildren(cf.ByClassName("CabinetWClass")).ToList();
             }
 

@@ -1,6 +1,7 @@
 ﻿using Classroom_Seating_Planner.Cells;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
@@ -43,13 +44,19 @@ namespace Classroom_Seating_Planner.Src
             // Add a ColumnDefinition for every column
             for (int column = 0; column < this.columnCount; column++)
             {
-                classroomElement.ColumnDefinitions.Add(new ColumnDefinition());
+                classroomElement.ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new System.Windows.GridLength((double)new LengthConverter().ConvertFrom("2cm"), System.Windows.GridUnitType.Pixel),
+                });
             }
 
             // Add a RowDefinition for every row
             for (int row = 0; row < this.rowCount; row++)
             {
-                classroomElement.RowDefinitions.Add(new RowDefinition());
+                classroomElement.RowDefinitions.Add(new RowDefinition()
+                {
+                    Height = new System.Windows.GridLength((double)new LengthConverter().ConvertFrom("2cm"), System.Windows.GridUnitType.Pixel),
+                });
             }
         }
 
@@ -96,7 +103,7 @@ namespace Classroom_Seating_Planner.Src
             {
                 this.whiteboardCells = whiteboardCells;
 
-                if(this.whiteboardCells.Count.Equals(0))
+                if (this.whiteboardCells.Count.Equals(0))
                 {
                     return;
                 }

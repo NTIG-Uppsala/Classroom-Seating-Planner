@@ -82,7 +82,7 @@ namespace Classroom_Seating_Planner.Cells
             System.Windows.Controls.Grid.SetRow(cellElementContainer, this.gridY);
             System.Windows.Controls.Grid.SetColumnSpan(cellElementContainer, this.width);
             System.Windows.Controls.Grid.SetRowSpan(cellElementContainer, this.height);
-            
+
             this.Style(cellElementContainer, cellElement);
             // TODO - Make this more general by pushing to classroomElements
             this.AddToLayoutManager(classroomLayoutManager, cellElement);

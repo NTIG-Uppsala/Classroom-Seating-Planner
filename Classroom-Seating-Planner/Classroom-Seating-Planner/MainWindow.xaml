@@ -81,9 +81,7 @@
 
         <!-- The grid where all the tables and the whiteboard is placed -->
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="1">
-            <Grid x:Name="ClassroomElement" Margin="10" >
-            </Grid>
+            <Grid x:Name="ClassroomElement" Margin="10"></Grid>
         </ScrollViewer>
-
     </Grid>
 </Window>

@@ -9,28 +9,30 @@
 -   [ ] Fixa namn i Cell.cs på cellElement
 -   [ ] Cell.cs -> hur ska cellen läggas till i lista? nu är wAcc, eftersom den lägger till sig själv. (classroomLayoutManager.tableElements.Add(cellElement) -> classroomLayoutManager.classroomElements.Add(cellElement))
 
-### Användarinputhttps://prod.liveshare.vsengsaas.visualstudio.com/join?A755A63EFA34D6C493BCE43F05F41BB1D42F
+### Användarinput
 
 -   [ ] Lägg till ett sätt att kommentera ut rader i datafilerna (t.ex. #)
+    -   [ ] Lägg in i file-system-interactions.md att det står mer info i filerna
 -   [ ] Kommentera layoutfilen med instruktioner på hur man gör en layout
 -   [ ] Kommentera namnlistan med instruktioner på hur man lägger in elever och constraint
 
 ### Senare
-
--   [ ] Ändra namn i testlistan i MoreStudentsThanTablesTest
--   [ ] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
--   [ ] min-höjd på bord whack. Kapar namn.
--   [ ] ClassroomLayoutManager/Handler? mappar? (döpa om?)
--   [ ] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
+-   [X] Ändra namn i testlistan i MoreStudentsThanTablesTest
+-   [X] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
+-   [X] min-höjd på bord whack. Kapar namn.
+-   [X] ClassroomLayoutManager/Handler? mappar? (döpa om?)
+    -   [X] Tog bort handlern och löste det i xaml istället
+-   [X] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
 
 -   [ ] Popup andvändarvänlighet
     -   [ ] Man kan få flera popups samtidigt vilket inte är nice. Kanske skapa ett bannersystem inom någon framtid?
     -   [ ] Se över formuleringen i "det finns fler elever än bord". Bord/platser är svårläst. Platser är mer korrekt och kanske tydligare.
     -   [ ] Se över popupmeddelandena allmänt med deras formuleringar.
 
--   [ ] Dokumentation
-    -   [ ] File system interactions borde kanske byta namn (t.ex. hard coded data).
-    -   [ ] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
+-   [X] Dokumentation
+    -   [X] File system interactions borde kanske byta namn (t.ex. hard coded data).
+    -   [X] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
+    -   [X] Dela upp i olika filer
 
 -   [ ] .Equals() i HandleAllDataFileIssues (konsekventhet)
 -   [ ] Directory eller folder? (konsekventhet)
