@@ -38,7 +38,7 @@ namespace Tests
             List<float> yValues = cellDataList.Select(cell => (float)cell["gridY"]).ToList();
 
             // Compare the largest x and y values to the expected values
-            //  -1 on the expected values because the grid is 0-indexed
+            //  -1 on the expected values because the grid is 0 indexed
             Assert.IsTrue(xValues.Max().Equals(expectedColumns - 1), "The amount of columns in the table grid is not correct");
             Assert.IsTrue(yValues.Max().Equals(expectedRows - 1), "The amount of rows in the table grid is not correct");
 
