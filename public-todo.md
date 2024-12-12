@@ -39,7 +39,7 @@
 -   [ ] Directory eller folder? (konsekventhet)
     -   [X] V och T tycker att det inte är så viktigt och att det för det mesta bara förekommer i testDataDirectory.cs och den kan få leva i sin egen värld. De är ju trots allt synonymer.
 -   [X] testVariable -> testingVariable?? (konsekventhet)
--   [ ] Utilsmapp/namespace
+-   [X] Utilsmapp/namespace
 -   [ ] AnyPopupWindowContainsText/NoPopupWindowContainsText - omfaktorisera, true/false?
 -   [ ] Test för layoutfil som testar vad som händer om man har skumma grejer (tex en 4, ett q eller ett ö)
     -   [ ] Eller fixa funktionalitet som hanterar andra tecken som blanksteg (i.e. säger att fil med bara "a" är tom)
