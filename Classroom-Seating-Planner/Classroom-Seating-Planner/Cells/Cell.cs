@@ -5,9 +5,9 @@ namespace Classroom_Seating_Planner.Cells
 {
     public class Cell
     {
-        public int x, y;
+        public int gridX, gridY;
         public int width, height;
-        public float centerX, centerY;
+        public float x, y;
 
         public string cellType;
         public string cellText = "!!CELL!!"; // This should never be seen O.O
@@ -16,16 +16,16 @@ namespace Classroom_Seating_Planner.Cells
         public System.Windows.Media.Brush backgroundColor = System.Windows.Media.Brushes.Yellow; // Yellow, so it's easier to spot. A base cell should never be drawn.
         public System.Windows.Media.Brush textColor = System.Windows.Media.Brushes.Black;
 
-        public Cell(int x, int y, string cellType, int width = 1, int height = 1)
+        public Cell(int gridX, int gridY, string cellType, int width = 1, int height = 1)
         {
             this.cellType = cellType;
 
-            this.x = x;
-            this.y = y;
+            this.gridX = gridX;
+            this.gridY = gridY;
             this.width = width;
             this.height = height;
-            this.centerX = x + (width - 1) / 2;
-            this.centerY = y + (height - 1) / 2;
+            this.x = gridX + (width - 1) / 2;
+            this.y = gridY + (height - 1) / 2;
         }
 
         public virtual void Style(System.Windows.Controls.Border cellElementContainer, System.Windows.Controls.TextBlock cellElement) { }
@@ -64,24 +64,24 @@ namespace Classroom_Seating_Planner.Cells
                 $"|" +
                 $"cellType:{this.cellType}" +
                 $"|" +
-                $"x:{this.x}" +
+                $"gridX:{this.gridX}" +
                 $"|" +
-                $"y:{this.y}" +
+                $"gridY:{this.gridY}" +
                 $"|" +
                 $"width:{this.width}" +
                 $"|" +
                 $"height:{this.height}" +
                 $"|" +
-                $"centerX:{this.centerX}" +
+                $"x:{this.x}" +
                 $"|" +
-                $"centerY:{this.centerY}"
+                $"y:{this.y}"
                 );
 
             // Position this cell according to its coordinates
-            System.Windows.Controls.Grid.SetColumn(cellElementContainer, (int)this.x);
-            System.Windows.Controls.Grid.SetRow(cellElementContainer, (int)this.y);
-            System.Windows.Controls.Grid.SetColumnSpan(cellElementContainer, (int)this.width);
-            System.Windows.Controls.Grid.SetRowSpan(cellElementContainer, (int)this.height);
+            System.Windows.Controls.Grid.SetColumn(cellElementContainer, this.gridX);
+            System.Windows.Controls.Grid.SetRow(cellElementContainer, this.gridY);
+            System.Windows.Controls.Grid.SetColumnSpan(cellElementContainer, this.width);
+            System.Windows.Controls.Grid.SetRowSpan(cellElementContainer, this.height);
             
             this.Style(cellElementContainer, cellElement);
             // TODO - Make this more general by pushing to classroomElements

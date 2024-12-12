@@ -23,29 +23,24 @@ namespace Tests
             Assert.IsNotNull(allCells);
 
             // Make a list of all the cells data
-            List<IDictionary<string, object>> cellObjectList = new();
+            List<IDictionary<string, object>> cellDataList = [];
             foreach (FlaUIElement.AutomationElement cell in allCells)
             {
                 IDictionary<string, object>? cellData = Utils.XAMLHandler.ParseStringToObject(cell.HelpText);
                 Assert.IsNotNull(cellData);
                 Assert.IsNotNull(cellData["cellType"].ToString());
 
-                if ((string)cellData["cellType"] == "whiteboardCover")
-                {
-                    continue;
-                }
-
-                cellObjectList.Add(cellData);
+                cellDataList.Add(cellData);
             }
 
             // Store all the x and y values to find the max value
-            List<float> xValues = cellObjectList.Select(cell => (float)cell["x"]).ToList();
-            List<float> yValues = cellObjectList.Select(cell => (float)cell["y"]).ToList();
+            List<float> xValues = cellDataList.Select(cell => (float)cell["gridX"]).ToList();
+            List<float> yValues = cellDataList.Select(cell => (float)cell["gridY"]).ToList();
 
-            // compare the largest x and y values to the expected values
-            // -1 on the expected values because the grid is 0-indexed
-            Assert.IsTrue(xValues.Max().Equals(expectedColumns - 1), "The amount of columns in the table-grid is not correct");
-            Assert.IsTrue(yValues.Max().Equals(expectedRows - 1), "The amount of rows in the table-grid is not correct");
+            // Compare the largest x and y values to the expected values
+            //  -1 on the expected values because the grid is 0-indexed
+            Assert.IsTrue(xValues.Max().Equals(expectedColumns - 1), "The amount of columns in the table grid is not correct");
+            Assert.IsTrue(yValues.Max().Equals(expectedRows - 1), "The amount of rows in the table grid is not correct");
 
 
             Utils.TearDown(app);
@@ -60,11 +55,11 @@ namespace Tests
 
 
             List<Dictionary<string, int>> testCaseCoordinatesList = [
-                new() { { "x", 0 }, { "y", 2 }, }, // Should be a table cell
-                new() { { "x", 8 }, { "y", 4 }, }, // Should be empty
-                new() { { "x", 5 }, { "y", 0 }, }, // Should be a whiteboard cell
-                new() { { "x", 3 }, { "y", 0 }, }, // Should be a whiteboard cell
-                new() { { "x", 6 }, { "y", 0 }, }, // Should be a whiteboard cell
+                new() { { "gridX", 0 }, { "gridY", 2 }, }, // Should be a table cell
+                new() { { "gridX", 8 }, { "gridY", 4 }, }, // Should be empty
+                new() { { "gridX", 5 }, { "gridY", 0 }, }, // Should be a whiteboard cell
+                new() { { "gridX", 3 }, { "gridY", 0 }, }, // Should be a whiteboard cell
+                new() { { "gridX", 6 }, { "gridY", 0 }, }, // Should be a whiteboard cell
             ];
 
             // Get all the cells (table and whiteboard cells)
@@ -84,23 +79,23 @@ namespace Tests
             // Check that the cell types are the same between the classroom layout file and the XAML grid for each sampled coordinate
             foreach (Dictionary<string, int> testCaseCoordinates in testCaseCoordinatesList)
             {
-                int xTestCaseCoordinate = testCaseCoordinates["x"];
-                int yTestCaseCoordinate = testCaseCoordinates["y"];
+                int xTestCaseCoordinate = testCaseCoordinates["gridX"];
+                int yTestCaseCoordinate = testCaseCoordinates["gridY"];
 
-                char cellType = Utils.testingClassroomLayout[yTestCaseCoordinate][xTestCaseCoordinate];
+                char cellLetter = Utils.testingClassroomLayout[yTestCaseCoordinate][xTestCaseCoordinate];
 
                 IDictionary<string, object>? cellData = cellDataList.Where((cellDataCandidate) =>
-                    (float)cellDataCandidate["x"] <= xTestCaseCoordinate
+                    (float)cellDataCandidate["gridX"] <= xTestCaseCoordinate
                     &&
-                    xTestCaseCoordinate <= (float)cellDataCandidate["x"] + (float)cellDataCandidate["width"] - 1
+                    xTestCaseCoordinate <= (float)cellDataCandidate["gridX"] + (float)cellDataCandidate["width"] - 1
                     &&
-                    (float)cellDataCandidate["y"] <= yTestCaseCoordinate
+                    (float)cellDataCandidate["gridY"] <= yTestCaseCoordinate
                     &&
-                    yTestCaseCoordinate <= (float)cellDataCandidate["y"] + (float)cellDataCandidate["height"] - 1
+                    yTestCaseCoordinate <= (float)cellDataCandidate["gridY"] + (float)cellDataCandidate["height"] - 1
                 ).FirstOrDefault();
 
                 // Whiteboard confirmation
-                if (cellType.Equals('T'))
+                if (cellLetter.Equals('T'))
                 {
                     Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
                     bool isWhiteboard = (string)cellData["cellType"] == "whiteboardCover";
@@ -108,13 +103,13 @@ namespace Tests
                 }
 
                 // Empty cell (the floor) confirmation
-                else if (cellType.Equals(' '))
+                else if (cellLetter.Equals(' '))
                 {
                     Assert.IsNull(cellData, "The cell at the coordinates {0}, {1} is not a floor cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
 
                 // Table confirmation
-                else if (cellType.Equals('B'))
+                else if (cellLetter.Equals('B'))
                 {
                     Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a table cell", xTestCaseCoordinate, yTestCaseCoordinate);
                     bool isTable = (string)cellData["cellType"] == "table";
@@ -124,7 +119,7 @@ namespace Tests
                 // Invalid cell type
                 else
                 {
-                    Assert.Fail("Cell type '{0}' at x:{1}, y:{2} is not a valid cell type.", cellType, xTestCaseCoordinate, yTestCaseCoordinate);
+                    Assert.Fail("Cell type '{0}' at x:{1}, y:{2} is not a valid cell type.", cellLetter, xTestCaseCoordinate, yTestCaseCoordinate);
                 }
             }
 

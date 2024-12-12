@@ -12,8 +12,8 @@ namespace Classroom_Seating_Planner.Src
         public static double GetDistanceBetweenCells(Classroom_Seating_Planner.Cells.Cell cell1, Classroom_Seating_Planner.Cells.Cell cell2)
         {
             // Get the horizontal and vertical distance between the two cells
-            double horizontalDistance = Math.Abs(cell1.centerX - cell2.centerX);
-            double verticalDistance = Math.Abs(cell1.centerY - cell2.centerY);
+            double horizontalDistance = Math.Abs(cell1.x - cell2.x);
+            double verticalDistance = Math.Abs(cell1.y - cell2.y);
 
             // Use the Pythagorean theorem to calculate the distance between the two cells
             return Math.Sqrt(Math.Pow(horizontalDistance, 2) + Math.Pow(verticalDistance, 2));

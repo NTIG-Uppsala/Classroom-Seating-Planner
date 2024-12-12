@@ -1,7 +1,7 @@
 ### Sektion 1
 
 -   [ ] i projektet: x, y -> gridX, gridY & centerX, centerY -> x, y
--   [ ] Fixa Cellklass så att undantag omhändertas i respektive underklass
+-   [X] Fixa Cellklass så att undantag omhändertas i respektive underklass
 -   [ ] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
     -   [ ] "|" -> ";"?
 
@@ -9,7 +9,7 @@
 -   [ ] Fixa namn i Cell.cs på cellElement
 -   [ ] Cell.cs -> hur ska cellen läggas till i lista? nu är wAcc, eftersom den lägger till sig själv. (classroomLayoutManager.tableElements.Add(cellElement) -> classroomLayoutManager.classroomElements.Add(cellElement))
 
-### Användarinput
+### Användarinputhttps://prod.liveshare.vsengsaas.visualstudio.com/join?A755A63EFA34D6C493BCE43F05F41BB1D42F
 
 -   [ ] Lägg till ett sätt att kommentera ut rader i datafilerna (t.ex. #)
 -   [ ] Kommentera layoutfilen med instruktioner på hur man gör en layout

@@ -130,8 +130,8 @@ namespace Classroom_Seating_Planner.Src
 
                 this.whiteboardCells.ForEach(whiteboardCell =>
                 {
-                    xValues.Add((int)whiteboardCell.x);
-                    yValues.Add((int)whiteboardCell.y);
+                    xValues.Add((int)whiteboardCell.gridX);
+                    yValues.Add((int)whiteboardCell.gridY);
                 });
 
                 int? smallestX = xValues.Min();
@@ -147,8 +147,8 @@ namespace Classroom_Seating_Planner.Src
 
                 this.whiteboardCells.ForEach(whiteboardCell =>
                 {
-                    xValues.Add((int)whiteboardCell.x);
-                    yValues.Add((int)whiteboardCell.y);
+                    xValues.Add((int)whiteboardCell.gridX);
+                    yValues.Add((int)whiteboardCell.gridY);
                 });
 
                 int? largestX = xValues.Max();
