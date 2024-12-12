@@ -41,8 +41,16 @@
 -   [X] testVariable -> testingVariable?? (konsekventhet)
 -   [X] Utilsmapp/namespace
 -   [ ] AnyPopupWindowContainsText/NoPopupWindowContainsText - omfaktorisera, true/false?
--   [ ] Test för layoutfil som testar vad som händer om man har skumma grejer (tex en 4, ett q eller ett ö)
-    -   [ ] Eller fixa funktionalitet som hanterar andra tecken som blanksteg (i.e. säger att fil med bara "a" är tom)
+-   [ ] Vad händer om man har annat än T och B i layoutfilen?
+    -   [ ] De blir golv. Ska man testa för det?
+    -   [ ] Hur ska det hanteras?
+        -   [ ] Ska det varna?
+        -   [ ] Ska den antag bord?
+        -   [ ] Case sensitive?
+        -   [ ] Ska den ignorera? Dvs. inte göra till golv
+            -   [ ] V och T tycker att det iaf inte ska igoneraras.
+    -   [ ] ~~Test för layoutfil som testar vad som händer om man har skumma grejer (tex en 4, ett q eller ett ö)~~
+    -   [ ] ~~Eller fixa funktionalitet som hanterar andra tecken som blanksteg (i.e. säger att fil med bara "a" är tom)~~
 
 ### Senare senare dvs är en del av senare men inte lika viktigt
 
