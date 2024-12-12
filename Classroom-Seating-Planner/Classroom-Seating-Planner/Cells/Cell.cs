@@ -1,10 +1,4 @@
 ﻿using Classroom_Seating_Planner.Src;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Classroom_Seating_Planner.Cells
@@ -34,9 +28,14 @@ namespace Classroom_Seating_Planner.Cells
             this.centerY = y + (height - 1) / 2;
         }
 
+        public virtual void Style(System.Windows.Controls.Border cellElementContainer, System.Windows.Controls.TextBlock cellElement) { }
+
+        public virtual void AddToLayoutManager(ClassroomLayoutManager classroomLayoutManager, System.Windows.Controls.TextBlock cellElement) { }
+
         public void Draw(System.Windows.Controls.Grid parent, ClassroomLayoutManager classroomLayoutManager)
         {
             // Make the XAML element that will be the visual representation of the cell
+            // The text that will be shown in the XAML element
             System.Windows.Controls.TextBlock cellElement = new()
             {
                 Text = this.cellText,
@@ -44,24 +43,8 @@ namespace Classroom_Seating_Planner.Cells
                 Foreground = this.textColor,
             };
 
-            // Center whiteboard text
-            if (cellElement.Text.Equals("TAVLA"))
-            {
-                cellElement.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                cellElement.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-                cellElement.TextAlignment = System.Windows.TextAlignment.Center;
-                cellElement.FontWeight = FontWeights.SemiBold;
-                cellElement.FontSize = 32;
-                cellElement.TextWrapping = TextWrapping.Wrap;
-            }
-
-            if (this.cellType.Equals("table"))
-            {
-                cellElement.TextWrapping = TextWrapping.WrapWithOverflow;
-            }
-
-            // Create a Border to contain the TextBlock
-            System.Windows.Controls.Border cellContainer = new()
+            // The container for the text element that will also store data about the cell
+            System.Windows.Controls.Border cellElementContainer = new()
             {
                 Background = this.backgroundColor, // Set the background color on the Border
                 VerticalAlignment = System.Windows.VerticalAlignment.Stretch,
@@ -73,6 +56,7 @@ namespace Classroom_Seating_Planner.Cells
                 BorderThickness = new System.Windows.Thickness(1, 1, 1, 1),
             };
 
+            // TODO - Set help text to the container
             // Give element a helptext that the tests can read
             System.Windows.Automation.AutomationProperties
                 .SetHelpText(cellElement,
@@ -94,19 +78,17 @@ namespace Classroom_Seating_Planner.Cells
                 );
 
             // Position this cell according to its coordinates
-            System.Windows.Controls.Grid.SetColumn(cellContainer, (int)this.x);
-            System.Windows.Controls.Grid.SetRow(cellContainer, (int)this.y);
-            System.Windows.Controls.Grid.SetColumnSpan(cellContainer, (int)this.width);
-            System.Windows.Controls.Grid.SetRowSpan(cellContainer, (int)this.height);
+            System.Windows.Controls.Grid.SetColumn(cellElementContainer, (int)this.x);
+            System.Windows.Controls.Grid.SetRow(cellElementContainer, (int)this.y);
+            System.Windows.Controls.Grid.SetColumnSpan(cellElementContainer, (int)this.width);
+            System.Windows.Controls.Grid.SetRowSpan(cellElementContainer, (int)this.height);
+            
+            this.Style(cellElementContainer, cellElement);
+            // TODO - Make this more general by pushing to classroomElements
+            this.AddToLayoutManager(classroomLayoutManager, cellElement);
 
             // Add this cell to the parent grid
-            parent.Children.Add(cellContainer);
-
-            // Add table to tableList for Populate method
-            if (this.cellType.Equals("table"))
-            {
-                classroomLayoutManager.tableElements.Add(cellElement);
-            }
+            parent.Children.Add(cellElementContainer);
         }
     }
 }
