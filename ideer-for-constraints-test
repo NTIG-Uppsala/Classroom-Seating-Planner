@@ -1,0 +1,10 @@
+en person med otroligt hög prio och ser till att den hamnar på rätt plats
+    - Testar vi verkligen en vanlig constraint då?
+
+semimanuella tester (testet riggas automatiskt men man måste kolla det själv)
+- Döp folk efter sina contraints
+
+~~
+Manuellt test där vi toggla att bord(elever) får bakgrundsfärg beroende på constraint
+    - Dra streck mellan folk som har contraints mot varandra. Deras färg kan säga
+~~
