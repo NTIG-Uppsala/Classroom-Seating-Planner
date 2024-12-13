@@ -23,9 +23,9 @@
     -   [x] Skapa en programmatiskt? Namn1, Namn2 osv.?
 -   [x] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
 -   [x] Fixa responsiviteten så att det funkar som innan, men kanske löst smidigare
-    -   [ ] Fixa responsivitet i XAML istället för C#?
-    -   [ ] min-höjd på bord whack. Kapar namn.
-    -   [ ] Fil: DynamicClassroomZicer.cs???
+    -   [x] Fixa responsivitet i XAML istället för C#?
+    -   [x] min-höjd på bord whack. Kapar namn.
+    -   [x] Fil: DynamicClassroomZicer.cs???
 -   [x] ClassroomLayoutManager/Handler? mappar? (döpa om?)
     -   [x] Tog bort handlern och löste det i xaml istället
 -   [x] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
@@ -107,6 +107,9 @@
 -   [ ] Directory eller folder? (konsekventhet)
     -   [x] V och T tycker att det inte är så viktigt och att det för det mesta bara förekommer i testDataDirectory.cs och den kan få leva i sin egen värld. De är ju trots allt synonymer.
     -   [ ] Vi återkommer
+-   [ ] Mer avancerade namnurval i testerna
+    -   [ ] några tusen för och efternamn som komnineras slumpmässigt
+    -   [ ] putta ibland in ett förnamn som mellannamn
 
 ---
 
