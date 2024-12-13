@@ -1,11 +1,12 @@
 ### Sektion 1
 
--   [X] i projektet: x, y -> gridX, gridY & centerX, centerY -> x, y
--   [X] Fixa Cellklass så att undantag omhändertas i respektive underklass
--   [X] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
-    -   [X] "|" -> ";"?
+-   [x] i projektet: x, y -> gridX, gridY & centerX, centerY -> x, y
+-   [x] Fixa Cellklass så att undantag omhändertas i respektive underklass
+-   [x] Fixa kommentar i utils xamlhandler parsestringtoobject: "," -> "|"
+    -   [x] "|" -> ";"?
 
 ### Fixas med implementation
+
 -   [ ] Fixa namn i Cell.cs på cellElement
 -   [ ] Cell.cs -> hur ska cellen läggas till i lista? nu är wAcc, eftersom den lägger till sig själv. (classroomLayoutManager.tableElements.Add(cellElement) -> classroomLayoutManager.classroomElements.Add(cellElement))
 
@@ -17,51 +18,94 @@
 -   [ ] Kommentera namnlistan med instruktioner på hur man lägger in elever och constraint
 
 ### Senare
--   [X] Ändra namn i testlistan i MoreStudentsThanTablesTest
--   [X] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
--   [X] min-höjd på bord whack. Kapar namn.
--   [X] ClassroomLayoutManager/Handler? mappar? (döpa om?)
-    -   [X] Tog bort handlern och löste det i xaml istället
--   [X] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
+
+-   [!] Skapa testnamnlista för MoreStudentsThanTablesTest
+    -   [ ] Skapa en programmatiskt? Namn1, Namn2 osv.?
+-   [x] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
+-   [!] Fixa responsiviteten så att det funkar som innan, men kanske löst smidigare
+    -   [ ] Fixa responsivitet i XAML istället för C#?
+    -   [ ] min-höjd på bord whack. Kapar namn.
+    -   [ ] Fil: DynamicClassroomZicer.cs???
+-   [x] ClassroomLayoutManager/Handler? mappar? (döpa om?)
+    -   [x] Tog bort handlern och löste det i xaml istället
+-   [x] Cell, set column, row, columnspan och rowspan behöver inte omvandlas till ints då de redan är ints
 
 -   [ ] Popup andvändarvänlighet
     -   [ ] Man kan få flera popups samtidigt vilket inte är nice. Kanske skapa ett bannersystem inom någon framtid?
     -   [ ] Se över formuleringen i "det finns fler elever än bord". Bord/platser är svårläst. Platser är mer korrekt och kanske tydligare.
     -   [ ] Se över popupmeddelandena allmänt med deras formuleringar.
 
--   [X] Dokumentation
-    -   [X] File system interactions borde kanske byta namn (t.ex. hard coded data).
-    -   [X] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
-    -   [X] Dela upp i olika filer
+-   [ ] Dokumentation
+    -   [x] File system interactions borde kanske byta namn (t.ex. hard coded data).
+    -   [x] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
+    -   [x] Dela upp i olika filer
+    -   [ ] Manuella tester (tex responsivitet)
 
--   [X] .Equals() i HandleAllDataFileIssues (konsekventhet)
-    -   [X] Skippa null iom varning om att det är null
--   [ ] Directory eller folder? (konsekventhet)
-    -   [X] V och T tycker att det inte är så viktigt och att det för det mesta bara förekommer i testDataDirectory.cs och den kan få leva i sin egen värld. De är ju trots allt synonymer.
--   [X] testVariable -> testingVariable?? (konsekventhet)
--   [X] Utilsmapp/namespace
+-   [x] .Equals() i HandleAllDataFileIssues (konsekventhet)
+    -   [x] Skippa null iom varning om att det är null
+-   [ ] testingVariable / testCaseVariable??
+    -   [x] testVariable -> testingVariable?? (konsekventhet)
+    -   [ ] -> defaultTestingVariable && testCaseVariable??
+-   [x] Utilsmapp/namespace
 -   [ ] AnyPopupWindowContainsText/NoPopupWindowContainsText - omfaktorisera, true/false?
 -   [ ] Vad händer om man har annat än T och B i layoutfilen?
     -   [ ] De blir golv. Ska man testa för det?
     -   [ ] Hur ska det hanteras?
         -   [ ] Ska det varna?
-        -   [ ] Ska den antag bord?
+        -   [ ] Ska den antaga bord?
         -   [ ] Case sensitive?
-        -   [ ] Ska den ignorera? Dvs. inte göra till golv
-            -   [ ] V och T tycker att det iaf inte ska igoneraras.
-    -   [ ] ~~Test för layoutfil som testar vad som händer om man har skumma grejer (tex en 4, ett q eller ett ö)~~
-    -   [ ] ~~Eller fixa funktionalitet som hanterar andra tecken som blanksteg (i.e. säger att fil med bara "a" är tom)~~
+        -   [ ] Ska det bli golv?
+            -   [ ] Viggo och Ac tycker att det ska bli det så layouten i filen matchar programmet bättre.
 
 ### Senare senare dvs är en del av senare men inte lika viktigt
 
--   [X] Fixa responsivitet i XAML istället för C#?
 -   [ ] xPopupName-variabler -> xWindowTitle
 -   [ ] Filinläsning case-sensitive? (B: b, T: t)
--   [ ] Lägg till frivillig option i GetAllElementsBy* i XAMLHandler för case sensitivity?
+-   [ ] Lägg till frivillig option i GetAllElementsBy\* i XAMLHandler för case sensitivity?
 -   [ ] Ändra properties till PascalCase?
     -   [ ] V: Nej?
+    -   [ ] J: Jo?
 -   [ ] Lägg till funktionalitet i AnyPopupWindowContainsTest som kollar att det bara finns en popup
--
+-   [ ] ??(gridX. gridY -> gridPosColumn, gridPosRow / gridColumn, gridRow / gridColumnPos, gridRowPos)??
+-   [ ] datafiler och hårdkodad data:
+    -   [ ] Gör objekt med datafilernas namn istället för separata variabler
+        Idé 1:
+        ```cs
+        string dataFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), FileHandler.dataFolderName);
+        Dictionary? dataFiles = {
+            classList = {
+                fileName: "klasslista.txt",
+                filePath: Path.Combine(dataFolderPath, dataFiles.classList.fileName)
+            },
+            classroomLayout = {
+                fileName: "bordskarta.txt",
+                filePath: Path.Combine(dataFolderPath, dataFiles.classroomLayout.fileName)
+            },
+            constraints = {
+                fileName: "constraints.txt",
+                filePath: Path.Combine(dataFolderPath, dataFiles.constraints.fileName)
+            }, // OBS! Exempel
+        };
+        ```
+        Idé 2:
+        ```js
+        const filePaths = {
+            base: "%USERPROFILE%\\Documents\\",
+            files: {
+                classList: "klasslista.txt",
+                classroomLayout: "bordskarta.txt",
+                constraints: "constraints.txt",
+            }
+            getPath: (file) => {
+                return this.base + this.files[file];
+            }
+        }
+        ```
+    -   [ ] Bryta ut file paths hårdkodad data till separat fil?
+
+-   [ ] Directory eller folder? (konsekventhet)
+    -   [x] V och T tycker att det inte är så viktigt och att det för det mesta bara förekommer i testDataDirectory.cs och den kan få leva i sin egen värld. De är ju trots allt synonymer.
+    -   [ ] Vi återkommer
 
 ---
 
