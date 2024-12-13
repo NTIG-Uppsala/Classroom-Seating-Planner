@@ -44,19 +44,13 @@ namespace Classroom_Seating_Planner.Src
             // Add a ColumnDefinition for every column
             for (int column = 0; column < this.columnCount; column++)
             {
-                classroomElement.ColumnDefinitions.Add(new ColumnDefinition()
-                {
-                    Width = new System.Windows.GridLength((double)new LengthConverter().ConvertFrom("2cm"), System.Windows.GridUnitType.Pixel),
-                });
+                classroomElement.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
             // Add a RowDefinition for every row
             for (int row = 0; row < this.rowCount; row++)
             {
-                classroomElement.RowDefinitions.Add(new RowDefinition()
-                {
-                    Height = new System.Windows.GridLength((double)new LengthConverter().ConvertFrom("2cm"), System.Windows.GridUnitType.Pixel),
-                });
+                classroomElement.RowDefinitions.Add(new RowDefinition());
             }
         }
 
