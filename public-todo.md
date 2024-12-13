@@ -19,8 +19,8 @@
 
 ### Senare
 
--   [!] Skapa testnamnlista för MoreStudentsThanTablesTest
-    -   [ ] Skapa en programmatiskt? Namn1, Namn2 osv.?
+-   [x] Skapa testnamnlista för MoreStudentsThanTablesTest
+    -   [x] Skapa en programmatiskt? Namn1, Namn2 osv.?
 -   [x] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
 -   [!] Fixa responsiviteten så att det funkar som innan, men kanske löst smidigare
     -   [ ] Fixa responsivitet i XAML istället för C#?

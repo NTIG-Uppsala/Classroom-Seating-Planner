@@ -1,10 +1,20 @@
-﻿using FlaUIElement = FlaUI.Core.AutomationElements;
+using FlaUIElement = FlaUI.Core.AutomationElements;
 
 namespace Tests
 {
     [TestClass]
     public class TestClassList
     {
+        private List<string> generateClassListOfLength(int listLength){
+            List<string> testingClassList = [];
+            for (int i = 0; i < listLength; i++)
+            {
+                testingClassList.Add("Namn" + (i + 1));
+            }
+            return testingClassList;
+        }
+      
+      
         [TestMethod]
         public void RandomizeTestingClassListTest()
         {
@@ -62,9 +72,10 @@ namespace Tests
         public void RandomizeClassListOfZeroTest()
         {
             // Set up/start the test
-            List<string> testingListLengthZero = [];
+            List<string> testingClassList = generateClassListOfLength(0);
+
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testingListLengthZero);
+                = Utils.SetUp(testingClassList: testingClassList);
 
 
             // Randomize the list and check that it works
@@ -80,9 +91,10 @@ namespace Tests
         public void RandomizeClassListOfOneTest()
         {
             // Set up/start the test
-            List<string> testingListLengthOne = ["Name1"];
+            List<string> testingClassList = generateClassListOfLength(1);
+
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testingListLengthOne);
+                = Utils.SetUp(testingClassList: testingClassList);
 
 
             // Randomize the list and check that it works
@@ -98,9 +110,10 @@ namespace Tests
         public void RandomizeClassListOfTwoTest()
         {
             // Set up/start the test
-            List<string> testingListLengthTwo = ["Name1", "Name2"];
+            List<string> testingClassList = generateClassListOfLength(2);
+            
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testingListLengthTwo);
+                = Utils.SetUp(testingClassList: testingClassList);
 
 
             // Randomize the list and check that it works
@@ -169,8 +182,11 @@ namespace Tests
                 "BBBB BBBB BBBB",
             ];
 
+            // Generate a class list that will always be too large for this classroom layout
+            List<string> testingClassList = generateClassListOfLength(33);
+
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp(testingClassroomLayout: testingClassroomLayout);
+                = Utils.SetUp(testingClassList: testingClassList, testingClassroomLayout: testingClassroomLayout);
 
 
             // Assert that the correct popup is shown when the default list is loaded
