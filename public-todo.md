@@ -22,7 +22,7 @@
 -   [x] Skapa testnamnlista för MoreStudentsThanTablesTest
     -   [x] Skapa en programmatiskt? Namn1, Namn2 osv.?
 -   [x] Förklara CabinetWClass - "CabinetWClass is the class name for the file explorer window"
--   [!] Fixa responsiviteten så att det funkar som innan, men kanske löst smidigare
+-   [x] Fixa responsiviteten så att det funkar som innan, men kanske löst smidigare
     -   [ ] Fixa responsivitet i XAML istället för C#?
     -   [ ] min-höjd på bord whack. Kapar namn.
     -   [ ] Fil: DynamicClassroomZicer.cs???
@@ -102,7 +102,8 @@
         }
         ```
     -   [ ] Bryta ut file paths hårdkodad data till separat fil?
-
+-   [ ] Omfaktorisera UpdateClassroomLayoutSize
+-   [ ] Fundera på om responsivitet kan förbättras - just nu kan lite mer än en rad text synas om programfönstret inte går att göra tillräckligt litet
 -   [ ] Directory eller folder? (konsekventhet)
     -   [x] V och T tycker att det inte är så viktigt och att det för det mesta bara förekommer i testDataDirectory.cs och den kan få leva i sin egen värld. De är ju trots allt synonymer.
     -   [ ] Vi återkommer
