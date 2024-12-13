@@ -30,7 +30,7 @@ namespace Tests
         ];
 
         // Class list used for tests unless another list is specified
-        private static readonly List<string> testingClassList =
+        public static readonly List<string> testingClassList =
         [
             "Ziggy Stardust",
             "Frodo Baggins",

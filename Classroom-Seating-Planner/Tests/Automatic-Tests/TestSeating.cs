@@ -33,7 +33,7 @@ namespace A02_Automatic_Tests
             int studentCount = allStudents.Count;
 
             // Check that the amount of students is equal to the amount of tables
-            Assert.IsTrue(studentCount.Equals(tableCount), "The amount of students is not equal to the amount of tables");
+            Assert.IsTrue(studentCount.Equals(tableCount), "The amount of students is not equal to the amount of tables where a student is seated");
 
 
             Utils.TearDown(app);
