@@ -8,7 +8,7 @@ namespace A02_Automatic_Tests
     public class TestConstraints
     {
         [TestMethod]
-        public void ExtremeConstraintTest()
+        public void ExtremeConstraintNearWhiteboardTest()
         {
             List<string> testingClassroomLayout = [
                 "   TTTT",
@@ -16,7 +16,7 @@ namespace A02_Automatic_Tests
                 "     B",
                 "   B",
                 "",
-                "BBBB BBBB B",
+                "BBBB BBB BB",
                 "",
                 "BBB BBB BBB"
                 ];
@@ -61,6 +61,62 @@ namespace A02_Automatic_Tests
 
 
             Utils.TearDown(app);
+        }
+
+        [TestMethod]
+        public void ExtremeConstraintTestAdjacent()
+        {
+            List<string> testingClassroomLayout = [
+                "   TTTT",
+                "",
+                "     B",
+                "   B",
+                "",
+                "BBBB BBB BB",
+                "",
+                "BBB BBB BBB"
+                ];
+
+            //List<string> testingClassList = [
+            //    "Emma Andersson",
+            //    "William Eriksson",
+            //    "Olivia Karlsson: långtfrån Lucas Johansson (5)",
+            //    "Lucas Johansson",
+            //    "Alice Svensson: långtfrån Ella Larsson (7)",
+            //    "Elias Nilsson",
+            //    "Ella Larsson: nära tavlan (300)",
+            //    "Noah Persson",
+            //    "Alva Olsson: bredvid Noah Persson (9)",
+            //    "Liam Lindberg",
+            //    "Ebba Bergström: nära tavlan (700)",
+            //    "Oscar Holmgren: bredvid Emma Andersson (4)",
+            //    "Nora Lundqvist: intebredvid Liam Lindberg (3) / nära Ebba Bergström (8)",
+            //    "Alexander Håkansson",
+            //    "Wilma Strömberg",
+            //    "Hugo Sandberg"
+            //    ];
+
+            // Set up/start the test
+            //(FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
+            //    = Utils.SetUp(testingClassList: testingClassList, testingClassroomLayout: testingClassroomLayout); // SetUp has optional arguments that may be useful for certain tests
+
+
+            //Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+
+            //// Find all the tables
+            //List<FlaUIElement.AutomationElement>? allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
+            //Assert.IsNotNull(allTables);
+
+            //FlaUIElement.AutomationElement ebbasTable = allTables.Where(table => table.Name.Equals("Ebba Bergström")).ToList()[0];
+            //IDictionary<string, object> ebbasTableObj = Utils.XAMLHandler.ParseStringToObject(ebbasTable.HelpText);
+            //Assert.IsTrue(ebbasTableObj["x"].Equals(5) && ebbasTableObj["y"].Equals(2), "Ebba Bergström is not seated at x=5 and y=2");
+
+            //FlaUIElement.AutomationElement ellasTable = allTables.Where(table => table.Name.Equals("Ella Larsson")).ToList()[0];
+            //IDictionary<string, object> ellasTableObj = Utils.XAMLHandler.ParseStringToObject(ellasTable.HelpText);
+            //Assert.IsTrue(ellasTableObj["x"].Equals(3) && ellasTableObj["y"].Equals(3), "Ella Larsson is not seated at x=3 and y=3");
+
+
+            //Utils.TearDown(app);
         }
 
         [TestMethod]
