@@ -16,8 +16,7 @@
 
 <!-- Below are the links to the guides/instructions -->
 
--   [Automatic Testing System](docs/automatic-testing-system.md)
--   [Manual Tests](docs/manual-tests.md)
+-   [Testing System](docs/testing-system.md)
 -   [Publishing a New Release](docs/publishing-a-new-release.md)
 -   [File System Interactions](docs/file-system-interactions.md)
 -   [Hard Coded Data](docs/hard-coded-data.md)
