@@ -352,7 +352,7 @@ namespace A02_Automatic_Tests
 
             List<Dictionary<string, float>> coordsList = [];
 
-            for (var i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
 

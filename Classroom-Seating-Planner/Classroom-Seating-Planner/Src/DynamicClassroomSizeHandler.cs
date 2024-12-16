@@ -6,7 +6,7 @@ namespace Classroom_Seating_Planner.Src
 {
     internal class DynamicClassroomSizeHandler
     {
-        public static void UpdateClassroomLayoutSize(System.Windows.Size windowSize, MainWindow mainWindow) // TODO - Use only 
+        public static void UpdateClassroomLayoutSize(System.Windows.Size windowSize, MainWindow mainWindow) // TODO - Use only main window and derive window size from it
         {
             // Number of columns and rows inside the classroom layout grid
             int columnCount = mainWindow.ClassroomElement.ColumnDefinitions.Count;
@@ -15,7 +15,7 @@ namespace Classroom_Seating_Planner.Src
             // Avoid division by zero
             if (rowCount.Equals(0) || columnCount.Equals(0)) return;
 
-            // Get the visible width of the grid from the window size
+            // Get the visible width of the grid from the window size 
             double gridViewportWidth = windowSize.Width - Math.Max(windowSize.Width * ((double)70 / 400), 5 * (96 / 2.54));
             double visibleWidth = gridViewportWidth - 15 - System.Windows.SystemParameters.VerticalScrollBarWidth - mainWindow.ClassroomElement.Margin.Left - mainWindow.ClassroomElement.Margin.Right;
 

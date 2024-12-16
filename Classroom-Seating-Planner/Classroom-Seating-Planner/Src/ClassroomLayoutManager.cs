@@ -93,6 +93,7 @@ namespace Classroom_Seating_Planner.Src
             public List<Cells.WhiteboardCell> whiteboardCells;
             public Cells.WhiteboardCoverCell? whiteboardCoverCell;
 
+            // TODO - (low prio?) refactor
             public WhiteboardManager(List<Cells.WhiteboardCell> whiteboardCells)
             {
                 this.whiteboardCells = whiteboardCells;
@@ -119,7 +120,7 @@ namespace Classroom_Seating_Planner.Src
                 this.whiteboardCoverCell = whiteboardCoverCell;
             }
 
-            public struct Coordinates // TODO - Check with Viggo why this is necessary
+            public struct Coordinates // TODO - Check with Viggo why this is necessary. "It ain't" - viggo
             {
                 public float x;
                 public float y;
