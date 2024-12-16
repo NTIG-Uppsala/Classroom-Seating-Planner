@@ -102,6 +102,7 @@ namespace Classroom_Seating_Planner.Src
                     return;
                 }
 
+                // TODO - these coords are not referring to center coords but are not specified as anything else??
                 // Get coordinates from all whiteboardCells to use when drawing the cover cell
                 Coordinates smallestCoordinates = GetSmallestCoordinates();
                 Coordinates largestCoordinates = GetLargestCoordinates();
