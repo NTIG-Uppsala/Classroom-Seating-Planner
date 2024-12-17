@@ -55,7 +55,7 @@ namespace Classroom_Seating_Planner
             // Populate the class list and the seats with the new order
             Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
 
-            // Populate the tables with the randomised order of the class list
+            // Populate the tables with the randomized order of the class list
             Src.SeatingHandler.Populate(classroomLayoutManager.tableElements, this.classListFromFile);
         }
 
