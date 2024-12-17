@@ -260,7 +260,7 @@ namespace Classroom_Seating_Planner.Src
         public static void HandleClassListFileIssues(System.Windows.Window parent)
         {
             // If the file exists, get its content as a list
-            List<string> classListFileContent = GetClassListFromFile();
+            List<string> classListFileContent = System.IO.File.ReadAllLines(FileHandler.classListFilePath).ToList();
 
             // If the file is empty, write the default list to it and return the "empty" message code
             if (classListFileContent.SequenceEqual([]))
