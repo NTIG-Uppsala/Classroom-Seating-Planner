@@ -128,7 +128,7 @@ To add new classroom layout elements that constraints might need, follow these s
     - The value should be the standardized name of the element.
 
 1. Navigate to `classroomElementNames` in `SeatStudent` in [`SeatingHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/SeatingHandler.cs).
-1. Add the standardized to the list.
+1. Add the standardized name to the list.
 
 ---
 
