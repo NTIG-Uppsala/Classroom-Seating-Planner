@@ -34,7 +34,7 @@ namespace Classroom_Seating_Planner
             Src.FileHandler.HandleAllDataFileIssues(this);
 
             // Get the list of student names from the class list file
-            this.classListFromFile = Src.FileHandler.GetClassListFromFile();
+            this.classListFromFile = Src.FileHandler.ReadClassListFile();
 
             // Populate the ListBox with the content of listOfNames
             Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);

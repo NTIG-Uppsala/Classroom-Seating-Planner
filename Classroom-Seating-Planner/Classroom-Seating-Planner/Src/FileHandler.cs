@@ -119,6 +119,22 @@ namespace Classroom_Seating_Planner.Src
             return interpretedConstraints;
         }
 
+        public static List<string> ReadClassListFile()
+        {
+            return System.IO.File.ReadAllLines(FileHandler.classListFilePath)
+                .Select(row => row.Trim())
+                .Where(row => !row.StartsWith('#')) // Comment rows
+                .Where(row => !string.IsNullOrEmpty(row))
+                .ToList();
+        }
+
+        public static List<string> ReadClassroomLayoutFile()
+        {
+            return System.IO.File.ReadAllLines(FileHandler.classroomLayoutFilePath)
+                .Where(row => !row.StartsWith('#')) // Comment rows
+                .ToList();
+        }
+
         // Returns the list of student names read from an external file as a list
         public static List<Student> GetClassListFromFile()
         {
@@ -126,10 +142,7 @@ namespace Classroom_Seating_Planner.Src
 
             // TODO - ignore lines that start with "#" - CHECK THAT THIS WORKS
             // Get the list of student names from the class list file and return as a list
-            System.IO.File.ReadAllLines(FileHandler.classListFilePath)
-                .Select(row => row.Trim())
-                .Where(row => !row.StartsWith('#')) // Comment rows
-                .Where(row => !string.IsNullOrEmpty(row))
+            FileHandler.ReadClassListFile()
                 .ToList() // ForEach only exists for lists
                 .ForEach(row =>
                 {
@@ -237,7 +250,7 @@ namespace Classroom_Seating_Planner.Src
             }
 
             // Check if there are more students than there are available seats/tables
-            int numberOfStudents = GetClassListFromFile().Count;
+            int numberOfStudents = FileHandler.ReadClassListFile().Count;
             int numberOfTables = System.IO.File.ReadAllText(FileHandler.classroomLayoutFilePath).Count(letter => letter.Equals('B'));
             if (numberOfStudents > numberOfTables)
             {
