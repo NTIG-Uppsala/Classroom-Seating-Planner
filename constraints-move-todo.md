@@ -3,7 +3,7 @@
 
 
 ## JS
-1. The file reading functions:
+1. The file reading functions: (#119-#193)
   - Make sure C# code does what the JS code does + creating default files and such
   - getStudent, getLayout are the functions we're interested in porting
 
