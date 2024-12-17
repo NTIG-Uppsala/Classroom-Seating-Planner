@@ -94,6 +94,7 @@ namespace Classroom_Seating_Planner.Src
             public Cells.WhiteboardCoverCell? whiteboardCoverCell;
 
             // TODO - (low prio?) refactor
+            // TODO - remove after implementing the same functionality in constraints
             public WhiteboardManager(List<Cells.WhiteboardCell> whiteboardCells)
             {
                 this.whiteboardCells = whiteboardCells;

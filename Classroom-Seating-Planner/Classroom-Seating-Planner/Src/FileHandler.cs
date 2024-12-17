@@ -168,6 +168,85 @@ namespace Classroom_Seating_Planner.Src
             return students;
         }
 
+        public static Cells.Cell GetWhiteboardCover(List<Cells.Cell> classroomElements)
+        {
+            List<Cells.Cell> whiteboardCells = classroomElements.Where(cell => cell.cellType.Equals("whiteboard")).ToList();
+            
+            List<int> gridXCoordinatesList = [];
+            List<int> gridYCoordinatesList = [];
+
+            // Collect all the x and y coordinates for summing and finding the min and max values
+            Cells.Cell coordinatesSum = whiteboardCells.Aggregate((Cells.Cell coordinates, Cells.Cell whiteboardCell) =>
+            {
+                // Add to the sums
+                coordinates.gridX += whiteboardCell.gridX;
+                coordinates.gridY += whiteboardCell.gridY;
+
+                // Add the coordinates to a list to find min and max later
+                gridXCoordinatesList.Add(whiteboardCell.gridX);
+                gridYCoordinatesList.Add(whiteboardCell.gridY);
+
+                return coordinates;
+            });
+
+            int largestX = gridXCoordinatesList.Max();
+            int smallestX = gridXCoordinatesList.Min();
+
+            int largestY = gridYCoordinatesList.Max();
+            int smallestY = gridYCoordinatesList.Min();
+
+            int width = largestX - smallestX + 1;
+            int height = largestY - smallestY + 1;
+
+            // Whiteboard cover shares gridX and gridY with the top left most whiteboard cell and spans across the rest
+            var whiteboardCoverCell = new Cells.WhiteboardCoverCell(
+                gridX: smallestX,
+                gridY: smallestY,
+                width: width,
+                height: height
+            );
+
+            return whiteboardCoverCell;
+        }
+
+        public static List<Cells.Cell> GetClassroomElementsFromLayout()
+        {
+            List<Cells.Cell> classroomElements = [];
+
+            // Lookup table for the different cell types
+            Dictionary<char, string> cellTypes = new()
+            {
+                { 'B', "table" },
+                { 'T', "whiteboard" },
+            };
+
+            // Parse layout character by character and add them to the classroomElements list
+            int y = 0;
+            ReadClassroomLayoutFile().ForEach((row) =>
+            {
+                int x = 0;
+                row.ToList().ForEach((cell) =>
+                {
+                    if (cellTypes.ContainsKey(cell))
+                    {
+                        classroomElements.Add(new Cells.Cell(gridX: x, gridY: y, cellType: cellTypes[cell]));
+                    }
+                    x++;
+                });
+                y++;
+            });
+
+            // Whiteboard cover gets added here since it depends on whiteboard cells existing in the classroom elements list already
+            if (classroomElements.Any(element => element.cellType.Equals("whiteboard")))
+            {
+                classroomElements.Add(GetWhiteboardCover(classroomElements));
+            }
+
+            return classroomElements;
+        }
+
+
+
         // Used by InterpretClassroomLayoutString 
         public struct ClassroomLayoutData()
         {
