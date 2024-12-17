@@ -19,6 +19,9 @@ seatStudent():
 main() => Populate():
 - SeatingHandler.cs
 
+fancyDraw() => sumtin that just fixes the visible stuff
+- SeatingHandler.cs
+
 ## CS 
 ConstraintHandler.cs:
 - interpretConstraints()
