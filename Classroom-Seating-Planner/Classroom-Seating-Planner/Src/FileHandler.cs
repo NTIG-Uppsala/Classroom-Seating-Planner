@@ -99,9 +99,9 @@ namespace Classroom_Seating_Planner.Src
                     .Trim();
 
                 // Look if the recipent is in the recipientLookupTable
-                if (recipientLookupTable[Regex.Replace(recipient, @"\s", "").ToLower()] != null)
+                if (recipientLookupTable.TryGetValue(Regex.Replace(recipient, @"\s", "").ToLower(), out string? value))
                 {
-                    recipient = recipientLookupTable[recipient];
+                    recipient = value;
                 }
                 interpretedConstraint.arguments[2] = recipient;
 
