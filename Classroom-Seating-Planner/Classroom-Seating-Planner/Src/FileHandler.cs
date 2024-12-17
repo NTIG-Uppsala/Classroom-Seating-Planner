@@ -34,6 +34,62 @@ namespace Classroom_Seating_Planner.Src
             "BBBB BBBB BBBB",
         ];
 
+        // TODO - move to somewhere appropriate? - idea: "Src/Structs.cs"
+        public struct Constraint
+        {
+            public string type;
+            public List<string?> argmuent;
+            public int priority;
+        }
+
+        // TODO - move to somewhere more appropriate?
+        public struct Student
+        {
+            public string name;
+            public List<Constraint>? constraints;
+        }
+
+        public static List<Constraint>? InterpretStudentConstraints(string studentName, string rawConstraints)
+        {
+            return null;
+        }
+
+        // Returns the list of student names read from an external file as a list
+        public static List<Student> GetClassListFromFile()
+        {
+            List<Student> students = [];
+
+            // TODO - ignore lines that start with "#" - CHECK THAT THIS WORKS
+            // Get the list of student names from the class list file and return as a list
+            System.IO.File.ReadAllLines(FileHandler.classListFilePath)
+                .Select(row => row.Trim())
+                .Where(row => !row.StartsWith('#')) // Comment rows
+                .Where(row => !string.IsNullOrEmpty(row))
+                .ToList() // ForEach only exists for lists
+                .ForEach(row =>
+                {
+                    Student student = new Student();
+
+                    // Get the student name
+                    string name = row.Split(':')[0].Trim();
+                    student.name = name;
+
+                    // Get the student's constraints
+                    string? constraints = row.Split(':').LastOrDefault();
+                    if (constraints != null && !constraints.Trim().Equals(string.Empty))
+                    {
+                        student.constraints = InterpretStudentConstraints(student.name, constraints.Trim());
+                    }
+
+                    if (!string.IsNullOrEmpty(student.name))
+                    {
+                        students.Add(student);
+                    }
+                });
+
+            return students;
+        }
+
         // Used by InterpretClassroomLayoutString 
         public struct ClassroomLayoutData()
         {
@@ -47,7 +103,7 @@ namespace Classroom_Seating_Planner.Src
         {
             List<string> classroomLayout = System.IO.File.ReadAllLines(classroomLayoutFilePath).ToList();
             ClassroomLayoutData returnObject = new();
-            
+
             // We later find the biggest column width to set the column count
             List<int> xCoordinates = [];
 
@@ -83,16 +139,6 @@ namespace Classroom_Seating_Planner.Src
             return returnObject;
         }
 
-        // Returns the list of student names read from an external file as a list
-        public static List<string> GetClassListFromFile()
-        {
-            // Get the list of student names from the class list file and return as a list
-            return System.IO.File.ReadAllLines(FileHandler.classListFilePath)
-                .Select(name => name.Trim())
-                .Where(name => !string.IsNullOrEmpty(name))
-                .ToList();
-        }
-
         public static void HandleAllDataFileIssues(System.Windows.Window parent)
         {
             // Create booleans regarding the existance of the files at the start of the program
@@ -103,7 +149,7 @@ namespace Classroom_Seating_Planner.Src
             if (!classListFileExists || !classroomLayoutFileExists)
             {
                 PopupWindow.FileIssuePopup("notAllFilesWereFound", parent);
-                
+
                 if (!classListFileExists)
                 {
                     CreateDefaultClassListFile();
@@ -115,12 +161,12 @@ namespace Classroom_Seating_Planner.Src
                 }
             }
 
-            if(classListFileExists)
+            if (classListFileExists)
             {
                 HandleClassListFileIssues(parent);
             }
 
-            if(classroomLayoutFileExists)
+            if (classroomLayoutFileExists)
             {
                 HandleClassroomLayoutFileIssues(parent);
             }
@@ -166,7 +212,7 @@ namespace Classroom_Seating_Planner.Src
                 return;
             }
         }
-    
+
         public static void CreateDefaultClassroomLayoutFile()
         {
             // Make sure the data folder exists
