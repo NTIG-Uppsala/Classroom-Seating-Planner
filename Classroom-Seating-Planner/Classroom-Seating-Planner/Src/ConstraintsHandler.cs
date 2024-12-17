@@ -104,4 +104,71 @@ namespace Classroom_Seating_Planner.Src
             return interpretedConstraints;
         }
     }
+
+    public class ConstraintFunctions
+    {
+        // TODO - change interpret func to define the function as an actual function reference
+        // Look up for the constraint functions since they are stored as strings
+        public static readonly Dictionary<string, Func<Cells.Cell, Cells.Cell, string, int, Dictionary<string, object>, double>> functions = new()
+        {
+            { "distance", Src.ConstraintFunctions.DistanceFunction },
+            { "adjacent", Src.ConstraintFunctions.AdjacentFunction }
+        };
+
+        public static double DistanceFunction(Cells.Cell source, Cells.Cell target, string nearOrFar, int priority, Dictionary<string, object> references)
+        {
+            if (target == null) return 0;
+
+            // Required references need to be defined
+            if (!references.TryGetValue("classroomElements", out object? reference))
+            {
+                Trace.WriteLine("WARNING: Missing references in ConstraintsHandler DistanceFunction");
+                return 0;
+            }
+
+            List<Cells.Cell> classroomElements = (List<Cells.Cell>)references["classroomElements"];
+
+            // Get all the possible distances between the target and every classroom element
+            List<double> allDistances = classroomElements
+                .Where(cell => cell != target) // Remove target since we do not want the distance to our self
+                .Where(cell => cell.cellType.Equals("table")) // We're only interrested in tables
+                .Select(cell => Math.Sqrt(Math.Pow(cell.x - target.x, 2) + Math.Pow(cell.y - target.y, 2)))
+                .ToList();
+
+            // In case there are no tables
+            if (allDistances.Count.Equals(0)) return 0;
+
+            double maxPossibleDistance = allDistances.Max();
+            double minPossibleDistance = allDistances.Min();
+
+            double distanceToTarget = Math.Sqrt(Math.Pow(target.x - source.x, 2) + Math.Pow(target.y - source.y, 2));
+
+            // Scale the distance in relation to closest and furthest possible distances to a value between 0 and 1 to get a normalized value
+            double normalizedScore = (distanceToTarget - minPossibleDistance) / (maxPossibleDistance - minPossibleDistance);
+
+            return nearOrFar switch
+            {
+                "near" => (1 - normalizedScore) * priority,
+                "far" => normalizedScore * priority,
+                _ => 0 // In case the arguments are somehow messed up
+            };
+        }
+
+        public static double AdjacentFunction(Cells.Cell source, Cells.Cell target, string yesOrNo, int priority, Dictionary<string, object> references)
+        {
+            if (target == null) return 0;
+
+            // Check if source is adjacent to target
+            float xDiff = Math.Abs(source.x - target.x);
+            float yDiff = Math.Abs(source.y - target.y);
+            bool isAdjacent = (xDiff.Equals(1) && yDiff.Equals(0)) || (xDiff.Equals(0) && yDiff.Equals(1));
+
+            return yesOrNo switch
+            {
+                "yes" when isAdjacent => priority,
+                "no" when !isAdjacent => priority,
+                _ => 0 // In case the requirements of the constraint are not met
+            };
+        }
+    }
 }
