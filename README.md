@@ -21,6 +21,7 @@
 -   [File System Interactions](docs/file-system-interactions.md)
 -   [Hard Coded Data](docs/hard-coded-data.md)
 -   [Layout Elements](docs/layout-elements.md)
+-   [Constraints](docs/constraints.md)
 <!-- Below are the links to the regulation docs -->
 -   [Coding Standards](docs/coding-standard.md)
 -   [Development Environment](docs/development-environment.md)
