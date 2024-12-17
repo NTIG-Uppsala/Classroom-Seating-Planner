@@ -35,90 +35,6 @@ namespace Classroom_Seating_Planner.Src
             "BBBB BBBB BBBB",
         ];
 
-        // TODO - move to somewhere appropriate? - idea: "Src/Structs.cs"
-        public struct Constraint
-        {
-            public string type;
-            public List<string?> arguments;
-            public int priority;
-        }
-
-        // TODO - move to somewhere more appropriate?
-        public struct Student
-        {
-            public string name;
-            public List<Constraint>? constraints;
-        }
-
-        public static List<Constraint>? InterpretStudentConstraints(string studentName, string rawConstraints)
-        {
-            Dictionary<string, Constraint> functionLookupTable = new() {
-                { "nära",         new Constraint { type = "distance", arguments = [studentName, "near", null], priority = 1 }},
-                { "intenära",     new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "inte nära",    new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "långtfrån",    new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "långt från",   new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "bredvid",      new Constraint { type = "adjacent", arguments = [studentName, "yes",  null], priority = 1 }},
-                { "intebredvid",  new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 1 }},
-                { "inte bredvid", new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 1 }},
-            };
-
-            Dictionary<string, string> recipientLookupTable = new() {
-                {"tavlan",       "whiteboardCover"},
-                {"tavla",        "whiteboardCover"},
-                {"whiteboard",   "whiteboardCover"},
-                {"whiteboards",  "whiteboardCover"},
-                {"svartatavlan", "whiteboardCover"},
-                {"klösbrädan",   "whiteboardCover"},
-                {"dörren",       "door"},
-                {"dörr",         "door"},
-                {"fönstret",     "window"},
-                {"fönster",      "window"},
-                {"vindöga",      "window"},
-            };
-
-            List<Constraint> interpretedConstraints = [];
-
-            List<string> rawConstraintsList = rawConstraints.Split('/').Select(rawConstraint => rawConstraint.Trim()).ToList();
-
-            rawConstraintsList.ForEach(rawConstraint =>
-            { // TODO - Whitespace remover Regex.Replace(input, @"\s", "")
-                string trimmedConstraint = rawConstraint.ToLower();
-                string? functionName = functionLookupTable.Keys
-                    .ToList()
-                    .Where(functionName => trimmedConstraint.StartsWith(functionName))
-                    .FirstOrDefault();
-
-                if (functionName == null) return;
-
-                Constraint interpretedConstraint = functionLookupTable[functionName];
-
-                // Isolate the recipient string
-                string recipient = Regex.Replace(rawConstraint, @"\(.*\) ", "") // Remove priority (N)
-                    .Replace(functionName, "") // TODO - whitespace remover, this is linked to the whitespace remover mentioned above
-                    .Trim();
-
-                // Look if the recipent is in the recipientLookupTable
-                if (recipientLookupTable.TryGetValue(Regex.Replace(recipient, @"\s", "").ToLower(), out string? value))
-                {
-                    recipient = value;
-                }
-                interpretedConstraint.arguments[2] = recipient;
-
-                // Find the priority of the constraint
-                // Priority is the number insite the parenthesis (N)
-                System.Text.RegularExpressions.Match match = Regex.Match(rawConstraint, @"\(([^)]+)\)");
-                if (match.Success && int.TryParse(match.Groups[1].Value, out int intValue))
-                {
-                    interpretedConstraint.priority = intValue; // Override default priority value
-                }
-
-                interpretedConstraints.Add(interpretedConstraint);
-            });
-
-            return interpretedConstraints;
-        }
-
         public static List<string> ReadClassListFile()
         {
             return System.IO.File.ReadAllLines(FileHandler.classListFilePath)
@@ -136,9 +52,9 @@ namespace Classroom_Seating_Planner.Src
         }
 
         // Returns the list of student names read from an external file as a list
-        public static List<Student> GetClassListFromFile()
+        public static List<ConstraintsHandler.Student> GetClassListFromFile()
         {
-            List<Student> students = [];
+            List<ConstraintsHandler.Student> students = [];
 
             // TODO - ignore lines that start with "#" - CHECK THAT THIS WORKS
             // Get the list of student names from the class list file and return as a list
@@ -146,7 +62,7 @@ namespace Classroom_Seating_Planner.Src
                 .ToList() // ForEach only exists for lists
                 .ForEach(row =>
                 {
-                    Student student = new Student();
+                    ConstraintsHandler.Student student = new ConstraintsHandler.Student();
 
                     // Get the student name
                     string name = row.Split(':')[0].Trim();
@@ -156,7 +72,7 @@ namespace Classroom_Seating_Planner.Src
                     string? constraints = row.Split(':').LastOrDefault();
                     if (constraints != null && !constraints.Trim().Equals(string.Empty))
                     {
-                        student.constraints = InterpretStudentConstraints(student.name, constraints.Trim());
+                        student.constraints = ConstraintsHandler.InterpretStudentConstraints(student.name, constraints.Trim());
                     }
 
                     if (!string.IsNullOrEmpty(student.name))
