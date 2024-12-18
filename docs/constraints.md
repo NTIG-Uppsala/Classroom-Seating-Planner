@@ -121,14 +121,15 @@ To add new classroom layout elements that constraints might need, follow these s
 
     - ```csharp
       // Example:
-      { 'B', "table" },
-      { 'T', "whiteboard" },
+      { 'B', (x, y) => new Cells.TableCell(x, y) },
+      { 'T', (x, y) => new Cells.WhiteboardCell(x, y) },
       ```
     - The key should be the character used to mark the element in `bordskarta.txt`
-    - The value should be the standardized name of the element.
+    - The value should be a function which creates the class of the element.
 
 1. Navigate to `classroomElementNames` in `SeatStudent` in [`SeatingHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/SeatingHandler.cs).
 1. Add the standardized name to the list.
+1. Create a class for the element in the `Cells` directory which extends `Cell`.
 
 ---
 
