@@ -114,6 +114,87 @@ namespace Classroom_Seating_Planner.Src
             return randomTable.score;
         }
 
+        // TODO - either remove score (as return of seatstudent aswell) or implement multiple runs of this function
+        public static double GenerateSeatingArrangement(List<ConstraintsHandler.Student> students, List<Cells.Cell> classroomElements)
+        {
+            static List<ConstraintsHandler.Constraint> getAllConstraints(List<ConstraintsHandler.Student> students)
+            {
+                return students
+                    .Where(students => students.constraints != null)
+                    .SelectMany(student => student.constraints) // It's fine. This can't be null at this point
+                    .ToList();
+            }
+
+            static void sortStudentsByPriority(List<ConstraintsHandler.Student> students)
+            {
+                students.Sort((a, b) =>
+                {
+                    if (a.constraints == null) return -1;
+                    if (b.constraints == null) return 1;
+
+                    // Compare the students by the sum of their constraints' priorities
+                    int aPriority = a.constraints.Select(constraint => constraint.priority).Sum();
+                    int bPriority = b.constraints.Select(constraint => constraint.priority).Sum();
+
+                    return bPriority - aPriority;
+                });
+            }
+
+            static void nullifyAllStudentConstraints(List<ConstraintsHandler.Student> students)
+            {
+                students = students
+                    .Where(student => student.constraints != null)
+                    .Select(student =>
+                    {
+                        student.constraints = null;
+                        return student;
+                    }).ToList();
+            }
+
+            // Takes a list of all the constraints and give every student a copy the each constraint involving them
+            static void assignAllConstraints(List<ConstraintsHandler.Student> students, List<ConstraintsHandler.Constraint> constraints)
+            {
+                constraints.ForEach(constraint =>
+                {
+                    students = students.Select(student =>
+                    {
+                        // Check if student is involved in the constraint, either as the caller or the recipient
+                        if (constraint.arguments[2] == null) return student;
+
+                        if (constraint.arguments[0].Equals(student.name) || constraint.arguments[2].Equals(student.name))
+                        {
+                            // Create an empty list for constraints if it does not already exist
+                            student.constraints ??= [];
+
+                            student.constraints.Add(constraint);
+                        }
+
+                        return student;
+                    }).ToList();
+                });
+            }
+
+            // Get all constraints as a list
+            List<ConstraintsHandler.Constraint> constraints = getAllConstraints(students);
+
+            // Make sure all constraints where a student is involved are assigned to the student
+            nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
+            assignAllConstraints(students, constraints);
+
+            // Sort students to seat the pickiest students first
+            sortStudentsByPriority(students);
+
+            double seatingArrangementScore = 0;
+
+            // Seat every student one at a time
+            students.ForEach((student) =>
+            {
+                seatingArrangementScore += SeatStudent(student, classroomElements);
+            });
+
+            return seatingArrangementScore;
+        }
+
         public static void Populate(List<TextBlock> tableElements, List<string> classList)
         {
             // Ensure we don't exceed the number of available tables
