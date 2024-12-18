@@ -26,11 +26,5 @@
             }
             cellElement.Text = this.cellText;
         }
-
-        // Add table to tableList for Populate method
-        public override void AddToLayoutManager(Src.ClassroomLayoutManager classroomLayoutManager, System.Windows.Controls.TextBlock cellElement)
-        {
-            classroomLayoutManager.tableElements.Add(cellElement);
-        }
     }
 }

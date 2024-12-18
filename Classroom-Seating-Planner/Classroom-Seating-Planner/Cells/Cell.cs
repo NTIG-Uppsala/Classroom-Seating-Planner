@@ -1,4 +1,5 @@
 ﻿using Classroom_Seating_Planner.Src;
+using System.Diagnostics;
 using System.Windows;
 
 namespace Classroom_Seating_Planner.Cells
@@ -30,8 +31,6 @@ namespace Classroom_Seating_Planner.Cells
 
         public virtual void Style(System.Windows.Controls.Border cellElementContainer, System.Windows.Controls.TextBlock cellElement) { }
 
-        public virtual void AddToLayoutManager(ClassroomLayoutManager classroomLayoutManager, System.Windows.Controls.TextBlock cellElement) { }
-
         public void Draw(System.Windows.Controls.Grid parent, ClassroomLayoutManager classroomLayoutManager)
         {
             // Make the XAML element that will be the visual representation of the cell
@@ -55,6 +54,8 @@ namespace Classroom_Seating_Planner.Cells
                 Padding = new System.Windows.Thickness(3, 3, 3, 3),
                 BorderThickness = new System.Windows.Thickness(1, 1, 1, 1),
             };
+
+            //Trace.WriteLine($"{this.gridX}, {this.gridY}"); // TODO - remove
 
             // TODO - Set help text to the container
             // Give element a helptext that the tests can read
@@ -84,8 +85,6 @@ namespace Classroom_Seating_Planner.Cells
             System.Windows.Controls.Grid.SetRowSpan(cellElementContainer, this.height);
 
             this.Style(cellElementContainer, cellElement);
-            // TODO - Make this more general by pushing to classroomElements
-            this.AddToLayoutManager(classroomLayoutManager, cellElement);
 
             // Add this cell to the parent grid
             parent.Children.Add(cellElementContainer);

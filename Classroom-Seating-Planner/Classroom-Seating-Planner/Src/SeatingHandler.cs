@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace Classroom_Seating_Planner.Src
 {
@@ -127,17 +128,7 @@ namespace Classroom_Seating_Planner.Src
 
             static void sortStudentsByPriority(List<ConstraintsHandler.Student> students)
             {
-                students.Sort((a, b) =>
-                {
-                    if (a.constraints == null) return -1;
-                    if (b.constraints == null) return 1;
-
-                    // Compare the students by the sum of their constraints' priorities
-                    int aPriority = a.constraints.Select(constraint => constraint.priority).Sum();
-                    int bPriority = b.constraints.Select(constraint => constraint.priority).Sum();
-
-                    return bPriority - aPriority;
-                });
+                students.OrderByDescending(student => student.constraints.Select(constraint => constraint.priority).Sum());
             }
 
             static void nullifyAllStudentConstraints(List<ConstraintsHandler.Student> students)
@@ -159,16 +150,19 @@ namespace Classroom_Seating_Planner.Src
                     students = students.Select(student =>
                     {
                         // Check if student is involved in the constraint, either as the caller or the recipient
-                        if (constraint.arguments[2] == null) return student;
+                        if (constraint.arguments[2] == null)
+                        {
+                            return student;
+                        }
 
                         if (constraint.arguments[0].Equals(student.name) || constraint.arguments[2].Equals(student.name))
                         {
                             // Create an empty list for constraints if it does not already exist
+                            Trace.WriteLine("din mmam");
                             student.constraints ??= [];
 
                             student.constraints.Add(constraint);
                         }
-
                         return student;
                     }).ToList();
                 });

@@ -69,7 +69,9 @@ namespace Classroom_Seating_Planner.Src
                     student.name = name;
 
                     // Get the student's constraints
-                    string? constraints = row.Split(':').LastOrDefault();
+
+                    string? constraints = row.Contains(':') ? row.Split(':')[1] : null;
+
                     if (constraints != null && !constraints.Trim().Equals(string.Empty))
                     {
                         student.constraints = ConstraintsHandler.InterpretStudentConstraints(student.name, constraints.Trim());
@@ -87,22 +89,15 @@ namespace Classroom_Seating_Planner.Src
         public static Cells.Cell GetWhiteboardCover(List<Cells.Cell> classroomElements)
         {
             List<Cells.Cell> whiteboardCells = classroomElements.Where(cell => cell.cellType.Equals("whiteboard")).ToList();
-            
+
             List<int> gridXCoordinatesList = [];
             List<int> gridYCoordinatesList = [];
 
             // Collect all the x and y coordinates for summing and finding the min and max values
-            Cells.Cell coordinatesSum = whiteboardCells.Aggregate((Cells.Cell coordinates, Cells.Cell whiteboardCell) =>
+            whiteboardCells.ForEach((Cells.Cell whiteboardCell) =>
             {
-                // Add to the sums
-                coordinates.gridX += whiteboardCell.gridX;
-                coordinates.gridY += whiteboardCell.gridY;
-
-                // Add the coordinates to a list to find min and max later
                 gridXCoordinatesList.Add(whiteboardCell.gridX);
                 gridYCoordinatesList.Add(whiteboardCell.gridY);
-
-                return coordinates;
             });
 
             int largestX = gridXCoordinatesList.Max();
@@ -111,6 +106,7 @@ namespace Classroom_Seating_Planner.Src
             int largestY = gridYCoordinatesList.Max();
             int smallestY = gridYCoordinatesList.Min();
 
+            // Span of the cover
             int width = largestX - smallestX + 1;
             int height = largestY - smallestY + 1;
 
@@ -129,11 +125,10 @@ namespace Classroom_Seating_Planner.Src
         {
             List<Cells.Cell> classroomElements = [];
 
-            // Lookup table for the different cell types
-            Dictionary<char, string> cellTypes = new()
+            Dictionary<char, Func<int, int, Cells.Cell>> cellTypes = new()
             {
-                { 'B', "table" },
-                { 'T', "whiteboard" },
+                { 'B', (gridX, gridY) => new Cells.TableCell(gridX, gridY) },
+                { 'T', (gridX, gridY) => new Cells.WhiteboardCell(gridX, gridY) }
             };
 
             // Parse layout character by character and add them to the classroomElements list
@@ -141,11 +136,11 @@ namespace Classroom_Seating_Planner.Src
             ReadClassroomLayoutFile().ForEach((row) =>
             {
                 int x = 0;
-                row.ToList().ForEach((cell) =>
+                row.ToList().ForEach((character) =>
                 {
-                    if (cellTypes.ContainsKey(cell))
+                    if (cellTypes.ContainsKey(character))
                     {
-                        classroomElements.Add(new Cells.Cell(gridX: x, gridY: y, cellType: cellTypes[cell]));
+                        classroomElements.Add(cellTypes[character](x, y));
                     }
                     x++;
                 });

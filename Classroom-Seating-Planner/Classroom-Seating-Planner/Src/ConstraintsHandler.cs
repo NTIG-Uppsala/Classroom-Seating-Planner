@@ -101,6 +101,8 @@ namespace Classroom_Seating_Planner.Src
                 interpretedConstraints.Add(interpretedConstraint);
             });
 
+            if (interpretedConstraints.Count.Equals(0)) interpretedConstraints = null;
+            Trace.WriteLine(interpretedConstraints);
             return interpretedConstraints;
         }
     }
