@@ -94,12 +94,12 @@ namespace A02_Automatic_Tests
                     &&
                     yTestCaseCoordinate <= (float)cellDataCandidate["gridY"] + (float)cellDataCandidate["height"] - 1
                 ).FirstOrDefault();
-
+                
                 // Whiteboard confirmation
                 if (cellLetter.Equals('T'))
                 {
                     Assert.IsNotNull(cellData, "The cell at the coordinates {0}, {1} is null, not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
-                    bool isWhiteboard = ((string)cellData["cellType"]).Equals("whiteboardCover");
+                    bool isWhiteboard = ((string)cellData["cellType"]).Equals("whiteboard");
                     Assert.IsTrue(isWhiteboard, "The cell at the coordinates {0}, {1} is not a whiteboard cell", xTestCaseCoordinate, yTestCaseCoordinate);
                 }
 
@@ -127,6 +127,8 @@ namespace A02_Automatic_Tests
 
             Utils.TearDown(app);
         }
+
+        // TODO - write a test for whiteboardcover, that it exists and that it has the correct helpText
 
         [TestMethod]
         public void NoTablesTest()

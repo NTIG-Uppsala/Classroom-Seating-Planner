@@ -111,7 +111,7 @@ namespace Classroom_Seating_Planner.Src
             int height = largestY - smallestY + 1;
 
             // Whiteboard cover shares gridX and gridY with the top left most whiteboard cell and spans across the rest
-            var whiteboardCoverCell = new Cells.WhiteboardCoverCell(
+            Cells.WhiteboardCoverCell whiteboardCoverCell = new(
                 gridX: smallestX,
                 gridY: smallestY,
                 width: width,

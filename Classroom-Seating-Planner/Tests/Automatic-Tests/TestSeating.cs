@@ -40,9 +40,9 @@ namespace A02_Automatic_Tests
         }
 
         [TestMethod]
-        public void SeatStudentsTest()
+        public void RandomizeSeatingTest()
         {
-            // Sample indexes of tables to test
+            // Sample indexes of tables to check if they are empty at the start of the test
             List<int> testingTablesIndexes = [0, 10, 16, 27, 32];
 
             // Set up/start the test
@@ -50,7 +50,7 @@ namespace A02_Automatic_Tests
                 = Utils.SetUp();
 
 
-            // Find all the tables
+            // Find all the tables to check that some are empty at the start of the program
             List<FlaUIElement.AutomationElement>? allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
             Assert.IsNotNull(allTables);
 
@@ -60,20 +60,26 @@ namespace A02_Automatic_Tests
                 Assert.IsTrue(allTables[index].Name.Equals(string.Empty), "The tables are not empty at the start of the program");
             }
 
-            // Seating students
-            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-
-            // Get the tables again to make sure the that the refrences are updated
-            allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
-            Assert.IsNotNull(allTables);
-
-            // Find all students in the class list
-            List<string> allStudents = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-
-            // Check that the seating matches the order of the list of students
-            foreach (int index in testingTablesIndexes)
+            for (int i = 0; i < 2; i++)
             {
-                Assert.IsTrue(allTables[index].Name.Equals(allStudents[index]), "The order of the seating is not the same as the order of the class list");
+                // Get the tables again to make sure the that the refrences are updated
+                allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
+                Assert.IsNotNull(allTables);
+
+                // Get the seating arrangement as a list of strings (including empty spaces) before randomizing
+                List<string> seatingArrangementBeforeRandomize = allTables.Select(table => table.Name).ToList();
+
+                // Randomize seating arrangement
+                Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
+
+                // Get the tables again to make sure the that the refrences are updated
+                allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
+                Assert.IsNotNull(allTables);
+
+                List<string> seatingArrangementAfterRandomize = allTables.Select(table => table.Name).ToList();
+
+                // Check if the seating arrangement has changed
+                Assert.IsFalse(seatingArrangementAfterRandomize.SequenceEqual(seatingArrangementBeforeRandomize), $"The seating arrangement did not change during run {i+1}");
             }
 
 

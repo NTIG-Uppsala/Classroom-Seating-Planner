@@ -29,7 +29,6 @@ namespace Classroom_Seating_Planner.Src
             });
         }
 
-        // TODO - Modify to update the grid or start from scratch
         private void UpdateGridSize(List<Cells.Cell> classroomElements)
         {
             // Clear the grid

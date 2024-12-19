@@ -110,6 +110,9 @@
 -   [ ] Mer avancerade namnurval i testerna
     -   [ ] några tusen för och efternamn som komnineras slumpmässigt
     -   [ ] putta ibland in ett förnamn som mellannamn
+-   [ ] make constraint functions whitespace agnostic.
+-   [ ] test för att man inte behöver starta om programmet
+-   [ ] funtoinLookupTable should reference the actual constraint functions instead of a string that we need to look up.
 
 ---
 

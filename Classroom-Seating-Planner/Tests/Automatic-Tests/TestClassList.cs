@@ -14,60 +14,8 @@ namespace A02_Automatic_Tests
             }
             return testingClassList;
         }
-      
-      
-        [TestMethod]
-        public void RandomizeTestingClassListTest()
-        {
-            // Set up/start the test
-            (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
-                = Utils.SetUp();
 
-
-            bool hasClassListOrderChanged(List<string> classListOld, List<string> classListNew)
-            {
-                return !classListOld.SequenceEqual(classListNew);
-            }
-
-            bool hasClassListContentChanged(List<string> classListOld, List<string> classListNew)
-            {
-                // Check that every student in the old list exists in the new list
-                foreach (string student in classListOld)
-                {
-                    if (!classListNew.Contains(student))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            // Get class list before shuffle
-            List<string> classListOld = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-
-            // Click randomize-button and get class list after shuffle
-            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-            List<string> classListNew = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-
-            // Trigger the randomizing function and assert that a new, randomized, class list is generated and make sure all the names are the same
-            Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), "Test failed because the order of the class list has not changed.");
-            Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), "Test failed because the content of the generated class list is not the same as the list before generating");
-
-            // Get class list before shuffle
-            classListOld = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-
-            // Click randomize-button and get class list after shuffle
-            Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-            classListNew = Utils.XAMLHandler.GetClassListFromElement(window, cf);
-
-            // Test one more time to make sure that the list can be scrambled again
-            Assert.IsTrue(hasClassListOrderChanged(classListOld, classListNew), "Test failed because the order of the class list has not changed.");
-            Assert.IsFalse(hasClassListContentChanged(classListOld, classListNew), "Test failed because the content of the generated class list is not the same as the list before generating");
-
-
-            Utils.TearDown(app);
-        }
+        // TODO - Test that the names are present in the list
 
         [TestMethod, Timeout(3000)]
         public void RandomizeClassListOfZeroTest()

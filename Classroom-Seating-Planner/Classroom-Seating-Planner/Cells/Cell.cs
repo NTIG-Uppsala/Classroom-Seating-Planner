@@ -25,8 +25,8 @@ namespace Classroom_Seating_Planner.Cells
             this.gridY = gridY;
             this.width = width;
             this.height = height;
-            this.x = gridX + (width - 1) / 2;
-            this.y = gridY + (height - 1) / 2;
+            this.x = gridX + (float)(width - 1) / 2;
+            this.y = gridY + (float)(height - 1) / 2;
         }
 
         public virtual void Style(System.Windows.Controls.Border cellElementContainer, System.Windows.Controls.TextBlock cellElement) { }
