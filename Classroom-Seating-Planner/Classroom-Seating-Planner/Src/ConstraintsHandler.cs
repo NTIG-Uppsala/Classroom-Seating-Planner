@@ -10,18 +10,6 @@ namespace Classroom_Seating_Planner.Src
 {
     public class ConstraintsHandler
     {
-        // TODO - remove. should be deprecated. 
-        public static double GetDistanceBetweenCells(Classroom_Seating_Planner.Cells.Cell cell1, Classroom_Seating_Planner.Cells.Cell cell2)
-        {
-            // Get the horizontal and vertical distance between the two cells
-            double horizontalDistance = Math.Abs(cell1.x - cell2.x);
-            double verticalDistance = Math.Abs(cell1.y - cell2.y);
-
-            // Use the Pythagorean theorem to calculate the distance between the two cells
-            return Math.Sqrt(Math.Pow(horizontalDistance, 2) + Math.Pow(verticalDistance, 2));
-        }
-
-
         public struct Constraint
         {
             public string type;
@@ -46,9 +34,6 @@ namespace Classroom_Seating_Planner.Src
                 { "bredvid",      new Constraint { type = "adjacent", arguments = [studentName, "yes",  null], priority = 10 }},
                 { "intebredvid",  new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 10 }},
                 { "inte bredvid", new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 10 }},
-                //{ "bredvid",      new Constraint { type = "distance", arguments = [studentName, "near",  null], priority = 100 }},
-                //{ "intebredvid",  new Constraint { type = "distance", arguments = [studentName, "far",   null], priority = 100 }},
-                //{ "inte bredvid", new Constraint { type = "distance", arguments = [studentName, "far",   null], priority = 100 }},
             };
 
             Dictionary<string, string> recipientLookupTable = new() {
@@ -86,14 +71,12 @@ namespace Classroom_Seating_Planner.Src
                     .Replace(functionName, "") // TODO - whitespace remover, this is linked to the whitespace remover mentioned above
                     .Trim();
 
-                //Trace.WriteLine($"Recipient: {recipient}"); // TODO - remove
 
                 // Look if the recipent is in the recipientLookupTable
                 if (recipientLookupTable.TryGetValue(Regex.Replace(recipient, @"\s", "").ToLower(), out string? value))
                 {
                     recipient = value;
                 }
-                //Trace.WriteLine($"Recipient: {recipient}"); // TODO - remove
                 interpretedConstraint.arguments[2] = recipient;
 
                 // Find the priority of the constraint
@@ -154,12 +137,6 @@ namespace Classroom_Seating_Planner.Src
             // Scale the distance in relation to closest and furthest possible distances to a value between 0 and 1 to get a normalized value
             double normalizedScore = (distanceToTarget - minPossibleDistance) / (maxPossibleDistance - minPossibleDistance);
 
-            //PRINT([references["caller"], priority]);
-            //if (references["caller"].Equals("Ebba Bergström"))
-            //{
-
-            //}
-
             return nearOrFar switch
             {
                 "near" => (1 - normalizedScore) * priority,
@@ -177,45 +154,15 @@ namespace Classroom_Seating_Planner.Src
             float yDiff = Math.Abs(source.y - target.y);
             bool isAdjacent = (xDiff.Equals(1) && yDiff.Equals(0)) || (xDiff.Equals(0) && yDiff.Equals(1));
 
-            Trace.Write($"Adjacent: {isAdjacent} | Should it? {yesOrNo} | ");
-            //Trace.Write()
-
-            if (isAdjacent && yesOrNo.Equals("yes"))
+            switch (yesOrNo) // TODO - Add a constant multiplier
             {
-                Trace.WriteLine("Criteria is met (yes)");
-                return priority;
+                case "yes" when isAdjacent:
+                    return priority;
+                case "no" when !isAdjacent:
+                    return priority;
+                default:
+                    return 0; // In case the requirements of the constraint are not met
             }
-            if (!isAdjacent && yesOrNo.Equals("no"))
-            {
-                Trace.WriteLine("Criteria is met (no)");
-                return priority;
-            }
-            Trace.WriteLine("Criteria is NOT met");
-            return 0;
-
-            //return yesOrNo switch
-            //{
-            //    "yes" when isAdjacent => priority,
-            //    "no" when !isAdjacent => priority,
-            //    _ => 0 // In case the requirements of the constraint are not met
-            //};
         }
-
-        //public static double AdjacentFunction2(Cells.Cell source, Cells.Cell target, string yesOrNo, int priority, Dictionary<string, object> references)
-        //{
-        //    if (target == null) return 0;
-
-        //    //// Check if source is adjacent to target
-        //    //float xDiff = Math.Abs(source.x - target.x);
-        //    //float yDiff = Math.Abs(source.y - target.y);
-        //    //bool isAdjacent = (xDiff.Equals(1) && yDiff.Equals(0)) || (xDiff.Equals(0) && yDiff.Equals(1));
-
-        //    //return yesOrNo switch
-        //    //{
-        //    //    "yes" when isAdjacent => priority,
-        //    //    "no" when !isAdjacent => priority,
-        //    //    _ => 0 // In case the requirements of the constraint are not met
-        //    //};
-        //}
     }
 }

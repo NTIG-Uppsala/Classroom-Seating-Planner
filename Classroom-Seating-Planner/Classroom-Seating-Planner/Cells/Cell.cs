@@ -55,8 +55,6 @@ namespace Classroom_Seating_Planner.Cells
                 BorderThickness = new System.Windows.Thickness(1, 1, 1, 1),
             };
 
-            //Trace.WriteLine($"{this.gridX}, {this.gridY}"); // TODO - remove
-
             // TODO - Set help text to the container
             // Give element a helptext that the tests can read
             System.Windows.Automation.AutomationProperties

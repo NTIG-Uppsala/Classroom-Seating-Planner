@@ -26,18 +26,8 @@ namespace Classroom_Seating_Planner.Src
                 return 0;
             }
 
-            Trace.Write("\n");
-            Trace.WriteLine($"Seating {student.name} {student.constraints.Select(constraint => constraint.priority).Sum()}");
-            if (student.name.Equals("B-bredvid-A"))
-            {
-                Trace.WriteLine(student.constraints[0].arguments[1]);
-            }
-            //Trace.WriteLine($"")
-            Trace.Write("\n");
-
             // Wipe all tables scores since they are persistent
             availableTables.ForEach(table => table.score = 0);
-
 
             // Sirt the tables by how well they meet the constraints
             List<Cells.TableCell> rankedTables = availableTables
@@ -115,94 +105,42 @@ namespace Classroom_Seating_Planner.Src
                     return table;
                 }).OrderByDescending(table => table.score).ToList();
 
+            // OLD STUFFZ
             // Take the best scored tables. The amount is based on the student's constraints' summed priorities
             //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
             //List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
 
-            // 50,20,1,0,0,0,0,0,0,0,0,0,0,0
 
-            //Ifall två lika bra platser finns, ska båda finnas med i best tables
-            // 500, 500, 30, 30, 23,12,0
-            // [500, 504], [30, 30], [23], [12], [0]
-            // [504], [500], [30, 30], [23], [12], [0]
-            // [1], [0,0,0,0]
-
-            //groupedTables = []
-
-            //for (int i = 0; i < rankedTables.Count; i++){
-            //    
-
-            // Group scores in goodness.
-            // If two scores are within 5% of eachother, group them.
-            // Select the best group and pick a random one.
-
+            // Group scores that are close in value
             double currentHighScore = rankedTables[0].score;
-            //List<Cells.TableCell> currentGroup = [rankedTables[0]];
             List<List<Cells.TableCell>> groupedTables = [[]];
 
-            // The threshold is 5% of the highest score
+            // How close the scores can be to be considered in the same group
             //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
             //double threshold = currentHighScore * Math.Pow(0.85, prioritySum - 1) * 0.3;
             double threshold = currentHighScore * 0.1;
-            
+
             int tableGroupIndex = 0;
             rankedTables.ForEach(table =>
             {
-                if (groupedTables[tableGroupIndex].Count.Equals(0))
+                // If group is empty, add table to it
+                if (groupedTables[tableGroupIndex].SequenceEqual([]))
                 {
                     groupedTables[tableGroupIndex].Add(table);
-
+                    return;
                 }
-                else if (groupedTables[tableGroupIndex][0].score - table.score <= threshold)
+
+                // If score is within the threshold, add to group
+                if (groupedTables[tableGroupIndex].First().score - table.score <= threshold) // .First() to avoid getting a stair step effect in the groups
                 {
                     groupedTables[tableGroupIndex].Add(table);
+                    return;
                 }
-                else
-                {
-                    tableGroupIndex++;
-                    groupedTables.Add([table]);
-                }   
+
+                // Make new group
+                tableGroupIndex++;
+                groupedTables.Add([table]);
             });
-
-            //if (student.name.Equals("A-bredvid-B") || student.name.Equals("B-bredvid-A")){
-            Trace.Write("\n");
-            Trace.WriteLine($"Seating {student.name} {student.constraints.Select(constraint => constraint.priority).Sum()}");
-            if (student.name.Equals("B-bredvid-A"))
-            {
-                Trace.WriteLine(student.constraints[0].arguments[1]);
-            }
-            //Trace.WriteLine($"")
-            Trace.Write("\n");
-            groupedTables.ForEach(tableGroup =>
-            {
-                Trace.Write($"Table group: {groupedTables.IndexOf(tableGroup)} | ");
-                tableGroup.ForEach(table =>
-                {
-                    Trace.Write($"{(float)table.score}, ");
-                });
-                Trace.Write("\n");
-            });
-            //}
-            //rankedTables.ForEach(Cells.TableCell table =>
-            //{
-            //    if (currentHighScore - table.score > threshold)
-            //    {
-            //        return;
-            //    }
-
-            //    currentGroup.Add(table);
-            //});
-
-            // Group items that are within 5% of the highest score
-            //for (int i = 1; i < rankedTables.Count; i++)
-            //{
-            //    if (currentHighScore - rankedTables[i].score > threshold)
-            //    {
-            //        break;
-            //    }
-
-            //    currentGroup.Add(rankedTables[i]);
-            //}
 
             // Select a random item from the top group
             Cells.TableCell randomTableAmongTheBest = groupedTables[0][random.Next(groupedTables[0].Count)];
@@ -210,15 +148,6 @@ namespace Classroom_Seating_Planner.Src
             randomTableAmongTheBest.student = student;
 
             return randomTableAmongTheBest.score;
-
-            //List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
-
-            //// Pick a random table from the best tables and place the student there
-            //randomTable = bestTables[random.Next(bestTables.Count)];
-            //randomTable.student = student;
-
-            //// Main wants to know the score of the table
-            //return randomTable.score;
         }
 
         // TODO - either remove score (as return of seatstudent aswell) or implement multiple runs of this function
@@ -233,24 +162,12 @@ namespace Classroom_Seating_Planner.Src
                     .ToList();
             }
 
-            //static void DEBUG_CONSTRAINT(ConstraintsHandler.Constraint? constraint) // TODO - Remove
-            //{
-            //    if (constraint != null)
-            //    {
-
-            //        Trace.WriteLine($"{constraint?.arguments[0]} | {constraint?.type} | {constraint?.arguments[1]} | {constraint?.arguments[2]} | {constraint?.priority}");
-            //    }
-            //}
-
             static List<ConstraintsHandler.Student> sortStudentsByPriority(List<ConstraintsHandler.Student> students)
             {
-                //Trace.WriteLine("\nSorting students by constraint priority\n"); // TODO - remove
                 return students.OrderByDescending(student =>
                 {
-                    //Trace.WriteLine($"Student: {student.name}"); // TODO - remove
                     return student.constraints?.Select(constraint =>
                     {
-                        //Trace.WriteLine(constraint.priority); // TODO - remove
                         return constraint.priority;
 
                     }).Sum() ?? 0;
@@ -283,19 +200,7 @@ namespace Classroom_Seating_Planner.Src
 
                         if (constraint.arguments[0].Equals(student.name) || constraint.arguments[2].Equals(student.name))
                         {
-                            //string DEBUG_TARGET = "null"; // TODO - remove
-                            //if (constraint.arguments[0].Equals(student.name)) // TODO - remove
-                            //{ // TODO - remove
-                            //    DEBUG_TARGET = constraint.arguments[2]; // TODO - remove
-                            //} // TODO - remove
-                            //else if (constraint.arguments[2].Equals(student.name)) // TODO - remove
-                            //{ // TODO - remove
-                            //    DEBUG_TARGET = constraint.arguments[0]; // TODO - remove
-                            //} // TODO - remove
-
-                            //Trace.WriteLine($"{student.name} has constraint {constraint.type} | {constraint.arguments[1]} | {DEBUG_TARGET} | {constraint.priority}"); // TODO - remove
-
-                            // Create an empty list for constraints if it does not already exist // TODO - remove
+                            // Create an empty list for constraints if it does not already exist 
                             student.constraints ??= [];
 
                             student.constraints.Add(constraint);
@@ -309,39 +214,14 @@ namespace Classroom_Seating_Planner.Src
 
             // Get all constraints as a list
             List<ConstraintsHandler.Constraint> constraints = getAllConstraints(students);
-            //constraints.ForEach(constraint => // TODO - remove
-            //{                                 // TODO - remove
-            //    DEBUG_CONSTRAINT(constraint); // TODO - remove
-            //});                               // TODO - remove
 
             // Make sure all constraints where a student is involved are assigned to the student
             students = nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
-            //Trace.WriteLine("\nTRIED NULLIFYING CONSTRAITNS\n");                             // TODO - remove
-            //students.ForEach(student =>                                                      // TODO - remove
-            //{                                                                                // TODO - remove
-            //    if (student.constraints != null)                                             // TODO - remove
-            //    {                                                                            // TODO - remove
-            //        //Trace.WriteLine($"\n{student.name} constraints\n");                    // TODO - remove
-            //        student.constraints.ForEach(constraint => DEBUG_CONSTRAINT(constraint)); // TODO - remove
 
-            //    }                             // TODO - remove
-            //});                               // TODO - remove
-            //constraints.ForEach(constraint => // TODO - remove
-            //{ // TODO - remove
-            //    DEBUG_CONSTRAINT(constraint); // TODO - remove
-            //}); // TODO - remove
-
-            //Trace.WriteLine("\nTRYING TO ASSIGN ALL CONSTRAINTS\n"); // TODO - remove
             students = assignAllConstraints(students, constraints);
 
             // Sort students to seat the pickiest students first
             students = sortStudentsByPriority(students);
-            //Trace.WriteLine("\nSorting students by constraint priority\n"); // TODO - remove
-
-            students.ForEach(student =>
-                {
-                    //Trace.WriteLine($"{student.name} {student.constraints?.Select(constraint => constraint.priority).Sum() ?? 0}");
-                });
 
             double seatingArrangementScore = 0;
 

@@ -56,7 +56,6 @@ namespace Classroom_Seating_Planner.Src
         {
             List<ConstraintsHandler.Student> students = [];
 
-            // TODO - ignore lines that start with "#" - CHECK THAT THIS WORKS
             // Get the list of student names from the class list file and return as a list
             FileHandler.ReadClassListFile()
                 .ToList() // ForEach only exists for lists

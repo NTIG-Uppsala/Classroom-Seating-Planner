@@ -18,13 +18,11 @@ namespace Tests
         {
             string automationId = "ClassListElement";
             FlaUIElement.ListBox classListElement = window.FindFirstDescendant(cf.ByAutomationId(automationId)).AsListBox();
-            if (classListElement == null)
-            {
-                Trace.WriteLine("ClassListElement is null");
-            }
+
+            Assert.IsNotNull(classListElement, "ClassListElement is null in GetClassListFromElement");
+
             List<FlaUIElement.ListBoxItem> classListAsItems = classListElement.Items.ToList();
             List<string> classList = classListAsItems.Select(item => item.Text).ToList();
-            //List<string> classList = classListElement.Items.Select(item => item.Text).ToList();
 
             return classList;
         }
