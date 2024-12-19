@@ -110,6 +110,21 @@ namespace Classroom_Seating_Planner.Src
             //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
             //List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
 
+            static void PRINT<T>(List<T> things)
+            {
+                Trace.Write("\n");
+
+                int i = 0;
+                things.ForEach(thing =>
+                {
+                    Trace.Write(thing);
+
+                    if (i < things.Count - 1 && !(thing?.ToString() ?? "").Contains(':')) Trace.Write(", ");
+                    else Trace.WriteLine(" ");
+
+                    i++;
+                });
+            }
 
             // Group scores that are close in value
             double currentHighScore = rankedTables[0].score;
