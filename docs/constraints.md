@@ -13,7 +13,7 @@ The program generates seating arrangements using the following algorithm:
     1. If the student doesn't have any constraints, place them in a random seat and return a score of 0.
     1. Get a list of the tables sorted by how well each table follows the student's constraints.
         - This is calculated using the scoring system and the constraint methods.
-    1. Select the best tables using the following function: $tableSelectionFactor(p) = 0.85^{p-1} \cdot 0.3$ where p is the sum of the priorities for that student and tableSelectionFactor(p) is a factor of how many tables are to be selected.
+    1. Select all tables whose score is within a certain percentage using the following function: $n(p) = 0.85^{p-1} \cdot 0.3$ where p is the sum of the priorities for that student and n(p) is a the percentage.
     1. Choose a random table among those previously selected.
     1. Return the score of that table
 
