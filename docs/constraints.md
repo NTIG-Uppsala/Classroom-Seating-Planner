@@ -1,135 +1,150 @@
 # Constraints
 
-This document outlines the constraint system used for generating optimal seating arrangements, including the algorithm, syntax, and available constraints.
+
+## Syntax 
+Student constraints are written directly to the class list file. The syntax is somewhat flexible. The syntax is as follows:
+```txt
+# Elev utan begränsningar
+Namn Namnsson
+
+# Elev med en begränsning
+Namn Namnsson: begränsningstyp måltavlan
+
+# Elev med flera begränsningar
+Namn Namnsson: begränsningstyp måltavlan / en annan begränsning måltavla
+
+# Elev med en prioriterad begränsning
+Namn Namnsson: begränsningstyp måltavlan (prioritet)
+
+# Elev med flera prioriterade begränsningar
+Namn Namnsson: begränsningstyp måltavlan (prioritet) / en annan begränsning måltavla (prioritet)
+
+# Exempel:
+Johan Andersson: nära tavlan / inte bredvid Anna Kamp (3)
+Anna Kamp: bredvid Johan Andersson
+Emil Vin: nära tavlan (10)
+```
+- `#` marks a line as a comment and will be ignored. A line that has a comment at the end will __not__ be ignored.
+- `:` separates the name of the student from the constraints (if there are any).
+- `/` separates different constraints for the same student.
+- `()` contains the priority of the constraint. If no priority is set, the default priority is `1`. When setting a priority, a value between `1` and `10` is recommended.
+
+### Constraint Types
+Constraint types are **not** case sensitive not whitespace sensitive. The following constraint types are supported:
+
+| Constraint type | Description                                                                                                     |
+| --------------- | --------------------------------------------------------------------------------------------------------------- |
+| `nära`          | The student should be seated close to the target.                                                               |
+| `inte nära`     | The student should be seated far from the target.                                                               |
+| `långt från`    | The student should be seated far from the target.                                                               |
+| `långt ifrån`   | The student should be seated far from the target.                                                               |
+| `bredvid`       | The student should be seated next to the target, but if that is not possible, the student gets seated randomly. |
+| `inte bredvid`  | The student should not be seated next to the target.                                                            |
+
+### Targets
+A constraint can either target another student or a classroom element. 
+
+#### To target a student
+To target a student, simply write the name of the student. The name must be the same as the name of the student in the class list. The name **is** case sensitive **and** whitespace sensitive.
+```txt
+Namn Namnsson: begränsningstyp Mål Målsson
+```
+
+#### To target a classroom element
+When targeting a classroom element you need to use one of its aliases. 
+
+| Element    | Alias                                                                        |
+| ---------- | ---------------------------------------------------------------------------- |
+| Whiteboard | `tavlan`, `tavla`, `whiteboard`, `whiteboards`, `svartatavlan`, `klösbrädan` |
+<!-- Row break needed to prevent formatter from messing with comment -->
+<!-- | Door       | `dörren`, `dörr`                 | -->
+<!-- | Window     | `fönstret`, `fönster`, `vindöga` | -->
+
+### Good to Know
+If anything with the input is wrong, the program carries on without it. The program will not crash, but the constraint will not be applied and no warnings are given.
+
 
 ## Algorithm
 
-The program generates seating arrangements using the following algorithm:
+The algorithm that decides where a student is seated is as follows:
+1. Sort the students by the sum of the priorities of their constraints. Therefore the students with the higher priorities, the pickiest, are placed first.
+1. Then for every student:
+   1. If the student has no constraints, place them in a random seat. Keep in mind that an unconstrained student will be placed after the constrained students, due to the previous sorting.
+   1. The student judges every empty seat based on their own constraints and saves this score for every table.
+   1. The empty tables are then sorted by the score the student gave them. 
+   1. The empty tables are then grouped by their score. The groupings are made from how similar their scores are. How similar they have to be is determined by a function. The function is $t(p, m) = m \cdot 0.95^{p-1} \cdot 0.1$ where $p$ is the sum of the priorities for that student and $m$ is the highest score. $t(p, m)$ gives the threshold for how similar the scores have to be to be grouped together. For example, $[501, 500, 20, 18, 0, 0] => [[501, 500], [20, 18], [0, 0]]$
+   1. The student is then placed at a random table from the best group.
+      - The higher the priority of the constraint, the smaller the groups are which leads to the student being placed in a better seat while also making it the selection less random.  
 
-1. Sort the students by the sum of the priority of their constraints.
-1. For each student, do the following steps:
-    1. In the following steps, the student is placed and a score is returned.
-        - A higher score is given if the seating complies better with the student's constraints.
-    1. If the student doesn't have any constraints, place them in a random seat and return a score of 0.
-    1. Get a list of the tables sorted by how well each table follows the student's constraints.
-        - This is calculated using the scoring system and the constraint methods.
-    1. Select all tables whose score is within a certain percentage using the following function: $n(p) = 0.85^{p-1} \cdot 0.3$ where p is the sum of the priorities for that student and n(p) is a the percentage.
-    1. Choose a random table among those previously selected.
-    1. Return the score of that table
-
-## Syntax
-
-The syntax for writing constraints in `klasslista.txt` is as follows:
-
-```txt
-Name Surname: constraint target (priority) / other constraint target (priority)
-```
-
--   `#` marks a comment and makes the program ignore that line.
--   `:` marks the divide between the name of the student and the list of constraints.
--   `/` marks the divide between different constraints.
--   Each constraint contains the following information:
-    -   A constraint name (string).
-    -   A constraint target such as the whiteboard or another student (string).
-    -   A priority (number, optional - defaults to 1 if omitted).
-
-```txt
-#Example:
-Johan Andersson: nära tavlan (3) / inte bredvid Anders Johansson (10)
-#Translation: Johan Andersson: near whiteboard (3) / not next to Anders Johansson (10)
-```
 
 ## Existing Constraints
 
 The program currently has the following constraints:
 
--   `distance`:
-    -   Parameters:
-        -   source: Student calling the function
-        -   target: Student or Classroom Element being checked against
-        -   nearOrFar: If the source should be near or far from the target, allowing the inverse constraint of being seated far apart.
-        -   priority: Multiplier for the constraint's score
-        -   references: An object containing a list of all classroom elements (tables, the whiteboard, windows, doors).
--   `adjacent`:
-    -   Parameters:
-        -   source: Student calling the function
-        -   target: Student or Classroom Element being checked against
-        -   yesOrNo: If the source should be adjacent to the target or not, allowing the inverse constraint of not being adjacent.
-        -   priority: Multiplier for the constraint's score
-        -   references: An object containing a list of all classroom elements (tables, the whiteboard, windows, doors).
+- `distance(source, target, nearOrFar, priority, references)`
+    - source: The table a student is currently judging.
+    - target: Student or Classroom Element being checked against
+    - nearOrFar: If the source should be near or far from the target, allowing the inverse constraint of being seated far apart.
+    - priority: How important the constraint is. This will affect scoring.
+    - references: An object containing a list of all classroom elements (tables, the whiteboard, windows, doors).
+- `adjacent(source, target, yesOrNo, priority, references)`:
+    - source: The table a student is currently judging.
+    - target: Student or Classroom Element being checked against
+    - yesOrNo: If the source should be adjacent to the target or not, allowing the inverse constraint of not being adjacent.
+    - priority: How important the constraint is. This will affect scoring.
+    - references: An object containing a list of all classroom elements (tables, the whiteboard, windows, doors).
 
-## Adding more Constraints
+## Adding More Constraints
 
 To add more constraints, follow these steps:
 
 1. Navigate to `ConstraintFunctions` in [`ConstraintsHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/ConstraintsHandler.cs).
-1. Create a method for the constraint. It has to contain the same parameters as the ones listed above, except for the third, which should be a unique parameter indicating an inverse of the constraint.
+1. Create a method for the constraint. It has to contain the same parameters as the ones listed above. The third argument however can be tweaked as needed.
 1. Write the method logic for figuring out how good the seating is. This step is entirely dependent on the constraint being added.
-1. Return a score depending on how good the seating is. It should follow this format:
-    - Return a value between 0 and 1 where 1 is the optimal seating and 0 is the worst possible, multiplied with the priority.
-1. In `functionLookupTable` in `InterpretStudentConstraints` in [`ConstraintsHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/ConstraintsHandler.cs) add the possible aliases that the function could use:
-
-    - ```csharp
-      // Example:
-      { "intebredvid",  new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 1 }},
-      { "inte bredvid", new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 1 }},
-      ```
-    - The key represents the alias that a user might write in `klasslista.txt` to add the constraint to a student.
-    - `type` is the method name for the constraint
-    - `arguments` needs to contain three items where the first should always be `studentName` and the third should always be `null`. The second should indicate if the constraint should be inverse or not.
-    - `priority` is the default priority of the constraint.
+   - The function has to return a normalized score between 0 and 1, multiplied with the priority. A higher score is better.
+1. In the same file, add new aliases for this constraint in `functionLookupTable`. Follow the same format as the existing constraints.
+   
 
 ## Existing Classroom Layout Elements
 
-The program currently supports the following Classroom Layout Elements:
+The program currently supports reading the following Classroom Layout Elements that are read from the class room layout file:
 
--   Seats, represented by a `B` per seat in `bordskarta.txt`
--   Whiteboard, represented by one or multiple `T` in `bordskarta.txt`
--   Doors, represented by a `D` per door in `bordskarta.txt`
--   Windows, represented by a `F` per window in `bordskarta.txt`
+| Element    | Character |
+| ---------- | --------- |
+| Table      | `B`       |
+| Whiteboard | `T`       |
+<!-- Row break needed to prevent formatter from messing with comment -->
+<!-- | Door       | `D`       | -->
+<!-- | Window     | `F`       | -->
 
-Example layout in `bordskarta.txt`:
 
-```txt
-     TTTT
-
-BBBB BBBB BBBB
-
-BBBB BBBB BBBB
-
-BBBB BBBB BBBB
-```
-
-## Adding more Classroom Layout Elements
+## Adding More Classroom Layout Elements
 
 To add new classroom layout elements that constraints might need, follow these steps:
 
-1. Navigate to `recipientLookupTable` in `InterpretStudentConstraints` in [`ConstraintsHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/ConstraintsHandler.cs).
-1. Add the name aliases needed for the element:
-
-    - ```csharp
-      // Example:
-      {"dörren",       "door"},
-      {"dörr",         "door"},
-      ```
-
-    - The key should be what the user might type in when referring to the element.
-    - The value should be a standardized name of the element.
-
-1. Navigate to `cellTypes` in `GetClassroomElementsFromLayout` in [`FileHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/FileHandler.cs)
-1. Add the classroom layout aliases for the element:
-
-    - ```csharp
-      // Example:
-      { 'B', (x, y) => new Cells.TableCell(x, y) },
-      { 'T', (x, y) => new Cells.WhiteboardCell(x, y) },
-      ```
-    - The key should be the character used to mark the element in `bordskarta.txt`
-    - The value should be a function which creates the class of the element.
-
-1. Navigate to `classroomElementNames` in `SeatStudent` in [`SeatingHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/SeatingHandler.cs).
-1. Add the standardized name to the list.
-1. Create a class for the element in the `Cells` directory which extends `Cell`.
+1. Navigate to the `recipientLookupTable` dictionary in the `InterpretStudentConstraints` function in [`ConstraintsHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/ConstraintsHandler.cs).
+2. Add aliases the user can type in to refer to the element:
+```c#
+    // Example:
+    // {"whattheusertypesin", "elementName"},
+    {"dörren",               "door"},
+    {"dörr",                 "door"},
+```
+   - The key is what the user types in the class list file. This should be all lowercase and without whitespace and in Swedish.
+3. Create a class for the element in the `Cells` directory which extends `Cell`.
+   - While extending `Cell`, make sure that the `cellType` is set to the same value as specified in the `recipientLookupTable`. Else the program will not be able to interpret the element.
+   - Keep in mind that you can always compare to the existing cells for guidance.
+4. Navigate to the `cellTypes` dictionary in `ParseClassroomElementsFromFile` function in [`FileHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/FileHandler.cs)
+5. Add the classroom layout aliases for the element:
+```c#
+    // Example:
+    { 'B', (x, y) => new Cells.TableCell(x, y) },
+    { 'T', (x, y) => new Cells.WhiteboardCell(x, y) },
+```
+   - The key is the character that will be interpreted from the classroom layout file.
+   - The value is a function that instantiates the classroom elements class.
+6. Navigate to `classroomElementNames` in `SeatStudent` in [`SeatingHandler.cs`](../Classroom-Seating-Planner/Classroom-Seating-Planner/Src/SeatingHandler.cs).
+7. Add the name you gave the element in the `recipientLookupTable` to that list.
 
 ---
 

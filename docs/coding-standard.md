@@ -19,8 +19,8 @@
 #### Syntax
 
 -   Prefer explicit type declarations instead of `var`.
--   Public properties should be declared with classes for clarity. For example `Utils.FileHandler.dataFolderPath` as opposed to `dataFolderPath`.
--   Private, non-static, properties should be declared with `this`. For example `this.classListFromFile` instead of `classListFromFile`.
+-   Public properties should be referenced with their full class reference to decrease ambiguity. For example `Utils.FileHandler.dataFolderPath` as opposed to `dataFolderPath`.
+-   Local properties should be accessed with `this`. For example `this.classListFromFile` instead of `classListFromFile`.
 
 ## XAML
 
@@ -40,8 +40,8 @@
 -   Git branches: `kebab-case`.
 -   File names: `kebab-case`.
 -   Default case if not specified: `camelCase`.
--   No one-letter variable names unless the full name is reserved in the language. For example: `event` might be reserved, so use `e`.
--   Long and clear variable names are preferred over short and unclear ones.
+-   Prefer longer and more descriptive variable names over short, abbreviated, unclear ones. Exceptions can be made for common abbreviations like `i` for index and reserved names such as `event` where `e` could be used instead.
+-   Variable names should describe their purpose and not their type. For example, `studentCount` over `returnInt`.
 
 #### Syntax
 
@@ -50,9 +50,7 @@
 
 #### Motivations
 
--   Longer variable names can helpful by describing their purpose. With modern IDEs, typing long variable names is not a problem and modern screens are large enough to display them. Given that, it isn't always the best way to go but that's why we have comments. In any case, avoid one-letter variable names (`index` > `i`) or really short abbreviations since they usually only lead to confusion.
--   Single quotes should only be used when required like in nested strings but never as the default. Double quotes are the standard in most programming languages and should be used as the default. This is to avoid confusion with single quotes in English text and general readability.
--   Default case is `camelCase` simply because it is good to have a default case. It is the most common case in programming and is readable enough.
+-   Longer variable names can helpful by describing their purpose. With modern IDEs, typing long variable names is not a problem and modern screens are large enough to display them. Given that, it isn't always the best way to go but that's why we have comments. In any case, avoid one-letter variable names or really short abbreviations since they usually only lead to confusion.
 
 ---
 

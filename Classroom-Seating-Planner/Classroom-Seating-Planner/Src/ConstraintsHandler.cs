@@ -45,11 +45,11 @@ namespace Classroom_Seating_Planner.Src
                 {"whiteboards",  "whiteboardCover"},
                 {"svartatavlan", "whiteboardCover"},
                 {"klösbrädan",   "whiteboardCover"},
-                {"dörren",       "door"},
-                {"dörr",         "door"},
-                {"fönstret",     "window"},
-                {"fönster",      "window"},
-                {"vindöga",      "window"},
+                // {"dörren",       "door"},
+                // {"dörr",         "door"},
+                // {"fönstret",     "window"},
+                // {"fönster",      "window"},
+                // {"vindöga",      "window"},
             };
 
             List<Constraint> interpretedConstraints = [];
@@ -102,7 +102,8 @@ namespace Classroom_Seating_Planner.Src
                 string recipient = constraintWithoutPriority.Substring(readIndex).Trim(); // Remove the function name from the constraint string
 
                 // If the recipient is in the lookup table, replace it with the value from the table
-                interpretedConstraint.recipient = recipientLookupTable.ContainsKey(recipient) ? recipientLookupTable[recipient] : recipient;
+                string possibleRecipient = Regex.Replace(recipient, @"\s", "").ToLower();
+                interpretedConstraint.recipient = recipientLookupTable.ContainsKey(possibleRecipient) ? recipientLookupTable[possibleRecipient] : recipient;
 
 
                 interpretedConstraints.Add(interpretedConstraint);

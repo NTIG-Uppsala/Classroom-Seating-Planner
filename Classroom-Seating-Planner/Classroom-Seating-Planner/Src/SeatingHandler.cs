@@ -107,11 +107,6 @@ namespace Classroom_Seating_Planner.Src
                     return table;
                 }).OrderByDescending(table => table.score).ToList();
 
-            // OLD STUFFZ
-            // Take the best scored tables. The amount is based on the student's constraints' summed priorities
-            //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
-            //List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
-
             // Group scores that are close in value
             double currentHighScore = rankedTables[0].score;
             List<List<Cells.TableCell>> groupedTables = [[]];

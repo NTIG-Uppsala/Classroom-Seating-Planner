@@ -11,17 +11,17 @@ namespace Classroom_Seating_Planner
         // This is the instructional text that will be displayed in the popup windows
         public static readonly string classListFileTutorialMessage = $"Klasslistan ligger i " + 
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
-            $"Varje rad i listan är ett namn. Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+            $"Varje rad i listan är ett namn. När du trycker på 'Slumpa'-knappen så läser programmet in det du har ändrat.";
         public static readonly string classroomLayoutFileTutorialMessage = $"Bordskartan ligger i " + 
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"Varje tecken i filen är en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan. " +
-            "Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+            $"När du trycker på 'Slumpa'-knappen så läser programmet in det du har ändrat.";
 
         public static readonly string helpWindowMessage = $"Klasslistan och bordskartan ligger i " + 
             $"{System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments).Split("\\").Last(), Src.FileHandler.dataFolderName)}.\n" +
             $"I klasslistan är varje rad ett namn.\n" +
             $"I bordskartan är varje tecken en del av klassrummet. B representerar bord/platser och T representerar en del av tavlan.\n" +
-            $"Efter att du har fyllt i den måste du starta om programmet för att se dina ändringar.";
+            $"När du trycker på 'Slumpa'-knappen så läser programmet in det du har ändrat.";
 
         public PopupWindow(string popupText, string windowTitle, System.Windows.Window parent)
         {
