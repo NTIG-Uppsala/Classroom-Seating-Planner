@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlaUI.Core.WindowsAPI;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,11 +11,14 @@ namespace Classroom_Seating_Planner.Src
 {
     public class ConstraintsHandler
     {
-        public struct Constraint
+        public struct Constraint()
         {
             public string type;
-            public List<string?> arguments;
-            public int priority;
+            public string caller;
+            public string? recipient;
+            public string argument;
+            public int priority = 1;
+            public int priorityMultiplier;
         }
 
         public struct Student
@@ -25,15 +29,12 @@ namespace Classroom_Seating_Planner.Src
 
         public static List<Constraint>? InterpretStudentConstraints(string studentName, string rawConstraints)
         {
-            Dictionary<string, Constraint> functionLookupTable = new() {
-                { "nära",         new Constraint { type = "distance", arguments = [studentName, "near", null], priority = 1 }},
-                { "intenära",     new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "inte nära",    new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "långtfrån",    new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "långt från",   new Constraint { type = "distance", arguments = [studentName, "far",  null], priority = 1 }},
-                { "bredvid",      new Constraint { type = "adjacent", arguments = [studentName, "yes",  null], priority = 10 }},
-                { "intebredvid",  new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 10 }},
-                { "inte bredvid", new Constraint { type = "adjacent", arguments = [studentName, "no",   null], priority = 10 }},
+            Dictionary<string, Constraint> functionLookupTable = new() { 
+                { "nära",         new Constraint { type="distance", caller=studentName, recipient=null, argument="near", priorityMultiplier=1 }},
+                { "intenära",     new Constraint { type="distance", caller=studentName, recipient=null, argument="far",  priorityMultiplier=1 }},
+                { "långtfrån",    new Constraint { type="distance", caller=studentName, recipient=null, argument="far",  priorityMultiplier=1 }},
+                { "bredvid",      new Constraint { type="adjacent", caller=studentName, recipient=null, argument="yes",  priorityMultiplier=3 }},
+                { "intebredvid",  new Constraint { type="adjacent", caller=studentName, recipient=null, argument="no",   priorityMultiplier=3 }},
             };
 
             Dictionary<string, string> recipientLookupTable = new() {
@@ -55,37 +56,53 @@ namespace Classroom_Seating_Planner.Src
             List<string> rawConstraintsList = rawConstraints.Split('/').Select(rawConstraint => rawConstraint.Trim()).ToList();
 
             rawConstraintsList.ForEach(rawConstraint =>
-            { // TODO - Whitespace remover Regex.Replace(input, @"\s", "")
-                string trimmedConstraint = rawConstraint.ToLower();
+            {
+                // Function Name
+                string noWhitespaceConstraint = Regex.Replace(rawConstraint, @"\s", "").ToLower();
                 string? functionName = functionLookupTable.Keys
                     .ToList()
-                    .Where(functionName => trimmedConstraint.StartsWith(functionName))
+                    .Where(functionName => noWhitespaceConstraint.StartsWith(functionName))
                     .FirstOrDefault();
 
-                if (functionName == null) return;
+                if (functionName == null) return; // If we can't find a function, ignore the constraint
 
                 Constraint interpretedConstraint = functionLookupTable[functionName];
 
-                // Isolate the recipient string
-                string recipient = Regex.Replace(rawConstraint, @"\(.*\)", "") // Remove priority (N)
-                    .Replace(functionName, "") // TODO - whitespace remover, this is linked to the whitespace remover mentioned above
-                    .Trim();
 
-
-                // Look if the recipent is in the recipientLookupTable
-                if (recipientLookupTable.TryGetValue(Regex.Replace(recipient, @"\s", "").ToLower(), out string? value))
+                // Priority
+                System.Text.RegularExpressions.Match match = Regex.Match(rawConstraint, @"\(([^)]+)\)"); // Priority is the optional number inside the parenthesis (N)
+                if (match.Success && int.TryParse(match.Groups[1].Value, out int readPriority))
                 {
-                    recipient = value;
+                    interpretedConstraint.priority = readPriority;
                 }
-                interpretedConstraint.arguments[2] = recipient;
+                interpretedConstraint.priority *= interpretedConstraint.priorityMultiplier;
 
-                // Find the priority of the constraint
-                // Priority is the number insite the parenthesis (N)
-                System.Text.RegularExpressions.Match match = Regex.Match(rawConstraint, @"\(([^)]+)\)");
-                if (match.Success && int.TryParse(match.Groups[1].Value, out int intValue))
+
+                // Recipient
+                // Function names may contain whitespace in the raw constraint. So to isolate the recipient, we need to find where the function name ends
+                int functionNameIndex = 0;
+                int readIndex = 0;
+                while (functionNameIndex < functionName.Length && readIndex < rawConstraint.Length)
                 {
-                    interpretedConstraint.priority = intValue; // Override default priority value
+                    if (functionName[functionNameIndex].Equals(rawConstraint[readIndex]))
+                    {
+                        // If they match, carry on reading
+                        functionNameIndex++;
+                        readIndex++;
+                    }
+                    else
+                    {
+                        // If they don't match, look ahead in the raw constraint
+                        readIndex++;
+                    }
                 }
+
+                string constraintWithoutPriority = Regex.Replace(rawConstraint, @"\(.*\)", ""); // Remove priority (N)
+                string recipient = constraintWithoutPriority.Substring(readIndex).Trim(); // Remove the function name from the constraint string
+
+                // If the recipient is in the lookup table, replace it with the value from the table
+                interpretedConstraint.recipient = recipientLookupTable.ContainsKey(recipient) ? recipientLookupTable[recipient] : recipient;
+
 
                 interpretedConstraints.Add(interpretedConstraint);
             });
@@ -154,15 +171,12 @@ namespace Classroom_Seating_Planner.Src
             float yDiff = Math.Abs(source.y - target.y);
             bool isAdjacent = (xDiff.Equals(1) && yDiff.Equals(0)) || (xDiff.Equals(0) && yDiff.Equals(1));
 
-            switch (yesOrNo) // TODO - Add a constant multiplier
+            return yesOrNo switch
             {
-                case "yes" when isAdjacent:
-                    return priority;
-                case "no" when !isAdjacent:
-                    return priority;
-                default:
-                    return 0; // In case the requirements of the constraint are not met
-            }
+                "yes" when isAdjacent => priority,
+                "no" when !isAdjacent => priority,
+                _ => (double)0,// In case the requirements of the constraint are not met
+            };
         }
     }
 }

@@ -39,7 +39,7 @@
     -   [x] File system interactions borde kanske byta namn (t.ex. hard coded data).
     -   [x] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
     -   [x] Dela upp i olika filer
-    -   [ ] Manuella tester (tex responsivitet)
+    -   [X] Manuella tester (tex responsivitet)
 
 -   [x] .Equals() i HandleAllDataFileIssues (konsekventhet)
     -   [x] Skippa null iom varning om att det är null

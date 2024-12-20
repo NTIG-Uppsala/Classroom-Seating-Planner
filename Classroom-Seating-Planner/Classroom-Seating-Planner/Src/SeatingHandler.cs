@@ -44,15 +44,15 @@ namespace Classroom_Seating_Planner.Src
                             Func<Cells.Cell, Cells.Cell, string, int, Dictionary<string, object>, double> function = ConstraintFunctions.functions[constraint.type];
 
                             // Define reference scopes that the constraint functions may need
-                            Dictionary<string, object> references = new() { { "classroomElements", classroomElements }, { "caller", constraint.arguments[0] } }; // TODO - remove caller
+                            Dictionary<string, object> references = new() { { "classroomElements", classroomElements }, { "caller", constraint.caller } };
 
                             // Arguments: source, target, constraint specific parameter, priority, references to things beyond the constraint's scope
-                            return function(table, target, constraint.arguments[1], constraint.priority, references);
+                            return function(table, target, constraint.argument, constraint.priority, references);
                         }
 
                         // These are taken from the interpreted constraint and are strings
-                        string caller = constraint.arguments[0];
-                        string? recipient = constraint.arguments[2];
+                        string caller = constraint.caller;
+                        string? recipient = constraint.recipient;
 
                         // If more classroom elements are added, add them here as well 
                         List<string> classroomElementNames = ["whiteboardCover"];
@@ -78,7 +78,8 @@ namespace Classroom_Seating_Planner.Src
                             Cells.TableCell? targetStudentTable = tables.Where(targetTable =>
                             {
                                 if (targetTable.student == null) return false;
-                                return (bool)targetTable.student?.name.Equals(recipient);// If a student is defined, we know that the student has a name
+
+                                return (bool)targetTable.student?.name.Equals(recipient); // If a student is defined, we know that the student has a name
                             }).FirstOrDefault();
 
                             Cells.TableCell? target = targetStudentTable ?? null; // Target may not be seated yet
@@ -91,6 +92,7 @@ namespace Classroom_Seating_Planner.Src
                             Cells.TableCell? targetStudentTable = tables.Where(targetTable =>
                             {
                                 if (targetTable.student == null) return false;
+
                                 return (bool)targetTable.student?.name.Equals(caller); // If a student is defined, we know that the student has a name
                             }).FirstOrDefault();
 
@@ -110,30 +112,13 @@ namespace Classroom_Seating_Planner.Src
             //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
             //List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
 
-            static void PRINT<T>(List<T> things)
-            {
-                Trace.Write("\n");
-
-                int i = 0;
-                things.ForEach(thing =>
-                {
-                    Trace.Write(thing);
-
-                    if (i < things.Count - 1 && !(thing?.ToString() ?? "").Contains(':')) Trace.Write(", ");
-                    else Trace.WriteLine(" ");
-
-                    i++;
-                });
-            }
-
             // Group scores that are close in value
             double currentHighScore = rankedTables[0].score;
             List<List<Cells.TableCell>> groupedTables = [[]];
 
-            // How close the scores can be to be considered in the same group
-            //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
-            //double threshold = currentHighScore * Math.Pow(0.85, prioritySum - 1) * 0.3;
-            double threshold = currentHighScore * 0.1;
+            // How close the scores can be to be considered in the same group, which is based on the students priority sum
+            int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
+            double threshold = currentHighScore * Math.Pow(0.95, prioritySum - 1) * 0.1;
 
             int tableGroupIndex = 0;
             rankedTables.ForEach(table =>
@@ -208,12 +193,12 @@ namespace Classroom_Seating_Planner.Src
                     localListOfStudents = localListOfStudents.Select(student =>
                     {
                         // Check if student is involved in the constraint, either as the caller or the recipient
-                        if (constraint.arguments[2] == null)
+                        if (constraint.recipient == null)
                         {
                             return student;
                         }
 
-                        if (constraint.arguments[0].Equals(student.name) || constraint.arguments[2].Equals(student.name))
+                        if (constraint.caller.Equals(student.name) || constraint.recipient.Equals(student.name))
                         {
                             // Create an empty list for constraints if it does not already exist 
                             student.constraints ??= [];
