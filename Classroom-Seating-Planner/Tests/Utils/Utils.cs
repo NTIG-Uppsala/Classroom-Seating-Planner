@@ -12,6 +12,17 @@ namespace Tests
         // Names for default file if file does not already exist
         public static readonly List<string> defaultClassList =
         [
+            "# Det här är en kommentar. Om en rad börjar med # så ignorerar programmet den",
+            "",
+            "# Här är några exempel på hur begränsningar fungerar",
+            "#  Johan Andersson: nära tavlan (3) / inte bredvid Amanda Karlsson (10)",
+            "#  Amanda Karlsson: nära tavlan",
+            "#  Åke Hänkesson: långt från tavlan (7)",
+            "",
+            "# : skiljer namnet från eventuella begränsningar",
+            "# / skiljer olika begränsningar",
+            "# (n) betäcknar hur viktig begränsningen är (frivillig).",
+            "",
             "Förnamn Efternamn",
             "Förnamn Efternamn",
             "Förnamn Efternamn",
@@ -32,6 +43,17 @@ namespace Tests
         // Class list used for tests unless another list is specified
         public static readonly List<string> testingClassList =
         [
+            "# Det här är en kommentar. Om en rad börjar med # så ignorerar programmet den",
+            "",
+            "# Här är några exempel på hur begränsningar fungerar",
+            "#  Johan Andersson: nära tavlan (3) / inte bredvid Amanda Karlsson (10)",
+            "#  Amanda Karlsson: nära tavlan",
+            "#  Åke Hänkesson: långt från tavlan (7)",
+            "",
+            "# : skiljer namnet från eventuella begränsningar",
+            "# / skiljer olika begränsningar",
+            "# (n) betäcknar hur viktig begränsningen är (frivillig).",
+            "",
             "Ziggy Stardust",
             "Frodo Baggins",
             "Darth Vader",

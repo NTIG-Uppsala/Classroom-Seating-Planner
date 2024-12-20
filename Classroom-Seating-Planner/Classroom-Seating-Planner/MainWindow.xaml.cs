@@ -33,12 +33,12 @@ namespace Classroom_Seating_Planner
         {
             // Handle any possible file issues
             // Pass the current window as the parent window so the popups know if it needs to close
-            Src.FileHandler.HandleAllDataFileIssues(this);
+            Src.FileHandler.HandleFileIssues(this);
 
 
             // Read the data files
-            List<Cells.Cell> classroomElements = Src.FileHandler.GetClassroomElementsFromLayout();
-            List<ConstraintsHandler.Student> students = Src.FileHandler.GetClassListFromFile();
+            List<Cells.Cell> classroomElements = Src.FileHandler.ParseClassroomElementsFromFile();
+            List<ConstraintsHandler.Student> students = Src.FileHandler.ParseClassListFromFile();
 
 
             // Populate the list of names to the left with the names of the students
@@ -53,8 +53,8 @@ namespace Classroom_Seating_Planner
         private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs _)
         {
             // Read the data files
-            List<Cells.Cell> classroomElements = Src.FileHandler.GetClassroomElementsFromLayout();
-            List<ConstraintsHandler.Student> students = Src.FileHandler.GetClassListFromFile();
+            List<Cells.Cell> classroomElements = Src.FileHandler.ParseClassroomElementsFromFile();
+            List<ConstraintsHandler.Student> students = Src.FileHandler.ParseClassListFromFile();
 
             // This is the main algoritm that decides where students are seated
             Src.SeatingHandler.GenerateSeatingArrangement(students, classroomElements);

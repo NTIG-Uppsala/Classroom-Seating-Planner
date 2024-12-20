@@ -19,6 +19,17 @@ namespace Classroom_Seating_Planner.Src
 
         public static readonly List<string> defaultClassList =
         [
+            "# Det här är en kommentar. Om en rad börjar med # så ignorerar programmet den",
+            "",
+            "# Här är några exempel på hur begränsningar fungerar",
+            "#  Johan Andersson: nära tavlan (3) / inte bredvid Amanda Karlsson (10)",
+            "#  Amanda Karlsson: nära tavlan",
+            "#  Åke Hänkesson: långt från tavlan (7)",
+            "",
+            "# : skiljer namnet från eventuella begränsningar",
+            "# / skiljer olika begränsningar",
+            "# (n) betäcknar hur viktig begränsningen är (frivillig).",
+            "",
             "Förnamn Efternamn",
             "Förnamn Efternamn",
             "Förnamn Efternamn",
@@ -52,7 +63,7 @@ namespace Classroom_Seating_Planner.Src
         }
 
         // Returns the list of student names read from an external file as a list
-        public static List<ConstraintsHandler.Student> GetClassListFromFile()
+        public static List<ConstraintsHandler.Student> ParseClassListFromFile()
         {
             List<ConstraintsHandler.Student> students = [];
 
@@ -85,7 +96,7 @@ namespace Classroom_Seating_Planner.Src
             return students;
         }
 
-        public static Cells.Cell GetWhiteboardCover(List<Cells.Cell> classroomElements)
+        public static Cells.Cell CreateWhiteboardCover(List<Cells.Cell> classroomElements)
         {
             List<Cells.Cell> whiteboardCells = classroomElements.Where(cell => cell.cellType.Equals("whiteboard")).ToList();
 
@@ -120,7 +131,7 @@ namespace Classroom_Seating_Planner.Src
             return whiteboardCoverCell;
         }
 
-        public static List<Cells.Cell> GetClassroomElementsFromLayout()
+        public static List<Cells.Cell> ParseClassroomElementsFromFile()
         {
             List<Cells.Cell> classroomElements = [];
 
@@ -149,64 +160,13 @@ namespace Classroom_Seating_Planner.Src
             // Whiteboard cover gets added here since it depends on whiteboard cells existing in the classroom elements list already
             if (classroomElements.Any(element => element.cellType.Equals("whiteboard")))
             {
-                classroomElements.Add(GetWhiteboardCover(classroomElements));
+                classroomElements.Add(CreateWhiteboardCover(classroomElements));
             }
 
             return classroomElements;
         }
 
-
-
-        // Used by InterpretClassroomLayoutString 
-        public struct ClassroomLayoutData()
-        {
-            public int columnCount = 0;
-            public int rowCount = 0;
-            public List<Cells.TableCell> tableCells = [];
-            public List<Cells.WhiteboardCell> whiteboardCells = [];
-        }
-
-        public static ClassroomLayoutData GetClassroomLayoutDataFromFile()
-        {
-            List<string> classroomLayout = System.IO.File.ReadAllLines(classroomLayoutFilePath).ToList();
-            ClassroomLayoutData returnObject = new();
-
-            // We later find the biggest column width to set the column count
-            List<int> xCoordinates = [];
-
-            int rowIndex = 0;
-            classroomLayout.ForEach((string row) =>
-            {
-                // Get every character in the row as a seperate char to iterate over
-                int columnIndex = 0;
-                row.ToList().ForEach((char letter) =>
-                {
-                    if (letter.Equals('T'))
-                    {
-                        returnObject.whiteboardCells.Add(new Cells.WhiteboardCell(columnIndex, rowIndex));
-                    }
-                    else if (letter.Equals('B'))
-                    {
-                        returnObject.tableCells.Add(new Cells.TableCell(columnIndex, rowIndex));
-                    }
-
-                    columnIndex++;
-                });
-                xCoordinates.Add(columnIndex);
-
-                rowIndex++;
-            });
-
-            int layoutWidth = xCoordinates.Max();
-            int layoutHeight = rowIndex;
-
-            returnObject.columnCount = layoutWidth;
-            returnObject.rowCount = layoutHeight;
-
-            return returnObject;
-        }
-
-        public static void HandleAllDataFileIssues(System.Windows.Window parent)
+        public static void HandleFileIssues(System.Windows.Window parent)
         {
             // Create booleans regarding the existance of the files at the start of the program
             bool classListFileExists = System.IO.File.Exists(FileHandler.classListFilePath);
@@ -240,32 +200,21 @@ namespace Classroom_Seating_Planner.Src
 
             // Check if there are more students than there are available seats/tables
             int numberOfStudents = FileHandler.ReadClassListFile().Count;
-            int numberOfTables = System.IO.File.ReadAllText(FileHandler.classroomLayoutFilePath).Count(letter => letter.Equals('B'));
+            int numberOfTables = ParseClassroomElementsFromFile().OfType<Cells.TableCell>().Count();
             if (numberOfStudents > numberOfTables)
             {
                 PopupWindow.FileIssuePopup("moreStudentsThanTables", parent);
             }
         }
 
-        public static void CreateDefaultClassListFile()
-        {
-            // Make sure the data folder exists
-            if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
-            {
-                System.IO.Directory.CreateDirectory(FileHandler.dataFolderPath);
-            }
-
-            // Write the default list to the class list file
-            System.IO.File.WriteAllLines(FileHandler.classListFilePath, FileHandler.defaultClassList);
-        }
-
         public static void HandleClassListFileIssues(System.Windows.Window parent)
         {
             // If the file exists, get its content as a list
-            List<string> classListFileContent = System.IO.File.ReadAllLines(FileHandler.classListFilePath).ToList();
+            List<string> rawClassListFileContent = System.IO.File.ReadAllLines(FileHandler.classListFilePath).ToList();
+            List<string> formattedClassListFileContent = ReadClassListFile();
 
             // If the file is empty, write the default list to it and return the "empty" message code
-            if (classListFileContent.SequenceEqual([]))
+            if (formattedClassListFileContent.SequenceEqual([]))
             {
                 CreateDefaultClassListFile();
                 PopupWindow.FileIssuePopup("emptyClassList", parent);
@@ -273,29 +222,17 @@ namespace Classroom_Seating_Planner.Src
             }
 
             // If the file content is the same as the default list, return the "default" message code
-            if (classListFileContent.SequenceEqual(FileHandler.defaultClassList))
+            if (rawClassListFileContent.SequenceEqual(FileHandler.defaultClassList))
             {
                 PopupWindow.FileIssuePopup("defaultClassList", parent);
                 return;
             }
         }
 
-        public static void CreateDefaultClassroomLayoutFile()
-        {
-            // Make sure the data folder exists
-            if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
-            {
-                System.IO.Directory.CreateDirectory(FileHandler.dataFolderPath);
-            }
-
-            // Write the default layout to the classroom layout file
-            System.IO.File.WriteAllLines(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
-        }
-
         public static void HandleClassroomLayoutFileIssues(System.Windows.Window parent)
         {
             // If the file exists, get its content as a list
-            List<string> classroomLayoutFileContent = System.IO.File.ReadAllLines(FileHandler.classroomLayoutFilePath).ToList();
+            List<string> classroomLayoutFileContent = FileHandler.ReadClassroomLayoutFile();
 
             // If the file is empty or only contains whitespace, write the default list to it and return the "empty" message code
             if (classroomLayoutFileContent.SequenceEqual([]) || classroomLayoutFileContent.All((string row) => row.Trim().Length.Equals(0)))
@@ -316,6 +253,30 @@ namespace Classroom_Seating_Planner.Src
             {
                 PopupWindow.FileIssuePopup("noWhiteboardsInLayout", parent);
             };
+        }
+
+        public static void CreateDefaultClassListFile()
+        {
+            // Make sure the data folder exists
+            if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
+            {
+                System.IO.Directory.CreateDirectory(FileHandler.dataFolderPath);
+            }
+
+            // Write the default list to the class list file
+            System.IO.File.WriteAllLines(FileHandler.classListFilePath, FileHandler.defaultClassList);
+        }
+
+        public static void CreateDefaultClassroomLayoutFile()
+        {
+            // Make sure the data folder exists
+            if (!System.IO.Directory.Exists(FileHandler.dataFolderPath))
+            {
+                System.IO.Directory.CreateDirectory(FileHandler.dataFolderPath);
+            }
+
+            // Write the default layout to the classroom layout file
+            System.IO.File.WriteAllLines(FileHandler.classroomLayoutFilePath, FileHandler.defaultClassroomLayout);
         }
     }
 }

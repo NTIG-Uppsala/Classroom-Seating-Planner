@@ -33,6 +33,7 @@ namespace Classroom_Seating_Planner.Src
                 { "nära",         new Constraint { type="distance", caller=studentName, recipient=null, argument="near", priorityMultiplier=1 }},
                 { "intenära",     new Constraint { type="distance", caller=studentName, recipient=null, argument="far",  priorityMultiplier=1 }},
                 { "långtfrån",    new Constraint { type="distance", caller=studentName, recipient=null, argument="far",  priorityMultiplier=1 }},
+                { "långtifrån",   new Constraint { type="distance", caller=studentName, recipient=null, argument="far",  priorityMultiplier=1 }},
                 { "bredvid",      new Constraint { type="adjacent", caller=studentName, recipient=null, argument="yes",  priorityMultiplier=3 }},
                 { "intebredvid",  new Constraint { type="adjacent", caller=studentName, recipient=null, argument="no",   priorityMultiplier=3 }},
             };
