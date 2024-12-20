@@ -38,39 +38,46 @@ Axel
   class ClassroomLayoutManager {
     constructor() {
         this.grid = {XAML grid}
-        this.classroomElements = [];
     }
     
-    updateGridSize() {
+    updateGridSize(classroomElements) {
         // Clear the grid
         this.grid.children = null;
         this.grid.rowDefs = null;
         this.grid.colDefs = null;
         // Find the row and col count
-        const rowCount = this.classroomElements.maxX
-        const colCount = this.classroomElements.maxY
+        const rowCount = classroomElements.maxX
+        const colCount = classroomElements.maxY
         foreach rowCount:
             this.grid.rowdefs.add(new rowdef)
         foreach colCount:
             this.grid.coldefs.add(new coldef)
     }
     Render(classroomElements) {
-        this.classroomElements = classroomElements;
-            
-        this.updateGridSize()
+        this.updateGridSize(classroomElements)
         // Draw all children
-        this.classroomElements.forEach(cell => cell.draw(parent = this.grid))
+        classroomElements.forEach(cell => cell.draw(parent = this.grid))
     } 
     }
     MainWindow:
     loaded() {
-        draw student names to listbox
-        ...
+      handleFileIssues(this)
+
+      list classroomElements = GetClassroomElementsFromLayout()
+      list students = GetClassListFromFile()
+      
+      ClassListElementHandle.Populate(...) // todo - fixa så att pop hanterar objekt ist för strängar
+      layoutManager.Render(classroomElements);
+
+
+      Src.DynamicClassroomSizeHandler.UpdateClassroomLayoutSize(windowSize, this)
     }
     buttonClinked() {
-        list classroomElements = GetClassroomElementsFromLayout()
-        list students = GetClassListFromFile()
-        GenerateSeatingArrangement(students, classroomElements)
-        layoutManager.Reset(classroomElements)
+      list classroomElements = GetClassroomElementsFrom1Layout()
+      list students = GetClassListFromFile()
+        
+      GenerateSeatingArrangement(students, classroomElements)
+      
+      layoutManager.Render(classroomElements)
   }
 ```

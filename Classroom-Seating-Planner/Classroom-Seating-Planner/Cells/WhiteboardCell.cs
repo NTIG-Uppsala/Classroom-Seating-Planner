@@ -1,4 +1,6 @@
-﻿namespace Classroom_Seating_Planner.Cells
+﻿using System.Diagnostics;
+
+namespace Classroom_Seating_Planner.Cells
 {
     public class WhiteboardCell : Cell
     {

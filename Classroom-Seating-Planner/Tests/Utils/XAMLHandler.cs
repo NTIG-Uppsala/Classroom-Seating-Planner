@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Dynamic;
 using FlaUI.Core.AutomationElements;
 using FlaUIElement = FlaUI.Core.AutomationElements;
@@ -17,6 +18,9 @@ namespace Tests
         {
             string automationId = "ClassListElement";
             FlaUIElement.ListBox classListElement = window.FindFirstDescendant(cf.ByAutomationId(automationId)).AsListBox();
+
+            Assert.IsNotNull(classListElement, "ClassListElement is null in GetClassListFromElement");
+
             List<FlaUIElement.ListBoxItem> classListAsItems = classListElement.Items.ToList();
             List<string> classList = classListAsItems.Select(item => item.Text).ToList();
 

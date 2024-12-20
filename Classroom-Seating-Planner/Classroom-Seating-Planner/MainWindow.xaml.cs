@@ -1,4 +1,6 @@
-﻿using Extension_Methods;
+﻿using Classroom_Seating_Planner.Src;
+using Extension_Methods;
+using System.Diagnostics;
 using System.Windows;
 
 namespace Classroom_Seating_Planner
@@ -16,15 +18,15 @@ namespace Classroom_Seating_Planner
         {
             InitializeComponent();
             // Adds event listeners to window
-            SizeChanged += Window_SizeChanged;
-            Loaded += MainWindow_Loaded;
+            this.SizeChanged += Window_SizeChanged;
+            this.Loaded += MainWindow_Loaded;
 
             // Make items in the ClassListElement unselectable
             ClassListElement.PreviewMouseDown += (sender, e) => { e.Handled = true; };
             ClassListElement.SelectionChanged += (sender, e) => { e.Handled = true; };
 
             // Give a reference to the grid where the tables and whiteboard will be placed to its handler
-            classroomLayoutManager = new(ClassroomElement);
+            this.classroomLayoutManager = new(ClassroomLayoutGridElement);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -33,33 +35,37 @@ namespace Classroom_Seating_Planner
             // Pass the current window as the parent window so the popups know if it needs to close
             Src.FileHandler.HandleAllDataFileIssues(this);
 
-            // Get the list of student names from the class list file
-            this.classListFromFile = Src.FileHandler.ReadClassListFile();
 
-            // Populate the ListBox with the content of listOfNames
-            Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+            // Read the data files
+            List<Cells.Cell> classroomElements = Src.FileHandler.GetClassroomElementsFromLayout();
+            List<ConstraintsHandler.Student> students = Src.FileHandler.GetClassListFromFile();
 
-            // The argument retrieves data about the classroom layout for the manager to save and use
-            classroomLayoutManager.Initialize(Src.FileHandler.GetClassroomLayoutDataFromFile());
-            classroomLayoutManager.DrawChildren();
 
-            System.Windows.Size windowSize = new(this.Width, this.Height);
-            Src.DynamicClassroomSizeHandler.UpdateClassroomLayoutSize(windowSize, this);
+            // Populate the list of names to the left with the names of the students
+            Src.ClassListElementHandler.Populate(ClassListElement, students);
+            // Draw all the tables and whiteboards
+            this.classroomLayoutManager.Render(classroomElements);
+
+            // Dynamic sizing
+            Src.DynamicClassroomSizeHandler.UpdateClassroomLayoutSize(new(this.ActualWidth, this.ActualHeight), this);
         }
 
-        private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs e)
+        private void RandomizeSeatingButton_Click(object sender, RoutedEventArgs _)
         {
-            // Shuffle the list of student names using a custom class method
-            this.classListFromFile.Shuffle();
+            // Read the data files
+            List<Cells.Cell> classroomElements = Src.FileHandler.GetClassroomElementsFromLayout();
+            List<ConstraintsHandler.Student> students = Src.FileHandler.GetClassListFromFile();
 
-            // Populate the class list and the seats with the new order
-            Src.ClassListElementHandler.Populate(ClassListElement, this.classListFromFile);
+            // This is the main algoritm that decides where students are seated
+            Src.SeatingHandler.GenerateSeatingArrangement(students, classroomElements);
 
-            // Populate the tables with the randomized order of the class list
-            Src.SeatingHandler.Populate(classroomLayoutManager.tableElements, this.classListFromFile);
+            this.classroomLayoutManager.Render(classroomElements);
+
+            // Dynamic sizing
+            Src.DynamicClassroomSizeHandler.UpdateClassroomLayoutSize(new(this.ActualWidth, this.ActualHeight), this);
         }
 
-        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        private void HelpButton_Click(object sender, RoutedEventArgs _)
         {
             // Create an instance of the popup window
             new PopupWindow(PopupWindow.helpWindowMessage, "Hjälp", this);
@@ -79,8 +85,8 @@ namespace Classroom_Seating_Planner
 
             RandomizeSeatingButton.FontSize = fontSize;
 
-            // Refresh the size of the classroom layout
-            Src.DynamicClassroomSizeHandler.UpdateClassroomLayoutSize(e.NewSize, this);
+            // Dynamic sizing of the classroom elements
+            Src.DynamicClassroomSizeHandler.UpdateClassroomLayoutSize(new(this.ActualWidth, this.ActualHeight), this);
         }
     }
 }

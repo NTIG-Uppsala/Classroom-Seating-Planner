@@ -44,9 +44,9 @@ namespace A02_Automatic_Tests
             (FlaUI.Core.Application app, FlaUI.UIA3.UIA3Automation automation, FlaUIElement.Window window, FlaUI.Core.Conditions.ConditionFactory cf)
                 = Utils.SetUp(testingClassList: testingClassList, testingClassroomLayout: testingClassroomLayout); // SetUp has optional arguments that may be useful for certain tests
 
-            
+
             Utils.XAMLHandler.ClickRandomizeSeatingButton(window, cf);
-            
+
             // Find all the tables
             List<FlaUIElement.AutomationElement>? allTables = Utils.XAMLHandler.GetAllElementsByHelpText(window, cf, key: "cellType", value: "table");
             Assert.IsNotNull(allTables);
@@ -58,7 +58,7 @@ namespace A02_Automatic_Tests
             // Get table data from help text
             IDictionary<string, object>? firstClosestToWhiteboardTableData = Utils.XAMLHandler.ParseStringToObject(firstClosestToWhiteboardTable.HelpText);
             Assert.IsNotNull(firstClosestToWhiteboardTableData, "Could not find table with Ebba Bergström");
-            Assert.IsTrue(firstClosestToWhiteboardTableData["x"].Equals(5) && firstClosestToWhiteboardTableData["y"].Equals(2), "Ebba Bergström is not seated at x=5 and y=2");
+            Assert.IsTrue(firstClosestToWhiteboardTableData["x"].Equals((float)5) && firstClosestToWhiteboardTableData["y"].Equals((float)2), "Ebba Bergström is not seated at x=5 and y=2");
 
             // Assert that the student with the second highest priority is seated in the correct position
             FlaUIElement.AutomationElement? secondClosestToWhiteboardTable = allTables.Where(table => table.Name.Equals("Ella Larsson")).ToList().FirstOrDefault();
@@ -67,7 +67,7 @@ namespace A02_Automatic_Tests
             // Get table data from help text
             IDictionary<string, object>? secondClosestToWhiteboardTableData = Utils.XAMLHandler.ParseStringToObject(secondClosestToWhiteboardTable.HelpText);
             Assert.IsNotNull(secondClosestToWhiteboardTableData, "Could not find table with Ella Larsson");
-            Assert.IsTrue(secondClosestToWhiteboardTableData["x"].Equals(3) && secondClosestToWhiteboardTableData["y"].Equals(3), "Ella Larsson is not seated at x=3 and y=3");
+            Assert.IsTrue(secondClosestToWhiteboardTableData["x"].Equals((float)3) && secondClosestToWhiteboardTableData["y"].Equals((float)3), "Ella Larsson is not seated at x=3 and y=3");
 
 
             Utils.TearDown(app);
@@ -82,6 +82,8 @@ namespace A02_Automatic_Tests
                 "BBBB BBB BB",
                 "",
                 "BBB BBB BBB",
+                "",
+                "",
                 "",
                 "     B",
                 "   B"
@@ -124,7 +126,7 @@ namespace A02_Automatic_Tests
             // Get table data from help text
             IDictionary<string, object>? firstFarthestFromWhiteboardTableData = Utils.XAMLHandler.ParseStringToObject(firstFarthestFromWhiteboardTable.HelpText);
             Assert.IsNotNull(firstFarthestFromWhiteboardTableData, "Could not find table with Ebba Bergström");
-            Assert.IsTrue(firstFarthestFromWhiteboardTableData["x"].Equals(3) && firstFarthestFromWhiteboardTableData["y"].Equals(7), "Ebba Bergström is not seated at x=3 and y=7");
+            Assert.IsTrue(firstFarthestFromWhiteboardTableData["x"].Equals((float)3) && firstFarthestFromWhiteboardTableData["y"].Equals((float)9), "Ebba Bergström is not seated at x=3 and y=7");
 
             // Assert that the student with the second highest priority is seated in the correct position
             FlaUIElement.AutomationElement? secondFarthestFromWhiteboardTable = allTables.Where(table => table.Name.Equals("Ella Larsson")).ToList().FirstOrDefault();
@@ -133,7 +135,7 @@ namespace A02_Automatic_Tests
             // Get table data from help text
             IDictionary<string, object>? secondFarthestFromWhiteboardTableData = Utils.XAMLHandler.ParseStringToObject(secondFarthestFromWhiteboardTable.HelpText);
             Assert.IsNotNull(secondFarthestFromWhiteboardTableData, "Could not find table with Ella Larsson");
-            Assert.IsTrue(secondFarthestFromWhiteboardTableData["x"].Equals(5) && secondFarthestFromWhiteboardTableData["y"].Equals(6), "Ella Larsson is not seated at x=5 and y=6");
+            Assert.IsTrue(secondFarthestFromWhiteboardTableData["x"].Equals((float)5) && secondFarthestFromWhiteboardTableData["y"].Equals((float)8), "Ella Larsson is not seated at x=5 and y=6");
 
 
             Utils.TearDown(app);
@@ -190,7 +192,8 @@ namespace A02_Automatic_Tests
             // Get table data from help text
             IDictionary<string, object>? firstAdjacentStudentTableData = Utils.XAMLHandler.ParseStringToObject(firstAdjacentStudentTable.HelpText);
             Assert.IsNotNull(firstAdjacentStudentTableData, "Could not find table with Ebba Bergström");
-            Assert.IsTrue(firstAdjacentStudentTableData["x"].Equals(6) && firstAdjacentStudentTableData["y"].Equals(2), "Ebba Bergström is not seated at x=6 and y=2");
+
+            Assert.IsTrue(firstAdjacentStudentTableData["x"].Equals((float)6) && firstAdjacentStudentTableData["y"].Equals((float)2), "Ebba Bergström is not seated at x=6 and y=2");
 
             // Assert that the student with the second highest priority is seated in the correct position
             FlaUIElement.AutomationElement? secondAdjacentStudentTable = allTables.Where(table => table.Name.Equals("Ella Larsson")).ToList().FirstOrDefault();
@@ -199,7 +202,7 @@ namespace A02_Automatic_Tests
             // Get table data from help text
             IDictionary<string, object>? secondAdjacentStudentTableData = Utils.XAMLHandler.ParseStringToObject(secondAdjacentStudentTable.HelpText);
             Assert.IsNotNull(secondAdjacentStudentTableData, "Could not find table with Ella Larsson");
-            Assert.IsTrue(secondAdjacentStudentTableData["x"].Equals(3) && secondAdjacentStudentTableData["y"].Equals(3), "Ella Larsson is not seated at x=3 and y=3");
+            Assert.IsTrue(secondAdjacentStudentTableData["x"].Equals((float)7) && secondAdjacentStudentTableData["y"].Equals((float)2), "Ella Larsson is not seated at x=3 and y=3");
 
 
             Utils.TearDown(app);
@@ -237,8 +240,8 @@ namespace A02_Automatic_Tests
 
             // Get table data from help text
             IDictionary<string, object>? firstNotAdjacentStudentTableData = Utils.XAMLHandler.ParseStringToObject(firstNotAdjacentStudentTable.HelpText);
-            Assert.IsNotNull(firstNotAdjacentStudentTableData, "Could not find table with Ebba Bergström");
-            Assert.IsTrue(firstNotAdjacentStudentTableData["x"].Equals(2) && firstNotAdjacentStudentTableData["y"].Equals(2), "Ebba Bergström is not seated at x=2 and y=2");
+            Assert.IsNotNull(firstNotAdjacentStudentTableData, "There is no data for Ebba Bergström");
+            Assert.IsTrue(firstNotAdjacentStudentTableData["x"].Equals((float)2) && firstNotAdjacentStudentTableData["y"].Equals((float)2), "Ebba Bergström is not seated at x=2 and y=2");
 
             // Assert that the student with the second highest priority is seated in the correct position
             FlaUIElement.AutomationElement? secondNotAdjacentStudentTable = allTables.Where(table => table.Name.Equals("Ella Larsson")).ToList().FirstOrDefault();
@@ -246,8 +249,8 @@ namespace A02_Automatic_Tests
 
             // Get table data from help text
             IDictionary<string, object>? secondNotAdjacentStudentTableData = Utils.XAMLHandler.ParseStringToObject(secondNotAdjacentStudentTable.HelpText);
-            Assert.IsNotNull(secondNotAdjacentStudentTableData, "Could not find table with Ella Larsson");
-            Assert.IsTrue(secondNotAdjacentStudentTableData["x"].Equals(0) && secondNotAdjacentStudentTableData["y"].Equals(3), "Ella Larsson is not seated at x=0 and y=3");
+            Assert.IsNotNull(secondNotAdjacentStudentTableData, "There is no data for Ella Larsson");
+            Assert.IsTrue(secondNotAdjacentStudentTableData["x"].Equals((float)0) && secondNotAdjacentStudentTableData["y"].Equals((float)2), "Ella Larsson is not seated at x=0 and y=3");
 
 
             Utils.TearDown(app);
@@ -368,7 +371,7 @@ namespace A02_Automatic_Tests
                 Assert.IsNotNull(constrainedStudentTableData);
 
                 // Save the position
-                Dictionary<string, float> coords = new() { {"x", (float)constrainedStudentTableData["x"] }, {"y", (float)constrainedStudentTableData["y"] } };
+                Dictionary<string, float> coords = new() { { "x", (float)constrainedStudentTableData["x"] }, { "y", (float)constrainedStudentTableData["y"] } };
                 coordsList.Add(coords);
             }
 
@@ -453,6 +456,7 @@ namespace A02_Automatic_Tests
 
             // Count the amount of students in the class list
             List<string> allStudents = Utils.XAMLHandler.GetClassListFromElement(window, cf);
+            Assert.IsNotNull(allStudents, "Could not get students from list box");
             int studentCount = allStudents.Count;
 
             // Check that the amount of students is equal to the amount of tables

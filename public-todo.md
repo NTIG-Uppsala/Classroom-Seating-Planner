@@ -39,7 +39,7 @@
     -   [x] File system interactions borde kanske byta namn (t.ex. hard coded data).
     -   [x] File system interactions borde nog struktureras om. Ex, en rubrik för klasslistab med underpunkter för vilken variabel i vilken file för varje ställe.
     -   [x] Dela upp i olika filer
-    -   [ ] Manuella tester (tex responsivitet)
+    -   [X] Manuella tester (tex responsivitet)
 
 -   [x] .Equals() i HandleAllDataFileIssues (konsekventhet)
     -   [x] Skippa null iom varning om att det är null
@@ -110,6 +110,9 @@
 -   [ ] Mer avancerade namnurval i testerna
     -   [ ] några tusen för och efternamn som komnineras slumpmässigt
     -   [ ] putta ibland in ett förnamn som mellannamn
+-   [ ] make constraint functions whitespace agnostic.
+-   [ ] test för att man inte behöver starta om programmet
+-   [ ] funtoinLookupTable should reference the actual constraint functions instead of a string that we need to look up.
 
 ---
 

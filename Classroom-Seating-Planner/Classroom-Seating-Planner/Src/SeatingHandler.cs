@@ -1,4 +1,7 @@
 ﻿using System.Windows.Controls;
+using System.Diagnostics;
+using System.Security.Permissions;
+using Extension_Methods;
 
 namespace Classroom_Seating_Planner.Src
 {
@@ -7,7 +10,7 @@ namespace Classroom_Seating_Planner.Src
         public static double SeatStudent(ConstraintsHandler.Student student, List<Cells.Cell> classroomElements)
         {
             List<Cells.TableCell> tables = classroomElements.OfType<Cells.TableCell>().ToList();
-            List<Cells.TableCell> availableTables = tables.Where(table => table.student == null).ToList();
+            List<Cells.TableCell> availableTables = tables.Where(table => table.student == null).ToList().Shuffle(); // Suffle to get some variation
 
             // Silent error when there aren't enough tables - the program will warn the user when the file is read
             if (availableTables.Count.Equals(0)) return 0;
@@ -32,7 +35,7 @@ namespace Classroom_Seating_Planner.Src
                 {
                     double score = 0;
 
-                    //Try every constraint to get a students overall preference for a table
+                    // Try every constraint to get a students overall preference for a table
                     student.constraints.ForEach(constraint =>
                     {
                         double callConstraintFunction(Cells.Cell? target)
@@ -41,21 +44,21 @@ namespace Classroom_Seating_Planner.Src
                             Func<Cells.Cell, Cells.Cell, string, int, Dictionary<string, object>, double> function = ConstraintFunctions.functions[constraint.type];
 
                             // Define reference scopes that the constraint functions may need
-                            Dictionary<string, object> references = new() { { "classroomElements", classroomElements } };
+                            Dictionary<string, object> references = new() { { "classroomElements", classroomElements }, { "caller", constraint.caller } };
 
                             // Arguments: source, target, constraint specific parameter, priority, references to things beyond the constraint's scope
-                            return function(table, target, constraint.arguments[1], constraint.priority, references);
+                            return function(table, target, constraint.argument, constraint.priority, references);
                         }
 
                         // These are taken from the interpreted constraint and are strings
-                        string caller = constraint.arguments[0];
-                        string? recipient = constraint.arguments[2];
+                        string caller = constraint.caller;
+                        string? recipient = constraint.recipient;
 
-                        // If more classroom elements are added, add them here as well (TODO - ADD TO DOCUMENTATION WHEN IMPLEMENTING IN C#)
+                        // If more classroom elements are added, add them here as well 
                         List<string> classroomElementNames = ["whiteboardCover"];
 
                         // If recipient is a classroom element, set it as the target
-                        if (classroomElementNames.Contains(caller))
+                        if (classroomElementNames.Contains(recipient))
                         {
                             Cells.Cell? target = classroomElements.Where(element =>
                             {
@@ -75,7 +78,8 @@ namespace Classroom_Seating_Planner.Src
                             Cells.TableCell? targetStudentTable = tables.Where(targetTable =>
                             {
                                 if (targetTable.student == null) return false;
-                                return (bool)targetTable.student?.name.Equals(recipient);// If a student is defined, we know that the student has a name
+
+                                return (bool)targetTable.student?.name.Equals(recipient); // If a student is defined, we know that the student has a name
                             }).FirstOrDefault();
 
                             Cells.TableCell? target = targetStudentTable ?? null; // Target may not be seated yet
@@ -88,6 +92,7 @@ namespace Classroom_Seating_Planner.Src
                             Cells.TableCell? targetStudentTable = tables.Where(targetTable =>
                             {
                                 if (targetTable.student == null) return false;
+
                                 return (bool)targetTable.student?.name.Equals(caller); // If a student is defined, we know that the student has a name
                             }).FirstOrDefault();
 
@@ -102,19 +107,51 @@ namespace Classroom_Seating_Planner.Src
                     return table;
                 }).OrderByDescending(table => table.score).ToList();
 
+            // OLD STUFFZ
             // Take the best scored tables. The amount is based on the student's constraints' summed priorities
-            int prioritySum = student.constraints.Sum(constraint => constraint.priority);
-            List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
+            //int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
+            //List<Cells.TableCell> bestTables = rankedTables.Take((int)Math.Ceiling(rankedTables.Count * (Math.Pow(0.85, prioritySum - 1) * 0.3))).ToList();
 
-            // Pick a random table from the best tables and place the student there
-            randomTable = bestTables[random.Next(bestTables.Count)];
-            randomTable.student = student;
+            // Group scores that are close in value
+            double currentHighScore = rankedTables[0].score;
+            List<List<Cells.TableCell>> groupedTables = [[]];
 
-            // Main wants to know the score of the table
-            return randomTable.score;
+            // How close the scores can be to be considered in the same group, which is based on the students priority sum
+            int prioritySum = student.constraints.Select(constraint => constraint.priority).Sum();
+            double threshold = currentHighScore * Math.Pow(0.95, prioritySum - 1) * 0.1;
+
+            int tableGroupIndex = 0;
+            rankedTables.ForEach(table =>
+            {
+                // If group is empty, add table to it
+                if (groupedTables[tableGroupIndex].SequenceEqual([]))
+                {
+                    groupedTables[tableGroupIndex].Add(table);
+                    return;
+                }
+
+                // If score is within the threshold, add to group
+                if (groupedTables[tableGroupIndex].First().score - table.score <= threshold) // .First() to avoid getting a stair step effect in the groups
+                {
+                    groupedTables[tableGroupIndex].Add(table);
+                    return;
+                }
+
+                // Make new group
+                tableGroupIndex++;
+                groupedTables.Add([table]);
+            });
+
+            // Select a random item from the top group
+            Cells.TableCell randomTableAmongTheBest = groupedTables[0][random.Next(groupedTables[0].Count)];
+
+            randomTableAmongTheBest.student = student;
+
+            return randomTableAmongTheBest.score;
         }
 
         // TODO - either remove score (as return of seatstudent aswell) or implement multiple runs of this function
+        // TODO - This is somehow treated as a void function in main 
         public static double GenerateSeatingArrangement(List<ConstraintsHandler.Student> students, List<Cells.Cell> classroomElements)
         {
             static List<ConstraintsHandler.Constraint> getAllConstraints(List<ConstraintsHandler.Student> students)
@@ -125,72 +162,74 @@ namespace Classroom_Seating_Planner.Src
                     .ToList();
             }
 
-            static void sortStudentsByPriority(List<ConstraintsHandler.Student> students)
+            static List<ConstraintsHandler.Student> sortStudentsByPriority(List<ConstraintsHandler.Student> students)
             {
-                students.Sort((a, b) =>
+                return students.OrderByDescending(student =>
                 {
-                    if (a.constraints == null) return -1;
-                    if (b.constraints == null) return 1;
+                    return student.constraints?.Select(constraint =>
+                    {
+                        return constraint.priority;
 
-                    // Compare the students by the sum of their constraints' priorities
-                    int aPriority = a.constraints.Select(constraint => constraint.priority).Sum();
-                    int bPriority = b.constraints.Select(constraint => constraint.priority).Sum();
-
-                    return bPriority - aPriority;
-                });
+                    }).Sum() ?? 0;
+                }).ToList();
             }
 
-            static void nullifyAllStudentConstraints(List<ConstraintsHandler.Student> students)
+            static List<ConstraintsHandler.Student> nullifyAllStudentConstraints(List<ConstraintsHandler.Student> students)
             {
-                students = students
-                    .Where(student => student.constraints != null)
-                    .Select(student =>
-                    {
-                        student.constraints = null;
-                        return student;
-                    }).ToList();
+                return students.Select(student =>
+                {
+                    student.constraints = null;
+                    return student;
+                }).ToList();
             }
 
             // Takes a list of all the constraints and give every student a copy the each constraint involving them
-            static void assignAllConstraints(List<ConstraintsHandler.Student> students, List<ConstraintsHandler.Constraint> constraints)
+            static List<ConstraintsHandler.Student> assignAllConstraints(List<ConstraintsHandler.Student> students, List<ConstraintsHandler.Constraint> constraints)
             {
+                List<ConstraintsHandler.Student> localListOfStudents = students.Select(student => student).ToList();
+
                 constraints.ForEach(constraint =>
                 {
-                    students = students.Select(student =>
+                    localListOfStudents = localListOfStudents.Select(student =>
                     {
                         // Check if student is involved in the constraint, either as the caller or the recipient
-                        if (constraint.arguments[2] == null) return student;
-
-                        if (constraint.arguments[0].Equals(student.name) || constraint.arguments[2].Equals(student.name))
+                        if (constraint.recipient == null)
                         {
-                            // Create an empty list for constraints if it does not already exist
+                            return student;
+                        }
+
+                        if (constraint.caller.Equals(student.name) || constraint.recipient.Equals(student.name))
+                        {
+                            // Create an empty list for constraints if it does not already exist 
                             student.constraints ??= [];
 
                             student.constraints.Add(constraint);
                         }
-
                         return student;
                     }).ToList();
                 });
+
+                return localListOfStudents;
             }
 
             // Get all constraints as a list
             List<ConstraintsHandler.Constraint> constraints = getAllConstraints(students);
 
             // Make sure all constraints where a student is involved are assigned to the student
-            nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
-            assignAllConstraints(students, constraints);
+            students = nullifyAllStudentConstraints(students); // Reset all constraints so that we can reassign them
+
+            students = assignAllConstraints(students, constraints);
 
             // Sort students to seat the pickiest students first
-            sortStudentsByPriority(students);
+            students = sortStudentsByPriority(students);
 
             double seatingArrangementScore = 0;
 
             // Seat every student one at a time
             students.ForEach((student) =>
-            {
-                seatingArrangementScore += SeatStudent(student, classroomElements);
-            });
+                {
+                    seatingArrangementScore += SeatStudent(student, classroomElements);
+                });
 
             return seatingArrangementScore;
         }

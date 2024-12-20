@@ -1,4 +1,5 @@
 ﻿using Classroom_Seating_Planner.Src;
+using System.Diagnostics;
 using System.Windows;
 
 namespace Classroom_Seating_Planner.Cells
@@ -24,13 +25,11 @@ namespace Classroom_Seating_Planner.Cells
             this.gridY = gridY;
             this.width = width;
             this.height = height;
-            this.x = gridX + (width - 1) / 2;
-            this.y = gridY + (height - 1) / 2;
+            this.x = gridX + (float)(width - 1) / 2;
+            this.y = gridY + (float)(height - 1) / 2;
         }
 
         public virtual void Style(System.Windows.Controls.Border cellElementContainer, System.Windows.Controls.TextBlock cellElement) { }
-
-        public virtual void AddToLayoutManager(ClassroomLayoutManager classroomLayoutManager, System.Windows.Controls.TextBlock cellElement) { }
 
         public void Draw(System.Windows.Controls.Grid parent, ClassroomLayoutManager classroomLayoutManager)
         {
@@ -84,8 +83,6 @@ namespace Classroom_Seating_Planner.Cells
             System.Windows.Controls.Grid.SetRowSpan(cellElementContainer, this.height);
 
             this.Style(cellElementContainer, cellElement);
-            // TODO - Make this more general by pushing to classroomElements
-            this.AddToLayoutManager(classroomLayoutManager, cellElement);
 
             // Add this cell to the parent grid
             parent.Children.Add(cellElementContainer);
